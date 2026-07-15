@@ -1,31 +1,32 @@
 services:
-  # Servidor de Base de Datos PostgreSQL (Único para todo el proyecto)
-  postgres:
-    image: postgres:16-alpine
-    container_name: postgres_local
+  # contenedor de MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_local
     environment:
-      - POSTGRES_DB=finteligente_db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=supersecretpassword123
+      - MYSQL_DATABASE=finteligente_db
+      - MYSQL_USER=postgres
+      - MYSQL_PASSWORD=supersecretpassword123
+      - MYSQL_ROOT_PASSWORD=supersecretrootpassword123
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
 
-  # Contenedor de Data Science
+  # contenedor de data-science
   data-science:
     build:
       context: ../data-science
       dockerfile: Dockerfile
     container_name: python_data_science
     environment:
-      - DB_HOST=postgres
-      - DB_PORT=5432
+      - DB_HOST=mysql
+      - DB_PORT=3306
       - DB_USER=postgres
       - DB_PASS=supersecretpassword123
       - DB_NAME=finteligente_db
     depends_on:
-      - postgres
+      - mysql
 
 volumes:
-  postgres_data:
+  mysql_data:
