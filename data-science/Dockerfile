@@ -11,8 +11,11 @@ FROM python:3.11-slim
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# Cambiamos libpq-dev (Postgres) por las dependencias de cliente de MySQL/MariaDB
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev \
+    default-libmysqlclient-dev \
+    build-essential \
+    pkg-config \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 

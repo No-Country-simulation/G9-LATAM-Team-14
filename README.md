@@ -6,7 +6,6 @@ imagen.png
 *   **Despliegue:**
 *   **Video de Presentación:**
 *   **Diseño en Figma:**
-*   **Tablero de Trabajo (Trello/Jira):**
 
 ## 💡 Sobre el Proyecto
 
@@ -21,19 +20,20 @@ Diseñada bajo una arquitectura de monorepositorio, la solución combina un back
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>Data Science</h3>
       <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=python,oracle,sqlserver" alt="Data Science Skills" />
+        <img src="https://skills-icons.vercel.app/api/icons?i=python,mysql" alt="Data Science Skills" />
       </a>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>BackEnd</h3>
       <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=java,spring,docker,oracle" alt="BackEnd Skills" />
+        <img src="https://skills-icons.vercel.app/api/icons?i=java,spring,docker" alt="BackEnd Skills" />
+        <img src="https://skills-icons.vercel.app/api/icons?i=oracle" alt="BackEnd Skills" />
       </a>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>FrontEnd</h3>
       <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=ts,angular,tailwind,oracle" alt="FrontEnd Skills" />
+        <img src="https://skills-icons.vercel.app/api/icons?i=ts,angular,tailwind" alt="FrontEnd Skills" />
       </a>
     </td>
   </tr>
@@ -47,8 +47,6 @@ Mantenemos un esquema de monorepositorio limpio para facilitar el trabajo en equ
 G9-LATAM-TEAM-14/
 ├── backend-SpringBoot/       # API Rest en Spring Boot
 ├── frontend-Angular/         # Aplicación Angular
-│
 ├── environments/             # Configuraciones
-│   └── compose.yml           # Levanta la base de datos local
 │
 └── README.md                 # Documentación
