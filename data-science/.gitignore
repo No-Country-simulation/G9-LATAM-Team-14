@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales locales (por si alguien corre Python sin Docker)
+.venv/
+venv/
+ENV/
+env/
+
+# Archivos de configuración local y secretos
+.env
+*.log
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints

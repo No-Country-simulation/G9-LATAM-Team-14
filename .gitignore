@@ -141,3 +141,19 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Angular
+**/node_modules/
+**/.angular/
+**/dist/
+
+# Spring Boot
+**/target/
+**/.gradle/
+**/build/
+
+# IDEs y SO
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
