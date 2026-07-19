@@ -30,16 +30,6 @@
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=mysql" alt="MySQL" /></td>
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" /></td>
         </tr>
-        <tr>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-        </tr>
-        <tr>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-        </tr>
       </table>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
@@ -55,11 +45,6 @@
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=postman" alt="Postman" /></td>
           <td style="border: none; padding: 5px;"></td>
         </tr>
-        <tr>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-        </tr>
       </table>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
@@ -69,16 +54,6 @@
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=ts" alt="TypeScript" /></td>
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=angular" alt="Angular" /></td>
           <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=tailwind" alt="Tailwind" /></td>
-        </tr>
-        <tr>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-        </tr>
-        <tr>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
-          <td style="border: none; padding: 5px;"></td>
         </tr>
       </table>
     </td>
