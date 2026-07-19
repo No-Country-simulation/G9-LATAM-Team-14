@@ -17,7 +17,7 @@ services:
   # contenedor de data-science
   data-science:
     build:
-      context: ../data-science
+      context: ../../data-science
       dockerfile: Dockerfile
     container_name: python_data_science
     environment:

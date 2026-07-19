@@ -1,6 +1,6 @@
-# Finance AI - G9-LATAM-Team-14
+# Fincoah - G9-LATAM-Team-14
 
-![Banner](imagen.png)
+![Banner](./assets/img/Fincoah.png)
 
 ## Tabla de Contenidos
 * [Sobre el Proyecto](#sobre-el-proyecto)
@@ -16,7 +16,7 @@
 
 ## Sobre el Proyecto
 
-**Finance AI** es una plataforma inteligente orientada a transformar la gestión financiera personal y empresarial. A través de la integración de Inteligencia Artificial y análisis de datos, el sistema busca simplificar la toma de decisiones financieras, automatizar el seguimiento de transacciones y ofrecer recomendaciones personalizadas para optimizar el ahorro y la inversión. 
+**Fincoah** es una plataforma inteligente orientada a transformar la gestión financiera personal y empresarial. A través de la integración de Inteligencia Artificial y análisis de datos, el sistema busca simplificar la toma de decisiones financieras, automatizar el seguimiento de transacciones y ofrecer recomendaciones personalizadas para optimizar el ahorro y la inversión. 
 
 ## Tecnologías
 
@@ -24,23 +24,65 @@
   <tr style="border: none;">
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>Data Science</h3>
-      <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=python,mysql,docker" alt="Data Science Skills" />
-      </a>
+      <table align="center" style="border: none; border-collapse: collapse;">
+        <tr>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=python" alt="Python" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=mysql" alt="MySQL" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" /></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+      </table>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>BackEnd</h3>
-      <a href="https://skills-icons.vercel.app">
-        <p><img src="https://skills-icons.vercel.app/api/icons?i=java,spring,docker" alt="Java, Spring y Docker" /></p>
-        <p><img src="https://skills-icons.vercel.app/api/icons?i=oracle,postman" alt="Oracle Database" /></p>
-      </a>
+      <table align="center" style="border: none; border-collapse: collapse;">
+        <tr>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=java" alt="Java" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=spring" alt="Spring" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" /></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=oracle" alt="Oracle" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=postman" alt="Postman" /></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+      </table>
     </td>
     <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
       <h3>FrontEnd</h3>
-      <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=ts,angular,tailwind" alt="FrontEnd Skills" />
-      </a>
+      <table align="center" style="border: none; border-collapse: collapse;">
+        <tr>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=ts" alt="TypeScript" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=angular" alt="Angular" /></td>
+          <td style="border: none; padding: 5px;"><img src="https://skills-icons.vercel.app/api/icons?i=tailwind" alt="Tailwind" /></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+        <tr>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+          <td style="border: none; padding: 5px;"></td>
+        </tr>
+      </table>
     </td>
+
   </tr>
 </table>
 
