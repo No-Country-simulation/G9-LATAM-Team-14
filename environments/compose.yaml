@@ -1,5 +1,7 @@
+version: '3.8'
+
 services:
-  # contenedor de MySQL
+  # 1. MySQL
   mysql:
     image: mysql:8.0
     container_name: mysql_local
@@ -13,11 +15,16 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./fincoah_2026_07_18.sql:/docker-entrypoint-initdb.d/fincoah_2026_07_18.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-psupersecretrootpassword123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  # contenedor de data-science
+  # 2. Service Python Data Science
   data-science:
     build:
-      context: ../../data-science
+      context: ../data-science
       dockerfile: Dockerfile
     container_name: python_data_science
     environment:
@@ -29,5 +36,35 @@ services:
     depends_on:
       - mysql
 
+  # 3. Backend Spring Boot
+  backend:
+    build:
+      context: ../backend-SpringBoot
+      dockerfile: Dockerfile
+    container_name: spring_backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../backend-SpringBoot/.env
+    environment:
+      - DB_HOST=mysql
+      - CORS_ORIGINS=http://localhost:4000
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # 4. Frontend Angular
+  frontend:
+    build:
+      context: ../frontend-Angular
+      dockerfile: Dockerfile
+    container_name: angular_frontend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+    depends_on:
+      - backend
+
 volumes:
-  mysql_data:
+  mysql_data: 

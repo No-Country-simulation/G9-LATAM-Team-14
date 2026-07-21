@@ -5,8 +5,8 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `id` int NOT NULL,
   `nombre_usuario` varchar(45) DEFAULT NULL,
-  `password` varchar(10) DEFAULT NULL, -- Cambiado a password
-  `email` varchar(20) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL, -- Cambiado a password
+  `email` varchar(100) DEFAULT NULL,
   `ingreso_mensual` float DEFAULT NULL,
   `fecha_registro` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -59,3 +59,7 @@ CREATE TABLE `ingresos` (
   KEY `user_id_idx` (`id_usuario`),
   CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Usuario demo: demo@fincoach.com / password123
+INSERT INTO `usuarios` (`id`, `nombre_usuario`, `password`, `email`, `ingreso_mensual`, `fecha_registro`) VALUES
+(1, 'demo', '$2b$10$XxsfhmV1YxzgkaAvD8lGLeqR/UB3eKQVcrkzk2ZZlxgVtfLPWn77q', 'demo@fincoach.com', 5000, '2026-01-15');
