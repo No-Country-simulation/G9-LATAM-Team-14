@@ -1,0 +1,59 @@
+<header
+    class="w-full flex justify-between items-center py-2 md:py-3 px-8 bg-[#f3f7d2] shadow-sm border-b-3 border-[#E1E6C2] sticky top-0 z-50">
+    <div class="flex gap-2 items-center">
+        <img src="images/logo.webp" alt="Fincoach" class="w-10 h-10">
+        <h1 class="text-2xl font-medium text-[#214523]">Fincoach</h1>
+    </div>
+    <ul class="hidden md:flex gap-5">
+        @for (item of navItems; track item.label) {
+        <li>
+            <a [href]="item.link" [class]="item.label === activeItem 
+                            ? 'text-[#214523] border-b-2 border-[#214523] pb-1 font-medium' 
+                            : 'text-gray-600 hover:text-[#214523] transition-colors pb-1'">
+                {{ item.label }}
+            </a>
+        </li>
+        }
+    </ul>
+    <a href="/login" class="hidden md:block bg-[#5A7259] text-white px-4 py-2 rounded-3xl">
+        Ingresar
+    </a>
+    <button (click)="toggleMenu($event)" class="md:hidden text-[#214523] focus:outline-none p-1">
+        @if (!isMenuOpen) {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-menu">
+            <path d="M4 5h16" />
+            <path d="M4 12h16" />
+            <path d="M4 19h16" />
+        </svg>} @else {
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-x-icon lucide-x">
+            <path d="M18 6 6 18" />
+            <path d="m6 6 12 12" />
+        </svg>
+        }
+    </button>
+
+    <!-- panel flotante -->
+    @if (isMenuOpen) {
+    <div
+        class="absolute right-2 top-17 w-48 bg-[#f3f7d2] border border-[#E1E6C2] rounded-xl shadow-lg z-50 flex flex-col p-3 gap-3">
+        <ul class="flex flex-col gap-2">
+            @for (item of navItems; track item.label) {
+            <li>
+                <a [href]="item.link" (click)="isMenuOpen = false"
+                    [class]="item.label === activeItem ? 'text-[#214523] font-medium' : 'text-gray-600 hover:text-[#214523] text-sm block py-1'">
+                    {{ item.label }}
+                </a>
+            </li>
+            }
+        </ul>
+        <hr class="border-[#E1E6C2]">
+        <a href="/login" class="w-full bg-[#5A7259] text-white py-1.5 px-3 rounded-2xl text-sm text-center font-medium">
+            Ingresar
+        </a>
+    </div>
+    }
+</header>

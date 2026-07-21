@@ -1,10 +1,12 @@
+version: '3.8'
+
 services:
-  # contenedor de MySQL
+  # 1. MySQL
   mysql:
     image: mysql:8.0
     container_name: mysql_local
     environment:
-      - MYSQL_DATABASE=finteligente_db
+      - MYSQL_DATABASE=financiero
       - MYSQL_USER=postgres
       - MYSQL_PASSWORD=supersecretpassword123
       - MYSQL_ROOT_PASSWORD=supersecretrootpassword123
@@ -12,8 +14,14 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./fincoah_2026_07_18.sql:/docker-entrypoint-initdb.d/fincoah_2026_07_18.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-psupersecretrootpassword123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  # contenedor de data-science
+  # 2. Service Python Data Science
   data-science:
     build:
       context: ../data-science
@@ -24,9 +32,39 @@ services:
       - DB_PORT=3306
       - DB_USER=postgres
       - DB_PASS=supersecretpassword123
-      - DB_NAME=finteligente_db
+      - DB_NAME=financiero
     depends_on:
       - mysql
 
+  # 3. Backend Spring Boot
+  backend:
+    build:
+      context: ../backend-SpringBoot
+      dockerfile: Dockerfile
+    container_name: spring_backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ../backend-SpringBoot/.env
+    environment:
+      - DB_HOST=mysql
+      - CORS_ORIGINS=http://localhost:4000
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # 4. Frontend Angular
+  frontend:
+    build:
+      context: ../frontend-Angular
+      dockerfile: Dockerfile
+    container_name: angular_frontend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+    depends_on:
+      - backend
+
 volumes:
-  mysql_data:
+  mysql_data: 

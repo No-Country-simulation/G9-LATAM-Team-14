@@ -1,6 +1,6 @@
-# Finance AI - G9-LATAM-Team-14
+# Fincoach - G9-LATAM-Team-14
 
-![Banner](imagen.png)
+![Banner](./assets/img/Fincoach.webp)
 
 ## Tabla de Contenidos
 * [Sobre el Proyecto](#sobre-el-proyecto)
@@ -16,33 +16,42 @@
 
 ## Sobre el Proyecto
 
-**Finance AI** es una plataforma inteligente orientada a transformar la gestión financiera personal y empresarial. A través de la integración de Inteligencia Artificial y análisis de datos, el sistema busca simplificar la toma de decisiones financieras, automatizar el seguimiento de transacciones y ofrecer recomendaciones personalizadas para optimizar el ahorro y la inversión. 
+**Fincoach** es una plataforma inteligente orientada a transformar la gestión financiera personal y empresarial. A través de la integración de Inteligencia Artificial y análisis de datos, el sistema busca simplificar la toma de decisiones financieras, automatizar el seguimiento de transacciones y ofrecer recomendaciones personalizadas para optimizar el ahorro y la inversión. 
 
 ## Tecnologías
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; text-align: center;">
 
-<table align="center" style="border: none; border-collapse: collapse; width: 100%;">
-  <tr style="border: none;">
-    <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
-      <h3>Data Science</h3>
-      <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=python,mysql,docker" alt="Data Science Skills" />
-      </a>
-    </td>
-    <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
-      <h3>BackEnd</h3>
-      <a href="https://skills-icons.vercel.app">
-        <p><img src="https://skills-icons.vercel.app/api/icons?i=java,spring,docker" alt="Java, Spring y Docker" /></p>
-        <p><img src="https://skills-icons.vercel.app/api/icons?i=oracle,postman" alt="Oracle Database" /></p>
-      </a>
-    </td>
-    <td align="center" valign="top" style="border: none; width: 33%; padding: 10px;">
-      <h3>FrontEnd</h3>
-      <a href="https://skills-icons.vercel.app">
-        <img src="https://skills-icons.vercel.app/api/icons?i=ts,angular,tailwind" alt="FrontEnd Skills" />
-      </a>
-    </td>
-  </tr>
-</table>
+  <div style="flex: 1 1 200px; max-width: 300px; padding: 10px;">
+    <h3>Data Science</h3>
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <img src="https://skills-icons.vercel.app/api/icons?i=python" alt="Python" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=mysql" alt="MySQL" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" width="48" height="48" />
+    </div>
+  </div>
+
+  <div style="flex: 1 1 200px; max-width: 300px; padding: 10px;">
+    <h3>BackEnd</h3>
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <img src="https://skills-icons.vercel.app/api/icons?i=java" alt="Java" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=spring" alt="Spring" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=oracle" alt="Oracle" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=postman" alt="Postman" width="48" height="48" />
+    </div>
+  </div>
+
+  <div style="flex: 1 1 200px; max-width: 300px; padding: 10px;">
+    <h3>FrontEnd</h3>
+    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+      <img src="https://skills-icons.vercel.app/api/icons?i=ts" alt="TypeScript" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=angular" alt="Angular" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=tailwind" alt="Tailwind" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" width="48" height="48" />
+    </div>
+  </div>
+
+</div>
 
 ## Estructura del Monorepositorio
 
@@ -87,12 +96,70 @@ Construido bajo los principios de **Arquitectura Hexagonal** y los patrones **SO
   * `lombok`: Generación automática de código repetitivo (getters, setters, constructores) para mantener nuestras entidades limpias.
   * `spring-boot-starter-test`: Suite de pruebas unitarias e integración para asegurar la calidad del software.
 
+
+```text
+com.g9latam.team14
+├── auth/    
+│   ├── application/ 
+│   │   └── service/
+│   ├── domain/ 
+│   │   ├── model/
+│   │   └── ports/
+│   │       ├── inbound/
+│   │       └── outbound/ 
+│   └── infrastructure/  
+│       ├── adapter/
+│       │   ├── inbound/ 
+│       │   │   ├── dtos/
+│       │   ├── mapper/
+│       │   └── outbound/
+│       │       ├── database/
+│       │       │   ├── mapper/ 
+│       │       └── security/
+│       └── config/  
+│           ├── security/
+│           └── AuthModuleConfig.java
+├── shared.infrastructure.exception/ 
+└── BackendSpringBootApplication.java
+```
+
 ---
 ### Frontend
 La interfaz de usuario está diseñada para ser rápida, responsiva y escalable.
 * **Framework:** Angular (TypeScript) estructurado de forma modular para facilitar la inyección de dependencias y el manejo de estados.
 * **Estilos:** Tailwind CSS, permitiendo construir un sistema de diseño consistente, moderno y responsivo directamente mediante clases utilitarias de utilidad rápida.
 * **Enfoque de Trabajo:** Consumo eficiente de la API REST mediante servicios reactivos (`RxJS`), asegurando la actualización instantánea de los paneles financieros del usuario sin recargas innecesarias de la página.
+
+```text
+src/
+├── app/
+│   ├── core/ 
+│   │   ├── auth/ 
+│   │   └── services/ 
+│   │
+│   ├── features/  
+│   │   ├── auth/ 
+│   │   ├── dashboard/ 
+│   │   └── landing/
+│   │       ├── components/ 
+│   │       │   └── header/ 
+│   │       │       ├── header.html
+│   │       │       └── header.ts
+│   │       ├── landing.html
+│   │       └── landing.ts 
+│   ├── shared/
+│   ├── app.config.server.ts 
+│   ├── app.config.ts
+│   ├── app.html
+│   ├── app.routes.server.ts 
+│   ├── app.routes.ts 
+│   └── app.ts 
+├── index.html
+├── main.server.ts 
+├── main.ts 
+├── server.ts 
+└── styles.css
+```
 
 ## Enlaces Importantes
 *   **Despliegue:**
