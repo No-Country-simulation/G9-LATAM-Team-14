@@ -27,6 +27,7 @@
       <img src="https://skills-icons.vercel.app/api/icons?i=python" alt="Python" width="48" height="48" />
       <img src="https://skills-icons.vercel.app/api/icons?i=mysql" alt="MySQL" width="48" height="48" />
       <img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=fastapi" alt="Docker" width="48" height="48" />
     </div>
   </div>
 
