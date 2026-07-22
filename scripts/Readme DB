@@ -1,0 +1,38 @@
+#Finance AI - G9-LATAM-Team-14
+financeIA - Base de Datos
+
+Este repositorio contiene el diseño, esquema y scripts de inicialización de la base de datos para el proyecto.
+	
+## 🛠️ Tecnologías y Requisitos
+* **Motor:** MySQL 8.0
+* **Puerto local por defecto:** 3306
+
+---
+	
+## 📁 Estructura del Repositorio
+	
+* `scripts`: Contiene las consultas SQL organizadas por orden de ejecución.
+* `01_schema.sql`: Creación de tablas, llaves primarias, foráneas e índices.
+* `02_seed.sql`: Datos de prueba iniciales (usuarios, roles, catálogos).
+* `docker-compose.yml`: Configuración para levantar el contenedor de la base de datos rápidamente.
+
+--
+	
+## 🚀 Instrucciones de Despliegue Local
+	
+### Opción A: Con Docker (Recomendado)
+Si tienes Docker instalado, ejecuta el siguiente comando en la raíz del proyecto. Los scripts de la carpeta `scripts` se ejecutarán automáticamente en orden alfabético:
+	
+```bash
+docker-compose up -d
+```
+	
+### Opción B: Ejecución Manual
+Si prefieres usar un cliente de base de datos (como DBeaver, PgAdmin o Workbench), conéctate a tu servidor local y ejecuta los scripts en este orden estricto:
+1. `scripts/01_schema.sql`
+2. `scripts/02_seed.sql`
+	
+
+	
+## 🗺️ Diagrama Entidad-Relación (DER)
+-

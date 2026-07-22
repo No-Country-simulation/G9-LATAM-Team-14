@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: financiero_sql
+    restart: always
+    environment:
+	
+      MYSQL_DATABASE: finteligente_db
+      MYSQL_USER: usuario_backend
+      MYSQL_PASSWORD: supersecretpassword123
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
