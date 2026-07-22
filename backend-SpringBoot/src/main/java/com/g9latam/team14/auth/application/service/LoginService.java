@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class LoginService implements LoginUseCase {
-
     private final UserRepositoryPort userRepository;
     private final PasswordEncoderPort passwordEncoder;
 
@@ -23,7 +22,6 @@ public class LoginService implements LoginUseCase {
         if (!passwordEncoder.matches(rawPassword, user.getPassword())) {
             throw new CustomException("Credenciales inválidas", HttpStatus.UNAUTHORIZED);
         }
-
         return user;
     }
 }

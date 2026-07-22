@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class GetAuthenticatedUserService implements GetAuthenticatedUserUseCase {
-
     private final UserRepositoryPort userRepository;
 
     @Override

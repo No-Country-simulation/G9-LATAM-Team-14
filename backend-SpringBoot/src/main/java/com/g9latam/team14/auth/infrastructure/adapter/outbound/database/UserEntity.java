@@ -1,5 +1,4 @@
 package com.g9latam.team14.auth.infrastructure.adapter.outbound.database;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
