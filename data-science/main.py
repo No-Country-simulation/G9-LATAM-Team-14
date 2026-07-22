@@ -1,4 +1,3 @@
-# clasificador.py
 import joblib
 import sklearn
 from fastapi import FastAPI, HTTPException
@@ -6,29 +5,27 @@ from pydantic import BaseModel
 from typing import List
 from sentence_transformers import SentenceTransformer
 
-app = FastAPI(title="Clasificador SVM de Gastos")
+app = FastAPI(title="clasificador svm")
 
-# Umbral mínimo de certeza (50%)
-CONFIANZA_MINIMA = 0.5 
-
-# 1. Cargar el generador de Embeddings
+# 1. Cargar el generador de Embeddings (Modelo ultraligero y rápido en CPU)
 MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 try:
     print("Cargando codificador de texto multilingüe...")
     encoder = SentenceTransformer(MODELO_EMBEDDINGS)
 
+    # 2. Cargar el clasificador SVM previamente entrenado y guardado
     print("Cargando clasificador SVM desde el disco...")
-    svm_model = joblib.load("models/modelo_svm.pkl")
+    svm_model = joblib.load("models/modelo_svm.pkl")  # <-- RUTA AJUSTADA A LA CARPETA MODELS
     print("¡Sistema listo para clasificar!")
 except FileNotFoundError:
-    print("⚠️ ADVERTENCIA: No se encontró 'modelo_svm.pkl'. Ejecuta primero el script de entrenamiento.")
+    print("⚠️ ADVERTENCIA: No se encontró 'models/modelo_svm.pkl'. Ejecuta primero el script de entrenamiento.")
     svm_model = None
 except Exception as e:
     print(f"Error crítico al iniciar los modelos: {e}")
     encoder = None
     svm_model = None
 
-# --- CONTRATO DE DATOS JSON CON SPRING BOOT ---
+# Contrato de datos JSON con Spring Boot
 class GastoItem(BaseModel):
     id_gasto: int
     descripcion: str
@@ -36,7 +33,6 @@ class GastoItem(BaseModel):
 class LoteGastosInput(BaseModel):
     transacciones: List[GastoItem]
 
-# BUG CORREGIDO: Se unificó como id_gasto (o id_tipo según acuerden con backend)
 class ClasificacionItem(BaseModel):
     id_gasto: int
     categoria: str
@@ -46,7 +42,7 @@ class LoteGastosOutput(BaseModel):
     clasificaciones: List[ClasificacionItem]
 
 
-# 2. Endpoint de la API REST
+# 3. Endpoint de la API REST
 @app.post("/api/v1/clasificar", response_model=LoteGastosOutput)
 async def clasificar_gastos_hibrido(payload: LoteGastosInput):
     if not encoder or not svm_model:
@@ -55,23 +51,23 @@ async def clasificar_gastos_hibrido(payload: LoteGastosInput):
     resultados_finales = []
     
     try:
+        # Extraer los textos del JSON recibido
         textos = [gasto.descripcion for gasto in payload.transacciones]
         
-        # Paso A: Convertir descripciones en vectores (Embeddings)
+        # Paso A: Convertir descripciones en vectores numéricos (Embeddings)
         embeddings = encoder.encode(textos)
         
-        # Paso B: Predecir categorías y calcular nivel de probabilidad/confianza
+        # Paso B: Predecir las categorías usando el modelo SVM entrenado
         predicciones = svm_model.predict(embeddings)
+        
+        # Paso C: Obtener la probabilidad/confianza del modelo (Requires probability=True al entrenar)
         probabilidades = svm_model.predict_proba(embeddings)
         
+        # Emparejar resultados con los IDs originales de Spring Boot
         for i, gasto in enumerate(payload.transacciones):
             categoria_predicha = predicciones[i]
+            # Tomamos el valor de probabilidad más alto del array de clases
             score_confianza = float(max(probabilidades[i]))
-            
-            # --- MEJORA: UMBRAL DE CONFIANZA ---
-            # Si el modelo duda demasiado (< 50% de certeza), se asigna "Otros"
-            if score_confianza < CONFIANZA_MINIMA:
-                categoria_predicha = "Otros"
             
             resultados_finales.append(ClasificacionItem(
                 id_gasto=gasto.id_gasto,
@@ -82,7 +78,7 @@ async def clasificar_gastos_hibrido(payload: LoteGastosInput):
         return LoteGastosOutput(clasificaciones=resultados_finales)
         
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error en la clasificación: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error en la clasificación híbrida: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn
