@@ -126,39 +126,80 @@ com.g9latam.team14
 ---
 ### Frontend
 La interfaz de usuario está diseñada para ser rápida, responsiva y escalable.
-* **Framework:** Angular (TypeScript) estructurado de forma modular para facilitar la inyección de dependencias y el manejo de estados.
-* **Estilos:** Tailwind CSS, permitiendo construir un sistema de diseño consistente, moderno y responsivo directamente mediante clases utilitarias de utilidad rápida.
+* **Framework:** Angular 22 (TypeScript 6) estructurado de forma modular para facilitar la inyección de dependencias y el manejo de estados.
+* **SSR (Server-Side Rendering):** Angular SSR con Express, permitiendo renderizado del lado del servidor y protección de rutas a nivel de servidor mediante cookies JWT.
+* **Estilos:** Tailwind CSS 4, permitiendo construir un sistema de diseño consistente, moderno y responsivo directamente mediante clases utilitarias de utilidad rápida.
 * **Enfoque de Trabajo:** Consumo eficiente de la API REST mediante servicios reactivos (`RxJS`), asegurando la actualización instantánea de los paneles financieros del usuario sin recargas innecesarias de la página.
+
+### Librerías Clave & Herramientas
+
+* **`express` & `@angular/ssr`:** Servidor HTTP en Node.js encargado de procesar la aplicación y entregar las vistas renderizadas desde el servidor.
+* **`jsonwebtoken` (`@types/jsonwebtoken`):** Validación criptográfica del token JWT en el servidor SSR para restringir el acceso a rutas privadas como `/dashboard`.
+* **`dotenv`:** Gestión segura de variables de entorno (`JWT_SECRET`, puertos) en el entorno de servidor Node.js.
+* **`rxjs`:** Gestión de estados, suscripciones y peticiones HTTP hacia el Backend.
+
+---
+
+### Arquitectura & Seguridad SSR (Server-Side Rendering)
+
+En lugar de delegar toda la lógica al navegador del cliente (*Single Page Application* convencional), la aplicación utiliza un **servidor Node.js con Express** que actúa como capa intermedia de renderizado y seguridad:
+
+```text
+ [ Usuario ] ──── (Petición GET /dashboard) ────> [ Servidor Express (Node) ]
+                                                              │
+                                                   ¿Tiene Cookie JWT Válida?
+                                                  /                         \
+                                             (NO)                            (SÍ)
+                                              /                                \
+                                    [ Redirige 302 a /login ]       [ Renderiza Angular en Servidor ]
+```
+
+#### Estructura del Proyecto
 
 ```text
 src/
 ├── app/
 │   ├── core/ 
 │   │   ├── auth/ 
-│   │   └── services/ 
+│   │   │   ├── models/
+│   │   │   │   └── auth.model.ts      # Interfaces LoginRequest, UserInfo, AuthResponse
+│   │   │   └── services/
+│   │   │       └── auth.service.ts    # HTTP con signals (currentUser)
+│   │   └── services/
 │   │
 │   ├── features/  
-│   │   ├── auth/ 
-│   │   ├── dashboard/ 
+│   │   ├── auth/
+│   │   │   ├── auth.html              # Formulario login (email, password, Google)
+│   │   │   └── auth.ts                # Componente con FormsModule
+│   │   ├── dashboard/
+│   │   │   ├── components/
+│   │   │   │   └── sidebar/
+│   │   │   │       ├── sidebar.html
+│   │   │   │       └── sidebar.ts
+│   │   │   ├── dashboard.html
+│   │   │   ├── dashboard.routes.ts
+│   │   │   └── dashboard.ts           # Inyecta AuthService, botón logout
 │   │   └── landing/
 │   │       ├── components/ 
 │   │       │   └── header/ 
-│   │       │       ├── header.html
+│   │       │       ├── header.html    # Navbar sticky responsive
 │   │       │       └── header.ts
 │   │       ├── landing.html
 │   │       └── landing.ts 
 │   ├── shared/
-│   ├── app.config.server.ts 
-│   ├── app.config.ts
-│   ├── app.html
-│   ├── app.routes.server.ts 
-│   ├── app.routes.ts 
-│   └── app.ts 
+│   │   ├── components/
+│   │   └── pipes/
+│   ├── app.config.server.ts           # Config SSR (provideServerRendering)
+│   ├── app.config.ts                  # Providers globales (HttpClient, Router)
+│   ├── app.html                       # <router-outlet></router-outlet>
+│   ├── app.routes.server.ts           # RenderMode.Prerender
+│   ├── app.routes.ts                  # Lazy loading: Landing, Auth, Dashboard
+│   └── app.ts                         # Root component
 ├── index.html
-├── main.server.ts 
-├── main.ts 
-├── server.ts 
-└── styles.css
+├── main.server.ts                     # Bootstrap SSR
+├── main.ts                            # Bootstrap navegador
+├── server.ts                          # Express SSR + protección rutas JWT
+└── styles.css                         # @import 'tailwindcss'
 ```
 
 ## Enlaces Importantes

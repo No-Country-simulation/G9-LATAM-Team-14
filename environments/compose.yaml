@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # 1. MySQL
   mysql:
@@ -61,8 +59,11 @@ services:
     container_name: angular_frontend
     ports:
       - "4000:4000"
+    env_file:
+      - ../frontend-Angular/.env
     environment:
       - PORT=4000
+      - JWT_SECRET=${JWT_SECRET:-FincoachG9LatamTeam14DevSecretKey2026MustBeAtLeast256BitsLong!!}
     depends_on:
       - backend
 
