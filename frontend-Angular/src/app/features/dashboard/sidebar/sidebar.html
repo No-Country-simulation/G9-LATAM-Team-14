@@ -1,0 +1,52 @@
+@if (uiService.isSidebarOpen()) {
+<div (click)="uiService.closeSidebar()"
+    class="fixed inset-0 bg-black/30 backdrop-blur-xs z-40 md:hidden transition-opacity"></div>
+}
+
+<aside [class.-translate-x-full]="!uiService.isSidebarOpen()"
+    class="fixed md:static inset-y-0 left-0 z-50 w-68 md:w-65 lg:w-75 h-screen bg-[#f6fbdd] text-[#2d4231] flex flex-col justify-between select-none shadow-xl md:shadow-none transition-transform duration-300 ease-in-out md:translate-x-0 border-r border-[#e2ebbe]">
+    <div class="flex flex-col gap-6">
+        <div class="flex items-center justify-between px-4 pt-5">
+            <div class="flex items-center gap-2">
+                <img src="/images/logo.webp" alt="Logo" class="w-10 h-10 object-contain">
+                <span class="text-2xl font-semibold text-[#2d4231]">Fincoach</span>
+            </div>
+
+            <button (click)="uiService.closeSidebar()"
+                class="md:hidden text-[#2d4231] hover:bg-[#ebf3cb] p-2 rounded-full transition-colors cursor-pointer">
+                <app-icon-fin-coach name="close" class="w-5 h-5" />
+            </button>
+        </div>
+        <nav class="flex flex-col gap-1 pl-3">
+            @for (item of menuItems; track item.label) {
+            <a [routerLink]="item.route"
+                routerLinkActive="bg-[#e3ebd3] font-semibold border-r-4 border-[#2d4231] text-[#1e3122]"
+                [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }" (click)="uiService.closeSidebar()"
+                class="flex items-center gap-3 px-3 py-2 rounded-l-lg text-sm font-medium text-[#384e3c] hover:bg-[#ebf3cb] transition-colors">
+                <app-icon-fin-coach [name]="item.iconName" class="w-4 h-4" />
+                <span>{{ item.label }}</span>
+            </a>
+            }
+        </nav>
+    </div>
+
+    <div class="p-4 flex flex-col gap-3">
+        <div class="px-1 text-xs text-[#526655] leading-relaxed">
+            Tu plataforma para gestionar deudas, presupuestos y objetivos de ahorro.
+        </div>
+
+        <hr class="border-[#e2ebbe] my-1" />
+
+        <button [routerLink]="'/dashboard/settings'" (click)="uiService.closeSidebar()"
+            class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-xl border border-[#c3d3a0] bg-transparent text-sm font-medium text-[#2d4231] hover:bg-[#ebf3cb] active:scale-[0.98] transition-all cursor-pointer">
+            <app-icon-fin-coach name="settings" class="w-4 h-4" />
+            <span>Configuración</span>
+        </button>
+
+        <button (click)="logout()"
+            class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-xl border border-[#c3d3a0] bg-transparent text-sm font-medium text-[#2d4231] hover:bg-[#ebf3cb] hover:text-red-800 active:scale-[0.98] transition-all cursor-pointer">
+            <app-icon-fin-coach name="logout" class="w-4 h-4" />
+            <span>Cerrar sesión</span>
+        </button>
+    </div>
+</aside>

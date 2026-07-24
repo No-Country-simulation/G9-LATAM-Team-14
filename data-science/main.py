@@ -1,32 +1,85 @@
-import os
-import MySQLdb
+import joblib
+import sklearn
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import List
+from sentence_transformers import SentenceTransformer
 
-# docker compose pasa las credenciales como variables de entorno automáticamente
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = int(os.getenv("DB_PORT", "3306"))
-DB_NAME = os.getenv("DB_NAME", "finteligente_db")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASS = os.getenv("DB_PASS", "supersecretpassword123")
+app = FastAPI(title="clasificador svm")
 
-def test_conexion():
-    print("probando conexión desde Python a MySQL...")
+# 1. Cargar el generador de Embeddings (Modelo ultraligero y rápido en CPU)
+MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+try:
+    print("Cargando codificador de texto multilingüe...")
+    encoder = SentenceTransformer(MODELO_EMBEDDINGS)
+
+    # 2. Cargar el clasificador SVM previamente entrenado y guardado
+    print("Cargando clasificador SVM desde el disco...")
+    svm_model = joblib.load("models/modelo_svm.pkl")  # <-- RUTA AJUSTADA A LA CARPETA MODELS
+    print("¡Sistema listo para clasificar!")
+except FileNotFoundError:
+    print("⚠️ ADVERTENCIA: No se encontró 'models/modelo_svm.pkl'. Ejecuta primero el script de entrenamiento.")
+    svm_model = None
+except Exception as e:
+    print(f"Error crítico al iniciar los modelos: {e}")
+    encoder = None
+    svm_model = None
+
+# Contrato de datos JSON con Spring Boot
+class GastoItem(BaseModel):
+    id_gasto: int
+    descripcion: str
+
+class LoteGastosInput(BaseModel):
+    transacciones: List[GastoItem]
+
+class ClasificacionItem(BaseModel):
+    id_gasto: int
+    categoria: str
+    confianza: float
+
+class LoteGastosOutput(BaseModel):
+    clasificaciones: List[ClasificacionItem]
+
+
+# 3. Endpoint de la API REST
+@app.post("/api/v1/clasificar", response_model=LoteGastosOutput)
+async def clasificar_gastos_hibrido(payload: LoteGastosInput):
+    if not encoder or not svm_model:
+        raise HTTPException(status_code=500, detail="Los modelos no están cargados correctamente.")
+    
+    resultados_finales = []
+    
     try:
-        conexion = MySQLdb.connect(
-            host=DB_HOST,
-            port=DB_PORT,
-            db=DB_NAME,
-            user=DB_USER,
-            passwd=DB_PASS
-        )
-        cursor = conexion.cursor()
-        cursor.execute("SELECT VERSION();")
-        db_version = cursor.fetchone()
-        print("¡Conexión exitosa!")
-        print(f"-> Versión de MySQL: {db_version[0]}")
-        cursor.close()
-        conexion.close()
+        # Extraer los textos del JSON recibido
+        textos = [gasto.descripcion for gasto in payload.transacciones]
+        
+        # Paso A: Convertir descripciones en vectores numéricos (Embeddings)
+        embeddings = encoder.encode(textos)
+        
+        # Paso B: Predecir las categorías usando el modelo SVM entrenado
+        predicciones = svm_model.predict(embeddings)
+        
+        # Paso C: Obtener la probabilidad/confianza del modelo (Requires probability=True al entrenar)
+        probabilidades = svm_model.predict_proba(embeddings)
+        
+        # Emparejar resultados con los IDs originales de Spring Boot
+        for i, gasto in enumerate(payload.transacciones):
+            categoria_predicha = predicciones[i]
+            # Tomamos el valor de probabilidad más alto del array de clases
+            score_confianza = float(max(probabilidades[i]))
+            
+            resultados_finales.append(ClasificacionItem(
+                id_gasto=gasto.id_gasto,
+                categoria=categoria_predicha,
+                confianza=score_confianza
+            ))
+            
+        return LoteGastosOutput(clasificaciones=resultados_finales)
+        
     except Exception as e:
-        print(f"Error al conectar: {e}")
+        raise HTTPException(status_code=500, detail=f"Error en la clasificación híbrida: {str(e)}")
 
 if __name__ == "__main__":
-    test_conexion()
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)

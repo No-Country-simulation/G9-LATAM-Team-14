@@ -1,0 +1,72 @@
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../auth/services/auth.service';
+import { UiService } from '../services/ui.service';
+import { IconFinCoachComponent, IconName } from '@app/shared/icons/iconsFinCoach';
+
+@Component({
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, IconFinCoachComponent],
+  templateUrl: './sidebar.html',
+})
+export class Sidebar {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  uiService = inject(UiService);
+
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        window.location.replace('/login');
+      },
+      error: (err) => {
+        console.error('Error al cerrar sesión:', err);
+      }
+    });
+  }
+
+  menuItems: MenuItem[] = [
+    {
+      label: 'Mi perfil',
+      route: '/dashboard/profile',
+      iconName: 'profile'
+    },
+    {
+      label: 'Dashboard',
+      route: '/dashboard',
+      iconName: 'dashboard'
+    },
+    {
+      label: 'Movimientos',
+      route: '/dashboard/movements',
+      iconName: 'movements'
+    },
+    {
+      label: 'Transacciones',
+      route: '/dashboard/transactions',
+      iconName: 'transactions'
+    },
+    {
+      label: 'Mis deudas',
+      route: '/dashboard/debts',
+      iconName: 'debts'
+    },
+    {
+      label: 'Evolución',
+      route: '/dashboard/evolution',
+      iconName: 'evolution'
+    },
+    {
+      label: 'Recomendaciones',
+      route: '/dashboard/recommendations',
+      iconName: 'recommendations'
+    }
+  ];
+}
+
+interface MenuItem {
+  label: string;
+  route: string;
+  iconName: IconName;
+}

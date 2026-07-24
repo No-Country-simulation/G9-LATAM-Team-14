@@ -60,6 +60,21 @@ CREATE TABLE `ingresos` (
   CONSTRAINT `id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS `movements`;
+CREATE TABLE `movements` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) DEFAULT NULL,
+  `amount` decimal(38,2) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `category` varchar(50) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_movements_user_idx` (`user_id`),
+  CONSTRAINT `fk_movements_user` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- Usuario demo: demo@fincoach.com / password123
 INSERT INTO `usuarios` (`id`, `nombre_usuario`, `password`, `email`, `ingreso_mensual`, `fecha_registro`) VALUES
 (1, 'demo', '$2b$10$XxsfhmV1YxzgkaAvD8lGLeqR/UB3eKQVcrkzk2ZZlxgVtfLPWn77q', 'demo@fincoach.com', 5000, '2026-01-15');
+

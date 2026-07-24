@@ -1,3 +1,4 @@
+// app/core/auth/services/auth.service.ts
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, map } from 'rxjs';

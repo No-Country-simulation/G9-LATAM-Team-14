@@ -1,0 +1,20 @@
+<header class="w-full bg-[#f6fbdd] text-[#2d4231] flex items-center justify-between px-4 md:px-8 py-3 rounded-t-3xl border-b border-[#e2ebbe] select-none shadow-xs">
+  <div class="flex items-center gap-3">
+    <h1 class="text-xl md:text-2xl font-bold tracking-tight text-[#2d4231]">
+      Dashboard
+    </h1>
+  </div>
+
+  <div class="flex items-center gap-2 md:gap-4">
+    <!-- Notificaciones -->
+    <button class="relative text-[#2d4231] hover:bg-[#ebf3cb] p-2 md:p-2.5 rounded-full transition-colors cursor-pointer active:scale-95">
+      <app-icon-fin-coach name="bell" class="w-5 h-5 md:w-6 md:h-6" />
+      <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+    </button>
+
+    <!-- Botón Hambuguesa (Solo Móvil) -->
+    <button (click)="uiService.toggleSidebar()" class="md:hidden relative text-[#2d4231] hover:bg-[#ebf3cb] p-2 rounded-full transition-colors cursor-pointer active:scale-95">
+      <app-icon-fin-coach name="menu" class="w-6 h-6" />
+    </button>
+  </div>
+</header>

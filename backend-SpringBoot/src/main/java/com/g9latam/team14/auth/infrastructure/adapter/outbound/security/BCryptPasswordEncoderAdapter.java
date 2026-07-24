@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BCryptPasswordEncoderAdapter implements PasswordEncoderPort {
-
     private final PasswordEncoder passwordEncoder;
 
     @Override

@@ -1,0 +1,16 @@
+# ---- Servidor Web y API ----
+fastapi==0.111.0
+uvicorn==0.30.1
+pydantic==2.7.4
+
+# ---- Inteligencia Artificial y Procesamiento Local ----
+transformers==4.41.2
+sentence-transformers==3.0.1
+scikit-learn==1.5.0
+joblib==1.4.2
+
+# ---- Conexión a Base de Datos (por si a futuro se consultan MySQL) ----
+pandas==2.2.2
+numpy==1.26.4
+mysqlclient==2.2.4
+sqlalchemy==2.0.30

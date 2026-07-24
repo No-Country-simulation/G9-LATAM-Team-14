@@ -1,8 +1,11 @@
 import { Component, ElementRef, HostListener } from '@angular/core';
+import { GreenRedirectButton } from '@app/shared/components/green-redirect-button/green-redirect-button';
+import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  standalone: true,
+  imports: [GreenRedirectButton, IconFinCoachComponent],
   templateUrl: './header.html',
 })
 export class Header {
@@ -10,11 +13,17 @@ export class Header {
   isMenuOpen = false;
   navItems = [
     { label: 'Inicio', link: '#' },
-    { label: 'Beneficios', link: '#' },
-    { label: 'Como funciona', link: '#' }
+    { label: 'Beneficios', link: '#beneficios' },
+    { label: 'Cómo funciona', link: '#como-funciona' }
   ];
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef) { }
+
+  setActive(label: string) {
+    this.activeItem = label;
+    this.isMenuOpen = false;
+  }
+
   toggleMenu(event: Event) {
     event.stopPropagation();
     this.isMenuOpen = !this.isMenuOpen;

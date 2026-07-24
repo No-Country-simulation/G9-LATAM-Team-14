@@ -1,0 +1,191 @@
+<main class="bg-[#F0F4D0] overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12 py-8 sm:py-12 md:py-16 lg:py-20">
+
+            <!-- Texto e Interacción -->
+            <div class="flex flex-col gap-4 sm:gap-6 items-start text-left reveal-on-scroll">
+                <span
+                    class="inline-flex items-center gap-2 bg-[#CFEACB] text-[#214523] text-xs sm:text-sm font-semibold px-3.5 py-1.5 rounded-full border border-[#BBDFA7] shadow-xs">
+                    Creciendo juntos
+                </span>
+                <h1
+                    class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#214523] leading-tight tracking-tight">
+                    Cultiva tu <span
+                        class="bg-gradient-to-r from-[#214523] to-[#476B49] bg-clip-text text-transparent">futuro
+                        financiero</span>
+                </h1>
+                <p class="text-sm sm:text-base md:text-lg text-[#3b523e] leading-relaxed max-w-xl">
+                    Ahorrar es sembrar bienestar para tu mañana. En <strong
+                        class="font-semibold text-[#214523]">Fincoach</strong> te acompañamos en cada paso de tu
+                    crecimiento, nutriendo tus sueños con estabilidad y claridad.
+                </p>
+                <div
+                    class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-1 sm:pt-2 items-stretch sm:items-center w-full sm:w-auto">
+                    <app-green-redirect-button text="Crear una cuenta" link="/auth"
+                        customClass="w-full sm:w-auto inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-base font-semibold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200" />
+                    <a href="/login"
+                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-[#214523] bg-[#E1EAA8]/80 hover:bg-[#D5E196] border border-[#C6D691] transition-all duration-200 active:scale-95 shadow-xs">
+                        <span>Iniciar sesión</span>
+                    </a>
+                </div>
+            </div>
+            <!-- Imagen Principal Organica -->
+            <div class="flex justify-center items-center py-4 lg:py-6 reveal-on-scroll delay-200">
+                <div
+                    class="w-full max-w-[280px] sm:max-w-md lg:max-w-lg aspect-square bg-[#d9e1bf] rounded-[60%_40%_70%_30%/50%_60%_40%_50%] overflow-hidden shadow-xl transition-all duration-500 hover:scale-[1.03] border-4 border-[#E2EBBD] mx-auto">
+                    <img src="/images/landingImagen_01.webp" alt="Fincoach Landing"
+                        class="w-full h-full object-cover animate-float" />
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <!-- SECCIÓN DE BENEFICIOS (BENEFICIOS DE AHORRAR) -->
+    <section id="beneficios" class="py-12 sm:py-16 md:py-24 bg-[#E8F0C0]/60 border-t border-b border-[#D8E3B0]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-14 reveal-on-scroll">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#214523] mb-2 sm:mb-4">
+                    Beneficios de ahorrar
+                </h2>
+                <p class="text-sm sm:text-base md:text-lg text-[#3b523e] leading-relaxed px-2">
+                    Descubre cómo una cultura de ahorro consciente transforma tu relación con el dinero y tu
+                    tranquilidad personal.
+                </p>
+            </div>
+
+            <!-- Bento Grid 2x2 Asymmetric -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+                <!-- Card 1: Estabilidad y Respaldo -->
+                <div
+                    class="md:col-span-2 bg-[#4D6551] p-6 sm:p-8 lg:p-10 rounded-3xl sm:rounded-[2.5rem] border border-[#3E5242] flex flex-col justify-between shadow-xs transition-transform hover:-translate-y-1 min-h-[220px] sm:min-h-[260px] reveal-on-scroll delay-100">
+                    <div
+                        class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/15 text-white flex items-center justify-center mb-4 sm:mb-6 shadow-xs">
+                        <app-icon-fin-coach name="shield-heart" class="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
+                            Estabilidad y Respaldo
+                        </h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-white/90 leading-relaxed max-w-lg">
+                            Construye un cimiento sólido que te proteja ante cualquier imprevisto, permitiéndote navegar
+                            los ciclos de la vida con total seguridad y firmeza.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Paz Mental -->
+                <div
+                    class="md:col-span-1 bg-[#FDE5D2] p-6 sm:p-8 lg:p-10 rounded-3xl sm:rounded-[2.5rem] flex flex-col justify-between relative overflow-hidden shadow-xs transition-transform hover:-translate-y-1 min-h-[220px] sm:min-h-[260px] reveal-on-scroll delay-200">
+                    <div
+                        class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-[#F5D4BB] text-[#4a2e1b] flex items-center justify-center mb-4 sm:mb-6">
+                        <app-icon-fin-coach name="peace-key" class="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#3b2314] mb-2 sm:mb-3">
+                            Paz Mental
+                        </h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-[#4a3525] leading-relaxed max-w-xs">
+                            Libérate del estrés financiero diario. Un ahorro bien gestionado es el mejor descanso para
+                            tu mente.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Cumplimiento de Metas -->
+                <div
+                    class="md:col-span-1 bg-[#F5F9DA] p-6 sm:p-8 lg:p-10 rounded-3xl sm:rounded-[2.5rem] border border-[#DCE7B5] text-[#214523] flex flex-col justify-between shadow-xs transition-transform hover:-translate-y-1 min-h-[220px] sm:min-h-[260px] reveal-on-scroll delay-300">
+                    <div
+                        class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl text-[#4D6551] bg-white/20 flex items-center justify-center mb-4 sm:mb-6 shadow-xs">
+                        <app-icon-fin-coach name="flag" class="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-[#214523]  mb-2 sm:mb-3">
+                            Cumplimiento de Metas
+                        </h3>
+                        <p class="text-sm sm:text-base lg:text-lg text-[#214523] leading-relaxed max-w-lg">
+                            Transforma tus anhelos en realidades tangibles mediante una planificación cuidadosa y
+                            constante.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Crecimiento Sostenible -->
+                <div
+                    class="md:col-span-2 bg-[#937054] p-6 sm:p-8 lg:p-10 rounded-3xl sm:rounded-[2.5rem] border border-[#7D5C43] flex flex-col shadow-xs transition-transform hover:-translate-y-1 min-h-[220px] sm:min-h-[260px] reveal-on-scroll delay-400">
+                    <div
+                        class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/15 text-white flex items-center justify-center mb-4 sm:mb-6 shadow-xs">
+                        <app-icon-fin-coach name="tree" class="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3">
+                            Crecimiento Sostenible
+                        </h3>
+                        <p class="text-sm sm:text-base lg:text-lg  text-white leading-relaxed max-w-lg">
+                            Al igual que un bosque, tu capital crece con el tiempo si se cuida con las herramientas
+                            adecuadas y la paciencia necesaria.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN CÓMO FUNCIONA -->
+    <section id="como-funciona" class="py-12 sm:py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-14 reveal-on-scroll">
+            <span
+                class="text-xs sm:text-sm font-semibold tracking-wider text-[#364C36] uppercase bg-[#CFEACB] px-3.5 py-1 rounded-full">Paso
+                a paso</span>
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#214523] mt-3 mb-2 sm:mb-4">
+                Comenzar es muy sencillo
+            </h2>
+            <p class="text-sm sm:text-base md:text-lg text-[#3b523e] px-2">
+                Tres simples pasos para transformar la relación con tu dinero.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
+            <div
+                class="flex flex-col items-center text-center p-6 sm:p-8 bg-[#EEF5CE] rounded-3xl border border-[#DCE7B5] shadow-xs reveal-on-scroll delay-100">
+                <span
+                    class="w-10 h-10 rounded-full bg-[#5A7259] text-white font-bold flex items-center justify-center text-lg mb-4">1</span>
+                <h3 class="text-lg sm:text-xl font-bold text-[#214523] mb-2">Crea tu cuenta</h3>
+                <p class="text-sm text-[#405643] leading-relaxed">Regístrate en menos de 2 minutos sin complicaciones ni
+                    costos ocultos.
+                </p>
+            </div>
+            <div
+                class="flex flex-col items-center text-center p-6 sm:p-8 bg-[#EEF5CE] rounded-3xl border border-[#DCE7B5] shadow-xs reveal-on-scroll delay-200">
+                <span
+                    class="w-10 h-10 rounded-full bg-[#5A7259] text-white font-bold flex items-center justify-center text-lg mb-4">2</span>
+                <h3 class="text-lg sm:text-xl font-bold text-[#214523] mb-2">Organiza tus presupuestos</h3>
+                <p class="text-sm text-[#405643] leading-relaxed">Define tus gastos habituales y conecta tus objetivos
+                    de ahorro
+                    personalizados.</p>
+            </div>
+            <div
+                class="flex flex-col items-center text-center p-6 sm:p-8 bg-[#EEF5CE] rounded-3xl border border-[#DCE7B5] shadow-xs sm:col-span-2 lg:col-span-1 reveal-on-scroll delay-300">
+                <span
+                    class="w-10 h-10 rounded-full bg-[#5A7259] text-white font-bold flex items-center justify-center text-lg mb-4">3</span>
+                <h3 class="text-lg sm:text-xl font-bold text-[#214523] mb-2">Alcanza tus metas</h3>
+                <p class="text-sm text-[#405643] leading-relaxed">Sigue tu progreso en tiempo real y celebra cada logro
+                    en tu camino
+                    financiero.</p>
+            </div>
+        </div>
+
+        <!-- Banner -->
+        <div
+            class="mt-10 sm:mt-16 -mx-4 sm:mx-0 bg-gradient-to-r from-[#364C36] to-[#214523] rounded-none sm:rounded-3xl p-6 sm:p-10 md:p-12 text-center text-white shadow-xl relative overflow-hidden reveal-on-scroll delay-200">
+            <div class="relative z-10 max-w-2xl mx-auto flex flex-col items-center gap-4 sm:gap-6">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold">¿Listo para dar el primer paso?</h2>
+                <p class="text-emerald-100 text-sm sm:text-base leading-relaxed">Únete hoy a Fincoach y toma el control
+                    de tu futuro con
+                    la mejor plataforma de gestión personal.</p>
+                <app-green-redirect-button text="Empieza ahora gratis" link="/auth"
+                    customClass="w-full sm:w-auto inline-flex items-center justify-center rounded-xl px-8 py-3.5 text-base font-bold bg-[#CFEACB] hover:bg-[#BDE4B8] !text-[#214523] shadow-lg transition-all transform hover:scale-105" />
+            </div>
+        </div>
+    </section>
+</main>
