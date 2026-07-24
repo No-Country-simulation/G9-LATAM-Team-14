@@ -72,6 +72,6 @@ public class AuthRestController {
                 .sameSite("Lax")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        return ResponseEntity.ok(authDtoMapper.toAuthResponse(user, null, expiresInSeconds));
+        return ResponseEntity.ok(authDtoMapper.toAuthResponse(user, token, expiresInSeconds));
     }
 }
