@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { IconFinCoachComponent } from '../../shared/icons/iconsFinCoach';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, IconFinCoachComponent],
   templateUrl: './auth.html',
 })
 export class Auth {

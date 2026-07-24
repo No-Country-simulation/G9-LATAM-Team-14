@@ -14,11 +14,7 @@
 
             <button (click)="uiService.closeSidebar()"
                 class="md:hidden text-[#2d4231] hover:bg-[#ebf3cb] p-2 rounded-full transition-colors cursor-pointer">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <app-icon-fin-coach name="close" class="w-5 h-5" />
             </button>
         </div>
         <nav class="flex flex-col gap-1 pl-3">
@@ -27,9 +23,7 @@
                 routerLinkActive="bg-[#e3ebd3] font-semibold border-r-4 border-[#2d4231] text-[#1e3122]"
                 [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }" (click)="uiService.closeSidebar()"
                 class="flex items-center gap-3 px-3 py-2 rounded-l-lg text-sm font-medium text-[#384e3c] hover:bg-[#ebf3cb] transition-colors">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round" [innerHTML]="item.iconSvg">
-                </svg>
+                <app-icon-fin-coach [name]="item.iconName" class="w-4 h-4" />
                 <span>{{ item.label }}</span>
             </a>
             }
@@ -45,23 +39,13 @@
 
         <button [routerLink]="'/dashboard/settings'" (click)="uiService.closeSidebar()"
             class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-xl border border-[#c3d3a0] bg-transparent text-sm font-medium text-[#2d4231] hover:bg-[#ebf3cb] active:scale-[0.98] transition-all cursor-pointer">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path
-                    d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
-                <circle cx="12" cy="12" r="3" />
-            </svg>
+            <app-icon-fin-coach name="settings" class="w-4 h-4" />
             <span>Configuración</span>
         </button>
 
         <button (click)="logout()"
             class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-xl border border-[#c3d3a0] bg-transparent text-sm font-medium text-[#2d4231] hover:bg-[#ebf3cb] hover:text-red-800 active:scale-[0.98] transition-all cursor-pointer">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 12h11" />
-                <path d="m17 16 4-4-4-4" />
-                <path d="M21 6.344V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.344" />
-            </svg>
+            <app-icon-fin-coach name="logout" class="w-4 h-4" />
             <span>Cerrar sesión</span>
         </button>
     </div>
