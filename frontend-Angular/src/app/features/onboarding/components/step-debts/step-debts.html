@@ -1,0 +1,51 @@
+<div class="flex flex-col items-center text-center max-w-xl mx-auto w-full py-2">
+    <h1 class="text-2xl sm:text-4xl font-extrabold text-[#214523] tracking-tight">
+        Nivel de endeudamiento
+    </h1>
+    <p class="text-xs sm:text-sm text-[#4E6750] mt-1.5">
+        Ayúdanos a entender tus compromisos mensuales para una mejor planificación.
+    </p>
+    <div
+        class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-6 sm:border-8 border-[#CFDC9B] flex flex-col items-center justify-center my-4 bg-[#E8F0BF]/80 shadow-xs">
+        <span class="text-xl sm:text-2xl font-extrabold text-[#214523]">{{ debtPercentage() }}%</span>
+        <span class="text-[10px] sm:text-xs text-[#4A634E] font-semibold">de tus ingresos</span>
+    </div>
+    <div class="w-full flex flex-col gap-1.5 mt-2">
+        <div
+            class="w-full flex items-center justify-between px-1 text-left text-[11px] sm:text-xs font-semibold text-[#214523] mb-1">
+            <div class="flex-1 pl-5">Tipo de deuda</div>
+            <div class="w-24 sm:w-36 pr-6">Monto mensual</div>
+        </div>
+        @for (debt of debts(); track debt.id; let i = $index) {
+        <div class="w-full flex items-center gap-1.5 sm:gap-3 py-1">
+            <span class="w-4 text-center text-xs font-bold text-[#214523] shrink-0">{{ i + 1 }}.</span>
+            <div class="flex-1 min-w-0">
+                <select [(ngModel)]="debt.type"
+                    class="w-full py-2 px-2 sm:px-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-[11px] sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium cursor-pointer truncate">
+                    <option value="" disabled selected>Selecciona tipo...</option>
+                    <option value="Tarjeta de crédito">Tarjeta de crédito</option>
+                    <option value="Préstamo personal">Préstamo personal</option>
+                    <option value="Hipoteca">Hipoteca</option>
+                    <option value="Crédito vehicular">Crédito vehicular</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </div>
+            <div class="w-24 sm:w-36 relative flex items-center shrink-0">
+                <span class="absolute left-2 text-[#4A634E] font-semibold text-xs">$</span>
+                <input type="number" [(ngModel)]="debt.amount" placeholder="0.00"
+                    class="w-full pl-5 pr-2 py-2 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-[11px] sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870]" />
+            </div>
+            <button type="button" (click)="removeDebt(debt.id)"
+                class="p-1 text-[#5A7259] hover:text-red-600 hover:bg-red-100/60 rounded-lg transition-colors cursor-pointer shrink-0"
+                title="Eliminar deuda">
+                <app-icon-fin-coach name="trash" class="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+        </div>
+        }
+        <button type="button" (click)="addDebt()"
+            class="w-full border border-dashed border-[#A8C4A6] hover:border-[#4A634E] text-[#214523] bg-[#E5ECBF]/30 hover:bg-[#E5ECBF]/70 py-2.5 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer mt-2">
+            <app-icon-fin-coach name="plus" class="w-4 h-4" />
+            Añadir otra deuda
+        </button>
+    </div>
+</div>

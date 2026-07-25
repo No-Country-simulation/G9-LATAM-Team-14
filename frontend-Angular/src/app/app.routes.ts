@@ -13,6 +13,14 @@ export const routes: Routes = [
         loadChildren: () => import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
     },
     {
+        path: 'registro',
+        loadComponent: () => import('./features/register/register').then(m => m.Register)
+    },
+    {
+        path: 'onboarding',
+        loadComponent: () => import('./features/onboarding/onboarding').then(m => m.Onboarding)
+    },
+    {
         path: '**',
         redirectTo: ''
     }

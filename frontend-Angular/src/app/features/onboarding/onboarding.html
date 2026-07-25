@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-[#F6FAD4] flex flex-col justify-between">
+    <header class="w-full bg-[#F6FAD4] border-b border-[#E1E6C2] px-4 sm:px-8 py-4 sm:py-5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2.5 self-start md:self-center">
+                <img src="images/logo.webp" alt="Fincoach Logo" class="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
+                <span class="text-base sm:text-lg font-semibold text-[#214523] tracking-tight">Fincoach</span>
+            </div>
+            <div class="w-full max-w-xl px-2 sm:px-4">
+                <div class="relative w-full h-1 bg-[#DCE5B3] rounded-full">
+                    <div class="absolute top-0 left-0 h-1 bg-[#4A634E] rounded-full transition-all duration-300 ease-in-out"
+                        [style.width.%]="progressPercentage"></div>
+                </div>
+                <div class="flex justify-between items-center mt-2.5">
+                    @for (step of steps; track step.id) {
+                    <span class="text-[11px] sm:text-xs transition-colors duration-200"
+                        [class.text-[#214523]]="step.id <= currentStep" [class.font-medium]="step.id <= currentStep"
+                        [class.text-gray-400]="step.id > currentStep">
+                        {{ step.label }}
+                    </span>
+                    }
+                </div>
+            </div>
+            <div class="text-xs sm:text-sm font-medium text-[#214523] self-end md:self-center">
+                Paso {{ currentStep }} de {{ totalSteps }}
+            </div>
+
+        </div>
+    </header>
+    <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-8 flex flex-col items-center justify-center">
+        @switch (currentStep) {
+        @case (1) { <app-step-about /> }
+        @case (2) { <app-step-debts /> }
+        @case (3) { <app-step-expenses /> }
+        @case (4) { <app-step-goals /> }
+        }
+    </main>
+    <footer class="w-full pb-8 pt-4 px-4 flex flex-col items-center justify-center gap-3">
+        <div class="flex items-center gap-3 w-full max-w-[90%] sm:max-w-xs">
+            @if (currentStep > 1) {
+            <button type="button" (click)="prevStep()"
+                class="flex-1 bg-transparent text-[#214523] border border-[#BBD5BC] hover:bg-[#E5EEBD]/60 py-3 px-4 rounded-2xl font-medium transition-all duration-200 cursor-pointer text-center text-sm sm:text-base active:scale-[0.99]">
+                Regresar
+            </button>
+            }
+            <button type="button" (click)="nextStep()" [class.flex-1]="currentStep > 1"
+                [class.w-full]="currentStep === 1"
+                class="bg-[#4A634E] hover:bg-[#3D5341] text-white py-3 px-6 rounded-2xl font-semibold shadow-sm transition-all duration-200 cursor-pointer text-center text-sm sm:text-base active:scale-[0.99]">
+                {{ currentStep === totalSteps ? 'Finalizar' : 'Continuar' }}
+            </button>
+        </div>
+        <button type="button" (click)="skipOnboarding()"
+            class="text-xs sm:text-sm text-[#4E6750] hover:text-[#214523] font-medium hover:underline transition-colors cursor-pointer py-1">
+            Omitir por ahora
+        </button>
+    </footer>
+</div>
