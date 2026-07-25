@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../auth/services/auth.service';
-import { UiService } from '../services/ui.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '@core/auth/services/auth.service';
 import { IconFinCoachComponent, IconName } from '@app/shared/icons/iconsFinCoach';
+import { UiService } from '../services/ui.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +12,6 @@ import { IconFinCoachComponent, IconName } from '@app/shared/icons/iconsFinCoach
 })
 export class Sidebar {
   private authService = inject(AuthService);
-  private router = inject(Router);
   uiService = inject(UiService);
 
   logout(): void {

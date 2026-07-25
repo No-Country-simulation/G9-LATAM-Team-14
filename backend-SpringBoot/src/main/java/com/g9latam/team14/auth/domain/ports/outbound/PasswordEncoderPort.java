@@ -4,5 +4,6 @@
  */
 package com.g9latam.team14.auth.domain.ports.outbound;
 public interface PasswordEncoderPort {
+    String encode(String rawPassword);
     boolean matches(String rawPassword, String encodedPassword);
 }

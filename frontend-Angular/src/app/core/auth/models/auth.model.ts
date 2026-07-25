@@ -1,7 +1,15 @@
 // app/core/auth/models/auth.model.ts
+
 export interface LoginRequest {
     email: string;
     password: string;
+}
+
+export interface RegisterRequest {
+    username: string;
+    email: string;
+    password: string;
+    ingresoMensual?: number;
 }
 
 export interface UserInfo {

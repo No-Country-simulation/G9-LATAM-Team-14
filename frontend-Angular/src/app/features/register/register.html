@@ -1,6 +1,11 @@
 <div class="flex flex-col items-center justify-center min-h-screen bg-[#F6FAD4] px-3 sm:px-6 py-8 md:py-12">
     <app-auth-header title="Crea tu cuenta" />
-    <form (submit)="$event.preventDefault()" class="w-full sm:max-w-sm flex flex-col gap-3 sm:gap-3">
+    <form (ngSubmit)="onRegister()" class="w-full sm:max-w-sm flex flex-col gap-3 sm:gap-3">
+        @if (errorMessage) {
+            <div class="p-3 bg-red-100 border border-red-300 text-red-700 text-xs rounded-xl">
+                {{ errorMessage }}
+            </div>
+        }
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4 w-full">
             <app-auth-input id="firstName" label="Nombre" icon="profile" placeholder="Tu nombre"
                 [(value)]="firstName" />
@@ -10,9 +15,9 @@
         <app-auth-input id="email" label="Correo electrónico" type="email" icon="mail" placeholder="ejemplo@correo.com"
             [(value)]="email" />
         <app-auth-input id="password" label="Contraseña" [isPassword]="true" icon="lock"
-            placeholder="Mínimo 8 caracteres" [(value)]="password" />
+            placeholder="Mínimo 6 caracteres" [(value)]="password" />
         <app-auth-input id="confirmPassword" label="Repetir contraseña" [isPassword]="true" icon="lock"
-            placeholder="Mínimo 8 caracteres" [(value)]="confirmPassword" />
+            placeholder="Mínimo 6 caracteres" [(value)]="confirmPassword" />
         <div class="flex items-start gap-2.5 my-1">
             <input id="terms" name="acceptTerms" type="checkbox" [(ngModel)]="acceptTerms"
                 class="mt-1 w-4 h-4 rounded border-[#E1E6C2] text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259] cursor-pointer" />
@@ -22,9 +27,9 @@
                     privacidad</a>.
             </label>
         </div>
-        <button type="button"
-            class="w-full bg-[#5A7259] text-white py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#465A45] transition-colors flex items-center justify-center gap-2 mt-1 text-sm sm:text-base cursor-pointer">
-            Crear cuenta
+        <button type="submit" [disabled]="isLoading"
+            class="w-full bg-[#5A7259] text-white py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#465A45] transition-colors flex items-center justify-center gap-2 mt-1 text-sm sm:text-base cursor-pointer disabled:opacity-50">
+            {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
             <app-icon-fin-coach name="arrow-right" class="w-4 h-4" />
         </button>
     </form>

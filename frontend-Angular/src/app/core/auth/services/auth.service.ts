@@ -2,7 +2,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap, catchError, of, map } from 'rxjs';
-import { AuthResponse, LoginRequest, UserInfo } from '../models/auth.model';
+import { AuthResponse, LoginRequest, RegisterRequest, UserInfo } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +11,15 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/api/auth';
 
-  // signal para mantener el estado del usuario en toda la app
+  // Signal reactivo para mantener el estado global del usuario autenticado
   currentUser = signal<UserInfo | null>(null);
 
-  login(credentials: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials, {
-      withCredentials: true // Permite recibir la Cookie HttpOnly del backend
+  /**
+   * Registra un nuevo usuario en la aplicación y establece la cookie JWT de sesión.
+   */
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data, {
+      withCredentials: true
     }).pipe(
       tap(response => {
         this.currentUser.set(response.user);
@@ -24,7 +27,23 @@ export class AuthService {
     );
   }
 
-  // comprueba la cokie llamando al backend al cargar/recargar la app
+  /**
+   * Inicia sesión con credenciales y guarda la cookie JWT (HttpOnly).
+   */
+  login(credentials: LoginRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials, {
+      withCredentials: true
+    }).pipe(
+      tap(response => {
+        this.currentUser.set(response.user);
+      })
+    );
+  }
+
+  /**
+   * Verifica la cookie JWT actual llamando a /api/auth/me.
+   * Si es válida, actualiza el usuario reactivo y extiende/recrea la sesión JWT.
+   */
   checkSession(): Observable<boolean> {
     return this.http.get<AuthResponse>(`${this.apiUrl}/me`, {
       withCredentials: true
@@ -38,6 +57,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * Cierra la sesión activa eliminando la cookie de autenticación.
+   */
   logout(): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/logout`, {}, {
       withCredentials: true

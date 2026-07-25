@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from './services/auth.service';
+import { AuthService } from '@core/auth/services/auth.service';
 import { AuthHeaderComponent } from '../../shared/components/auth-header/auth-header';
 import { AuthInputComponent } from '../../shared/components/auth-input/auth-input';
 import { GoogleButtonComponent } from '../../shared/components/google-button/google-button';

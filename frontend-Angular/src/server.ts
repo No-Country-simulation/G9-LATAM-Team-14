@@ -43,8 +43,12 @@ app.use((req, res, next) => {
       isValidJwt = false;
     }
   }
-  if (req.path.startsWith('/dashboard') && !isValidJwt) return res.redirect(302, '/login');
-  if (req.path === '/login' && isValidJwt) return res.redirect(302, '/dashboard');
+  if ((req.path.startsWith('/dashboard') || req.path.startsWith('/onboarding')) && !isValidJwt) {
+    return res.redirect(302, '/login');
+  }
+  if ((req.path === '/login' || req.path === '/registro') && isValidJwt) {
+    return res.redirect(302, '/dashboard');
+  }
   next();
 });
 

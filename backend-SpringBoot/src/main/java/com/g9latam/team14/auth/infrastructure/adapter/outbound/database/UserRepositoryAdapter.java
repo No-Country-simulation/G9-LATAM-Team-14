@@ -17,4 +17,16 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
         return userJpaRepository.findByEmail(email)
                 .map(userEntityMapper::toDomain);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userJpaRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User save(User user) {
+        UserEntity entity = userEntityMapper.toEntity(user);
+        UserEntity savedEntity = userJpaRepository.save(entity);
+        return userEntityMapper.toDomain(savedEntity);
+    }
 }
