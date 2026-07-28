@@ -1,0 +1,14 @@
+control,errores,tipo
+identificadores de perfil únicos,0,integracion
+un estado actual por perfil,0,integracion
+una recomendación actual por perfil,0,integracion
+perfiles sin transacciones,0,integracion
+estado inconsistente,0,integracion
+ventana inconsistente,0,integracion
+periodo inconsistente,0,integracion
+partición inconsistente,0,integracion
+situación crítica con contención,0,etica
+situación crítica con revisión humana,0,etica
+fragilidad con cobertura protegida,0,etica
+hobbies declarados conservados,0,etica
+fuente de selección declarada,0,etica

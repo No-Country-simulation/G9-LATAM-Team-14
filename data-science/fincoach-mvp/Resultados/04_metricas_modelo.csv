@@ -1,0 +1,4 @@
+modelo,accuracy,balanced_accuracy,f1_macro,log_loss,particion
+bosque_aleatorio,0.9889,0.9821,0.981,0.1603,validation
+regresion_logistica,0.9333,0.9267,0.9158,0.2776,validation
+bosque_aleatorio,0.9667,0.9524,0.9491,0.1552,test
