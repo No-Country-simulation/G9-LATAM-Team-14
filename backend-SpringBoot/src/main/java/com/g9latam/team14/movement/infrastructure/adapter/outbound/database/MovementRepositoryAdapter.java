@@ -1,5 +1,5 @@
 package com.g9latam.team14.movement.infrastructure.adapter.outbound.database;
-
+import java.util.List;
 import com.g9latam.team14.movement.domain.model.Movement;
 import com.g9latam.team14.movement.domain.ports.outbound.MovementRepositoryPort;
 import com.g9latam.team14.movement.infrastructure.adapter.outbound.database.mapper.MovementEntityMapper;
@@ -21,6 +21,12 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
                 movementJpaRepository.save(
                         movementEntityMapper.toEntity(movement)
                 )
+        );
+    }
+    @Override
+    public List<Movement> findAll() {
+        return movementEntityMapper.toDomainList(
+                movementJpaRepository.findAll()
         );
     }
 }
