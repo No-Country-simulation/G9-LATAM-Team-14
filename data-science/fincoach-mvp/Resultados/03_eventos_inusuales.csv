@@ -1,0 +1,647 @@
+transaccion_id,perfil_id,categoria_principal,direccion,fecha,descripcion_normalizada,valor,antecedentes_disponibles,valor_referencia_mediano,puntaje_robusto,estado_evento,interpretacion
+TX_0081_0076,PERF_0081,Deuda y financiación,salida,2026-06-07,pago credito,343000,5,149000.0,4.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0099,PERF_0081,Deuda y financiación,salida,2026-06-29,pago credito,589000,6,165000.0,9.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0128_0080,PERF_0128,Vivienda,salida,2026-06-12,arreglo vivienda,102000,5,1261000.0,15.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0080,PERF_0033,Salud,salida,2026-06-11,medicamentos,177000,7,113000.0,10.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0176_0059,PERF_0176,Transporte,salida,2026-05-21,app transporte,67000,5,155000.0,7.42,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0025,PERF_0018,Inversión productiva,salida,2026-04-23,inscripcion competencia,396000,5,196000.0,13.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0035,PERF_0018,Inversión productiva,salida,2026-05-04,material didactico,823000,6,241000.0,7.48,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0068,PERF_0018,Inversión productiva,salida,2026-06-04,libros para clase,1193000,8,333000.0,4.16,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0121_0049,PERF_0121,Ocio,salida,2026-05-22,reserva viaje,161000,5,114000.0,3.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0121_0070,PERF_0121,Ocio,salida,2026-06-13,tienda videojuegos,165000,7,119000.0,6.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0058,PERF_0018,Transporte,salida,2026-05-24,recarga transporte,447000,5,168000.0,6.27,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0067,PERF_0018,Transporte,salida,2026-06-04,recarga transporte,651000,6,183000.0,6.25,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0074,PERF_0018,Transporte,salida,2026-06-10,transmilenio,657000,7,198000.0,4.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0197_0067,PERF_0197,Inversión productiva,salida,2026-06-02,insumos consultorio,348000,5,434000.0,9.67,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0061,PERF_0053,Educación,salida,2026-05-28,pago institucion,449000,8,151500.0,5.15,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0094,PERF_0053,Educación,salida,2026-06-28,matricula curso,409000,13,149000.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0123_0082,PERF_0123,Ocio,salida,2026-06-23,tienda de hilos,262000,6,108500.0,5.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0123_0083,PERF_0123,Ocio,salida,2026-06-24,tienda de hilos,341000,7,111000.0,7.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0176_0069,PERF_0176,Alimentación,salida,2026-06-06,supermercado,314000,6,146000.0,3.72,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0021,PERF_0046,Ocio,salida,2026-04-15,suscripcion streaming,68000,6,44000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0041,PERF_0046,Ocio,salida,2026-05-07,spotify,147000,8,45000.0,8.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0053,PERF_0046,Ocio,salida,2026-05-16,tienda videojuegos,165000,9,45000.0,8.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0058,PERF_0046,Ocio,salida,2026-05-21,plataforma videojuegos,217000,10,48000.0,8.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0049,PERF_0081,Ocio,salida,2026-05-13,reserva viaje,186000,9,76000.0,4.12,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0060,PERF_0081,Ocio,salida,2026-05-25,netflix,216000,11,85000.0,3.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0061,PERF_0081,Ocio,salida,2026-05-26,boleteria,225000,12,89500.0,4.25,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0064,PERF_0081,Ocio,salida,2026-05-27,matera y sustrato,353000,13,94000.0,7.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0068,PERF_0081,Ocio,salida,2026-06-01,lienzos y pinceles,367000,16,103500.0,5.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0142_0066,PERF_0142,Vestimenta,salida,2026-05-29,sastreria,170000,6,73000.0,10.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0142_0070,PERF_0142,Vestimenta,salida,2026-06-04,sastreria,182000,7,73000.0,9.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0148_0056,PERF_0148,Alimentación,salida,2026-05-25,supermercado,115000,8,42500.0,6.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0148_0076,PERF_0148,Alimentación,salida,2026-06-16,supermercado,134000,9,45000.0,5.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0034,PERF_0165,Ocio,salida,2026-05-01,salida fotografica,250000,6,35500.0,20.67,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0047,PERF_0165,Ocio,salida,2026-05-15,almacen fotografia,157000,7,37000.0,7.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0068,PERF_0165,Ocio,salida,2026-06-02,salida fotografica,291000,10,54000.0,6.27,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0025_0070,PERF_0025,Ocio,salida,2026-06-05,taller de pintura,317000,8,95000.0,5.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0025_0072,PERF_0025,Ocio,salida,2026-06-08,taller de pintura,370000,10,108000.0,4.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0025_0092,PERF_0025,Ocio,salida,2026-06-24,tienda arte y pintura,384000,12,120000.0,3.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0133_0074,PERF_0133,Ventas y actividad comercial,entrada,2026-06-07,ingreso de temporada,170000,7,101000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0053,PERF_0136,Ventas y actividad comercial,entrada,2026-05-24,pago pedidos tienda,1863000,7,863000.0,29.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0059,PERF_0136,Ventas y actividad comercial,entrada,2026-05-27,pago pedidos tienda,1841000,8,866000.0,21.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0077,PERF_0136,Ventas y actividad comercial,entrada,2026-06-10,pago pedidos tienda,1310000,9,869000.0,6.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0093,PERF_0136,Ventas y actividad comercial,entrada,2026-06-25,pago pedidos tienda,1215000,12,866000.0,4.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0095,PERF_0136,Ventas y actividad comercial,entrada,2026-06-26,ventas del dia,1343000,13,869000.0,5.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0064,PERF_0074,Vivienda,salida,2026-06-01,pago arriendo,1366000,5,265000.0,5.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0092_0069,PERF_0092,Vivienda,salida,2026-06-05,cuota hipoteca,490000,6,92500.0,9.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0159_0070,PERF_0159,Vivienda,salida,2026-06-05,pago arriendo,872000,5,162000.0,4.74,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0010_0060,PERF_0010,Ocio,salida,2026-05-29,accesorios bicicleta,68000,7,120000.0,4.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0010_0071,PERF_0010,Ocio,salida,2026-06-08,ruta ciclista inscripcion,30000,9,112000.0,3.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0072_0075,PERF_0072,Vivienda,salida,2026-06-05,cuota hipoteca,1326000,5,157000.0,60.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0071_0042,PERF_0071,Inversión productiva,salida,2026-05-07,compra tarjeta grafica,259000,5,504000.0,4.47,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0096_0083,PERF_0096,Alimentación,salida,2026-06-13,restaurante,129000,6,67500.0,6.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0096_0087,PERF_0096,Alimentación,salida,2026-06-18,supermercado,190000,7,70000.0,8.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0030_0096,PERF_0030,Alimentación,salida,2026-06-27,cafeteria,42000,5,84000.0,3.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0023,PERF_0011,Trabajo independiente,entrada,2026-04-22,transferencia proyecto web,4705000,8,509500.0,21.68,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0067,PERF_0011,Trabajo independiente,entrada,2026-06-09,pago desarrollo app,2122000,19,588000.0,4.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0076,PERF_0011,Trabajo independiente,entrada,2026-06-16,pago desarrollo app,3447000,21,588000.0,8.1,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0190_0083,PERF_0190,Educación,salida,2026-06-17,pago institucion,220000,5,83000.0,15.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0007_0053,PERF_0007,Alimentación,salida,2026-05-20,supermercado,709000,5,135000.0,20.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0079_0047,PERF_0079,Ocio,salida,2026-05-16,taller artesanias,187000,8,114500.0,4.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0031,PERF_0194,Inversión productiva,salida,2026-04-26,mantenimiento bicicleta,450000,5,305000.0,4.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0082,PERF_0194,Inversión productiva,salida,2026-06-13,implementos entrenamiento,730000,10,315000.0,5.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0035,PERF_0158,Alimentación,salida,2026-05-04,supermercado,511000,8,102500.0,12.82,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0044,PERF_0158,Alimentación,salida,2026-05-15,cafe,300000,9,110000.0,4.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0094,PERF_0158,Alimentación,salida,2026-06-27,supermercado,349000,11,122000.0,3.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0108_0035,PERF_0108,Alimentación,salida,2026-05-03,supermercado,319000,6,114000.0,3.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0062_0037,PERF_0062,Ocio,salida,2026-05-03,accesorios bicicleta,192000,5,98000.0,5.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0113_0067,PERF_0113,Vivienda,salida,2026-06-05,pago arriendo,941000,5,181000.0,4.42,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0154_0032,PERF_0154,Ventas y actividad comercial,entrada,2026-04-30,ingreso de temporada,170000,5,286000.0,9.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0064_0070,PERF_0064,Vivienda,salida,2026-06-02,cuota hipoteca,541000,5,121000.0,16.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0031_0076,PERF_0031,Ocio,salida,2026-06-11,netflix,213000,8,93000.0,4.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0157_0044,PERF_0157,Trabajo independiente,entrada,2026-05-11,pago edicion video,1252000,15,419000.0,4.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0066,PERF_0068,Vivienda,salida,2026-06-02,cuota hipoteca,1752000,5,253000.0,12.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0012_0056,PERF_0012,Ocio,salida,2026-05-23,entrada evento,45000,7,93000.0,3.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0183_0033,PERF_0183,Transferencias y apoyo,salida,2026-04-30,transferencia a tercero,42000,5,90000.0,8.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0183_0047,PERF_0183,Transferencias y apoyo,salida,2026-05-13,prestamo informal a tercero,139000,7,88000.0,8.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0027_0063,PERF_0027,Vivienda,salida,2026-06-01,pago arriendo,2675000,5,258000.0,271.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0084,PERF_0026,Alimentación,salida,2026-06-25,supermercado,307000,7,117000.0,8.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0094,PERF_0026,Alimentación,salida,2026-06-30,mercado barrio,248000,8,118500.0,5.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0184_0036,PERF_0184,Vivienda,salida,2026-05-03,cuota hipoteca,711000,5,147000.0,10.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0184_0067,PERF_0184,Vivienda,salida,2026-06-02,cuota hipoteca,932000,6,212000.0,5.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0190_0077,PERF_0190,Vestimenta,salida,2026-06-14,uniforme trabajo,127000,5,52000.0,8.43,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0192_0068,PERF_0192,Vivienda,salida,2026-06-02,cuota hipoteca,1399000,6,272000.0,8.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0070,PERF_0186,Ocio,salida,2026-06-03,plataforma videojuegos,205000,6,92500.0,7.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0090,PERF_0186,Ocio,salida,2026-06-18,plataforma videojuegos,316000,8,97000.0,5.28,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0024_0053,PERF_0024,Ocio,salida,2026-05-21,boleteria,151000,6,75500.0,3.64,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0085,PERF_0166,Inversión productiva,salida,2026-06-14,bolsas y empaques,663000,8,243500.0,6.02,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0022_0036,PERF_0022,Ocio,salida,2026-05-05,ingredientes especiales,43000,8,105500.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0171_0064,PERF_0171,Inversión productiva,salida,2026-06-02,licencia github,260000,6,628500.0,3.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0060,PERF_0068,Ingresos laborales,entrada,2026-05-28,nomina institucion educativa,4430000,5,552000.0,37.37,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0093,PERF_0068,Ingresos laborales,entrada,2026-06-28,nomina institucion educativa,3476000,8,540500.0,21.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0066_0072,PERF_0066,Vivienda,salida,2026-06-05,pago arriendo,1861000,5,270000.0,13.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0098,PERF_0103,Ocio,salida,2026-06-30,tienda videojuegos,220000,6,123500.0,3.72,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0062_0069,PERF_0062,Vestimenta,salida,2026-06-04,accesorios personales,234000,5,165000.0,9.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0062_0078,PERF_0062,Vestimenta,salida,2026-06-14,accesorios personales,226000,6,167500.0,3.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0111_0068,PERF_0111,Vivienda,salida,2026-06-03,pago arriendo,1997000,7,318000.0,8.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0111_0069,PERF_0111,Inversión productiva,salida,2026-06-04,servidor nube,932000,7,443000.0,6.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0111_0077,PERF_0111,Inversión productiva,salida,2026-06-11,licencia github,822000,9,443000.0,4.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0117_0069,PERF_0117,Vivienda,salida,2026-06-03,pago arriendo,1897000,6,421500.0,5.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0056_0067,PERF_0056,Inversión productiva,salida,2026-06-03,semillas y abono,879000,6,507500.0,4.68,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0080_0043,PERF_0080,Ventas y actividad comercial,entrada,2026-05-10,pago servicios barberia,1057000,8,374500.0,7.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0087_0042,PERF_0087,Ocio,salida,2026-05-11,juego digital,54000,5,135000.0,4.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0087_0090,PERF_0087,Ocio,salida,2026-06-21,hotel turismo,253000,13,124000.0,4.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0021,PERF_0088,Inversión productiva,salida,2026-04-20,libros para clase,121000,6,258000.0,8.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0043,PERF_0088,Inversión productiva,salida,2026-05-11,libros para clase,832000,7,254000.0,32.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0048,PERF_0088,Inversión productiva,salida,2026-05-15,material didactico,459000,8,258000.0,7.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0062,PERF_0088,Inversión productiva,salida,2026-05-31,repuesto impresora 3d,837000,9,262000.0,19.39,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0073,PERF_0088,Inversión productiva,salida,2026-06-12,libros para clase,779000,10,263500.0,5.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0092,PERF_0088,Inversión productiva,salida,2026-06-29,compra computador,939000,11,265000.0,4.1,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0075_0063,PERF_0075,Vestimenta,salida,2026-06-02,accesorios personales,108000,5,39000.0,23.27,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0091_0068,PERF_0091,Deuda y financiación,salida,2026-06-08,pago tarjeta credito,951000,6,623000.0,4.56,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0073_0070,PERF_0073,Vivienda,salida,2026-06-05,pago arriendo,1077000,6,227000.0,7.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0094_0055,PERF_0094,Ocio,salida,2026-05-27,entrada evento,61000,5,137000.0,4.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0094_0088,PERF_0094,Ocio,salida,2026-06-22,entrada evento,303000,6,131500.0,6.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0072_0084,PERF_0072,Inversión productiva,salida,2026-06-14,bascula profesional,635000,10,326500.0,5.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0096_0068,PERF_0096,Ocio,salida,2026-06-02,boleteria,114000,10,45000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0096_0092,PERF_0096,Inversión productiva,salida,2026-06-23,compra inventario,300000,6,163000.0,6.16,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0076_0042,PERF_0076,Inversión productiva,salida,2026-05-09,publicidad tienda,306000,5,551000.0,4.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0159_0066,PERF_0159,Inversión productiva,salida,2026-06-03,herramientas cultivo,410000,10,232500.0,3.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0029_0068,PERF_0029,Alimentación,salida,2026-06-11,supermercado,342000,7,125000.0,4.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0140_0058,PERF_0140,Vestimenta,salida,2026-05-27,uniforme trabajo,176000,5,75000.0,6.81,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0140_0072,PERF_0140,Inversión productiva,salida,2026-06-06,mantenimiento maquina corte,273000,6,377500.0,3.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0139_0033,PERF_0139,Inversión productiva,salida,2026-04-29,transporte cosecha,73000,5,175000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0121_0062,PERF_0121,Vivienda,salida,2026-06-02,pago arriendo,1158000,6,287000.0,5.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0019,PERF_0053,Trabajo independiente,entrada,2026-04-14,ingreso de temporada,815000,5,616000.0,3.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0049_0054,PERF_0049,Transporte,salida,2026-05-16,recarga transporte,613000,5,244000.0,82.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0049_0074,PERF_0049,Transporte,salida,2026-06-09,recarga transporte,488000,6,245500.0,7.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0047,PERF_0129,Transporte,salida,2026-05-13,recarga transporte,272000,5,95000.0,5.43,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0087,PERF_0129,Transporte,salida,2026-06-17,bus urbano,208000,8,101000.0,4.25,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0131_0038,PERF_0131,Vivienda,salida,2026-05-05,pago arriendo,1604000,5,308000.0,11.81,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0131_0064,PERF_0131,Vivienda,salida,2026-06-03,pago arriendo,2518000,7,308000.0,20.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0047_0068,PERF_0047,Vivienda,salida,2026-06-02,pago arriendo,1345000,8,192000.0,6.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0040,PERF_0046,Vestimenta,salida,2026-05-06,almacen moda,171000,5,65000.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0056,PERF_0046,Vestimenta,salida,2026-05-17,almacen moda,193000,6,75000.0,4.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0134_0060,PERF_0134,Vivienda,salida,2026-05-26,administracion conjunto,83000,5,102000.0,12.82,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0134_0068,PERF_0134,Vivienda,salida,2026-06-05,pago arriendo,498000,6,102000.0,26.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0137_0040,PERF_0137,Inversión productiva,salida,2026-05-12,disco duro proyecto,397000,5,186000.0,6.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0006_0091,PERF_0006,Transporte,salida,2026-06-20,bus urbano,754000,6,243500.0,6.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0001_0068,PERF_0001,Vivienda,salida,2026-06-02,pago arriendo,599000,6,101000.0,23.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0080,PERF_0199,Transporte,salida,2026-06-18,recarga transporte,93000,7,73000.0,13.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0172_0041,PERF_0172,Inversión productiva,salida,2026-05-10,inscripcion competencia,695000,5,239000.0,5.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0172_0057,PERF_0172,Inversión productiva,salida,2026-05-28,software historia clinica,780000,6,261500.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0172_0067,PERF_0172,Inversión productiva,salida,2026-06-02,inscripcion competencia,984000,7,284000.0,3.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0057,PERF_0109,Alimentación,salida,2026-05-22,cafeteria,177000,5,77000.0,5.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0065,PERF_0109,Vivienda,salida,2026-06-02,pago arriendo,939000,5,236000.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0060_0062,PERF_0060,Ocio,salida,2026-05-24,compra computador,246000,6,95000.0,4.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0019_0085,PERF_0019,Vestimenta,salida,2026-06-18,calzado,95000,7,29000.0,4.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0019_0099,PERF_0019,Vestimenta,salida,2026-06-27,tienda ropa,97000,8,33000.0,3.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0168_0033,PERF_0168,Ocio,salida,2026-04-30,entrada concierto,95000,5,143000.0,8.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0057_0048,PERF_0057,Alimentación,salida,2026-05-16,supermercado,265000,5,135000.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0078_0051,PERF_0078,Ocio,salida,2026-05-19,repuesto impresora 3d,129000,8,47500.0,5.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0107_0055,PERF_0107,Inversión productiva,salida,2026-05-26,banco musica stock,159000,5,411000.0,12.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0100_0090,PERF_0100,Vestimenta,salida,2026-06-19,accesorios personales,20000,5,46000.0,5.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0099_0037,PERF_0099,Transporte,salida,2026-05-08,recarga transporte,80000,5,33000.0,10.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0184_0075,PERF_0184,Transporte,salida,2026-06-07,bus urbano,314000,9,151000.0,3.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0070_0072,PERF_0070,Vivienda,salida,2026-06-05,pago arriendo,2822000,5,692000.0,5.72,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0101_0048,PERF_0101,Ocio,salida,2026-05-12,juego digital,306000,5,153000.0,6.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0014_0068,PERF_0014,Vestimenta,salida,2026-06-04,accesorios personales,174000,5,307000.0,4.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0177_0084,PERF_0177,Deuda y financiación,salida,2026-06-23,pago intereses,175000,7,90000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0104_0067,PERF_0104,Trabajo independiente,entrada,2026-06-06,ingreso adicional,967000,17,190000.0,4.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0181_0073,PERF_0181,Ocio,salida,2026-06-11,entrada evento,201000,6,353000.0,4.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0104_0062,PERF_0104,Vivienda,salida,2026-06-01,administracion conjunto,279000,5,1569000.0,9.67,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0170_0067,PERF_0170,Vivienda,salida,2026-06-02,pago arriendo,1095000,5,245000.0,13.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0048_0048,PERF_0048,Ocio,salida,2026-05-14,bus intermunicipal turismo,303000,5,209000.0,9.06,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0048_0063,PERF_0048,Ocio,salida,2026-05-31,juego digital,298000,8,198500.0,4.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0041_0069,PERF_0041,Ocio,salida,2026-06-01,plataforma streaming,397000,12,181000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0142_0068,PERF_0142,Vivienda,salida,2026-06-03,pago arriendo,1302000,5,285000.0,3.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0044_0043,PERF_0044,Alimentación,salida,2026-05-12,supermercado,382000,5,249000.0,11.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0049_0044,PERF_0049,Alimentación,salida,2026-05-09,tienda alimentos,606000,5,293000.0,5.28,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0044_0081,PERF_0044,Vivienda,salida,2026-06-16,arreglo vivienda,170000,5,1379000.0,6.27,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0161_0067,PERF_0161,Vivienda,salida,2026-06-01,pago arriendo,2514000,6,459000.0,4.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0045_0087,PERF_0045,Transporte,salida,2026-06-22,transmilenio,224000,10,63000.0,7.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0040_0066,PERF_0040,Vivienda,salida,2026-06-02,cuota hipoteca,630000,5,132000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0148_0055,PERF_0148,Ocio,salida,2026-05-24,plataforma streaming,66000,7,29000.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0137_0065,PERF_0137,Alimentación,salida,2026-06-03,mercado barrio,211000,5,56000.0,13.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0137_0085,PERF_0137,Alimentación,salida,2026-06-21,supermercado,197000,7,66000.0,4.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0127_0085,PERF_0127,Vivienda,salida,2026-06-14,administracion conjunto,208000,5,873000.0,10.68,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0139_0041,PERF_0139,Ocio,salida,2026-05-06,vivero urbano,58000,6,46500.0,3.88,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0139_0071,PERF_0139,Ocio,salida,2026-06-06,semillas jardin,99000,7,48000.0,11.47,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0139_0075,PERF_0139,Ocio,salida,2026-06-09,plataforma streaming,100000,8,48500.0,5.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0038_0094,PERF_0038,Ocio,salida,2026-06-26,modelo 3d digital,259000,10,92000.0,4.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0157_0073,PERF_0157,Inversión productiva,salida,2026-06-10,disco duro proyecto,604000,5,283000.0,6.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0144_0090,PERF_0144,Inversión productiva,salida,2026-06-21,mantenimiento maquina corte,765000,8,358500.0,7.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0038_0061,PERF_0038,Transferencias y apoyo,salida,2026-05-27,prestamo informal a tercero,399000,8,207500.0,4.1,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0097_0073,PERF_0097,Salud,salida,2026-06-12,seguro salud,852000,5,461000.0,7.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0014_0057,PERF_0014,Inversión productiva,salida,2026-05-22,inscripcion competencia,866000,5,566000.0,11.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0014_0051,PERF_0014,Ocio,salida,2026-05-15,tienda videojuegos,294000,5,164000.0,21.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0094,PERF_0179,Ventas y actividad comercial,entrada,2026-06-28,ingreso de temporada,584000,5,1307000.0,4.39,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0182_0035,PERF_0182,Trabajo independiente,entrada,2026-05-06,honorarios valoracion,970000,10,129000.0,13.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0182_0041,PERF_0182,Trabajo independiente,entrada,2026-05-09,consulta nutricional,506000,11,130000.0,4.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0182_0073,PERF_0182,Trabajo independiente,entrada,2026-06-10,consulta nutricional,961000,20,90000.0,18.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0182_0090,PERF_0182,Trabajo independiente,entrada,2026-06-26,pago plan alimentario,484000,26,85000.0,10.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0050_0075,PERF_0050,Ventas y actividad comercial,entrada,2026-06-15,ingreso de temporada,1688000,7,1090000.0,3.84,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0122_0048,PERF_0122,Transporte,salida,2026-05-15,transmilenio,560000,5,204000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0052_0074,PERF_0052,Inversión productiva,salida,2026-06-04,software historia clinica,248000,5,285000.0,4.16,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0052_0080,PERF_0052,Inversión productiva,salida,2026-06-09,software historia clinica,520000,6,283500.0,7.42,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0052_0099,PERF_0052,Inversión productiva,salida,2026-06-29,bascula profesional,594000,9,285000.0,5.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0052,PERF_0165,Inversión productiva,salida,2026-05-16,mantenimiento moto,340000,6,194000.0,3.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0072,PERF_0165,Inversión productiva,salida,2026-06-06,mantenimiento moto,575000,7,200000.0,6.84,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0097,PERF_0165,Inversión productiva,salida,2026-06-29,datos moviles reparto,508000,8,207500.0,3.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0119_0066,PERF_0119,Transporte,salida,2026-05-30,bus urbano,667000,5,276000.0,4.55,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0051_0059,PERF_0051,Transporte,salida,2026-05-25,repuesto transporte,163000,5,277000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0030_0061,PERF_0030,Inversión productiva,salida,2026-05-24,mantenimiento maquina corte,234000,8,123500.0,4.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0138_0064,PERF_0138,Ocio,salida,2026-06-02,entrada evento,143000,11,92000.0,4.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0138_0073,PERF_0138,Ocio,salida,2026-06-10,filamento impresion 3d,199000,12,92500.0,5.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0034,PERF_0179,Ocio,salida,2026-05-01,semillas jardin,106000,7,29000.0,6.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0035,PERF_0179,Ocio,salida,2026-05-03,vivero urbano,216000,8,39000.0,8.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0043,PERF_0179,Ocio,salida,2026-05-08,matera y sustrato,212000,9,49000.0,4.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0050,PERF_0179,Ocio,salida,2026-05-16,spotify,187000,10,49000.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0114_0061,PERF_0114,Vestimenta,salida,2026-05-30,sastreria,86000,5,37000.0,4.13,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0130_0079,PERF_0130,Inversión productiva,salida,2026-06-15,mantenimiento maquina corte,694000,5,310000.0,5.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0132_0037,PERF_0132,Ocio,salida,2026-05-09,curso de cocina,246000,6,167500.0,4.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0132_0042,PERF_0132,Ocio,salida,2026-05-13,utensilios reposteria,305000,7,170000.0,7.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0132_0065,PERF_0132,Ocio,salida,2026-06-04,utensilios reposteria,342000,10,181000.0,6.03,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0138_0072,PERF_0138,Alimentación,salida,2026-06-09,supermercado,301000,5,138000.0,4.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0089_0045,PERF_0089,Ocio,salida,2026-05-08,entrada evento,47000,7,120000.0,3.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0006_0064,PERF_0006,Ocio,salida,2026-05-27,plataforma videojuegos,347000,5,195000.0,5.7,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0006_0082,PERF_0006,Ocio,salida,2026-06-14,hotel turismo,399000,6,197500.0,6.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0075_0037,PERF_0075,Ocio,salida,2026-05-07,hotel turismo,30000,5,56000.0,4.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0075_0066,PERF_0075,Ocio,salida,2026-06-05,entrada evento,134000,8,48500.0,5.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0075_0089,PERF_0075,Ocio,salida,2026-06-29,spotify,126000,10,48500.0,3.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0038,PERF_0129,Vivienda,salida,2026-05-05,pago arriendo,880000,5,193000.0,5.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0069,PERF_0129,Vivienda,salida,2026-06-02,pago arriendo,765000,8,204000.0,5.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0190_0094,PERF_0190,Alimentación,salida,2026-06-28,supermercado,212000,6,111500.0,5.42,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0136_0070,PERF_0136,Vivienda,salida,2026-06-05,cuota hipoteca,559000,5,64000.0,7.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0098,PERF_0069,Educación,salida,2026-06-29,herramienta educativa,118000,5,215000.0,5.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0028_0095,PERF_0028,Inversión productiva,salida,2026-06-27,filamento impresion 3d,1416000,7,830000.0,8.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0160_0045,PERF_0160,Ocio,salida,2026-05-13,netflix,277000,6,140500.0,4.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0117_0085,PERF_0117,Transporte,salida,2026-06-16,recarga transporte,479000,5,360000.0,8.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0098_0059,PERF_0098,Vestimenta,salida,2026-05-27,sastreria,165000,5,233000.0,7.64,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0115_0071,PERF_0115,Ocio,salida,2026-06-05,accesorio camara,179000,8,137500.0,3.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0115_0075,PERF_0115,Ocio,salida,2026-06-08,reserva viaje,74000,9,139000.0,4.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0164_0044,PERF_0164,Deuda y financiación,salida,2026-05-06,cuota prestamo,318000,5,185000.0,5.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0164_0082,PERF_0164,Deuda y financiación,salida,2026-06-12,cuota prestamo,499000,8,202000.0,6.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0093,PERF_0004,Trabajo independiente,entrada,2026-06-26,pago plan alimentario,1200000,11,587000.0,8.44,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0024_0064,PERF_0024,Vivienda,salida,2026-06-01,cuota hipoteca,871000,6,194500.0,8.15,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0009_0086,PERF_0009,Vivienda,salida,2026-06-16,administracion conjunto,89000,5,578000.0,3.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0161_0065,PERF_0161,Inversión productiva,salida,2026-05-25,licencia github,889000,6,481500.0,4.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0178_0048,PERF_0178,Vestimenta,salida,2026-05-11,tienda ropa,320000,5,173000.0,4.13,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0178_0060,PERF_0178,Vestimenta,salida,2026-05-23,uniforme trabajo,299000,6,185000.0,3.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0009_0065,PERF_0009,Inversión productiva,salida,2026-05-31,semillas y abono,307000,6,199500.0,10.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0067_0087,PERF_0067,Transporte,salida,2026-06-27,viaje movilidad,326000,5,163000.0,5.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0061_0064,PERF_0061,Vivienda,salida,2026-06-03,pago arriendo,2095000,5,344000.0,4.82,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0110_0064,PERF_0110,Vivienda,salida,2026-06-05,pago arriendo,1467000,5,160000.0,8.56,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0038_0093,PERF_0038,Inversión productiva,salida,2026-06-22,libros para clase,502000,6,327000.0,5.37,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0112_0067,PERF_0112,Vivienda,salida,2026-06-05,cuota hipoteca,2848000,5,593000.0,4.47,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0060,PERF_0039,Transporte,salida,2026-05-25,recarga transporte,389000,6,118500.0,4.29,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0065,PERF_0018,Vivienda,salida,2026-06-03,pago arriendo,2495000,6,480500.0,4.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0086_0041,PERF_0086,Inversión productiva,salida,2026-05-05,bolsas y empaques,391000,6,250000.0,4.64,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0019_0068,PERF_0019,Vivienda,salida,2026-06-01,pago arriendo,561000,5,76000.0,5.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0067_0058,PERF_0067,Ocio,salida,2026-05-26,agencia de viajes,420000,7,101000.0,5.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0044,PERF_0039,Ocio,salida,2026-05-09,spotify,252000,6,69000.0,7.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0178_0080,PERF_0178,Transporte,salida,2026-06-15,transmilenio,596000,6,204500.0,3.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0010_0095,PERF_0010,Transporte,salida,2026-06-30,app transporte,40000,7,95000.0,4.12,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0067,PERF_0074,Transferencias y apoyo,salida,2026-06-05,transferencia ayuda,349000,5,71000.0,11.03,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0090,PERF_0074,Transferencias y apoyo,salida,2026-06-23,transferencia a tercero,286000,6,91000.0,4.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0163_0071,PERF_0163,Inversión productiva,salida,2026-06-11,mantenimiento controlador,351000,6,172500.0,6.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0036,PERF_0151,Ocio,salida,2026-05-04,tienda arte y pintura,442000,7,208000.0,3.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0045,PERF_0151,Ocio,salida,2026-05-12,compra tarjeta grafica,518000,9,210000.0,4.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0005_0070,PERF_0005,Inversión productiva,salida,2026-06-11,combustible trabajo,471000,6,190500.0,5.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0076_0064,PERF_0076,Alimentación,salida,2026-06-01,pedido restaurante,380000,6,230500.0,3.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0167_0030,PERF_0167,Trabajo independiente,entrada,2026-04-22,honorarios postproduccion,542000,5,340000.0,3.68,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0155_0049,PERF_0155,Transporte,salida,2026-05-16,recarga transporte,236000,5,109000.0,4.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0189_0087,PERF_0189,Deuda y financiación,salida,2026-06-27,pago tarjeta credito,329000,7,232000.0,6.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0006_0043,PERF_0006,Educación,salida,2026-05-08,curso en linea,296000,5,125000.0,6.41,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0114_0070,PERF_0114,Transporte,salida,2026-06-10,repuesto transporte,106000,5,143000.0,6.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0022_0081,PERF_0022,Transporte,salida,2026-06-19,recarga transporte,215000,8,71000.0,4.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0059_0066,PERF_0059,Deuda y financiación,salida,2026-05-31,pago tarjeta credito,157000,5,62000.0,6.41,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0038,PERF_0032,Transporte,salida,2026-05-12,recarga transporte,243000,5,83000.0,6.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0064,PERF_0032,Transporte,salida,2026-06-08,recarga transporte,182000,8,75000.0,5.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0037,PERF_0095,Ocio,salida,2026-05-03,reserva viaje,99000,5,29000.0,3.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0074,PERF_0095,Ocio,salida,2026-06-07,salida fotografica,123000,6,30500.0,4.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0175_0034,PERF_0175,Ocio,salida,2026-05-04,compra camara,301000,7,124000.0,3.62,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0176_0078,PERF_0176,Ocio,salida,2026-06-12,suscripcion streaming,53000,5,154000.0,5.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0078,PERF_0166,Alimentación,salida,2026-06-08,restaurante,225000,5,108000.0,4.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0086,PERF_0166,Alimentación,salida,2026-06-15,supermercado,393000,6,116000.0,5.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0082,PERF_0109,Ocio,salida,2026-06-13,semillas jardin,135000,7,51000.0,4.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0169_0040,PERF_0169,Deuda y financiación,salida,2026-05-10,pago cuota deuda,87000,5,70000.0,5.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0086_0075,PERF_0086,Educación,salida,2026-06-13,capacitacion,113000,6,68500.0,4.62,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0174_0065,PERF_0174,Transporte,salida,2026-05-31,recarga transporte,724000,8,298500.0,3.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0174_0083,PERF_0174,Transporte,salida,2026-06-13,recarga transporte,922000,9,315000.0,4.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0193_0071,PERF_0193,Transporte,salida,2026-06-10,recarga transporte,372000,6,145500.0,3.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0152_0032,PERF_0152,Ocio,salida,2026-04-29,utensilios reposteria,50000,5,70000.0,4.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0152_0034,PERF_0152,Ocio,salida,2026-04-30,utensilios reposteria,137000,6,70000.0,5.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0152_0082,PERF_0152,Ocio,salida,2026-06-10,modelo 3d digital,162000,13,73000.0,3.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0075,PERF_0102,Transporte,salida,2026-06-06,recarga transporte,415000,8,201500.0,3.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0152_0074,PERF_0152,Salud,salida,2026-06-07,medicamentos,330000,6,189500.0,5.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0068,PERF_0042,Alimentación,salida,2026-06-02,supermercado,1005000,5,489000.0,9.16,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0070,PERF_0042,Alimentación,salida,2026-06-03,app domicilio comida,347000,6,508000.0,4.02,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0069,PERF_0143,Trabajo independiente,entrada,2026-06-04,honorarios mezcla musical,1561000,13,778000.0,7.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0070,PERF_0143,Trabajo independiente,entrada,2026-06-05,honorarios mezcla musical,1273000,14,789000.0,4.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0083,PERF_0143,Trabajo independiente,entrada,2026-06-16,honorarios mezcla musical,1650000,15,800000.0,6.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0091,PERF_0143,Trabajo independiente,entrada,2026-06-25,abono toque fin de semana,1548000,17,804000.0,4.22,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0070,PERF_0068,Ocio,salida,2026-06-07,hotel turismo,326000,9,156000.0,4.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0040_0045,PERF_0040,Inversión productiva,salida,2026-05-10,mantenimiento maquina corte,112000,6,192000.0,3.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0040_0092,PERF_0040,Inversión productiva,salida,2026-06-25,mantenimiento maquina corte,346000,11,184000.0,3.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0046,PERF_0165,Trabajo independiente,entrada,2026-05-14,pago trabajo por encargo,239000,6,908500.0,4.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0039,PERF_0032,Ocio,salida,2026-05-12,curso de cocina,104000,7,40000.0,8.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0051,PERF_0032,Ocio,salida,2026-05-25,ingredientes especiales,164000,8,42500.0,13.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0065,PERF_0032,Ocio,salida,2026-06-09,ingredientes especiales,117000,9,45000.0,6.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0066,PERF_0032,Ocio,salida,2026-06-10,utensilios reposteria,125000,10,45500.0,5.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0144_0044,PERF_0144,Educación,salida,2026-05-11,pago institucion,546000,5,106000.0,29.68,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0144_0094,PERF_0144,Educación,salida,2026-06-26,herramienta educativa,259000,7,106000.0,10.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0080_0041,PERF_0080,Trabajo independiente,entrada,2026-05-08,pago edicion video,242000,5,114000.0,6.64,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0080_0048,PERF_0080,Trabajo independiente,entrada,2026-05-13,pago edicion video,304000,6,122000.0,7.44,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0082_0082,PERF_0082,Servicios,salida,2026-06-15,factura energia,419000,8,230500.0,5.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0141_0045,PERF_0141,Servicios,salida,2026-05-12,factura agua,350000,5,200000.0,3.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0039,PERF_0151,Servicios,salida,2026-05-08,factura energia,812000,5,325000.0,13.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0046,PERF_0151,Servicios,salida,2026-05-12,plan celular,552000,6,337500.0,6.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0044,PERF_0151,Servicios,salida,2026-05-12,factura internet,991000,7,350000.0,13.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0056,PERF_0151,Servicios,salida,2026-05-20,plan celular,1036000,8,356000.0,7.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0144_0040,PERF_0144,Servicios,salida,2026-05-08,factura energia,535000,5,200000.0,4.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0053,PERF_0199,Servicios,salida,2026-05-20,factura energia,67000,5,135000.0,5.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0042,PERF_0143,Servicios,salida,2026-05-08,factura internet,333000,6,179000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0143_0076,PERF_0143,Servicios,salida,2026-06-12,factura agua,94000,12,187000.0,3.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0172_0047,PERF_0172,Servicios,salida,2026-05-15,factura energia,427000,5,184000.0,13.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0153_0046,PERF_0153,Servicios,salida,2026-05-15,factura energia,585000,5,367000.0,3.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0041,PERF_0039,Servicios,salida,2026-05-08,factura internet,440000,5,115000.0,12.18,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0042,PERF_0039,Servicios,salida,2026-05-08,factura gas,355000,6,123000.0,6.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0046,PERF_0039,Servicios,salida,2026-05-12,factura energia,487000,7,131000.0,7.06,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0077_0042,PERF_0077,Servicios,salida,2026-05-08,factura energia,643000,5,524000.0,6.17,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0127_0064,PERF_0127,Transferencias y apoyo,salida,2026-05-30,transferencia ayuda,223000,5,150000.0,3.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0069,PERF_0026,Servicios,salida,2026-06-08,factura agua,389000,9,194000.0,5.48,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0073,PERF_0026,Servicios,salida,2026-06-12,factura internet,401000,10,196000.0,5.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0076,PERF_0026,Servicios,salida,2026-06-15,factura energia,394000,11,198000.0,5.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0038,PERF_0004,Servicios,salida,2026-05-08,factura internet,746000,5,267000.0,20.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0042,PERF_0004,Servicios,salida,2026-05-08,factura energia,714000,6,275000.0,6.11,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0048_0044,PERF_0048,Servicios,salida,2026-05-12,factura energia,527000,5,286000.0,4.28,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0048_0046,PERF_0048,Servicios,salida,2026-05-12,factura energia,566000,6,286500.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0130_0045,PERF_0130,Servicios,salida,2026-05-08,factura internet,564000,6,179000.0,5.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0044,PERF_0053,Servicios,salida,2026-05-08,factura energia,394000,7,111000.0,21.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0047,PERF_0053,Servicios,salida,2026-05-12,factura energia,332000,8,114000.0,10.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0051,PERF_0053,Servicios,salida,2026-05-15,factura internet,363000,9,117000.0,8.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0076,PERF_0053,Servicios,salida,2026-06-08,factura gas,227000,10,118500.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0079,PERF_0053,Servicios,salida,2026-06-12,factura energia,462000,11,120000.0,9.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0053_0082,PERF_0053,Servicios,salida,2026-06-15,factura internet,406000,13,136000.0,4.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0085_0061,PERF_0085,Inversión productiva,salida,2026-05-24,dominio y hosting,110000,5,132000.0,14.84,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0085_0086,PERF_0085,Inversión productiva,salida,2026-06-20,mantenimiento moto,211000,6,132000.0,9.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0124_0081,PERF_0124,Servicios,salida,2026-06-12,factura internet,529000,9,302000.0,3.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0124_0063,PERF_0124,Ocio,salida,2026-05-29,tienda instrumentos,71000,7,180000.0,3.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0124_0094,PERF_0124,Ocio,salida,2026-06-26,tienda instrumentos,278000,10,178500.0,4.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0084,PERF_0166,Transporte,salida,2026-06-14,recarga transporte,409000,10,140500.0,4.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0025_0048,PERF_0025,Servicios,salida,2026-05-15,factura energia,558000,5,184000.0,4.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0164_0048,PERF_0164,Servicios,salida,2026-05-08,factura energia,423000,5,341000.0,3.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0030_0043,PERF_0030,Servicios,salida,2026-05-12,factura agua,136000,6,87000.0,3.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0057_0046,PERF_0057,Servicios,salida,2026-05-15,factura internet,355000,6,284000.0,5.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0028_0053,PERF_0028,Servicios,salida,2026-05-20,factura energia,596000,5,423000.0,3.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0028_0087,PERF_0028,Servicios,salida,2026-06-15,factura energia,723000,9,423000.0,6.74,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0028_0086,PERF_0028,Servicios,salida,2026-06-15,factura energia,823000,10,426500.0,5.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0133_0053,PERF_0133,Ocio,salida,2026-05-17,entrada evento,221000,6,456000.0,5.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0029_0066,PERF_0029,Ocio,salida,2026-06-08,tienda ciclismo,201000,5,124000.0,17.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0045_0078,PERF_0045,Servicios,salida,2026-06-15,plan celular,205000,8,107000.0,7.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0045_0081,PERF_0045,Servicios,salida,2026-06-20,factura energia,186000,9,108000.0,5.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0198_0054,PERF_0198,Servicios,salida,2026-05-20,factura internet,127000,7,259000.0,4.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0159_0076,PERF_0159,Servicios,salida,2026-06-08,factura agua,313000,7,176000.0,4.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0159_0087,PERF_0159,Servicios,salida,2026-06-20,factura internet,322000,11,176000.0,3.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0119_0081,PERF_0119,Servicios,salida,2026-06-15,factura internet,607000,7,350000.0,8.25,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0119_0092,PERF_0119,Servicios,salida,2026-06-20,factura gas,743000,8,354500.0,12.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0180_0079,PERF_0180,Servicios,salida,2026-06-08,factura gas,554000,7,243000.0,3.56,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0066_0076,PERF_0066,Servicios,salida,2026-06-08,factura energia,596000,6,293000.0,3.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0050,PERF_0186,Servicios,salida,2026-05-15,factura gas,468000,5,159000.0,7.44,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0046,PERF_0095,Inversión productiva,salida,2026-05-12,mantenimiento moto,164000,7,66000.0,5.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0057,PERF_0095,Inversión productiva,salida,2026-05-21,combustible trabajo,339000,8,71000.0,10.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0059,PERF_0095,Inversión productiva,salida,2026-05-26,combustible trabajo,353000,9,76000.0,7.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0188_0048,PERF_0188,Servicios,salida,2026-05-20,factura energia,416000,6,221500.0,4.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0190_0051,PERF_0190,Ocio,salida,2026-05-21,tienda ciclismo,30000,6,120500.0,6.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0070,PERF_0018,Salud,salida,2026-06-06,examen medico,688000,5,238000.0,4.22,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0078,PERF_0186,Alimentación,salida,2026-06-09,mercado barrio,418000,6,87000.0,14.88,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0094,PERF_0186,Alimentación,salida,2026-06-24,pedido restaurante,220000,7,91000.0,3.63,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0186_0093,PERF_0186,Alimentación,salida,2026-06-24,supermercado,289000,8,94000.0,3.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0090_0044,PERF_0090,Servicios,salida,2026-05-15,factura internet,495000,5,349000.0,8.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0046,PERF_0102,Servicios,salida,2026-05-12,plan celular,482000,7,201000.0,4.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0047,PERF_0102,Servicios,salida,2026-05-12,plan celular,609000,8,209500.0,5.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0056,PERF_0102,Servicios,salida,2026-05-20,factura energia,526000,10,236000.0,3.56,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0045,PERF_0074,Servicios,salida,2026-05-12,factura energia,413000,5,117000.0,10.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0055,PERF_0074,Servicios,salida,2026-05-20,factura gas,443000,6,126500.0,5.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0049,PERF_0074,Inversión productiva,salida,2026-05-15,implementos entrenamiento,439000,5,148000.0,24.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0071_0044,PERF_0071,Servicios,salida,2026-05-08,factura energia,305000,5,185000.0,8.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0071_0057,PERF_0071,Servicios,salida,2026-05-20,factura agua,266000,7,185000.0,3.9,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0009_0049,PERF_0009,Servicios,salida,2026-05-12,factura internet,190000,6,100500.0,10.06,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0052,PERF_0194,Servicios,salida,2026-05-15,factura energia,144000,5,251000.0,4.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0079,PERF_0194,Servicios,salida,2026-06-12,factura internet,456000,6,245500.0,5.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0080,PERF_0194,Servicios,salida,2026-06-12,factura energia,445000,7,251000.0,5.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0040,PERF_0088,Servicios,salida,2026-05-08,factura energia,390000,8,122500.0,5.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0041,PERF_0088,Servicios,salida,2026-05-08,factura internet,433000,9,127000.0,4.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0042,PERF_0088,Servicios,salida,2026-05-08,factura energia,456000,10,149000.0,5.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0017_0082,PERF_0017,Servicios,salida,2026-06-20,factura agua,219000,7,155000.0,4.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0017_0081,PERF_0017,Servicios,salida,2026-06-20,factura internet,289000,8,156500.0,4.47,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0104_0084,PERF_0104,Servicios,salida,2026-06-20,factura energia,480000,7,304000.0,6.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0092_0079,PERF_0092,Servicios,salida,2026-06-12,factura gas,145000,6,126000.0,3.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0092_0076,PERF_0092,Servicios,salida,2026-06-12,factura energia,64000,8,129000.0,9.74,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0200_0045,PERF_0200,Servicios,salida,2026-05-12,plan celular,432000,5,148000.0,10.64,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0200_0044,PERF_0200,Servicios,salida,2026-05-12,factura energia,514000,6,167500.0,8.2,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0075_0083,PERF_0075,Servicios,salida,2026-06-20,factura energia,194000,7,101000.0,3.92,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0049,PERF_0069,Servicios,salida,2026-05-12,factura energia,478000,5,200000.0,12.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0110_0072,PERF_0110,Servicios,salida,2026-06-08,factura energia,481000,7,134000.0,15.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0100_0046,PERF_0100,Servicios,salida,2026-05-08,factura energia,52000,5,80000.0,9.44,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0100_0047,PERF_0100,Servicios,salida,2026-05-12,factura agua,53000,6,80000.0,4.55,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0100_0078,PERF_0100,Servicios,salida,2026-06-12,factura agua,124000,7,80000.0,4.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0012_0086,PERF_0012,Servicios,salida,2026-06-20,factura energia,306000,11,153000.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0019_0018,PERF_0019,Servicios,salida,2026-04-20,factura energia,70000,5,44000.0,5.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0189_0043,PERF_0189,Servicios,salida,2026-05-12,factura gas,311000,5,198000.0,5.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0189_0071,PERF_0189,Servicios,salida,2026-06-12,factura energia,378000,11,211000.0,5.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0098_0042,PERF_0098,Servicios,salida,2026-05-12,factura internet,436000,5,243000.0,3.83,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0060_0044,PERF_0060,Servicios,salida,2026-05-08,factura agua,381000,5,143000.0,4.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0184_0089,PERF_0184,Educación,salida,2026-06-20,matricula curso,317000,7,145000.0,4.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0168_0078,PERF_0168,Vestimenta,salida,2026-06-11,sastreria,68000,6,211000.0,5.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0087,PERF_0069,Transporte,salida,2026-06-20,recarga transporte,425000,6,204000.0,6.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0034_0061,PERF_0034,Transporte,salida,2026-06-01,recarga transporte,607000,6,265500.0,6.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0060,PERF_0004,Transferencias y apoyo,salida,2026-05-22,prestamo informal a tercero,394000,5,155000.0,17.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0073,PERF_0004,Transferencias y apoyo,salida,2026-06-04,apoyo familiar,615000,6,159500.0,22.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0076,PERF_0004,Transferencias y apoyo,salida,2026-06-07,transferencia a tercero,483000,7,164000.0,11.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0098,PERF_0004,Transferencias y apoyo,salida,2026-06-30,prestamo informal a tercero,867000,8,168500.0,6.83,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0056,PERF_0068,Inversión productiva,salida,2026-05-24,libros para clase,208000,6,376000.0,5.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0003_0080,PERF_0003,Ocio,salida,2026-06-13,taller artesanias,118000,6,183000.0,7.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0125_0060,PERF_0125,Ocio,salida,2026-05-30,boleteria,478000,6,213000.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0079_0048,PERF_0079,Trabajo independiente,entrada,2026-05-16,abono servicios entrega,518000,8,312500.0,3.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0083_0066,PERF_0083,Transporte,salida,2026-06-02,recarga transporte,282000,5,126000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0126_0091,PERF_0126,Transferencias y apoyo,salida,2026-06-23,prestamo informal a tercero,739000,6,381500.0,4.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0164_0077,PERF_0164,Transporte,salida,2026-06-08,transmilenio,424000,10,235500.0,3.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0082,PERF_0033,Inversión productiva,salida,2026-06-14,licencia software dj,232000,5,168000.0,3.6,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0092,PERF_0033,Inversión productiva,salida,2026-06-27,mantenimiento controlador,262000,7,172000.0,7.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0094,PERF_0033,Inversión productiva,salida,2026-06-28,mantenimiento controlador,319000,8,176000.0,5.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0050_0049,PERF_0050,Ocio,salida,2026-05-18,tienda ciclismo,55000,6,114000.0,7.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0050_0053,PERF_0050,Ocio,salida,2026-05-24,tienda ciclismo,75000,7,113000.0,3.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0078_0034,PERF_0078,Transporte,salida,2026-05-03,app transporte,59000,5,138000.0,10.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0031_0043,PERF_0031,Alimentación,salida,2026-05-07,supermercado,292000,5,199000.0,4.83,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0114_0068,PERF_0114,Ocio,salida,2026-06-09,boleteria,41000,9,79000.0,3.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0110_0085,PERF_0110,Inversión productiva,salida,2026-06-24,semillas y abono,580000,7,342000.0,4.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0024,PERF_0021,Trabajo independiente,entrada,2026-04-24,ingreso adicional,1367000,5,322000.0,58.74,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0026,PERF_0021,Trabajo independiente,entrada,2026-04-26,ingreso adicional,918000,6,328000.0,5.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0030,PERF_0021,Trabajo independiente,entrada,2026-04-30,ingreso adicional,1316000,8,328000.0,7.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0039,PERF_0021,Trabajo independiente,entrada,2026-05-06,ingreso adicional,879000,11,322000.0,6.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0042,PERF_0021,Trabajo independiente,entrada,2026-05-07,ingreso adicional,971000,12,328000.0,4.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0021_0083,PERF_0021,Trabajo independiente,entrada,2026-06-25,ingreso adicional,1420000,25,334000.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0061_0055,PERF_0061,Ocio,salida,2026-05-23,taller de pintura,336000,5,248000.0,3.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0083_0058,PERF_0083,Inversión productiva,salida,2026-05-21,licencia software dj,645000,6,351000.0,24.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0083_0060,PERF_0083,Inversión productiva,salida,2026-05-26,licencia software dj,533000,7,352000.0,10.17,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0118_0072,PERF_0118,Transporte,salida,2026-06-12,recarga transporte,838000,6,261000.0,5.37,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0105_0074,PERF_0105,Trabajo independiente,entrada,2026-06-07,ingreso de temporada,298000,10,202500.0,3.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0009_0069,PERF_0009,Ventas y actividad comercial,entrada,2026-06-05,pago cosecha,2541000,6,1346000.0,13.43,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0009_0085,PERF_0009,Ventas y actividad comercial,entrada,2026-06-15,venta productos agricolas,1955000,7,1379000.0,4.18,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0150_0092,PERF_0150,Transporte,salida,2026-06-23,recarga transporte,202000,6,85000.0,5.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0074_0089,PERF_0074,Alimentación,salida,2026-06-21,supermercado,474000,10,176000.0,4.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0059_0080,PERF_0059,Transporte,salida,2026-06-09,estacion servicio,18000,6,66000.0,5.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0060,PERF_0033,Vestimenta,salida,2026-05-20,uniforme trabajo,86000,6,46000.0,5.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0098,PERF_0033,Vestimenta,salida,2026-06-29,arreglo prenda,117000,8,46000.0,5.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0066,PERF_0069,Alimentación,salida,2026-05-31,supermercado,398000,5,187000.0,4.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0082_0038,PERF_0082,Ocio,salida,2026-05-05,utensilios reposteria,87000,5,147000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0149_0089,PERF_0149,Ocio,salida,2026-06-13,spotify,114000,14,53500.0,3.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0144_0057,PERF_0144,Alimentación,salida,2026-05-17,mercado barrio,578000,5,175000.0,3.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0151_0058,PERF_0151,Inversión productiva,salida,2026-05-23,servidor nube,1310000,5,420000.0,3.55,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0106_0024,PERF_0106,Trabajo independiente,entrada,2026-04-20,ingreso adicional,1346000,5,389000.0,6.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0106_0044,PERF_0106,Trabajo independiente,entrada,2026-05-16,ingreso adicional,1688000,11,389000.0,8.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0106_0049,PERF_0106,Trabajo independiente,entrada,2026-05-21,ingreso adicional,2013000,14,426500.0,8.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0106_0052,PERF_0106,Trabajo independiente,entrada,2026-05-23,ingreso adicional,1773000,16,500500.0,4.45,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0106_0084,PERF_0106,Trabajo independiente,entrada,2026-06-20,ingreso adicional,2302000,28,613500.0,4.13,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0060,PERF_0103,Transporte,salida,2026-05-28,estacion servicio,134000,5,234000.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0082,PERF_0103,Transporte,salida,2026-06-16,recarga transporte,487000,6,225500.0,5.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0188_0091,PERF_0188,Ocio,salida,2026-06-29,juego digital,299000,9,143000.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0060,PERF_0158,Salud,salida,2026-05-27,examen medico,516000,5,113000.0,30.2,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0066,PERF_0158,Salud,salida,2026-06-04,copago salud,273000,6,117500.0,10.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0090,PERF_0158,Salud,salida,2026-06-20,examen medico,425000,7,122000.0,11.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0069,PERF_0069,Ocio,salida,2026-06-02,ingredientes especiales,346000,7,163000.0,5.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0069_0072,PERF_0069,Ocio,salida,2026-06-08,entrada evento,317000,8,169000.0,4.34,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0118_0058,PERF_0118,Ingresos laborales,entrada,2026-05-28,nomina institucion educativa,3072000,7,285000.0,31.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0118_0090,PERF_0118,Ingresos laborales,entrada,2026-06-28,nomina institucion educativa,3265000,13,280000.0,47.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0065,PERF_0102,Ocio,salida,2026-05-27,agencia de viajes,248000,5,102000.0,10.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0066,PERF_0102,Ocio,salida,2026-05-28,boleteria,348000,6,105500.0,5.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0059_0076,PERF_0059,Educación,salida,2026-06-07,libro digital,34000,5,64000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0064_0078,PERF_0064,Inversión productiva,salida,2026-06-06,implementos entrenamiento,241000,6,135000.0,5.11,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0051_0084,PERF_0051,Vestimenta,salida,2026-06-23,uniforme trabajo,392000,6,218500.0,6.88,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0153_0072,PERF_0153,Ocio,salida,2026-06-07,spotify,304000,5,136000.0,5.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0153_0092,PERF_0153,Ocio,salida,2026-06-26,tienda arte y pintura,304000,6,149500.0,3.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0117_0072,PERF_0117,Ocio,salida,2026-06-08,agencia de viajes,417000,5,274000.0,8.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0016_0085,PERF_0016,Alimentación,salida,2026-06-18,almuerzo,89000,7,204000.0,5.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0159_0081,PERF_0159,Salud,salida,2026-06-16,drogueria,315000,5,171000.0,32.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0036_0052,PERF_0036,Servicios,salida,2026-05-15,factura energia,212000,8,159000.0,3.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0183_0082,PERF_0183,Trabajo independiente,entrada,2026-06-10,ingreso adicional,782000,23,355000.0,3.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0006_0058,PERF_0006,Servicios,salida,2026-05-20,factura energia,544000,5,384000.0,4.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0047_0045,PERF_0047,Servicios,salida,2026-05-08,factura internet,280000,5,140000.0,4.29,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0059_0079,PERF_0059,Servicios,salida,2026-06-08,factura gas,49000,9,106000.0,4.27,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0089_0086,PERF_0089,Servicios,salida,2026-06-15,factura energia,286000,9,160000.0,5.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0054,PERF_0158,Ocio,salida,2026-05-20,entrada evento,275000,5,106000.0,3.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0158_0050,PERF_0158,Servicios,salida,2026-05-20,factura gas,541000,6,213000.0,5.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0100,PERF_0046,Educación,salida,2026-06-30,herramienta educativa,145000,5,69000.0,10.25,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0139_0051,PERF_0139,Servicios,salida,2026-05-20,factura energia,139000,8,83000.0,5.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0082,PERF_0011,Salud,salida,2026-06-22,laboratorio clinico,711000,5,282000.0,28.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0087,PERF_0011,Salud,salida,2026-06-27,medicamentos,958000,6,352500.0,5.2,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0167_0086,PERF_0167,Alimentación,salida,2026-06-17,cafe,52000,5,128000.0,7.32,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0080_0051,PERF_0080,Servicios,salida,2026-05-15,factura internet,97000,6,182000.0,4.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0035_0071,PERF_0035,Servicios,salida,2026-06-08,factura agua,125000,6,161000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0035_0078,PERF_0035,Servicios,salida,2026-06-12,factura internet,257000,7,158000.0,6.07,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0045,PERF_0166,Servicios,salida,2026-05-12,factura energia,288000,5,129000.0,8.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0145_0042,PERF_0145,Servicios,salida,2026-05-15,plan celular,56000,5,97000.0,5.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0145_0073,PERF_0145,Servicios,salida,2026-06-12,factura gas,167000,10,97500.0,4.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0078_0020,PERF_0078,Servicios,salida,2026-04-20,plan celular,92000,5,169000.0,3.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0078_0043,PERF_0078,Servicios,salida,2026-05-12,factura internet,92000,8,169000.0,3.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0055_0046,PERF_0055,Servicios,salida,2026-05-15,factura internet,391000,5,265000.0,8.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0055_0044,PERF_0055,Servicios,salida,2026-05-15,factura internet,372000,6,270000.0,3.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0038_0087,PERF_0038,Servicios,salida,2026-06-15,factura internet,452000,14,233500.0,7.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0081_0058,PERF_0081,Inversión productiva,salida,2026-05-24,licencia github,735000,5,277000.0,154.46,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0085_0081,PERF_0085,Alimentación,salida,2026-06-14,supermercado,112000,7,43000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0054_0053,PERF_0054,Servicios,salida,2026-05-20,plan celular,455000,5,245000.0,6.16,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0168_0049,PERF_0168,Servicios,salida,2026-05-12,factura internet,394000,5,176000.0,5.66,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0054,PERF_0018,Servicios,salida,2026-05-20,factura energia,778000,5,192000.0,9.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0005_0073,PERF_0005,Servicios,salida,2026-06-15,factura energia,310000,9,149000.0,4.94,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0114_0054,PERF_0114,Servicios,salida,2026-05-20,factura gas,156000,7,125000.0,4.18,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0114_0073,PERF_0114,Servicios,salida,2026-06-12,factura internet,181000,10,129000.0,3.9,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0061_0081,PERF_0061,Alimentación,salida,2026-06-19,supermercado,693000,8,250500.0,3.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0048_0071,PERF_0048,Alimentación,salida,2026-06-07,supermercado,528000,5,369000.0,6.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0086_0087,PERF_0086,Transporte,salida,2026-06-18,recarga transporte,302000,8,164000.0,6.21,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0084,PERF_0129,Servicios,salida,2026-06-12,plan celular,243000,10,186500.0,4.48,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0129_0091,PERF_0129,Servicios,salida,2026-06-20,factura internet,130000,12,186500.0,3.81,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0154_0050,PERF_0154,Servicios,salida,2026-05-20,factura energia,1192000,5,604000.0,6.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0154_0073,PERF_0154,Servicios,salida,2026-06-08,factura energia,1108000,7,604000.0,5.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0076_0083,PERF_0076,Transporte,salida,2026-06-19,recarga transporte,643000,5,387000.0,10.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0115_0082,PERF_0115,Servicios,salida,2026-06-12,factura energia,333000,6,187000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0049,PERF_0109,Vestimenta,salida,2026-05-16,zapateria,160000,5,48000.0,15.11,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0074,PERF_0109,Vestimenta,salida,2026-06-08,arreglo prenda,109000,7,53000.0,3.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0090,PERF_0109,Vestimenta,salida,2026-06-21,almacen moda,118000,8,56000.0,3.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0033_0074,PERF_0033,Servicios,salida,2026-06-08,factura internet,204000,7,104000.0,5.62,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0179_0040,PERF_0179,Servicios,salida,2026-05-08,factura internet,293000,5,117000.0,11.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0042,PERF_0165,Servicios,salida,2026-05-12,factura energia,274000,5,91000.0,7.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0056,PERF_0165,Servicios,salida,2026-05-20,factura internet,277000,6,105500.0,5.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0039_0052,PERF_0039,Educación,salida,2026-05-16,matricula curso,405000,5,91000.0,5.72,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0036_0042,PERF_0036,Alimentación,salida,2026-05-08,supermercado,239000,5,99000.0,4.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0091_0064,PERF_0091,Trabajo independiente,entrada,2026-06-02,honorarios sprint software,1592000,10,696500.0,4.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0188_0046,PERF_0188,Inversión productiva,salida,2026-05-16,material didactico,374000,5,571000.0,3.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0142_0095,PERF_0142,Transferencias y apoyo,salida,2026-06-25,donacion,202000,5,321000.0,5.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0033,PERF_0042,Trabajo independiente,entrada,2026-04-30,ingreso adicional,202000,5,938000.0,3.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0039,PERF_0042,Trabajo independiente,entrada,2026-05-03,ingreso adicional,118000,7,925000.0,4.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0049,PERF_0042,Trabajo independiente,entrada,2026-05-13,ingreso adicional,153000,9,925000.0,4.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0085,PERF_0042,Trabajo independiente,entrada,2026-06-16,ingreso adicional,1323000,18,315000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0196_0088,PERF_0196,Trabajo independiente,entrada,2026-06-17,ingreso adicional,1198000,7,724000.0,5.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0079_0073,PERF_0079,Transporte,salida,2026-06-11,bus urbano,247000,5,162000.0,14.33,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0079_0091,PERF_0079,Transporte,salida,2026-06-26,recarga transporte,345000,7,164000.0,20.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0081,PERF_0199,Educación,salida,2026-06-20,capacitacion,54000,7,76000.0,4.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0088,PERF_0199,Educación,salida,2026-06-28,curso en linea,33000,8,74500.0,6.22,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0091,PERF_0199,Educación,salida,2026-06-30,libreria,26000,9,73000.0,5.28,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0105_0095,PERF_0105,Vestimenta,salida,2026-06-29,sastreria,166000,5,89000.0,17.31,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0068_0081,PERF_0068,Alimentación,salida,2026-06-18,supermercado,297000,5,167000.0,4.38,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0198_0048,PERF_0198,Transferencias y apoyo,salida,2026-05-16,prestamo informal a tercero,252000,5,106000.0,4.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0173_0088,PERF_0173,Transferencias y apoyo,salida,2026-06-19,prestamo informal a tercero,324000,5,148000.0,3.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0067_0076,PERF_0067,Alimentación,salida,2026-06-13,tienda alimentos,740000,5,339000.0,4.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0090_0076,PERF_0090,Deuda y financiación,salida,2026-06-17,cuota prestamo,523000,5,286000.0,4.44,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0032,PERF_0088,Ocio,salida,2026-05-01,filamento impresion 3d,294000,5,53000.0,23.22,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0034,PERF_0088,Ocio,salida,2026-05-02,spotify,211000,6,56500.0,7.72,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0088_0056,PERF_0088,Ocio,salida,2026-05-24,juego digital,259000,7,60000.0,5.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0040_0065,PERF_0040,Transporte,salida,2026-06-01,recarga transporte,188000,5,87000.0,17.03,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0150_0095,PERF_0150,Vestimenta,salida,2026-06-24,uniforme trabajo,53000,6,105500.0,8.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0089_0051,PERF_0089,Transporte,salida,2026-05-13,recarga transporte,198000,5,129000.0,4.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0199_0086,PERF_0199,Alimentación,salida,2026-06-28,supermercado,109000,6,60500.0,3.85,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0066,PERF_0109,Transferencias y apoyo,salida,2026-06-03,donacion,145000,5,94000.0,4.91,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0080,PERF_0046,Alimentación,salida,2026-06-13,tienda alimentos,329000,5,89000.0,8.99,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0101_0077,PERF_0101,Servicios,salida,2026-06-08,plan celular,193000,6,345000.0,3.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0134_0070,PERF_0134,Transporte,salida,2026-06-06,recarga transporte,94000,7,65000.0,6.52,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0134_0085,PERF_0134,Transporte,salida,2026-06-18,recarga transporte,115000,8,66500.0,5.03,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0134_0095,PERF_0134,Transporte,salida,2026-06-27,combustible,31000,9,68000.0,3.57,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0093_0081,PERF_0093,Servicios,salida,2026-06-20,factura internet,195000,7,120000.0,4.22,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0084_0073,PERF_0084,Inversión productiva,salida,2026-06-03,mantenimiento controlador,556000,6,830000.0,3.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0120_0079,PERF_0120,Servicios,salida,2026-06-12,factura internet,285000,7,153000.0,6.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0095_0066,PERF_0095,Vestimenta,salida,2026-05-30,arreglo prenda,131000,5,46000.0,3.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0076_0044,PERF_0076,Servicios,salida,2026-05-12,factura energia,264000,5,494000.0,3.88,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0076_0078,PERF_0076,Servicios,salida,2026-06-15,factura internet,555000,9,366000.0,3.75,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0007_0082,PERF_0007,Inversión productiva,salida,2026-06-18,insumos consultorio,1238000,6,704000.0,3.51,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0011_0050,PERF_0011,Servicios,salida,2026-05-15,factura gas,963000,5,426000.0,13.93,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0182_0043,PERF_0182,Servicios,salida,2026-05-12,factura gas,733000,5,420000.0,3.84,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0029_0048,PERF_0029,Servicios,salida,2026-05-20,factura internet,270000,5,198000.0,4.41,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0191_0077,PERF_0191,Alimentación,salida,2026-06-14,supermercado,299000,5,216000.0,3.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0166_0094,PERF_0166,Educación,salida,2026-06-27,matricula curso,384000,5,96000.0,9.71,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0149_0061,PERF_0149,Inversión productiva,salida,2026-05-25,herramientas cultivo,241000,7,155000.0,3.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0064_0092,PERF_0064,Vestimenta,salida,2026-06-21,uniforme trabajo,89000,6,38500.0,3.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0001_0058,PERF_0001,Inversión productiva,salida,2026-05-19,servidor nube,233000,5,129000.0,11.69,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0001_0059,PERF_0001,Inversión productiva,salida,2026-05-19,dominio y hosting,210000,6,130500.0,4.29,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0001_0062,PERF_0001,Inversión productiva,salida,2026-05-28,licencia github,249000,8,130500.0,6.39,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0001_0073,PERF_0001,Inversión productiva,salida,2026-06-10,servidor nube,233000,9,132000.0,3.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0117_0096,PERF_0117,Educación,salida,2026-06-25,libreria,130000,5,254000.0,41.82,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0109_0040,PERF_0109,Inversión productiva,salida,2026-05-09,transporte cosecha,434000,5,102000.0,8.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0047_0070,PERF_0047,Ocio,salida,2026-06-02,netflix,207000,7,76000.0,5.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0047_0086,PERF_0047,Ocio,salida,2026-06-17,hotel viaje,212000,10,82000.0,4.5,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0037_0071,PERF_0037,Trabajo independiente,entrada,2026-06-07,ingreso adicional,1814000,19,682000.0,4.0,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0071_0082,PERF_0071,Alimentación,salida,2026-06-16,supermercado,245000,5,131000.0,3.84,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0071_0083,PERF_0071,Alimentación,salida,2026-06-19,mercado barrio,272000,6,142000.0,4.74,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0191_0085,PERF_0191,Transporte,salida,2026-06-25,viaje movilidad,137000,7,78000.0,13.26,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0188_0067,PERF_0188,Alimentación,salida,2026-06-03,cafe,110000,7,322000.0,3.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0187_0065,PERF_0187,Alimentación,salida,2026-06-02,supermercado,263000,5,157000.0,4.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0156_0064,PERF_0156,Salud,salida,2026-05-31,seguro salud,245000,6,156500.0,8.53,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0156_0078,PERF_0156,Salud,salida,2026-06-13,seguro salud,231000,8,156500.0,4.79,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0156_0094,PERF_0156,Salud,salida,2026-06-29,seguro salud,240000,10,156500.0,5.36,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0005_0066,PERF_0005,Transporte,salida,2026-06-06,recarga transporte,316000,6,103500.0,4.48,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0026_0068,PERF_0026,Ocio,salida,2026-06-08,accesorio gamer,262000,8,86000.0,5.4,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0126_0032,PERF_0126,Trabajo independiente,entrada,2026-04-29,ingreso adicional,754000,5,309000.0,3.9,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0031_0047,PERF_0031,Deuda y financiación,salida,2026-05-10,cuota prestamo,341000,5,191000.0,4.05,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0019_0084,PERF_0019,Inversión productiva,salida,2026-06-16,transporte cosecha,173000,7,102000.0,4.35,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0042_0062,PERF_0042,Inversión productiva,salida,2026-05-29,software historia clinica,566000,6,1173000.0,4.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0087_0070,PERF_0087,Inversión productiva,salida,2026-06-05,compra camara,466000,5,234000.0,4.47,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0023_0044,PERF_0023,Trabajo independiente,entrada,2026-05-10,ingreso adicional,324000,5,878000.0,8.9,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0149_0075,PERF_0149,Transporte,salida,2026-06-05,transmilenio,152000,6,92000.0,4.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0004_0079,PERF_0004,Alimentación,salida,2026-06-14,tienda alimentos,669000,5,435000.0,3.67,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0116_0094,PERF_0116,Transferencias y apoyo,salida,2026-06-29,apoyo familiar,315000,5,418000.0,6.95,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0081,PERF_0165,Transporte,salida,2026-06-12,recarga transporte,281000,7,89000.0,11.77,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0165_0096,PERF_0165,Transporte,salida,2026-06-29,transmilenio,288000,8,89500.0,6.23,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0045,PERF_0018,Alimentación,salida,2026-05-10,supermercado,609000,6,173500.0,7.08,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0018_0047,PERF_0018,Alimentación,salida,2026-05-12,cafeteria,519000,7,179000.0,3.89,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0014_0070,PERF_0014,Trabajo independiente,entrada,2026-06-06,ingreso adicional,993000,5,771000.0,21.39,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0014_0080,PERF_0014,Trabajo independiente,entrada,2026-06-12,ingreso adicional,1464000,6,774500.0,37.2,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0063_0073,PERF_0063,Trabajo independiente,entrada,2026-06-08,ingreso adicional,803000,14,415000.0,6.98,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0032_0068,PERF_0032,Alimentación,salida,2026-06-13,supermercado,322000,7,149000.0,6.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0073_0044,PERF_0073,Ocio,salida,2026-05-10,taller artesanias,225000,5,124000.0,9.73,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0012_0077,PERF_0012,Vestimenta,salida,2026-06-11,uniforme trabajo,162000,5,81000.0,6.83,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0012_0078,PERF_0012,Vestimenta,salida,2026-06-13,accesorios personales,152000,6,85000.0,4.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0047_0082,PERF_0047,Salud,salida,2026-06-15,seguro salud,409000,5,229000.0,8.09,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0063,PERF_0103,Inversión productiva,salida,2026-05-29,libros para clase,505000,5,393000.0,6.87,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0074,PERF_0103,Inversión productiva,salida,2026-06-09,mantenimiento controlador,533000,7,404000.0,5.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0092,PERF_0103,Inversión productiva,salida,2026-06-23,licencia software dj,874000,9,407000.0,3.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0137_0057,PERF_0137,Transporte,salida,2026-05-27,transmilenio,338000,5,93000.0,4.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0112_0076,PERF_0112,Deuda y financiación,salida,2026-06-13,cuota prestamo,818000,5,534000.0,3.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0124_0049,PERF_0124,Trabajo independiente,entrada,2026-05-14,ingreso adicional,2015000,5,1342000.0,5.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0127_0071,PERF_0127,Inversión productiva,salida,2026-06-04,licencia adobe,200000,5,297000.0,8.18,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0127_0041,PERF_0127,Trabajo independiente,entrada,2026-05-09,ingreso adicional,633000,6,981000.0,9.39,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0181_0090,PERF_0181,Inversión productiva,salida,2026-06-26,servidor nube,1533000,9,858000.0,3.96,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0103_0062,PERF_0103,Trabajo independiente,entrada,2026-05-28,ingreso adicional,2083000,13,675000.0,6.01,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0087_0089,PERF_0087,Vestimenta,salida,2026-06-21,almacen moda,207000,6,87500.0,4.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0112_0069,PERF_0112,Inversión productiva,salida,2026-06-06,libros para clase,1379000,5,873000.0,6.97,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0077_0039,PERF_0077,Trabajo independiente,entrada,2026-05-04,ingreso adicional,239000,5,548000.0,3.59,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0077_0090,PERF_0077,Trabajo independiente,entrada,2026-06-28,ingreso adicional,898000,19,412000.0,3.86,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0160_0070,PERF_0160,Alimentación,salida,2026-06-08,cafe,84000,5,257000.0,3.76,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0171_0081,PERF_0171,Trabajo independiente,entrada,2026-06-21,ingreso adicional,4300000,7,1803000.0,5.49,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0171_0093,PERF_0171,Trabajo independiente,entrada,2026-06-30,ingreso adicional,5176000,8,1805500.0,4.14,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0015_0052,PERF_0015,Trabajo independiente,entrada,2026-05-22,ingreso adicional,779000,6,1020500.0,7.58,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0015_0058,PERF_0015,Trabajo independiente,entrada,2026-05-26,ingreso adicional,770000,7,1015000.0,6.61,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0015_0071,PERF_0015,Trabajo independiente,entrada,2026-06-04,ingreso adicional,707000,9,1015000.0,5.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0194_0089,PERF_0194,Vestimenta,salida,2026-06-17,sastreria,301000,5,125000.0,13.19,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0198_0071,PERF_0198,Vestimenta,salida,2026-06-05,tienda ropa,74000,6,168000.0,7.04,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0198_0080,PERF_0198,Vestimenta,salida,2026-06-14,calzado,70000,7,168000.0,3.67,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0131_0074,PERF_0131,Ocio,salida,2026-06-13,taller de pintura,300000,5,125000.0,5.37,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0107_0091,PERF_0107,Deuda y financiación,salida,2026-06-25,pago tarjeta credito,113000,6,217000.0,17.54,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0118_0076,PERF_0118,Vestimenta,salida,2026-06-17,accesorios personales,498000,7,163000.0,11.3,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0118_0088,PERF_0118,Vestimenta,salida,2026-06-27,calzado,311000,9,179000.0,4.24,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0102_0076,PERF_0102,Alimentación,salida,2026-06-07,tienda alimentos,528000,5,287000.0,4.78,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0152_0100,PERF_0152,Inversión productiva,salida,2026-06-29,material didactico,530000,5,368000.0,6.43,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0024_0069,PERF_0024,Inversión productiva,salida,2026-06-06,material didactico,184000,5,360000.0,5.65,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0092_0055,PERF_0092,Inversión productiva,salida,2026-05-15,insumos consultorio,84000,5,170000.0,5.8,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0124_0088,PERF_0124,Deuda y financiación,salida,2026-06-18,cuota prestamo,579000,5,180000.0,67.28,evento_inusual_observado,monto_alejado_del_historial_previo
+TX_0046_0081,PERF_0046,Transferencias y apoyo,salida,2026-06-14,prestamo informal a tercero,301000,7,135000.0,5.09,evento_inusual_observado,monto_alejado_del_historial_previo
