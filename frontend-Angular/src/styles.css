@@ -1,1 +1,58 @@
 @import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+}
+
+html {
+    font-variant-ligatures: none;
+    scroll-behavior: smooth;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+.animate-float {
+    animation: float 5s ease-in-out infinite;
+}
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 1.0s cubic-bezier(0.16, 1, 0.3, 1), transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+.delay-100 {
+    transition-delay: 150ms;
+}
+
+.delay-200 {
+    transition-delay: 300ms;
+}
+
+.delay-300 {
+    transition-delay: 450ms;
+}
+
+.delay-400 {
+    transition-delay: 600ms;
+}
+
+.delay-500 {
+    transition-delay: 750ms;
+}

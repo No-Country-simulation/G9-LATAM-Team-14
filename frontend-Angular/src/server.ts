@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -6,12 +7,14 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
-
+import jwt from 'jsonwebtoken';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine({
   allowedHosts: ['localhost']
 });
+const JWT_SECRET = process.env['JWT_SECRET'];
+if (!JWT_SECRET) throw new Error('FATAL: La variable de entorno JWT_SECRET no está definida.');
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -24,18 +27,24 @@ app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
-
   const cookieHeader = req.headers.cookie || '';
-  const hasJwt = cookieHeader.includes('jwt=');
-
-  if (req.path.startsWith('/dashboard') && !hasJwt) {
-    return res.redirect(302, '/login');
+  const cookies = cookieHeader.split(';').reduce((acc: Record<string, string>, item) => {
+    const [key, value] = item.trim().split('=');
+    if (key) acc[key] = value;
+    return acc;
+  }, {});
+  const token = cookies['jwt'];
+  let isValidJwt = false;
+  if (token) {
+    try {
+      jwt.verify(token, JWT_SECRET);
+      isValidJwt = true;
+    } catch (err) {
+      isValidJwt = false;
+    }
   }
-
-  if (req.path === '/login' && hasJwt) {
-    return res.redirect(302, '/dashboard');
-  }
-
+  if (req.path.startsWith('/dashboard') && !isValidJwt) return res.redirect(302, '/login');
+  if (req.path === '/login' && isValidJwt) return res.redirect(302, '/dashboard');
   next();
 });
 

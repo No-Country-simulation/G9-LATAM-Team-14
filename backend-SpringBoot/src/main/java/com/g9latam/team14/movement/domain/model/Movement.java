@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 public class Movement {
-
     private final Integer id;
     private final String description;
     private final BigDecimal amount;

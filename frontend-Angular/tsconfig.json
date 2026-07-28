@@ -12,7 +12,39 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "module": "preserve"
+    "module": "preserve",
+    "paths": {
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@core/*": [
+        "./src/app/core/*"
+      ],
+      "@features/*": [
+        "./src/app/features/*"
+      ],
+      "@shared/*": [
+        "./src/app/shared/*"
+      ],
+      "@components/*": [
+        "./src/app/shared/components/*"
+      ],
+      "@directives/*": [
+        "./src/app/shared/directives/*"
+      ],
+      "@pipes/*": [
+        "./src/app/shared/pipes/*"
+      ],
+      "@icons/*": [
+        "./src/app/shared/icons/*"
+      ],
+      "@environments/*": [
+        "./src/environments/*"
+      ],
+      "@assets/*": [
+        "./src/assets/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
