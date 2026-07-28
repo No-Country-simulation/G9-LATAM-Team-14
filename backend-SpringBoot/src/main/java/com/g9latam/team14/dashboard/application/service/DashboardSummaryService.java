@@ -1,14 +1,9 @@
 package com.g9latam.team14.dashboard.application.service;
-
 import com.g9latam.team14.dashboard.domain.model.DashboardSummary;
 import com.g9latam.team14.dashboard.domain.ports.inbound.GetDashboardSummaryUseCase;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.entity.DeudaBancariaEntity;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository.DeudaBancariaJpaRepository;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository.IngresoJpaRepository;
-import com.g9latam.team14.movement.infrastructure.adapter.outbound.database.repository.MovementJpaRepository;
+import com.g9latam.team14.dashboard.domain.ports.outbound.DashboardRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -19,10 +14,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DashboardSummaryService implements GetDashboardSummaryUseCase {
-
-    private final IngresoJpaRepository ingresoRepository;
-    private final DeudaBancariaJpaRepository deudaBancariaRepository;
-    private final MovementJpaRepository movementRepository;
+    private final DashboardRepositoryPort dashboardRepositoryPort;
 
     @Override
     public DashboardSummary getSummary(Integer userId) {
@@ -30,14 +22,14 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
         LocalDate inicioMes = mesActual.atDay(1);
         LocalDate finMes = mesActual.atEndOfMonth();
 
-        BigDecimal totalIngresos = ingresoRepository.sumMontoByIdUsuarioAndFechaIngresoBetween(
+        BigDecimal totalIngresos = dashboardRepositoryPort.sumIngresosByUserIdAndDates(
                 userId, inicioMes, finMes
         );
 
-        BigDecimal totalGastosFijos = deudaBancariaRepository.sumMontoMensualByUsuario(userId);
+        BigDecimal totalGastosFijos = dashboardRepositoryPort.sumGastosFijosByUserId(userId);
 
-        BigDecimal totalGastosVariables = movementRepository.sumAmountByUserIdAndDateBetweenAndType(
-                userId, inicioMes, finMes, "expense"
+        BigDecimal totalGastosVariables = dashboardRepositoryPort.sumGastosVariablesByUserIdAndDates(
+                userId, inicioMes, finMes
         );
 
         totalIngresos = totalIngresos != null ? totalIngresos : BigDecimal.ZERO;
