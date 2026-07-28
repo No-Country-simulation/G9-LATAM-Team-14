@@ -1,7 +1,7 @@
 modelo,accuracy,balanced_accuracy,f1_macro,log_loss,particion,componente
-bosque_aleatorio,0.9889,0.9821,0.981,0.1603,validation,04_estados
-regresion_logistica,0.9333,0.9267,0.9158,0.2776,validation,04_estados
-bosque_aleatorio,0.9667,0.9524,0.9491,0.1552,test,04_estados
-bosque_aleatorio,1.0,1.0,1.0,0.0063,validation,05_recomendaciones
-regresion_logistica,1.0,1.0,1.0,0.0121,validation,05_recomendaciones
-bosque_aleatorio,0.9778,0.9702,0.9675,0.0743,test,05_recomendaciones
+bosque_aleatorio,0.9889,0.9821,0.9746,0.1423,validation,04_estados
+regresion_logistica,0.9,0.8708,0.8336,0.3437,validation,04_estados
+bosque_aleatorio,0.9556,0.9524,0.9469,0.1595,test,04_estados
+bosque_aleatorio,1.0,1.0,1.0,0.1041,validation,05_recomendaciones
+regresion_logistica,0.9882,0.975,0.9805,0.0679,validation,05_recomendaciones
+bosque_aleatorio,0.954,0.9356,0.9219,0.2573,test,05_recomendaciones
