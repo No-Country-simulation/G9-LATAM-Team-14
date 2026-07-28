@@ -1,0 +1,39 @@
+<div class="space-y-3.5 sm:space-y-4">
+    <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-2">Deudas activas</h2>
+
+    <div class="space-y-3.5 sm:space-y-4">
+        @for (debt of debts(); track debt.id) {
+        <div class="bg-[#EAF2CC] p-4 sm:p-5 rounded-2xl border border-[#DCE8B5] shadow-xs space-y-3.5 sm:space-y-4">
+            <!-- Item Header Row -->
+            <div class="flex flex-col xs:flex-row xs:items-center justify-between gap-3">
+                <div class="flex items-center gap-3 sm:gap-3.5 min-w-0 flex-1">
+                    <div
+                        class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FCE6D4] text-[#D96B27] flex items-center justify-center shrink-0 shadow-xs">
+                        <app-icon-fin-coach [name]="debt.iconName" class="w-5 h-5 sm:w-6 sm:h-6" />
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <h3 class="font-bold text-[#214523] text-base sm:text-lg leading-snug truncate">{{ debt.title }}</h3>
+                        <p class="text-xs text-[#526655] font-medium mt-0.5 truncate">{{ debt.subtitle }}</p>
+                    </div>
+                </div>
+                <div class="text-left xs:text-right shrink-0">
+                    <p class="font-bold text-[#214523] text-sm sm:text-base">{{ debt.monthlyPayment }}</p>
+                    <p class="text-xs text-[#526655] font-medium mt-0.5">{{ debt.remainingAmount }}</p>
+                </div>
+            </div>
+
+            <!-- Progress Bar & Percentage Row -->
+            <div class="space-y-1.5 pt-1">
+                <div class="flex justify-between items-center text-xs font-semibold text-[#526655]">
+                    <span>{{ debt.progressText }}</span>
+                    <span>{{ debt.percentage }}%</span>
+                </div>
+                <div class="w-full bg-[#D6E4B4] h-2.5 rounded-full overflow-hidden">
+                    <div class="bg-[#5A7259] h-full rounded-full transition-all duration-500"
+                        [style.width.%]="debt.percentage"></div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

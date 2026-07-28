@@ -1,0 +1,27 @@
+<div class="space-y-2.5">
+    <label class="block text-xs font-bold uppercase tracking-wider text-[#526655]">Tipo de registro</label>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div (click)="selectedType.set('installment')"
+            class="p-3.5 sm:p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-3"
+            [ngClass]="selectedType() === 'installment' ? 'border-[#5A7259] bg-[#EBF3CB]' : 'border-[#DCE8B5] bg-[#EAF2CC] hover:bg-[#E3ECAF]'">
+            <input type="radio" name="registrationType" [checked]="selectedType() === 'installment'"
+                class="w-4 h-4 text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259]" />
+            <div>
+                <p class="font-bold text-sm text-[#214523]">Deuda o Crédito</p>
+                <p class="text-[11px] text-[#526655] font-medium leading-tight">Préstamos de banco, tarjetas, crédito
+                    informal, amigos/familia</p>
+            </div>
+        </div>
+        <div (click)="selectedType.set('fixed')"
+            class="p-3.5 sm:p-4 rounded-2xl border-2 transition-all cursor-pointer flex items-center gap-3"
+            [ngClass]="selectedType() === 'fixed' ? 'border-[#5A7259] bg-[#EBF3CB]' : 'border-[#DCE8B5] bg-[#EAF2CC] hover:bg-[#E3ECAF]'">
+            <input type="radio" name="registrationType" [checked]="selectedType() === 'fixed'"
+                class="w-4 h-4 text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259]" />
+            <div>
+                <p class="font-bold text-sm text-[#214523]">Gasto Fijo Recurrente</p>
+                <p class="text-[11px] text-[#526655] font-medium leading-tight">Alquiler, pensión de colegio,
+                    suscripciones, servicios</p>
+            </div>
+        </div>
+    </div>
+</div>

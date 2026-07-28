@@ -1,0 +1,9 @@
+<div class="space-y-1.5">
+    @if (label()) {
+    <label [for]="id()" class="block text-xs font-semibold text-[#214523] select-none">{{ label() }}</label>
+    }
+    <div (click)="openPicker()" class="relative cursor-pointer">
+        <input #inputRef [id]="id()" type="month" [ngModel]="value()" (ngModelChange)="value.set($event)"
+            class="w-full bg-[#F4F8DE] border border-[#C6D8A2] rounded-xl px-3.5 py-2.5 text-sm font-bold text-[#214523] focus:outline-none focus:ring-2 focus:ring-[#5A7259] cursor-pointer" />
+    </div>
+</div>

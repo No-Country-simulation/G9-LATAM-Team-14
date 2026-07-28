@@ -22,12 +22,23 @@
             <div class="flex-1 min-w-0">
                 <select [(ngModel)]="debt.type"
                     class="w-full py-2 px-2 sm:px-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-[11px] sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium cursor-pointer truncate">
-                    <option value="" disabled selected>Selecciona tipo...</option>
-                    <option value="Tarjeta de crédito">Tarjeta de crédito</option>
-                    <option value="Préstamo personal">Préstamo personal</option>
-                    <option value="Hipoteca">Hipoteca</option>
-                    <option value="Crédito vehicular">Crédito vehicular</option>
-                    <option value="Otro">Otro</option>
+                    <option value="" disabled selected>Selecciona tipo de compromiso...</option>
+                    <optgroup label="Deudas o Créditos">
+                        <option value="Préstamo Personal">Préstamo Personal</option>
+                        <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                        <option value="Crédito Vehicular">Crédito Vehicular</option>
+                        <option value="Crédito Hipotecario">Crédito Hipotecario</option>
+                        <option value="Préstamo Familiar / Informal">Préstamo Familiar / Informal</option>
+                    </optgroup>
+                    <optgroup label="Gastos Fijos Recurrentes">
+                        <option value="Alquiler / Vivienda">Alquiler / Vivienda</option>
+                        <option value="Pensión / Educación">Pensión / Educación</option>
+                        <option value="Suscripciones">Suscripciones</option>
+                        <option value="Servicios básicos">Servicios básicos</option>
+                    </optgroup>
+                    <optgroup label="Otros">
+                        <option value="Otro">Otro compromiso</option>
+                    </optgroup>
                 </select>
             </div>
             <div class="w-24 sm:w-36 relative flex items-center shrink-0">
