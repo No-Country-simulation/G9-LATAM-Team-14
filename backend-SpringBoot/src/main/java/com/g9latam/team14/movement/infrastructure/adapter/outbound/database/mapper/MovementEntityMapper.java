@@ -4,6 +4,8 @@ import com.g9latam.team14.movement.domain.model.Movement;
 import com.g9latam.team14.movement.infrastructure.adapter.outbound.database.entity.MovementEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class MovementEntityMapper {
 
@@ -29,5 +31,11 @@ public class MovementEntityMapper {
                 movement.getDate(),
                 movement.getUserId()
         );
+    }
+
+    public List<Movement> toDomainList(List<MovementEntity> entities) {
+        return entities.stream()
+                .map(this::toDomain)
+                .toList();
     }
 }

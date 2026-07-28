@@ -1,0 +1,19 @@
+control,errores,tipo
+identificadores de perfil únicos,0,integracion
+un estado actual por perfil,0,integracion
+una recomendación actual por perfil,0,integracion
+perfiles sin transacciones,0,integracion
+estado inconsistente,0,integracion
+ventana inconsistente,0,integracion
+periodo inconsistente,0,integracion
+partición inconsistente,0,integracion
+salida del motor inválida,0,integracion
+recomendación o abstención inconsistente,0,integracion
+abstención cuando el estado no es calculable,0,etica
+sin ingresos con recursos protegidos,0,etica
+situación crítica con apoyo y contención,0,etica
+fragilidad con deuda protegida,0,etica
+fragilidad sin deuda con esenciales protegidos,0,etica
+hobbies declarados conservados,0,etica
+identificadores dentro del catálogo,0,etica
+fuente de selección declarada,0,etica
