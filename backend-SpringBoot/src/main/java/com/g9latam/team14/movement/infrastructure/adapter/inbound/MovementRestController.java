@@ -1,5 +1,6 @@
 package com.g9latam.team14.movement.infrastructure.adapter.inbound;
-
+import java.util.List;
+import com.g9latam.team14.movement.domain.ports.inbound.GetMovementsUseCase;
 import com.g9latam.team14.movement.domain.model.Movement;
 import com.g9latam.team14.movement.domain.ports.inbound.CreateMovementUseCase;
 import com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos.CreateMovementRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class MovementRestController {
 
     private final CreateMovementUseCase createMovementUseCase;
+    private final GetMovementsUseCase getMovementsUseCase;
     private final MovementDtoMapper movementDtoMapper;
 
     @PostMapping
@@ -31,5 +33,15 @@ public class MovementRestController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(movementDtoMapper.toResponse(movement));
+    }
+    @GetMapping
+    public ResponseEntity<List<MovementResponse>> getAllMovements() {
+
+        List<MovementResponse> response = getMovementsUseCase.getAllMovements()
+                .stream()
+                .map(movementDtoMapper::toResponse)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 }
