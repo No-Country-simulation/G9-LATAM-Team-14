@@ -10,11 +10,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserEntityMapper {
     public User toDomain(UserEntity entity) {
+        if (entity == null) return null;
         return User.builder()
                 .id(entity.getId())
                 .username(entity.getNombreUsuario())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
+                .ingresoMensual(entity.getIngresoMensual())
+                .fechaRegistro(entity.getFechaRegistro())
+                .build();
+    }
+
+    public UserEntity toEntity(User domain) {
+        if (domain == null) return null;
+        return UserEntity.builder()
+                .id(domain.getId())
+                .nombreUsuario(domain.getUsername())
+                .email(domain.getEmail())
+                .password(domain.getPassword())
+                .ingresoMensual(domain.getIngresoMensual())
+                .fechaRegistro(domain.getFechaRegistro())
                 .build();
     }
 }

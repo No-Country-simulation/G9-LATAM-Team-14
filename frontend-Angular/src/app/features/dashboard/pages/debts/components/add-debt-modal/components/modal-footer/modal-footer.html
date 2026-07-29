@@ -1,0 +1,12 @@
+<div
+    class="px-5 py-3.5 sm:px-6 sm:py-4 border-t border-[#DCE8B5] bg-[#EFF5D3] flex items-center justify-end gap-3 shrink-0">
+    <button type="button" (click)="closeModal.emit()"
+        class="border border-[#C3D3A0] text-[#2D4231] hover:bg-[#EAF2CC] px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer">
+        Cancelar
+    </button>
+    <button type="button" (click)="submitForm.emit()"
+        class="bg-[#2F4836] text-white hover:bg-[#223628] active:scale-[0.98] px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-2">
+        <app-icon-fin-coach name="plus" class="w-4 h-4" />
+        <span>Agregar Deuda</span>
+    </button>
+</div>

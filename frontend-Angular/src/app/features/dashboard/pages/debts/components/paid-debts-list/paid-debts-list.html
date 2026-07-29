@@ -1,0 +1,16 @@
+<div>
+    <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-2">Deudas pagadas</h2>
+    <div class="bg-[#EAF2CC] p-4 sm:p-5 rounded-2xl border border-[#DCE8B5] shadow-xs space-y-3.5">
+        @for (item of paidDebts(); track item.id) {
+        <div class="flex items-center justify-between py-1 gap-2">
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#5A7259] text-white flex items-center justify-center shrink-0">
+                    <app-icon-fin-coach name="check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </div>
+                <span class="text-xs sm:text-sm font-bold text-[#214523] truncate">{{ item.title }}</span>
+            </div>
+            <span class="text-xs text-[#526655] font-medium shrink-0">{{ item.date }}</span>
+        </div>
+        }
+    </div>
+</div>

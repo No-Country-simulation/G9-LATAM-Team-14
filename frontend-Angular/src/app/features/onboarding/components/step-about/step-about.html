@@ -1,0 +1,40 @@
+<div class="flex flex-col items-center text-center max-w-xl mx-auto w-full py-4">
+    <h1 class="text-2xl sm:text-4xl font-extrabold text-[#214523] tracking-tight">
+        Cuéntanos un poco sobre ti
+    </h1>
+    <p class="text-xs sm:text-sm text-[#4E6750] mt-2">
+        Necesitamos entender tu punto de partida para diseñar tu jardín financiero.
+    </p>
+    <form (submit)="$event.preventDefault()" class="w-full flex flex-col gap-6 mt-8 text-left">
+        <div class="flex flex-col gap-2">
+            <label for="monthlyIncome" class="text-xs sm:text-sm font-semibold text-[#214523]">
+                Ingreso mensual neto
+            </label>
+            <div class="relative flex items-center w-full">
+                <span class="absolute left-4 text-[#4A634E] font-semibold text-sm sm:text-base">$</span>
+                <input id="monthlyIncome" type="number" [(ngModel)]="income" name="income" placeholder="0.00"
+                    class="w-full pl-9 pr-4 py-3 sm:py-3.5 bg-[#EAEFC8] border border-[#C9DAA7] rounded-2xl text-sm sm:text-base focus:outline-none focus:border-[#4A634E] text-[#214523] placeholder-[#6E8870] font-medium shadow-xs" />
+            </div>
+        </div>
+        <div class="flex flex-col gap-3">
+            <label class="text-xs sm:text-sm font-semibold text-[#214523]">
+                ¿Cómo consideras tu hábito de ahorro actualmente?
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full">
+                @for (option of habitOptions; track option.id) {
+                <button type="button" (click)="selectHabit(option.id)"
+                    [class.bg-[#D7E3A9]]="selectedHabit() === option.id"
+                    [class.border-[#3E5741]]="selectedHabit() === option.id"
+                    [class.ring-2]="selectedHabit() === option.id"
+                    [class.ring-[#3E5741]/30]="selectedHabit() === option.id"
+                    [class.bg-[#EAEFC8]/80]="selectedHabit() !== option.id"
+                    [class.border-[#C9DAA7]]="selectedHabit() !== option.id"
+                    class="flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl border transition-all duration-200 hover:border-[#4A634E] hover:bg-[#E3EAA5] cursor-pointer shadow-xs gap-2">
+                    <app-icon-fin-coach [name]="option.icon" class="w-6 h-6 text-[#214523]" />
+                    <span class="text-xs sm:text-sm font-semibold text-[#214523]">{{ option.label }}</span>
+                </button>
+                }
+            </div>
+        </div>
+    </form>
+</div>

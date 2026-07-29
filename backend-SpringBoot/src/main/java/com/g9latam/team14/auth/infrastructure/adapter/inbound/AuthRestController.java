@@ -15,16 +15,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.g9latam.team14.auth.domain.ports.inbound.RegisterUserUseCase;
+import com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthRestController {
     private final LoginUseCase loginUseCase;
+    private final RegisterUserUseCase registerUserUseCase;
     private final GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
     private final TokenProviderPort tokenProvider;
     private final AuthDtoMapper authDtoMapper;
     private final JwtProperties jwtProperties;
+
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(
+            @Valid @RequestBody RegisterRequest request,
+            HttpServletResponse response
+    ) {
+        User user = registerUserUseCase.register(
+                request.username(),
+                request.email(),
+                request.password(),
+                request.ingresoMensual()
+        );
+        AuthResponse authResponse = generateAuthCookieAndResponse(user, response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
+    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
@@ -62,6 +80,10 @@ public class AuthRestController {
     }
 
     private ResponseEntity<AuthResponse> createAuthResponseWithCookie(User user, HttpServletResponse response) {
+        return ResponseEntity.ok(generateAuthCookieAndResponse(user, response));
+    }
+
+    private AuthResponse generateAuthCookieAndResponse(User user, HttpServletResponse response) {
         String token = tokenProvider.generateToken(user);
         long expiresInSeconds = jwtProperties.getExpirationMs() / 1000;
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
@@ -72,6 +94,6 @@ public class AuthRestController {
                 .sameSite("Lax")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        return ResponseEntity.ok(authDtoMapper.toAuthResponse(user, token, expiresInSeconds));
+        return authDtoMapper.toAuthResponse(user, token, expiresInSeconds);
     }
 }

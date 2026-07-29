@@ -1,75 +1,25 @@
-<div class="flex flex-col items-center justify-center min-h-screen bg-[#F6FAD4] px-4 sm:px-6 py-8 md:py-12">
-    <!-- header -->
-    <div class="flex flex-col items-center mb-6 md:mb-8 text-center">
-        <div class="flex gap-2 items-center justify-center">
-            <img src="images/logo.webp" alt="Fincoach Logo" class="w-8 h-8 object-contain">
-            <span class="text-base sm:text-lg font-semibold text-[#5A7259]">Fincoach</span>
-        </div>
-        <h2 class="text-2xl sm:text-3xl font-medium text-[#214523] mt-3">Bienvenido de nuevo</h2>
-        <p class="text-xs sm:text-sm text-gray-600 mt-1 px-4">Cultiva tu futuro financiero.</p>
-    </div>
-
-    <!-- form -->
-    <form (ngSubmit)="onLogin()" class="w-full max-w-[90%] sm:max-w-sm flex flex-col gap-4 sm:gap-5">
-        <!-- correo -->
-        <div class="flex flex-col gap-1.5">
-            <label for="email" class="text-xs sm:text-sm font-medium text-[#214523]">Correo electrónico</label>
-            <div class="relative flex items-center">
-                <span class="absolute left-4 text-gray-400 flex items-center pointer-events-none">
-                    <app-icon-fin-coach name="mail" class="w-[18px] h-[18px]" />
-                </span>
-                <input id="email" name="email" type="email" [(ngModel)]="email" placeholder="tu@ejemplo.com" required
-                    class="w-full pl-11 pr-4 py-2.5 sm:py-3 bg-[#FAFDED] border border-[#E1E6C2] rounded-xl text-sm focus:outline-none focus:border-[#5A7259] text-gray-700 placeholder-gray-300 shadow-sm appearance-none" />
-            </div>
-        </div>
-
-        <!-- password -->
-        <div class="flex flex-col gap-1.5">
-            <div class="flex justify-between items-center">
-                <label for="password" class="text-xs sm:text-sm font-medium text-[#214523]">Contraseña</label>
-                <a href="#" class="text-[11px] sm:text-xs text-gray-500 hover:underline">¿Olvidaste tu contraseña?</a>
-            </div>
-            <div class="relative flex items-center">
-                <span class="absolute left-4 text-gray-400 flex items-center pointer-events-none">
-                    <app-icon-fin-coach name="lock" class="w-[18px] h-[18px]" />
-                </span>
-                <input id="password" name="password" [(ngModel)]="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" required
-                    class="w-full pl-11 pr-11 py-2.5 sm:py-3 bg-[#FAFDED] border border-[#E1E6C2] rounded-xl text-sm focus:outline-none focus:border-[#5A7259] text-gray-700 placeholder-gray-300 shadow-sm appearance-none" />
-                <button type="button" (click)="togglePasswordVisibility()"
-                    class="absolute right-4 text-gray-400 hover:text-[#5A7259] focus:outline-none flex items-center p-1">
-                    @if (showPassword) {
-                    <app-icon-fin-coach name="eye-off" class="w-[18px] h-[18px]" />
-                    } @else {
-                    <app-icon-fin-coach name="eye" class="w-[18px] h-[18px]" />
-                    }
-                </button>
-            </div>
-        </div>
-
-        <!-- Botón de Submit -->
+<div class="flex flex-col items-center justify-center min-h-screen bg-[#F6FAD4] px-3 sm:px-6 py-8">
+    <app-auth-header title="Bienvenido de nuevo" />
+    <form (ngSubmit)="onLogin()" class="w-full sm:max-w-sm flex flex-col gap-3">
+        <app-auth-input id="email" label="Correo electrónico" type="email" icon="mail" placeholder="tu@ejemplo.com"
+            [(value)]="email" [required]="true" />
+        <app-auth-input id="password" label="Contraseña" [isPassword]="true" icon="lock" placeholder="••••••••"
+            [(value)]="password" [required]="true" linkText="¿Olvidaste tu contraseña?" linkUrl="#" />
         <button type="submit"
             class="w-full bg-[#5A7259] text-white py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#465A45] transition-colors flex items-center justify-center gap-2 mt-2 text-sm sm:text-base cursor-pointer">
             Iniciar sesión
             <app-icon-fin-coach name="arrow-right" class="w-4 h-4" />
         </button>
     </form>
-
-    <!-- separador -->
-    <div class="w-full max-w-[90%] sm:max-w-sm flex items-center my-5 md:my-6">
+    <div class="w-full sm:max-w-sm flex items-center my-5 md:my-6">
         <div class="flex-grow border-t border-[#E1E6C2]"></div>
         <span class="mx-4 text-xs text-gray-400 font-light">o</span>
         <div class="flex-grow border-t border-[#E1E6C2]"></div>
     </div>
-
-    <!-- google -->
-    <button type="button"
-        class="w-full max-w-[90%] sm:max-w-sm bg-[#ECF2CB] text-gray-700 border border-[#D5DCAC] py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#E2E9BA] transition-colors flex items-center justify-center gap-3 text-sm sm:text-base">
-        <app-icon-fin-coach name="google" class="w-4 h-4 flex-shrink-0" />
-        Continuar con Google
-    </button>
-
+    <app-google-button class="w-full sm:max-w-sm" />
     <p class="text-xs sm:text-sm text-gray-600 mt-6 md:mt-8 text-center">
         ¿No tienes una cuenta?
-        <a href="#" class="text-[#214523] font-semibold hover:underline block sm:inline mt-1 sm:mt-0">Regístrate gratis</a>
+        <a routerLink="/registro"
+            class="text-[#214523] font-semibold hover:underline block sm:inline mt-1 sm:mt-0">Regístrate gratis</a>
     </p>
 </div>

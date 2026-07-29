@@ -1,17 +1,26 @@
-# Python cache
+# Python cache & compilados
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Entornos virtuales locales (por si alguien corre Python sin Docker)
+# Entornos virtuales locales
 .venv/
 venv/
 ENV/
 env/
+/env/
 
-# Archivos de configuración local y secretos
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración local y logs
 .env
 *.log
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
+**/.ipynb_checkpoints/
+
+# Archivos temporales de documentación
+/Documentaci*/

@@ -1,0 +1,47 @@
+<div class="flex flex-col items-center justify-center min-h-screen bg-[#F6FAD4] px-3 sm:px-6 py-8 md:py-12">
+    <app-auth-header title="Crea tu cuenta" />
+    <form (ngSubmit)="onRegister()" class="w-full sm:max-w-sm flex flex-col gap-3 sm:gap-3">
+        @if (errorMessage) {
+            <div class="p-3 bg-red-100 border border-red-300 text-red-700 text-xs rounded-xl">
+                {{ errorMessage }}
+            </div>
+        }
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4 w-full">
+            <app-auth-input id="firstName" label="Nombre" icon="profile" placeholder="Tu nombre"
+                [(value)]="firstName" />
+            <app-auth-input id="lastName" label="Apellido" icon="profile" placeholder="Tu apellido"
+                [(value)]="lastName" />
+        </div>
+        <app-auth-input id="email" label="Correo electrónico" type="email" icon="mail" placeholder="ejemplo@correo.com"
+            [(value)]="email" />
+        <app-auth-input id="password" label="Contraseña" [isPassword]="true" icon="lock"
+            placeholder="Mínimo 6 caracteres" [(value)]="password" />
+        <app-auth-input id="confirmPassword" label="Repetir contraseña" [isPassword]="true" icon="lock"
+            placeholder="Mínimo 6 caracteres" [(value)]="confirmPassword" />
+        <div class="flex items-start gap-2.5 my-1">
+            <input id="terms" name="acceptTerms" type="checkbox" [(ngModel)]="acceptTerms"
+                class="mt-1 w-4 h-4 rounded border-[#E1E6C2] text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259] cursor-pointer" />
+            <label for="terms" class="text-xs text-gray-700 leading-snug cursor-pointer">
+                Al registrarme, acepto los <a href="#" class="font-medium text-[#214523] hover:underline">Términos de
+                    servicio</a> y la <a href="#" class="font-medium text-[#214523] hover:underline">Política de
+                    privacidad</a>.
+            </label>
+        </div>
+        <button type="submit" [disabled]="isLoading"
+            class="w-full bg-[#5A7259] text-white py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#465A45] transition-colors flex items-center justify-center gap-2 mt-1 text-sm sm:text-base cursor-pointer disabled:opacity-50">
+            {{ isLoading ? 'Creando cuenta...' : 'Crear cuenta' }}
+            <app-icon-fin-coach name="arrow-right" class="w-4 h-4" />
+        </button>
+    </form>
+    <div class="w-full sm:max-w-sm flex items-center my-5 md:my-6">
+        <div class="flex-grow border-t border-[#E1E6C2]"></div>
+        <span class="mx-4 text-xs text-gray-400 font-light">o</span>
+        <div class="flex-grow border-t border-[#E1E6C2]"></div>
+    </div>
+    <app-google-button class="w-full sm:max-w-sm" />
+    <p class="text-xs sm:text-sm text-gray-600 mt-6 md:mt-8 text-center">
+        ¿Ya tienes una cuenta?
+        <a routerLink="/login" class="text-[#214523] font-semibold hover:underline block sm:inline mt-1 sm:mt-0">Iniciar
+            sesión</a>
+    </p>
+</div>

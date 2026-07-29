@@ -1,1 +1,17 @@
-<p>debts works!</p>
+<div class="space-y-5 sm:space-y-6 pb-8">
+    <app-debts-header (addDebt)="onAddDebt()"></app-debts-header>
+    <app-debts-summary-cards totalPending="S/ 9,300" monthlyTotal="S/ 1,125" incomePercentage="21%" freeDate="Jun 2028"
+        [monthsRemaining]="23">
+    </app-debts-summary-cards>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+        <div class="lg:col-span-7 xl:col-span-7 space-y-4">
+            <app-active-debts-list [debts]="activeDebts"></app-active-debts-list>
+        </div>
+        <div class="lg:col-span-5 xl:col-span-5 space-y-5 sm:space-y-6">
+            <app-debt-projection-chart></app-debt-projection-chart>
+            <app-paid-debts-list [paidDebts]="paidDebts"></app-paid-debts-list>
+        </div>
+    </div>
+    <app-add-debt-modal [isOpen]="isModalOpen()" (closeModal)="onCloseModal()" (addDebt)="onSaveDebt($event)">
+    </app-add-debt-modal>
+</div>

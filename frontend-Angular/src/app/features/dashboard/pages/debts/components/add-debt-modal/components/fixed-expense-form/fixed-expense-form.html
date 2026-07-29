@@ -1,0 +1,34 @@
+<div class="space-y-4">
+    <h3 class="text-xs font-bold text-[#5A7259] uppercase tracking-wider">Detalles del Gasto Fijo</h3>
+    <div class="space-y-1.5">
+        <label class="block text-xs font-semibold text-[#214523]">Categoría</label>
+        <select [ngModel]="category()" (ngModelChange)="category.set($event)" name="category"
+            class="w-full bg-[#F4F8DE] border border-[#C6D8A2] rounded-xl px-3.5 py-2.5 text-sm font-semibold text-[#214523] focus:outline-none focus:ring-2 focus:ring-[#5A7259] cursor-pointer">
+            @for (opt of categoryOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+            }
+        </select>
+    </div>
+    <app-form-input label="Cuota o monto mensual" id="fixedMonthlyAmountInput" type="number" prefix="S/"
+        placeholder="1,200" [(value)]="monthlyAmount">
+    </app-form-input>
+
+    @if (!isIndefinite()) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#DCE8B5]/60">
+        <app-form-input label="Plazo en meses" id="fixedMonthsTermInput" type="number" min="1" placeholder="12"
+            [(value)]="monthsTerm">
+        </app-form-input>
+
+        <app-month-picker-input label="Fecha de inicio" id="fixedStartDateInput" [(value)]="startDate">
+        </app-month-picker-input>
+    </div>
+    }
+    <div class="flex items-center gap-2.5 pt-1">
+        <input id="indefiniteCheck" type="checkbox" [ngModel]="isIndefinite()"
+            (ngModelChange)="isIndefinite.set($event)" name="isIndefinite"
+            class="w-4 h-4 rounded border-[#C6D8A2] text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259] cursor-pointer" />
+        <label for="indefiniteCheck" class="text-xs text-[#214523] font-semibold cursor-pointer select-none">
+            Es un gasto indefinido (Sin fecha final fija)
+        </label>
+    </div>
+</div>

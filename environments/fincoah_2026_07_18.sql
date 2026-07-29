@@ -3,13 +3,14 @@ USE `financiero`;
 
 DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `nombre_usuario` varchar(45) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL, -- Cambiado a password
+  `password` varchar(255) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `ingreso_mensual` float DEFAULT NULL,
   `fecha_registro` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DROP TABLE IF EXISTS `tipo_gasto`;

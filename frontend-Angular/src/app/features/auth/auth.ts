@@ -1,12 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from './services/auth.service';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '@core/auth/services/auth.service';
+import { AuthHeaderComponent } from '../../shared/components/auth-header/auth-header';
+import { AuthInputComponent } from '../../shared/components/auth-input/auth-input';
+import { GoogleButtonComponent } from '../../shared/components/google-button/google-button';
 import { IconFinCoachComponent } from '../../shared/icons/iconsFinCoach';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule, IconFinCoachComponent],
+  imports: [
+    FormsModule,
+    RouterLink,
+    AuthHeaderComponent,
+    AuthInputComponent,
+    GoogleButtonComponent,
+    IconFinCoachComponent
+  ],
   templateUrl: './auth.html',
 })
 export class Auth {
@@ -14,11 +25,6 @@ export class Auth {
 
   email = '';
   password = '';
-  showPassword = false;
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
-  }
 
   onLogin() {
     this.authService.login({ email: this.email, password: this.password }).subscribe({
