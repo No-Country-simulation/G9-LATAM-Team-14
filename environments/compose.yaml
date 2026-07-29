@@ -22,13 +22,13 @@ services:
   # 2. Service Python Data Science
   data-science:
     build:
-      context: ../data-science
+      context: ../data-science/api
       dockerfile: Dockerfile
     container_name: python_data_science
     ports:
       - "8000:8000"
     volumes:
-      - ../data-science:/app
+      - ../data-science/api:/app
     environment:
       - DB_HOST=mysql
       - DB_PORT=3306

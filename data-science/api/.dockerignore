@@ -1,4 +1,4 @@
-__pycache__
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
@@ -6,4 +6,5 @@ __pycache__
 .gitignore
 .env
 venv/
-models/*.pkl
+.venv/
+.pytest_cache/

@@ -1,52 +1,39 @@
 import joblib
-import sklearn
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import List
 from sentence_transformers import SentenceTransformer
 
-app = FastAPI(title="clasificador svm")
+from app.schemas import LoteGastosInput, LoteGastosOutput, ClasificacionItem
+
+app = FastAPI(title="Clasificador de Gastos SVM - FinCoach AI")
 
 # 1. Cargar el generador de Embeddings (Modelo ultraligero y rápido en CPU)
 MODELO_EMBEDDINGS = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "models" / "modelo_svm.pkl"
+
 try:
     print("Cargando codificador de texto multilingüe...")
     encoder = SentenceTransformer(MODELO_EMBEDDINGS)
 
     # 2. Cargar el clasificador SVM previamente entrenado y guardado
-    print("Cargando clasificador SVM desde el disco...")
-    svm_model = joblib.load("models/modelo_svm.pkl")  # <-- RUTA AJUSTADA A LA CARPETA MODELS
-    print("¡Sistema listo para clasificar!")
-except FileNotFoundError:
-    print("⚠️ ADVERTENCIA: No se encontró 'models/modelo_svm.pkl'. Ejecuta primero el script de entrenamiento.")
-    svm_model = None
+    print(f"Cargando clasificador SVM desde {MODEL_PATH}...")
+    if MODEL_PATH.exists():
+        svm_model = joblib.load(MODEL_PATH)
+        print("¡Sistema listo para clasificar!")
+    else:
+        print(f"⚠️ ADVERTENCIA: No se encontró '{MODEL_PATH}'. Ejecuta primero el script de entrenamiento.")
+        svm_model = None
 except Exception as e:
     print(f"Error crítico al iniciar los modelos: {e}")
     encoder = None
     svm_model = None
 
-# Contrato de datos JSON con Spring Boot
-class GastoItem(BaseModel):
-    id_gasto: int
-    descripcion: str
-
-class LoteGastosInput(BaseModel):
-    transacciones: List[GastoItem]
-
-class ClasificacionItem(BaseModel):
-    id_gasto: int
-    categoria: str
-    confianza: float
-
-class LoteGastosOutput(BaseModel):
-    clasificaciones: List[ClasificacionItem]
-
-
 # 3. Endpoint de la API REST
 @app.post("/api/v1/clasificar", response_model=LoteGastosOutput)
 async def clasificar_gastos_hibrido(payload: LoteGastosInput):
     if not encoder or not svm_model:
-        raise HTTPException(status_code=500, detail="Los modelos no están cargados correctamente.")
+        raise HTTPException(status_code=500, detail="Los modelos no están cargados correctamente en el servidor.")
     
     resultados_finales = []
     
@@ -60,13 +47,12 @@ async def clasificar_gastos_hibrido(payload: LoteGastosInput):
         # Paso B: Predecir las categorías usando el modelo SVM entrenado
         predicciones = svm_model.predict(embeddings)
         
-        # Paso C: Obtener la probabilidad/confianza del modelo (Requires probability=True al entrenar)
+        # Paso C: Obtener la probabilidad/confianza del modelo
         probabilidades = svm_model.predict_proba(embeddings)
         
         # Emparejar resultados con los IDs originales de Spring Boot
         for i, gasto in enumerate(payload.transacciones):
             categoria_predicha = predicciones[i]
-            # Tomamos el valor de probabilidad más alto del array de clases
             score_confianza = float(max(probabilidades[i]))
             
             resultados_finales.append(ClasificacionItem(
@@ -82,4 +68,4 @@ async def clasificar_gastos_hibrido(payload: LoteGastosInput):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)

@@ -1,10 +1,9 @@
 import joblib
-import sklearn
-import numpy as np
+from pathlib import Path
 from sentence_transformers import SentenceTransformer
 from sklearn.svm import SVC
 
-# 1. Datos de entrenamiento 
+# 1. Datos de entrenamiento de prueba
 descripciones_ejemplo = [
     "Almuerzo menú ejecutivo en restaurante el paisa", "Cena corporativa en Starbucks", "Compra de hamburguesas de Burger King",
     "Recarga de gasolina en estación Repsol", "Viaje en Uber al aeropuerto", "Peaje autopista central",
@@ -19,40 +18,26 @@ categorias_ejemplo = [
     "Alimentación", "Alimentación", "Alimentación",
     "Transporte", "Transporte", "Transporte",
     "Servicios Básicos", "Servicios Básicos", "Servicios Básicos",
-    "Alimentacion", "Vestimenta", "donacion","vestimenta","Entretenimiento","Servicios Basicos",
-    "educacion","vivienda","deudas bancarias","alimentacion",
-    "Transporte","Salud","Alimentacion","transporte",
-    "Salud","Educacion"
+    "Alimentación", "Vestimenta", "Donación", "Vestimenta", "Entretenimiento", "Servicios Básicos",
+    "Educación", "Vivienda", "Deudas Bancarias", "Alimentación",
+    "Transporte", "Salud", "Alimentación", "Transporte",
+    "Salud", "Educación"
 ]
 
 # 2. Convertir texto a números (Embeddings)
 print("Generando vectores de entrenamiento...")
-encoder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",)
-vectores = encoder.encode(descripciones_ejemplo,convert_to_numpy=True)
+encoder = SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+vectores = encoder.encode(descripciones_ejemplo, convert_to_numpy=True)
 
 # 3. Entrenar clasificador matemático SVM
-print("Entrenando clasificador matemático...")
-# probability=True es obligatorio para que el modelo calcule el porcentaje de confianza
+print("Entrenando clasificador matemático SVM...")
 svm = SVC(kernel='linear', probability=True)
 svm.fit(vectores, categorias_ejemplo)
 
-# 4. Probar con nuevos gastos
-#nuevos_gastos = [
-#    "Compra de pollo y arroz",
-#   "Taxi al aeropuerto",
-#   "Pago de mensualidad del colegio",
-#    "Suscripción a Spotify",
-#   "credit card"
-#]
+# 4. Guardar el modelo en la carpeta /api/models/ del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+MODEL_OUTPUT = BASE_DIR / "api" / "models" / "modelo_svm.pkl"
+MODEL_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
 
-#X_test = encoder.encode(nuevos_gastos)
-#predicciones = svm.predict(X_test)
-
-#for gasto, pred in zip(nuevos_gastos, predicciones):
- #   print(f"Gasto: {gasto} → Categoría predicha: {pred}")
-    
-# 5. Guardar el cerebro del modelo en un archivo para que FastAPI lo use
-joblib.dump(svm, "models/modelo_svm.pkl")
-print("¡Archivo 'models/modelo_svm.pkl' generado con éxito!")
-    
-    
+joblib.dump(svm, MODEL_OUTPUT)
+print(f"¡Modelo guardado exitosamente en: {MODEL_OUTPUT}!")
