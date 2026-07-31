@@ -1,167 +1,27 @@
-<div class="max-w-7xl mx-auto p-8">
+<app-movements-header
+  [currentDate]="currentDate"
+  (openModal)="openModal()">
+</app-movements-header>
 
-  <!-- ================= HEADER ================= -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
 
-  <div class="flex justify-between items-center mb-8">
-
-    <div>
-      <h1 class="text-3xl font-bold text-gray-900">
-        Movimientos
-      </h1>
-
-      <p class="text-gray-500 mt-2">
-        Registra tus gastos e ingresos del día para nutrir tu crecimiento.
-      </p>
-    </div>
-
-    <div class="flex gap-4">
-
-      <div class="border rounded-xl px-4 py-3 flex items-center gap-2">
-        <span class="material-symbols-outlined">
-          calendar_today
-        </span>
-        {{ currentDate }}
-      </div>
-
-      <button
-        (click)="openModal()"
-        class="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-xl flex items-center gap-2 transition">
-
-        <span class="material-symbols-outlined">
-          add
-        </span>
-
-        Nuevo Movimiento
-
-      </button>
-
-    </div>
-
+  <div class="lg:col-span-2">
+    <app-movements-list
+      [movements]="movements">
+    </app-movements-list>
   </div>
 
-  <!-- ================= CONTENIDO ================= -->
-
-  <div class="grid grid-cols-12 gap-8">
-
-    <section class="col-span-8">
-
-      <h2 class="font-semibold text-xl mb-5">
-        Movimientos de hoy
-      </h2>
-
-      <div class="space-y-3">
-
-        <p class="text-red-600 font-bold">
-          {{ movements | json }}
-        </p>
-        @for (movement of movements; track movement.id) {
-
-        <div class="flex justify-between items-center p-4 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
-
-          <div class="flex items-center gap-4">
-
-            <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl">
-              {{ getIcon(movement.category) }}
-            </div>
-
-            <div>
-
-              <h3 class="font-semibold">
-                {{ movement.description }}
-              </h3>
-
-              <span class="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600">
-                {{ movement.category }}
-              </span>
-
-            </div>
-
-          </div>
-
-          <span
-            [class]="movement.type === 'INGRESO'
-              ? 'text-green-700 font-bold text-lg'
-              : 'text-red-600 font-bold text-lg'">
-
-            {{ movement.type === 'INGRESO' ? '+' : '-' }}
-            S/
-            {{ movement.amount }}
-
-          </span>
-
-        </div>
-
-        }
-
-      </div>
-
-    </section>
-
-    <aside class="col-span-4 space-y-6">
-
-      <div class="bg-white rounded-3xl shadow-sm p-6">
-
-        <h3 class="uppercase text-gray-500 text-sm mb-6">
-          Ingresos del mes
-        </h3>
-
-        <div class="flex justify-between items-center">
-          <span>Total ingresos</span>
-          <span class="font-bold text-green-700 text-xl">
-            S/{{ getTotalIngresos() }}
-          </span>
-        </div>
-
-      </div>
-
-      <div class="bg-white rounded-3xl shadow-sm p-6">
-
-        <h3 class="uppercase text-gray-500 text-sm mb-6">
-          Gastos del mes
-        </h3>
-
-        <div class="flex justify-between items-center">
-          <span>Total gastos</span>
-          <span class="font-bold text-red-600 text-xl">
-            S/{{ getTotalGastos() }}
-          </span>
-        </div>
-
-      </div>
-
-      <div class="bg-white rounded-3xl shadow-sm p-6 text-center">
-
-        <p class="text-gray-500">
-          Tienes <b>{{ movements.length }}</b> movimientos registrados
-        </p>
-
-        <div class="mt-6 flex justify-between">
-          <span>Balance</span>
-          <span class="font-bold text-green-700 text-xl">
-            S/{{ getBalance() }}
-          </span>
-        </div>
-
-        <button
-          class="mt-6 w-full bg-green-700 hover:bg-green-800 text-white py-3 rounded-xl transition">
-          Analizar mi mes →
-        </button>
-
-      </div>
-
-    </aside>
-
+  <div>
+    <app-movements-summary-cards
+      [movements]="movements">
+    </app-movements-summary-cards>
   </div>
 
 </div>
 
-<!-- ================= MODAL ================= -->
-
 @if (isModalOpen) {
-
 <app-movement-modal
   (close)="closeModal()"
   (save)="saveMovement($event)">
 </app-movement-modal>
-
 }

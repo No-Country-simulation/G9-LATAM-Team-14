@@ -1,0 +1,41 @@
+<h2 class="font-semibold text-xl mb-5">
+  Movimientos de hoy
+</h2>
+
+<div class="space-y-3">
+
+  <div
+    *ngFor="let movement of movements"
+    class="flex justify-between items-center p-4 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
+
+    <div class="flex items-center gap-4">
+
+      <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl">
+        {{ getIcon(movement.category) }}
+      </div>
+
+      <div>
+        <h3 class="font-semibold">
+          {{ movement.description }}
+        </h3>
+
+        <span class="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600">
+          {{ movement.category }}
+        </span>
+      </div>
+
+    </div>
+
+    <span
+      [class]="movement.type === 'INGRESO'
+        ? 'text-green-700 font-bold text-lg'
+        : 'text-red-600 font-bold text-lg'">
+
+      {{ movement.type === 'INGRESO' ? '+' : '-' }}
+      S/ {{ movement.amount }}
+
+    </span>
+
+  </div>
+
+</div>

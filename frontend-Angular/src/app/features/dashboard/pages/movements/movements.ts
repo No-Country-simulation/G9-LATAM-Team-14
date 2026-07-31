@@ -4,7 +4,11 @@ import { FormsModule } from '@angular/forms';
 
 import { MovementService } from '../../services/movement.service';
 import { Movement } from '../../../../models/movement.model';
-import { MovementModalComponent } from './movement-modal/movement-modal';
+
+import { MovementModalComponent } from './components/movement-modal/movement-modal';
+import { MovementsHeader } from './components/movements-header/movements-header';
+import { MovementsList } from './components/movements-list/movements-list';
+import { MovementsSummaryCards } from './components/movements-summary-cards/movements-summary-cards';
 
 @Component({
   selector: 'app-movements',
@@ -12,6 +16,11 @@ import { MovementModalComponent } from './movement-modal/movement-modal';
   imports: [
     CommonModule,
     FormsModule,
+
+    MovementsHeader,
+    MovementsList,
+    MovementsSummaryCards,
+
     MovementModalComponent
   ],
   templateUrl: './movements.html',
@@ -33,28 +42,30 @@ export class Movements implements OnInit {
     private movementService: MovementService
   ) {}
 
-  ngOnInit(): void {
-    this.loadMovements();
+  ngOnInit() {
+      setTimeout(() => {
+          this.loadMovements();
+      }, 0);
   }
 
   loadMovements(): void {
 
+    console.log("Entró a loadMovements");
+
     this.movementService.getMovements().subscribe({
 
-      next: (data: Movement[]) => {
+      next: (data) => {
 
-        console.log("=== DATA ===");
-        console.log(data);
-        console.log("Cantidad:", data.length);
+        console.log("Datos recibidos:", data);
 
         this.movements = data;
-
-        console.log("Movements:", this.movements);
 
       },
 
       error: (err) => {
-        console.error(err);
+
+        console.error("ERROR:", err);
+
       }
 
     });
@@ -62,90 +73,31 @@ export class Movements implements OnInit {
   }
 
   openModal(): void {
-    console.log('CLICK');
-     alert('CLICK');
-
-       this.isModalOpen = true;
-
-       console.log(this.isModalOpen);
+    this.isModalOpen = true;
   }
+
   closeModal(): void {
     this.isModalOpen = false;
   }
+
   saveMovement(movement: any): void {
 
-     console.log("Enviando:", movement);
+    this.movementService.createMovement(movement).subscribe({
 
-     this.movementService.createMovement(movement).subscribe({
+      next: () => {
 
-       next: (response) => {
+        this.closeModal();
+        this.loadMovements();
 
-         console.log("Movimiento guardado", response);
+      },
 
-         this.closeModal();
+      error: (err) => {
 
-         this.loadMovements();
+        console.error('Error al guardar movimiento', err);
 
-       },
+      }
 
-       error: (err) => {
-
-         console.error("Error al guardar", err);
-
-         this.closeModal();
-
-    }
-
-  });
-
-}
-  getTotalIngresos(): number {
-    return this.movements
-      .filter(m => m.type === 'INGRESO')
-      .reduce((total, m) => total + m.amount, 0);
-  }
-
-  getTotalGastos(): number {
-    return this.movements
-      .filter(m => m.type === 'GASTO')
-      .reduce((total, m) => total + m.amount, 0);
-  }
-
-  getBalance(): number {
-    return this.getTotalIngresos() - this.getTotalGastos();
-  }
-
-  getIcon(category: string): string {
-
-    switch (category.toUpperCase()) {
-
-      case 'ALIMENTOS':
-        return '🛒';
-
-      case 'TRABAJO':
-        return '💼';
-
-      case 'TRANSPORTE':
-        return '🚌';
-
-      case 'SALUD':
-        return '💊';
-
-      case 'ENTRETENIMIENTO':
-        return '🎮';
-
-      case 'EDUCACION':
-        return '📚';
-
-      case 'HOGAR':
-        return '🏠';
-
-      case 'SERVICIOS':
-        return '💡';
-
-      default:
-        return '💰';
-    }
+    });
 
   }
 
