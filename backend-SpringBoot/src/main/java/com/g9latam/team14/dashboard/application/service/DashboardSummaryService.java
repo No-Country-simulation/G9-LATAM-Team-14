@@ -3,6 +3,7 @@ import com.g9latam.team14.dashboard.domain.model.DashboardSummary;
 import com.g9latam.team14.dashboard.domain.ports.inbound.GetDashboardSummaryUseCase;
 import com.g9latam.team14.dashboard.domain.ports.outbound.DashboardRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -17,30 +18,24 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
     private final DashboardRepositoryPort dashboardRepositoryPort;
 
     @Override
+    @Cacheable(value = "dashboardSummary", key = "#userId")
     public DashboardSummary getSummary(Integer userId) {
         YearMonth mesActual = YearMonth.now();
         LocalDate inicioMes = mesActual.atDay(1);
         LocalDate finMes = mesActual.atEndOfMonth();
-
         BigDecimal totalIngresos = dashboardRepositoryPort.sumIngresosByUserIdAndDates(
                 userId, inicioMes, finMes
         );
-
         BigDecimal totalGastosFijos = dashboardRepositoryPort.sumGastosFijosByUserId(userId);
-
         BigDecimal totalGastosVariables = dashboardRepositoryPort.sumGastosVariablesByUserIdAndDates(
                 userId, inicioMes, finMes
         );
-
         totalIngresos = totalIngresos != null ? totalIngresos : BigDecimal.ZERO;
         totalGastosFijos = totalGastosFijos != null ? totalGastosFijos : BigDecimal.ZERO;
         totalGastosVariables = totalGastosVariables != null ? totalGastosVariables : BigDecimal.ZERO;
-
         BigDecimal balanceNeto = totalIngresos.subtract(totalGastosFijos).subtract(totalGastosVariables);
-
         List<String> alertas = generarAlertas(totalIngresos, totalGastosFijos, totalGastosVariables, balanceNeto);
         List<String> recomendaciones = generarRecomendaciones(totalIngresos, totalGastosFijos, totalGastosVariables, balanceNeto);
-
         return DashboardSummary.builder()
                 .totalIngresos(totalIngresos.setScale(2, RoundingMode.HALF_UP))
                 .totalGastosFijos(totalGastosFijos.setScale(2, RoundingMode.HALF_UP))
@@ -53,15 +48,12 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
 
     private List<String> generarAlertas(BigDecimal ingresos, BigDecimal gastosFijos, BigDecimal gastosVariables, BigDecimal balance) {
         List<String> alertas = new ArrayList<>();
-
         if (ingresos.compareTo(BigDecimal.ZERO) == 0) {
             alertas.add("No se registran ingresos en el mes actual.");
         }
-
         if (balance.compareTo(BigDecimal.ZERO) < 0) {
             alertas.add("El balance neto es negativo. Los gastos superan los ingresos.");
         }
-
         if (ingresos.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal porcentajeGastosFijos = gastosFijos.multiply(BigDecimal.valueOf(100))
                     .divide(ingresos, 1, RoundingMode.HALF_UP);
@@ -69,7 +61,6 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
                 alertas.add("Los gastos fijos superan el 50% de tus ingresos.");
             }
         }
-
         if (gastosVariables.compareTo(BigDecimal.ZERO) > 0 && ingresos.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal porcentajeVariables = gastosVariables.multiply(BigDecimal.valueOf(100))
                     .divide(ingresos, 1, RoundingMode.HALF_UP);
@@ -77,7 +68,6 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
                 alertas.add("Los gastos variables superan el 70% de tus ingresos.");
             }
         }
-
         return alertas;
     }
 
@@ -97,18 +87,15 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
                 recomendaciones.add("Buen trabajo con tu ahorro. Considera invertir parte de tu balance.");
             }
         }
-
         if (gastosFijos.compareTo(BigDecimal.ZERO) > 0 && ingresos.compareTo(BigDecimal.ZERO) > 0) {
             BigDecimal ratioDeuda = gastosFijos.divide(ingresos, 2, RoundingMode.HALF_UP);
             if (ratioDeuda.compareTo(BigDecimal.valueOf(0.4)) > 0) {
                 recomendaciones.add("Tus deudas consumen más del 40% de tus ingresos. Evalúa refinanciar.");
             }
         }
-
         if (recomendaciones.isEmpty()) {
             recomendaciones.add("Mantén tus hábitos financieros actuales.");
         }
-
         return recomendaciones;
     }
 }

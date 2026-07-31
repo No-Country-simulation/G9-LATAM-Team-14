@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StepAboutComponent, StepDebtsComponent, StepExpensesComponent, StepGoalsComponent } from './components';
+import { DebtService } from '@core/debts/services/debt.service';
+import { AuthService } from '@core/auth/services/auth.service';
 
 @Component({
   selector: 'app-onboarding',
@@ -15,6 +17,8 @@ import { StepAboutComponent, StepDebtsComponent, StepExpensesComponent, StepGoal
 })
 export class Onboarding {
   private router = inject(Router);
+  private debtService = inject(DebtService);
+  private authService = inject(AuthService);
 
   currentStep = 1;
   totalSteps = 4;
@@ -50,7 +54,16 @@ export class Onboarding {
   }
 
   finishOnboarding() {
-    this.router.navigate(['/dashboard']);
+    const userId = this.authService.currentUser()?.id || 1;
+    this.debtService.saveOnboardingDebtsToBackend(userId).subscribe({
+      next: () => {
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.error('Error guardando deudas de onboarding:', err);
+        this.router.navigate(['/dashboard']);
+      }
+    });
   }
 }
 

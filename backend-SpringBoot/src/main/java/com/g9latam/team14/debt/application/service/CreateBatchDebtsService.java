@@ -4,6 +4,7 @@ import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.ports.inbound.CreateBatchDebtsUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class CreateBatchDebtsService implements CreateBatchDebtsUseCase {
     private final DebtRepositoryPort debtRepository;
 
     @Override
+    @CacheEvict(value = {"debtSummary", "debtProjection"}, allEntries = true)
     public List<Debt> createBatchDebts(List<Debt> debts, Integer userId) {
         debts.forEach(debt -> {
             debt.setUserId(userId);

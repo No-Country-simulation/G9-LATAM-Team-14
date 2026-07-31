@@ -5,6 +5,7 @@ import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.ports.inbound.GetDebtProjectionUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class GetDebtProjectionService implements GetDebtProjectionUseCase {
     private final DebtRepositoryPort debtRepository;
 
     @Override
+    @Cacheable(value = "debtProjection", key = "#userId")
     public List<DebtProjectionPoint> getDebtProjectionByUserId(Integer userId) {
         List<Debt> activeDebts = debtRepository.findByUserIdAndStatus(userId, DebtStatus.ACTIVE);
         List<DebtProjectionPoint> points = new ArrayList<>();
@@ -31,7 +33,6 @@ public class GetDebtProjectionService implements GetDebtProjectionUseCase {
                 int totalTerm = debt.getMonthsTerm() != null ? debt.getMonthsTerm() : 12;
                 int currentPaid = debt.getPaidInstallments() != null ? debt.getPaidInstallments() : 0;
                 int futurePaid = currentPaid + i;
-
                 if (futurePaid < totalTerm) {
                     BigDecimal monthly = debt.getMonthlyAmount() != null ? debt.getMonthlyAmount() : BigDecimal.ZERO;
                     int remainingMonths = totalTerm - futurePaid;
@@ -43,7 +44,6 @@ public class GetDebtProjectionService implements GetDebtProjectionUseCase {
                     .balance(currentTotalBalance)
                     .build());
         }
-
         return points;
     }
 }

@@ -5,6 +5,7 @@ import com.g9latam.team14.debt.domain.model.DebtSummary;
 import com.g9latam.team14.debt.domain.ports.inbound.GetDebtSummaryUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -18,12 +19,12 @@ public class GetDebtSummaryService implements GetDebtSummaryUseCase {
     private final DebtRepositoryPort debtRepository;
 
     @Override
+    @Cacheable(value = "debtSummary", key = "#userId")
     public DebtSummary getDebtSummaryByUserId(Integer userId) {
         List<Debt> activeDebts = debtRepository.findByUserIdAndStatus(userId, DebtStatus.ACTIVE);
         BigDecimal totalPending = BigDecimal.ZERO;
         BigDecimal monthlyTotal = BigDecimal.ZERO;
         int maxMonthsRemaining = 0;
-
         for (Debt debt : activeDebts) {
             BigDecimal monthly = debt.getMonthlyAmount() != null ? debt.getMonthlyAmount() : BigDecimal.ZERO;
             monthlyTotal = monthlyTotal.add(monthly);
@@ -42,6 +43,7 @@ public class GetDebtSummaryService implements GetDebtSummaryUseCase {
             }
             totalPending = totalPending.add(pending);
         }
+
         BigDecimal estimatedIncome = new BigDecimal("5000.00");
         double incomePercentage = monthlyTotal.divide(estimatedIncome, 4, RoundingMode.HALF_UP)
                 .multiply(new BigDecimal("100"))

@@ -3,6 +3,7 @@ import com.g9latam.team14.debt.domain.model.Debt;
 import com.g9latam.team14.debt.domain.ports.inbound.UpdateDebtUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ public class UpdateDebtService implements UpdateDebtUseCase {
     private final DebtRepositoryPort debtRepository;
 
     @Override
+    @CacheEvict(value = {"debtSummary", "debtProjection"}, allEntries = true)
     public Debt updateDebt(Integer id, Debt debt) {
         return debtRepository.findById(id)
                 .map(existing -> {

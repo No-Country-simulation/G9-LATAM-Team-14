@@ -1,12 +1,8 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IconFinCoachComponent } from '../../../../shared/icons/iconsFinCoach';
-
-export interface DebtItem {
-  id: number;
-  type: string;
-  amount: number | null;
-}
+import { IconFinCoachComponent } from '@shared/icons/iconsFinCoach';
+import { DebtService } from '@core/debts/services/debt.service';
+import { SingleDebtItemRequest } from '@core/debts/models/debt.model';
 
 @Component({
   selector: 'app-step-debts',
@@ -15,9 +11,9 @@ export interface DebtItem {
   templateUrl: './step-debts.html',
 })
 export class StepDebtsComponent {
-  debts = signal<DebtItem[]>([
-    { id: 1, type: '', amount: null }
-  ]);
+  private debtService = inject(DebtService);
+
+  debts = this.debtService.onboardingDebts;
 
   debtPercentage = computed(() => {
     const total = this.debts().reduce((acc, d) => acc + (d.amount || 0), 0);
@@ -26,15 +22,15 @@ export class StepDebtsComponent {
   });
 
   addDebt() {
-    this.debts.update(list => [
+    this.debtService.onboardingDebts.update(list => [
       ...list,
-      { id: Date.now(), type: '', amount: null }
+      { category: '', amount: null }
     ]);
   }
 
-  removeDebt(id: number) {
+  removeDebt(index: number) {
     if (this.debts().length > 1) {
-      this.debts.update(list => list.filter(d => d.id !== id));
+      this.debtService.onboardingDebts.update(list => list.filter((_, i) => i !== index));
     }
   }
 }

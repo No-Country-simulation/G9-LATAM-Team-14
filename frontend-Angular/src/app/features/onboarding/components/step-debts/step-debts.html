@@ -16,11 +16,11 @@
             <div class="flex-1 pl-5">Tipo de deuda</div>
             <div class="w-24 sm:w-36 pr-6">Monto mensual</div>
         </div>
-        @for (debt of debts(); track debt.id; let i = $index) {
+        @for (debt of debts(); track $index; let i = $index) {
         <div class="w-full flex items-center gap-1.5 sm:gap-3 py-1">
             <span class="w-4 text-center text-xs font-bold text-[#214523] shrink-0">{{ i + 1 }}.</span>
             <div class="flex-1 min-w-0">
-                <select [(ngModel)]="debt.type"
+                <select [(ngModel)]="debt.category"
                     class="w-full py-2 px-2 sm:px-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-[11px] sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium cursor-pointer truncate">
                     <option value="" disabled selected>Selecciona tipo de compromiso...</option>
                     <optgroup label="Deudas o Créditos">
@@ -46,7 +46,7 @@
                 <input type="number" [(ngModel)]="debt.amount" placeholder="0.00"
                     class="w-full pl-5 pr-2 py-2 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-[11px] sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870]" />
             </div>
-            <button type="button" (click)="removeDebt(debt.id)"
+            <button type="button" (click)="removeDebt(i)"
                 class="p-1 text-[#5A7259] hover:text-red-600 hover:bg-red-100/60 rounded-lg transition-colors cursor-pointer shrink-0"
                 title="Eliminar deuda">
                 <app-icon-fin-coach name="trash" class="w-4 h-4 sm:w-5 sm:h-5" />
