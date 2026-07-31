@@ -1,5 +1,7 @@
 # Flujo de Datos y Arquitectura del Backend (Hexagonal + SOLID)
 
+> **Documentación completa de la API**: Consulta la [Guía Completa de Endpoints](API_ENDPOINTS.md) para ver todos los payloads, respuestas y ejemplos cURL.
+
 Este proyecto implementa **Arquitectura Hexagonal** combinada con los principios **SOLID**. El objetivo principal es desacoplar por completo las reglas de negocio (Dominio) de las tecnologías externas (Base de datos, Frameworks, HTTP).
 
 ## Diagrama del Flujo de una Petición
