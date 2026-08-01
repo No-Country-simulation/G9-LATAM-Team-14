@@ -18,26 +18,51 @@ export class MovementModalComponent {
   @Output() save = new EventEmitter<any>();
 
   movement = {
-   description: '',
-   amount: 0,
-   type: 'GASTO' as 'INGRESO' | 'GASTO',
-   category: '',
-   date: new Date().toISOString().split('T')[0],
-   userId: 1
- };
-  categories = [
+    description: '',
+    amount: null as number | null,
+    type: 'GASTO' as 'INGRESO' | 'GASTO',
+    category: '',
+    date: new Date().toISOString().split('T')[0],
+    userId: 1
+  };
+
+  // Categorías para gastos
+  expenseCategories = [
     'ALIMENTOS',
-    'TRABAJO',
     'TRANSPORTE',
     'SALUD',
+    'HOGAR',
+    'SERVICIOS',
     'ENTRETENIMIENTO',
     'EDUCACION',
-    'HOGAR',
-    'SERVICIOS'
+    'COMPRAS'
+
   ];
 
+  // Categorías para ingresos
+  incomeCategories = [
+    'SALARIO',
+    'FREELANCE',
+    'BONO',
+    'VENTA',
+    'INVERSION',
+    'INTERESES',
+    'REGALO',
+    'OTRO'
+  ];
+
+  categories = this.expenseCategories;
+
+
   selectType(type: 'INGRESO' | 'GASTO'): void {
+
     this.movement.type = type;
+
+    this.categories =
+      type === 'INGRESO'
+        ? this.incomeCategories
+        : this.expenseCategories;
+
   }
 
   selectCategory(category: string): void {
@@ -46,17 +71,15 @@ export class MovementModalComponent {
 
   registerMovement(): void {
 
-    alert("Se hizo clic en Registrar");
+    console.log("Enviando movimiento...");
+    console.log(this.movement);
 
-      console.log(this.movement);
+    this.save.emit(this.movement);
 
-        this.save.emit(this.movement);
   }
 
   closeModal(): void {
-
     this.close.emit();
-
   }
 
 }

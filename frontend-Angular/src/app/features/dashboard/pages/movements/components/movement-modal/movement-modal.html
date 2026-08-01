@@ -2,114 +2,189 @@
 <!-- Plantilla Angular base para el modal -->
 
 <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-  <div class="bg-white rounded-xl shadow-xl w-full max-w-lg p-8">
 
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-2xl font-bold">Nuevo Movimiento</h2>
+  <div class="bg-[#FDFEEA] border border-[#D6D6B8] rounded-3xl shadow-2xl w-full max-w-xl p-8">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+
+      <h2 class="text-3xl font-semibold text-[#364234]">
+        Nuevo Movimiento
+      </h2>
 
       <button
         type="button"
         (click)="closeModal()"
-        class="text-gray-500 hover:text-black">
+        class="text-[#6B6B5D] hover:text-[#364234] text-2xl">
+
         ✕
+
       </button>
+
     </div>
 
     <form class="space-y-6">
 
       <!-- Tipo -->
-      <div class="flex gap-2">
+
+      <div class="grid grid-cols-2 border border-[#D6D6B8] rounded-2xl p-1">
+
         <button
           type="button"
           (click)="selectType('GASTO')"
-          [class.bg-green-700]="movement.type==='GASTO'"
-          class="flex-1 rounded-lg border p-3">
+          class="py-3 rounded-xl font-medium transition"
+          [ngClass]="movement.type==='GASTO'
+            ? 'bg-[#4E6545] text-white'
+            : 'text-[#364234] hover:bg-[#EEF2D2]'">
+
           Gasto
+
         </button>
 
         <button
           type="button"
           (click)="selectType('INGRESO')"
-          [class.bg-green-700]="movement.type==='INGRESO'"
-          class="flex-1 rounded-lg border p-3">
+          class="py-3 rounded-xl font-medium transition"
+          [ngClass]="movement.type==='INGRESO'
+            ? 'bg-[#4E6545] text-white'
+            : 'text-[#364234] hover:bg-[#EEF2D2]'">
+
           Ingreso
+
         </button>
+
       </div>
 
       <!-- Descripción -->
+
       <div>
-        <label>Descripción</label>
+
+        <label class="block mb-2 font-medium text-[#364234]">
+
+          {{ movement.type === 'GASTO'
+          ? '¿En qué gastaste?'
+          : '¿Cómo obtuviste este ingreso?' }}
+
+        </label>
+
         <input
           type="text"
           name="description"
           [(ngModel)]="movement.description"
-          class="w-full border rounded-lg p-3">
+          [placeholder]="movement.type === 'GASTO'
+          ? 'Ej. Almuerzo menú'
+          : 'Ej. Pago de sueldo'"
+          class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
+
       </div>
 
       <!-- Monto -->
+
       <div>
-        <label>Monto</label>
+
+        <label class="block mb-2 font-medium text-[#364234]">
+
+          Monto (S/)
+
+        </label>
+
         <input
           type="number"
           step="0.01"
           name="amount"
           [(ngModel)]="movement.amount"
-          class="w-full border rounded-lg p-3">
+          placeholder="0.00"
+          class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
+
       </div>
 
       <!-- Fecha -->
+
       <div>
-        <label>Fecha</label>
+
+        <label class="block mb-2 font-medium text-[#364234]">
+
+          Fecha
+
+        </label>
+
         <input
           type="date"
           name="date"
           [(ngModel)]="movement.date"
-          class="w-full border rounded-lg p-3">
+          class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
+
       </div>
 
-      <!-- Categoría -->
+      <!-- Categorías -->
+
       <div>
-        <label>Categoría</label>
 
-        <div class="flex flex-wrap gap-2 mt-2">
+        <label class="block mb-3 font-medium text-[#364234]">
 
-          @for(category of categories; track category){
+          Categorías rápidas
+
+        </label>
+
+        <div class="flex flex-wrap gap-3">
+
+          @for (category of categories; track $index) {
+
 
           <button
             type="button"
             (click)="selectCategory(category)"
-            [class.bg-green-700]="movement.category === category"
-            [class.text-white]="movement.category === category"
-            [class.border-green-700]="movement.category === category"
-            class="border rounded-full px-4 py-2 transition-all hover:bg-green-100">
+            class="px-5 py-2 rounded-full border transition"
+
+            [ngClass]="movement.category===category
+                ? 'bg-[#4E6545] text-white border-[#4E6545]'
+                : 'bg-[#FDFEEA] border-[#D6D6B8] text-[#364234] hover:bg-[#EEF2D2]'">
 
             {{ category }}
 
           </button>
+
           }
 
         </div>
 
       </div>
 
-      <!-- Acciones -->
-      <div class="flex flex-col gap-3">
+      <!-- Aviso -->
 
-        <button
-          type="button"
-          (click)="registerMovement()"
-          class="bg-green-700 text-white rounded-lg p-4">
+      <div class="bg-[#FBE4C8] border border-[#E8C18D] rounded-xl p-4">
 
-          Registrar Movimiento
+        <p class="text-sm text-[#7B5328]">
 
-        </button>
+          <strong>¿Pago de deuda?</strong>
+
+          Tus cuotas ya están registradas en tu perfil para evitar duplicados.
+
+        </p>
+
+      </div>
+
+      <!-- Botón -->
+
+      <button
+        type="button"
+        (click)="registerMovement()"
+        class="w-full bg-[#4E6545] hover:bg-[#44583D] text-white rounded-2xl py-4 font-semibold transition">
+
+        Registrar Movimiento
+
+      </button>
+
+      <!-- Cancelar -->
+
+      <div class="text-center">
 
         <button
           type="button"
           (click)="closeModal()"
-          class="border rounded-lg p-4">
+          class="text-[#6B6B5D] hover:text-[#364234] transition">
 
-          Cancelar
+          Cancelar y volver
 
         </button>
 
@@ -118,4 +193,5 @@
     </form>
 
   </div>
+
 </div>

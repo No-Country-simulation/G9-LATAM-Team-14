@@ -1,40 +1,77 @@
-<h2 class="font-semibold text-xl mb-5">
-  Movimientos de hoy
-</h2>
+<div class="bg-[#FDFEEA] rounded-3xl border border-[#D6D6B8] p-6">
 
-<div class="space-y-3">
+  <h2 class="text-xl font-semibold text-[#364234] mb-6">
+    Movimientos de hoy
+  </h2>
 
-  <div
-    *ngFor="let movement of movements"
-    class="flex justify-between items-center p-4 rounded-2xl bg-white shadow-sm hover:shadow-md transition">
+  <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
 
-    <div class="flex items-center gap-4">
+    <div
+      *ngFor="let movement of movements"
+      class="flex justify-between items-center bg-[#FAFCD9] rounded-2xl px-5 py-4 hover:bg-[#F5F8CF] transition">
 
-      <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-xl">
-        {{ getIcon(movement.category) }}
+      <!-- Información -->
+
+      <div class="flex items-center gap-4">
+
+        <!-- Icono -->
+
+        <div
+          class="w-11 h-11 rounded-xl bg-[#EEF2D2] flex items-center justify-center text-lg">
+
+          {{ getIcon(movement.category) }}
+
+        </div>
+
+        <!-- Texto -->
+
+        <div>
+
+          <h3 class="font-medium text-[#364234]">
+
+            {{ movement.description }}
+
+          </h3>
+
+          <div
+            class="flex items-center gap-3 text-sm">
+
+                        <span
+                          class="uppercase px-2 py-1 rounded-md text-sm font-medium"
+                          [ngClass]="movement.type === 'INGRESO'
+                           ? 'bg-[#DDF3E3] text-[#4E6545]'
+                           : 'bg-[#F8E7D5] text-[#9A6A3B]'">
+
+                          {{ movement.category }}
+
+                        </span>
+
+            <span class="text-gray-500">
+
+                            {{ formatTime(movement.date) }}
+
+                        </span>
+
+          </div>
+
+        </div>
+
       </div>
 
-      <div>
-        <h3 class="font-semibold">
-          {{ movement.description }}
-        </h3>
+      <!-- Monto -->
 
-        <span class="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600">
-          {{ movement.category }}
-        </span>
-      </div>
+      <span
+        class="font-semibold text-lg"
+        [ngClass]="movement.type === 'INGRESO'
+                    ? 'text-[#4A6042]'
+                    : 'text-[#8B5A2B]'">
+
+                {{ movement.type === 'INGRESO' ? '+' : '-' }}
+                S/ {{ movement.amount }}
+
+            </span>
 
     </div>
-
-    <span
-      [class]="movement.type === 'INGRESO'
-        ? 'text-green-700 font-bold text-lg'
-        : 'text-red-600 font-bold text-lg'">
-
-      {{ movement.type === 'INGRESO' ? '+' : '-' }}
-      S/ {{ movement.amount }}
-
-    </span>
 
   </div>
 

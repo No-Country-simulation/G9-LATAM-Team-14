@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ChangeDetectorRef } from '@angular/core';
 import { MovementService } from '../../services/movement.service';
 import { Movement } from '../../../../models/movement.model';
 
@@ -39,13 +39,12 @@ export class Movements implements OnInit {
   isModalOpen = false;
 
   constructor(
-    private movementService: MovementService
+    private movementService: MovementService,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
-      setTimeout(() => {
-          this.loadMovements();
-      }, 0);
+  ngOnInit(): void {
+    this.loadMovements();
   }
 
   loadMovements(): void {
@@ -73,32 +72,46 @@ export class Movements implements OnInit {
   }
 
   openModal(): void {
+
+    console.trace("ABRIENDO MODAL");
+
     this.isModalOpen = true;
+
   }
 
   closeModal(): void {
+
+    console.log("CERRANDO MODAL");
+
     this.isModalOpen = false;
-  }
 
-  saveMovement(movement: any): void {
-
-    this.movementService.createMovement(movement).subscribe({
-
-      next: () => {
-
-        this.closeModal();
-        this.loadMovements();
-
-      },
-
-      error: (err) => {
-
-        console.error('Error al guardar movimiento', err);
-
-      }
-
-    });
+    this.cdr.detectChanges();
 
   }
 
+ saveMovement(movement: any): void {
+
+   console.log("Antes del POST");
+
+   this.movementService.createMovement(movement).subscribe({
+
+     next: (data) => {
+
+       console.log("NEXT", data);
+
+       this.closeModal();
+       this.loadMovements();
+
+     },
+
+     error: (err) => {
+
+       console.error("ERROR", err);
+
+     }
+
+   });
+
+  }
 }
+

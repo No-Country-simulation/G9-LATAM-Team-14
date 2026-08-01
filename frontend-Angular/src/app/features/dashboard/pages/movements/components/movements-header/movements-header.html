@@ -1,28 +1,46 @@
 <div class="flex justify-between items-center mb-8">
 
+  <!-- Título -->
   <div>
-    <h1 class="text-3xl font-bold text-gray-900">
+
+    <h1 class="text-3xl font-bold text-[#2F3A2F]">
       Movimientos
     </h1>
 
-    <p class="text-gray-500 mt-2">
+    <p class="text-[#6B6B5D] mt-2">
       Registra tus gastos e ingresos del día para nutrir tu crecimiento.
     </p>
+
   </div>
 
-  <div class="flex gap-4">
+  <!-- Acciones -->
+  <div class="flex items-center gap-4">
 
-    <div class="border rounded-xl px-4 py-3 flex items-center gap-2">
-      <span class="material-symbols-outlined">
-        calendar_today
+    <!-- Fecha -->
+    <div
+      class="flex items-center gap-2 border border-[#CFCFAE] rounded-xl px-5 py-3 bg-[#FDFEEA]">
+
+      <span class="material-symbols-outlined text-[#556B4F]">
+        📅
       </span>
 
-      {{ currentDate }}
+      <span class="text-[#2F3A2F]">
+        {{ currentDate }}
+      </span>
+
     </div>
 
+    <!-- Botón -->
     <button
       (click)="onOpenModal()"
-      class="bg-green-700 hover:bg-green-800 text-white px-5 py-3 rounded-xl flex items-center gap-2 transition">
+      class="flex items-center gap-2
+             bg-[#4A6042]
+             hover:bg-[#40543A]
+             text-white
+             rounded-xl
+             px-6
+             py-3
+             transition">
 
       <span class="material-symbols-outlined">
         add

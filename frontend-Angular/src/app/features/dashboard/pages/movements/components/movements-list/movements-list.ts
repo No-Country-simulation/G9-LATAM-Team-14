@@ -16,17 +16,40 @@ export class MovementsList {
 
     switch (category.toUpperCase()) {
 
-      case 'ALIMENTOS': return '🛒';
-      case 'TRABAJO': return '💼';
+      // Gastos
+      case 'ALIMENTOS': return '🍴';
       case 'TRANSPORTE': return '🚌';
       case 'SALUD': return '💊';
       case 'ENTRETENIMIENTO': return '🎮';
       case 'EDUCACION': return '📚';
       case 'HOGAR': return '🏠';
       case 'SERVICIOS': return '💡';
+      case 'COMPRAS': return '🛍️';
+
+      // Ingresos
+      case 'SALARIO': return '💼';
+      case 'FREELANCE': return '💻';
+      case 'BONO': return '🎁';
+      case 'VENTA': return '🛒';
+      case 'INVERSION': return '📈';
+      case 'INTERESES': return '🏦';
+      case 'REGALO': return '🎉';
+      case 'OTRO': return '💰';
+
       default: return '💰';
 
     }
+
+  }
+
+  formatTime(date: string): string {
+
+    const d = new Date(date);
+
+    return d.toLocaleTimeString('es-PE', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
 
   }
 
