@@ -59,6 +59,8 @@ export class Movements implements OnInit {
 
         this.movements = data;
 
+        this.cdr.detectChanges();
+
       },
 
       error: (err) => {
@@ -101,6 +103,7 @@ export class Movements implements OnInit {
 
        this.closeModal();
        this.loadMovements();
+       this.cdr.detectChanges();
 
      },
 

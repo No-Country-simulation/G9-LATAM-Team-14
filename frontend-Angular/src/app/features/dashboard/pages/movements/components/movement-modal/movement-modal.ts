@@ -26,7 +26,6 @@ export class MovementModalComponent {
     userId: 1
   };
 
-  // Categorías para gastos
   expenseCategories = [
     'ALIMENTOS',
     'TRANSPORTE',
@@ -36,10 +35,8 @@ export class MovementModalComponent {
     'ENTRETENIMIENTO',
     'EDUCACION',
     'COMPRAS'
-
   ];
 
-  // Categorías para ingresos
   incomeCategories = [
     'SALARIO',
     'FREELANCE',
@@ -53,16 +50,9 @@ export class MovementModalComponent {
 
   categories = this.expenseCategories;
 
-
   selectType(type: 'INGRESO' | 'GASTO'): void {
-
     this.movement.type = type;
-
-    this.categories =
-      type === 'INGRESO'
-        ? this.incomeCategories
-        : this.expenseCategories;
-
+    this.categories = type === 'INGRESO' ? this.incomeCategories : this.expenseCategories;
   }
 
   selectCategory(category: string): void {
@@ -70,16 +60,27 @@ export class MovementModalComponent {
   }
 
   registerMovement(): void {
-
     console.log("Enviando movimiento...");
     console.log(this.movement);
-
     this.save.emit(this.movement);
-
+    this.resetForm();
   }
 
   closeModal(): void {
+    this.resetForm();
     this.close.emit();
+  }
+
+  private resetForm(): void {
+    this.movement = {
+      description: '',
+      amount: null as number | null,
+      type: 'GASTO' as 'INGRESO' | 'GASTO',
+      category: '',
+      date: new Date().toISOString().split('T')[0],
+      userId: 1
+    };
+    this.categories = this.expenseCategories;
   }
 
 }

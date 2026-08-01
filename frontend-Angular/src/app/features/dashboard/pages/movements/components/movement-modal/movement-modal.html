@@ -128,21 +128,19 @@
 
         <div class="flex flex-wrap gap-3">
 
-          @for (category of categories; track $index) {
+          @for (category of categories; track category) {
 
+            <button
+              type="button"
+              (click)="selectCategory(category)"
+              class="px-5 py-2 rounded-full border transition"
+              [ngClass]="movement.category===category
+                  ? 'bg-[#4E6545] text-white border-[#4E6545]'
+                  : 'bg-[#FDFEEA] border-[#D6D6B8] text-[#364234] hover:bg-[#EEF2D2]'">
 
-          <button
-            type="button"
-            (click)="selectCategory(category)"
-            class="px-5 py-2 rounded-full border transition"
+              {{ category }}
 
-            [ngClass]="movement.category===category
-                ? 'bg-[#4E6545] text-white border-[#4E6545]'
-                : 'bg-[#FDFEEA] border-[#D6D6B8] text-[#364234] hover:bg-[#EEF2D2]'">
-
-            {{ category }}
-
-          </button>
+            </button>
 
           }
 
