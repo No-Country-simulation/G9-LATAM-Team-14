@@ -6,7 +6,7 @@
   <!-- Columna izquierda -->
   <div class="lg:col-span-2">
 
-    <app-movements-list [movements]="movements">
+    <app-movements-list [movements]="movements()">
     </app-movements-list>
 
   </div>
@@ -14,7 +14,7 @@
   <!-- Columna derecha -->
   <div class="space-y-6">
 
-    <app-movements-summary-cards [movements]="movements">
+    <app-movements-summary-cards [movements]="movements()">
     </app-movements-summary-cards>
 
   </div>
@@ -22,7 +22,7 @@
 </div>
 
 <!-- MODAL -->
-@if (isModalOpen) {
+@if (isModalOpen()) {
 
 <app-movement-modal (close)="closeModal()" (save)="saveMovement($event)">
 </app-movement-modal>

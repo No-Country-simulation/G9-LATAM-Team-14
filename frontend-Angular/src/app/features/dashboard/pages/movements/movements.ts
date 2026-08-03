@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
 import { MovementService } from '@core/movements/services/movement.service';
+import { AuthService } from '@core/auth/services/auth.service';
 import { Movement, CreateMovementRequest } from '@core/movements/models/movement.model';
 import { MovementModalComponent } from './components/movement-modal/movement-modal';
 import { MovementsHeader } from './components/movements-header/movements-header';
@@ -23,7 +23,12 @@ import { MovementsSummaryCards } from './components/movements-summary-cards/move
   templateUrl: './movements.html',
 })
 export class Movements implements OnInit {
-  movements: Movement[] = [];
+  private movementService = inject(MovementService);
+  private authService = inject(AuthService);
+
+  movements = signal<Movement[]>([]);
+  isModalOpen = signal<boolean>(false);
+
   currentDate = new Date().toLocaleDateString('es-PE', {
     weekday: 'long',
     day: 'numeric',
@@ -31,85 +36,45 @@ export class Movements implements OnInit {
     year: 'numeric'
   });
 
-  isModalOpen = false;
-
-  constructor(
-    private movementService: MovementService,
-    private cdr: ChangeDetectorRef
-  ) { }
-
   ngOnInit(): void {
     this.loadMovements();
   }
 
   loadMovements(): void {
-
-    console.log("Entró a loadMovements");
-
     this.movementService.getMovements().subscribe({
-
       next: (data) => {
-
-        console.log("Datos recibidos:", data);
-
-        this.movements = data;
-
-        this.cdr.detectChanges();
-
+        this.movements.set(data || []);
       },
-
       error: (err) => {
-
-        console.error("ERROR:", err);
-
+        console.error('Error al cargar movimientos:', err);
+        this.movements.set([]);
       }
-
     });
-
   }
 
   openModal(): void {
-
-    console.trace("ABRIENDO MODAL");
-
-    this.isModalOpen = true;
-
+    this.isModalOpen.set(true);
   }
 
   closeModal(): void {
-
-    console.log("CERRANDO MODAL");
-
-    this.isModalOpen = false;
-
-    this.cdr.detectChanges();
-
+    this.isModalOpen.set(false);
   }
 
-  saveMovement(movement: any): void {
+  saveMovement(movementPayload: CreateMovementRequest): void {
+    const userId = this.authService.currentUser()?.id || 1;
+    const request: CreateMovementRequest = {
+      ...movementPayload,
+      userId
+    };
 
-    console.log("Antes del POST");
-
-    this.movementService.createMovement(movement).subscribe({
-
-      next: (data) => {
-
-        console.log("NEXT", data);
-
+    this.movementService.createMovement(request).subscribe({
+      next: () => {
         this.closeModal();
         this.loadMovements();
-        this.cdr.detectChanges();
-
       },
-
       error: (err) => {
-
-        console.error("ERROR", err);
-
+        console.error('Error al guardar movimiento:', err);
       }
-
     });
-
   }
 }
-
