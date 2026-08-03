@@ -1,0 +1,109 @@
+<div
+  class="bg-[#F3F7D2]
+         border border-[#D8D8C6]
+         rounded-[28px]
+         px-8
+         py-7">
+
+  <!-- Título -->
+  <h4
+    class="uppercase
+           text-[20px]
+           tracking-wide
+           font-normal
+           text-[#3F4B40]
+           mb-8">
+
+    Alertas activas
+
+  </h4>
+
+  <div class="space-y-5">
+
+    @for(alert of alerts; track alert.title){
+
+    <div
+      class="rounded-[18px]
+             border-l-[6px]
+             px-6
+             py-5
+             flex
+             items-start
+             gap-4"
+      [ngClass]="[alert.background, alert.border]">
+
+      <!-- ICONO -->
+      @if(alert.title === 'Alerta Transporte'){
+
+      <svg
+        class="w-8 h-8 text-[#C62828] shrink-0 mt-1"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24">
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10.29 3.86l-7.5 13A2 2 0 004.5 20h15a2 2 0 001.71-3.14l-7.5-13a2 2 0 00-3.42 0z"/>
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 9v4"/>
+
+        <circle
+          cx="12"
+          cy="17"
+          r="1"
+          fill="currentColor"/>
+
+      </svg>
+
+      }
+
+      @if(alert.title === 'Reto de Ahorro'){
+
+      <svg
+        class="w-8 h-8 text-[#556F53] shrink-0 mt-1"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+
+        <path
+          d="M18 8a2 2 0 012 2v5a3 3 0 01-3 3h-1.3l-.7 2h-2l.7-2H9.3l-.7 2h-2l.7-2H6a3 3 0 01-3-3v-4a5 5 0 015-5h1a5 5 0 015-3c1.4 0 2.7.6 3.6 1.5H19v2h-1z"/>
+
+      </svg>
+
+      }
+
+      <!-- TEXTO -->
+      <div class="flex-1">
+
+        <p
+          class="text-[18px]
+                 font-semibold
+                 text-[#273126]
+                 mb-2">
+
+          {{ alert.title }}
+
+        </p>
+
+        <p
+          class="text-[16px]
+                 leading-7
+                 text-[#556055]">
+
+          {{ alert.description }}
+
+        </p>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+</div>

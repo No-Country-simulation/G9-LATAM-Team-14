@@ -1,8 +1,21 @@
-<div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
-  <h2 class="text-2xl font-bold text-gray-800">Panel de Resumen (Overview)</h2>
-  <p class="text-gray-600 mt-2">Este es el contenido principal del Dashboard.</p>
+<div class="max-w-7xl mx-auto px-8 py-10">
 
-  <div class="mt-4 p-4 bg-[#f6fbdd] rounded-lg text-[#2d4231]">
-    Aquí irían tus gráficos y tarjetas de resumen.
+  <app-financial-status-card></app-financial-status-card>
+
+  <div class="mt-10">
+    <app-metrics-cards></app-metrics-cards>
   </div>
+
+  <div class="mt-10">
+    <app-income-distribution></app-income-distribution>
+  </div>
+
+  <div class="mt-10">
+    <app-alerts-section></app-alerts-section>
+  </div>
+
+  <div class="mt-10">
+    <app-recommendations-section></app-recommendations-section>
+  </div>
+
 </div>

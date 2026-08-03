@@ -1,0 +1,238 @@
+<div
+  class="bg-[#EDF1CD]
+         border border-[#C3C8BF]/10
+         rounded-[24px]
+         p-8">
+
+  <!-- HEADER -->
+
+  <div class="flex justify-between items-center mb-8">
+
+    <h3
+      class="flex items-center gap-3
+             text-[24px]
+             font-semibold
+             text-[#1A1D07]">
+
+      <!-- Icono -->
+
+      <svg
+        class="w-6 h-6 text-[#8A5A3C]"
+        fill="currentColor"
+        viewBox="0 0 24 24">
+
+        <path d="M12 2l1.2 3.5L17 7l-3.8 1.3L12 12l-1.2-3.7L7 7l3.8-1.5L12 2z"/>
+
+        <path d="M19 10l.7 2L22 13l-2.3.8L19 16l-.7-2.2L16 13l2.3-1z"/>
+
+        <path d="M5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15z"/>
+
+      </svg>
+
+      Recomendaciones destacadas
+
+    </h3>
+
+    <button
+      class="flex items-center
+             gap-1
+             text-[15px]
+             font-medium
+             text-[#556F53]">
+
+      Ver las 6 recomendaciones
+
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24">
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 6l6 6-6 6"/>
+
+      </svg>
+
+    </button>
+
+  </div>
+
+  <!-- TARJETAS -->
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+    @for(rec of recommendations; track rec.title){
+
+    <div
+      class="bg-[#F7F9E8]
+             border border-[#D9DDC8]
+             rounded-2xl
+             p-7
+             flex
+             flex-col
+             h-[390px]
+             transition
+             hover:shadow-sm">
+
+      <!-- ICONO + BADGE -->
+
+      <div class="flex justify-between items-start">
+
+        <div
+          class="w-14
+                 h-14
+                 rounded-xl
+                 flex
+                 items-center
+                 justify-center"
+          [ngClass]="rec.iconBackground">
+
+          <!-- CARRO -->
+
+          @if(rec.icon==='directions_car'){
+
+          <svg
+            class="w-7 h-7"
+            [ngClass]="rec.iconColor"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24">
+
+            <rect
+              x="4"
+              y="7"
+              width="16"
+              height="10"
+              rx="2"/>
+
+            <circle cx="8" cy="16" r="1"/>
+
+            <circle cx="16" cy="16" r="1"/>
+
+            <path d="M6 11h12"/>
+
+          </svg>
+
+          }
+
+          <!-- MAGIA -->
+
+          @if(rec.icon==='auto_awesome'){
+
+          <svg
+            class="w-7 h-7"
+            [ngClass]="rec.iconColor"
+            fill="currentColor"
+            viewBox="0 0 24 24">
+
+            <path d="M12 2l1.2 3.5L17 7l-3.8 1.3L12 12l-1.2-3.7L7 7l3.8-1.5L12 2z"/>
+
+            <path d="M19 10l.7 2L22 13l-2.3.8L19 16l-.7-2.2L16 13l2.3-1z"/>
+
+            <path d="M5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15z"/>
+
+          </svg>
+
+          }
+
+          <!-- INVENTARIO -->
+
+          @if(rec.icon==='inventory_2'){
+
+          <svg
+            class="w-7 h-7"
+            [ngClass]="rec.iconColor"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24">
+
+            <rect
+              x="4"
+              y="5"
+              width="16"
+              height="14"
+              rx="2"/>
+
+            <path d="M8 9h8"/>
+
+            <path d="M8 13h5"/>
+
+          </svg>
+
+          }
+
+        </div>
+
+        <!-- BADGE -->
+
+        <span
+          class="px-3
+                 py-1
+                 rounded-md
+                 text-[11px]
+                 font-bold
+                 uppercase"
+          [ngClass]="rec.tagStyle">
+
+          {{ rec.impact }}
+
+        </span>
+
+      </div>
+
+      <!-- TÍTULO -->
+
+      <h4
+        class="mt-8
+               text-[22px]
+               leading-8
+               font-semibold
+               text-[#1F251C]">
+
+        {{ rec.title }}
+
+      </h4>
+
+      <!-- DESCRIPCIÓN -->
+
+      <p
+        class="mt-4
+               text-[16px]
+               leading-8
+               text-[#5D6258]
+               flex-1">
+
+        {{ rec.description }}
+
+      </p>
+
+      <!-- BOTÓN -->
+
+      <button
+        class="w-full
+               mt-auto
+               py-3
+               rounded-xl
+               bg-[#556F53]
+               hover:bg-[#4A614A]
+               text-white
+               text-[17px]
+               font-medium
+               transition">
+
+        {{ rec.button }}
+
+      </button>
+
+    </div>
+
+    }
+
+  </div>
+
+</div>
