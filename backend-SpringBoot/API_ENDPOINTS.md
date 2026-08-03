@@ -311,3 +311,59 @@ Documentación completa de los endpoints REST del backend en Spring Boot (`backe
 - **Response (200 OK)**: Lista de movimientos.
 
 ---
+
+## 6. Módulo de Recomendaciones (`/api/recomendaciones`)
+
+### 6.1 Listar Recomendaciones del Mes
+- **Endpoint**: `GET /api/recomendaciones`
+- **Descripción**: Obtiene las recomendaciones financieras personalizadas para el usuario autenticado.
+
+**Response (200 OK):**
+```json
+[
+  {
+    "id": 1,
+    "priority": "ALTA",
+    "title": "Reducir gastos hormiga",
+    "description": "Has realizado múltiples compras pequeñas este mes.",
+    "insight": "Podrías ahorrar hasta S/ 200 al mes.",
+    "actionLabel": "Ver detalle",
+    "impactPoints": 15,
+    "completed": false,
+    "date": "2026-08-01"
+  }
+]
+```
+
+---
+
+### 6.2 Marcar Recomendación como Completada
+- **Endpoint**: `POST /api/recomendaciones/{id}/completar`
+- **Descripción**: Marca una recomendación específica como completada y recalcula el score financiero.
+
+**Response (200 OK):**
+```json
+{
+  "score": 750,
+  "level": "Buena Salud Financiera",
+  "change": 15
+}
+```
+
+---
+
+## 7. Módulo de Score Financiero (`/api/usuario`)
+
+### 7.1 Obtener Score Financiero del Usuario
+- **Endpoint**: `GET /api/usuario/score`
+- **Descripción**: Retorna la puntuación financiera actual del usuario autenticado.
+
+**Response (200 OK):**
+```json
+{
+  "score": 750,
+  "level": "Buena Salud Financiera",
+  "change": 15
+}
+```
+
