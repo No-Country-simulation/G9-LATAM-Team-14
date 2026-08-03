@@ -1,10 +1,15 @@
-<div class="bg-[#FDFEEA] rounded-3xl border border-[#D6D6B8] p-6">
+<div class="bg-[#f3f7d2] rounded-3xl border border-[#D6D6B8] p-6">
 
   <h2 class="text-xl font-semibold text-[#364234] mb-6">
     Movimientos de hoy
   </h2>
 
-  <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+  <div
+    class="space-y-3
+         min-h-[580px]
+         max-h-[600px]
+         overflow-y-auto
+         pr-2">
 
     <div
       *ngFor="let movement of movements"

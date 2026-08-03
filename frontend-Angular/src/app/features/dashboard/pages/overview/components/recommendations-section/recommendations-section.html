@@ -1,23 +1,23 @@
 <div
-  class="bg-[#EDF1CD]
+  class="bg-[#F3F7D2]
          border border-[#C3C8BF]/10
          rounded-[24px]
-         p-8">
+         p-6">
 
   <!-- HEADER -->
 
-  <div class="flex justify-between items-center mb-8">
+  <div class="flex justify-between items-center mb-6">
 
     <h3
-      class="flex items-center gap-3
-             text-[24px]
+      class="flex items-center gap-2
+             text-[22px]
              font-semibold
              text-[#1A1D07]">
 
       <!-- Icono -->
 
       <svg
-        class="w-6 h-6 text-[#8A5A3C]"
+        class="w-5 h-5 text-[#8A5A3C]"
         fill="currentColor"
         viewBox="0 0 24 24">
 
@@ -36,7 +36,7 @@
     <button
       class="flex items-center
              gap-1
-             text-[15px]
+             text-[14px]
              font-medium
              text-[#556F53]">
 
@@ -62,18 +62,18 @@
 
   <!-- TARJETAS -->
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     @for(rec of recommendations; track rec.title){
 
     <div
-      class="bg-[#F7F9E8]
+      class="bg-[#E7EBC7]
              border border-[#D9DDC8]
              rounded-2xl
-             p-7
+             p-6
              flex
              flex-col
-             h-[390px]
+             h-[340px]
              transition
              hover:shadow-sm">
 
@@ -82,8 +82,8 @@
       <div class="flex justify-between items-start">
 
         <div
-          class="w-14
-                 h-14
+          class="w-12
+                 h-12
                  rounded-xl
                  flex
                  items-center
@@ -95,7 +95,7 @@
           @if(rec.icon==='directions_car'){
 
           <svg
-            class="w-7 h-7"
+            class="w-6 h-6"
             [ngClass]="rec.iconColor"
             fill="none"
             stroke="currentColor"
@@ -124,7 +124,7 @@
           @if(rec.icon==='auto_awesome'){
 
           <svg
-            class="w-7 h-7"
+            class="w-6 h-6"
             [ngClass]="rec.iconColor"
             fill="currentColor"
             viewBox="0 0 24 24">
@@ -144,7 +144,7 @@
           @if(rec.icon==='inventory_2'){
 
           <svg
-            class="w-7 h-7"
+            class="w-6 h-6"
             [ngClass]="rec.iconColor"
             fill="none"
             stroke="currentColor"
@@ -171,10 +171,10 @@
         <!-- BADGE -->
 
         <span
-          class="px-3
+          class="px-2.5
                  py-1
                  rounded-md
-                 text-[11px]
+                 text-[10px]
                  font-bold
                  uppercase"
           [ngClass]="rec.tagStyle">
@@ -188,9 +188,9 @@
       <!-- TÍTULO -->
 
       <h4
-        class="mt-8
-               text-[22px]
-               leading-8
+        class="mt-6
+               text-[19px]
+               leading-7
                font-semibold
                text-[#1F251C]">
 
@@ -201,9 +201,9 @@
       <!-- DESCRIPCIÓN -->
 
       <p
-        class="mt-4
-               text-[16px]
-               leading-8
+        class="mt-3
+               text-[14px]
+               leading-6
                text-[#5D6258]
                flex-1">
 
@@ -216,12 +216,12 @@
       <button
         class="w-full
                mt-auto
-               py-3
+               py-2.5
                rounded-xl
                bg-[#556F53]
                hover:bg-[#4A614A]
                text-white
-               text-[17px]
+               text-[15px]
                font-medium
                transition">
 

@@ -31,12 +31,14 @@ export class MovementsSummaryCards {
   }
   get expensePercentage(): number {
 
-    if (this.totalIncome === 0) {
+    const totalIncome = this.baseIncome + this.totalIncome;
+
+    if (totalIncome === 0) {
       return 0;
     }
 
     return Math.min(
-      (this.totalExpense / this.totalIncome) * 100,
+      (this.totalExpense / totalIncome) * 100,
       100
     );
 
