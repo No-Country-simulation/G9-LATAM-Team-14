@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
 import { IconFinCoachComponent, IconName } from '@app/shared/icons/iconsFinCoach';
-import { UiService } from '../services/ui.service';
+import { UiService } from '@core/services/ui.service';
 
 @Component({
   selector: 'app-sidebar',

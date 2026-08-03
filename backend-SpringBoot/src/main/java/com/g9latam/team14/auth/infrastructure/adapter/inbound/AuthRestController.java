@@ -2,9 +2,12 @@ package com.g9latam.team14.auth.infrastructure.adapter.inbound;
 import com.g9latam.team14.auth.domain.model.User;
 import com.g9latam.team14.auth.domain.ports.inbound.GetAuthenticatedUserUseCase;
 import com.g9latam.team14.auth.domain.ports.inbound.LoginUseCase;
+import com.g9latam.team14.auth.domain.ports.inbound.RegisterUserUseCase;
+import com.g9latam.team14.auth.domain.ports.outbound.TokenBlacklistPort;
 import com.g9latam.team14.auth.domain.ports.outbound.TokenProviderPort;
 import com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos.AuthResponse;
 import com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos.LoginRequest;
+import com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos.RegisterRequest;
 import com.g9latam.team14.auth.infrastructure.adapter.inbound.mapper.AuthDtoMapper;
 import com.g9latam.team14.auth.infrastructure.config.security.JwtProperties;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,8 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.g9latam.team14.auth.domain.ports.inbound.RegisterUserUseCase;
-import com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos.RegisterRequest;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -26,6 +27,7 @@ public class AuthRestController {
     private final RegisterUserUseCase registerUserUseCase;
     private final GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
     private final TokenProviderPort tokenProvider;
+    private final TokenBlacklistPort tokenBlacklistPort;
     private final AuthDtoMapper authDtoMapper;
     private final JwtProperties jwtProperties;
 
@@ -58,7 +60,7 @@ public class AuthRestController {
             @CookieValue(name = "jwt", required = false) String token,
             HttpServletResponse response
     ) {
-        if (token == null || !tokenProvider.validateToken(token)) {
+        if (token == null || tokenBlacklistPort.isBlacklisted(token) || !tokenProvider.validateToken(token)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         String email = tokenProvider.extractEmail(token);
@@ -67,7 +69,15 @@ public class AuthRestController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletResponse response) {
+    public ResponseEntity<Void> logout(
+            @CookieValue(name = "jwt", required = false) String token,
+            HttpServletResponse response
+    ) {
+        if (token != null && !token.isBlank()) {
+            long expiresInSeconds = jwtProperties.getExpirationMs() / 1000;
+            tokenBlacklistPort.blacklistToken(token, expiresInSeconds);
+        }
+
         ResponseCookie cookie = ResponseCookie.from("jwt", "")
                 .httpOnly(true)
                 .secure(false)

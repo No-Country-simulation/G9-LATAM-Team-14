@@ -1,0 +1,143 @@
+<div class="space-y-6">
+
+  <!-- INGRESOS -->
+  <div class="bg-[#f3f7d2] border border-[#D6D6B8] rounded-3xl p-6">
+
+    <h3 class="text-xs uppercase tracking-wider text-[#8A8A6A] mb-5">
+      Ingresos del mes
+    </h3>
+
+    <div class="space-y-4">
+
+      <div class="flex justify-between">
+        <span class="text-[#6B6B5D]">
+          Ingreso base
+        </span>
+
+        <span class="font-semibold text-[#364234]">
+          S/ 4,500
+        </span>
+      </div>
+
+      <div class="flex justify-between">
+        <span class="text-[#6B6B5D]">
+          Ingresos extra (+{{ incomeCount }})
+        </span>
+
+        <span class="font-semibold text-[#364234]">
+          S/ {{ totalIncome }}
+        </span>
+      </div>
+
+      <hr class="border-[#D6D6B8]">
+
+      <div class="flex justify-between">
+
+        <span class="font-semibold text-[#364234]">
+          Ingreso total
+        </span>
+
+        <span class="font-bold text-[#4A6042] text-lg">
+          S/ {{ 4500 + totalIncome }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GASTOS -->
+
+  <div class="bg-[#f3f7d2] border border-[#D6D6B8] rounded-3xl p-6">
+
+    <h3 class="text-xs uppercase tracking-wider text-[#8A8A6A] mb-5">
+      Gastos del mes
+    </h3>
+
+    <div class="space-y-4">
+
+      <div class="flex justify-between">
+
+        <span class="text-[#6B6B5D]">
+          Gastado en julio
+        </span>
+
+        <span class="font-semibold text-[#8B5A2B]">
+          S/ {{ totalExpense }}
+        </span>
+
+      </div>
+
+      <div class="flex justify-between text-sm text-[#8A8A6A]">
+
+        <span>
+          S/ {{ totalExpense }}
+        </span>
+
+        <span>
+          S/ {{ 4500 + totalIncome }}
+        </span>
+
+      </div>
+
+      <hr class="border-[#D6D6B8]">
+
+      <div class="flex justify-between">
+
+        <span class="text-[#364234]">
+          Gastos fijos (deuda)
+        </span>
+
+        <span class="font-semibold text-[#364234]">
+          S/ 1,125
+        </span>
+
+      </div>
+
+      <div class="flex justify-between">
+
+        <span class="font-medium text-[#364234]">
+          Disponible
+        </span>
+
+        <span class="font-bold text-[#4A6042]">
+          S/ {{ (4500 + totalIncome) - totalExpense }}
+        </span>
+
+      </div>
+      <div class="mt-3 h-2 bg-[#E7E7D5] rounded-full overflow-hidden">
+
+        <div
+          class="h-full bg-[#9A6A3B] rounded-full transition-all duration-500"
+          [style.width.%]="expensePercentage">
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ANALIZAR -->
+
+  <div class="bg-[#f3f7d2] border border-[#D6D6B8] rounded-3xl p-6 text-center">
+
+    <p class="text-[#6B6B5D] mb-6">
+
+      Tienes
+      <strong>{{ movements.length }}</strong>
+      movimientos registrados
+
+    </p>
+
+    <button
+      class="w-full bg-[#4E6545] hover:bg-[#44583D] text-white rounded-2xl py-4 font-semibold transition">
+
+      Analizar mi mes →
+
+    </button>
+
+  </div>
+
+</div>

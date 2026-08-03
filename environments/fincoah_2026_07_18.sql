@@ -34,6 +34,26 @@ CREATE TABLE `deuda_bancaria` (
   CONSTRAINT `usuario` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DROP TABLE IF EXISTS `debts`;
+CREATE TABLE `debts` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type` varchar(50) DEFAULT 'INSTALLMENT',
+  `category` varchar(100) DEFAULT NULL,
+  `total_amount` decimal(12,2) DEFAULT NULL,
+  `monthly_amount` decimal(12,2) NOT NULL,
+  `months_term` int DEFAULT 12,
+  `paid_installments` int DEFAULT 0,
+  `payment_mode` varchar(50) DEFAULT 'FIXED_TERM',
+  `start_date` date DEFAULT NULL,
+  `end_date` date DEFAULT NULL,
+  `is_indefinite` tinyint(1) DEFAULT 0,
+  `status` varchar(50) DEFAULT 'ACTIVE',
+  `user_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_debts_user_idx` (`user_id`),
+  CONSTRAINT `fk_debts_user` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DROP TABLE IF EXISTS `gastos`;
 CREATE TABLE `gastos` (
   `id_gasto` int NOT NULL AUTO_INCREMENT,
@@ -79,3 +99,9 @@ CREATE TABLE `movements` (
 INSERT INTO `usuarios` (`id`, `nombre_usuario`, `password`, `email`, `ingreso_mensual`, `fecha_registro`) VALUES
 (1, 'demo', '$2b$10$XxsfhmV1YxzgkaAvD8lGLeqR/UB3eKQVcrkzk2ZZlxgVtfLPWn77q', 'demo@fincoach.com', 5000, '2026-01-15');
 
+-- Deudas iniciales para usuario demo
+INSERT INTO `debts` (`id`, `type`, `category`, `total_amount`, `monthly_amount`, `months_term`, `paid_installments`, `payment_mode`, `start_date`, `end_date`, `is_indefinite`, `status`, `user_id`) VALUES
+(1, 'INSTALLMENT', 'Préstamo personal', 6000.00, 500.00, 12, 6, 'FIXED_TERM', '2026-01-01', '2026-12-31', 0, 'ACTIVE', 1),
+(2, 'INSTALLMENT', 'Tarjeta de crédito', 4000.00, 400.00, 10, 4, 'FIXED_TERM', '2026-02-01', '2026-11-30', 0, 'ACTIVE', 1),
+(3, 'INSTALLMENT', 'Crédito vehicular', 5400.00, 225.00, 24, 8, 'FIXED_TERM', '2025-06-01', '2027-05-31', 0, 'ACTIVE', 1),
+(4, 'INSTALLMENT', 'Crédito educativo', 2400.00, 200.00, 12, 12, 'FIXED_TERM', '2025-03-01', '2026-03-01', 0, 'PAID', 1);

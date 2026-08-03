@@ -1,0 +1,121 @@
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+
+  @for (metric of metrics; track metric.title) {
+
+  <div
+    class="bg-[#F3F7D2]
+           rounded-[22px]
+           p-5
+           shadow-sm
+           hover:shadow-md
+           transition-all duration-300">
+
+    <!-- Título -->
+    <p class="uppercase tracking-wide text-[13px] text-[#7E806F] mb-3">
+      {{ metric.title }}
+    </p>
+
+    <!-- Monto -->
+    <h3
+      class="text-[48px] leading-none font-bold mb-5"
+      [ngClass]="metric.amountColor">
+
+      {{ metric.amount }}
+
+    </h3>
+
+    <!-- Detalle -->
+    <div
+      class="flex items-center gap-2 text-[14px] font-medium"
+      [ngClass]="metric.detailColor">
+
+      <!-- INGRESO -->
+      @if(metric.title === 'INGRESO TOTAL'){
+
+      <svg class="w-4 h-4 text-[#3F6B43]"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M7 17L17 7M17 7H9M17 7V15"/>
+
+      </svg>
+
+      }
+
+      <!-- GASTOS FIJOS -->
+      @if(metric.title === 'GASTOS FIJOS'){
+
+      <svg class="w-4 h-4 text-[#8A5A3C]"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v18M3 12h18"/>
+
+      </svg>
+
+      }
+
+      <!-- VARIABLES -->
+      @if(metric.title === 'GASTOS VARIABLES'){
+
+      <svg class="w-4 h-4 text-[#D33A30]"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v4m0 4h.01"/>
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.29 3.86l-7.5 13A2 2 0 004.5 20h15a2 2 0 001.71-3.14l-7.5-13a2 2 0 00-3.42 0z"/>
+
+      </svg>
+
+      }
+
+      <!-- DISPONIBLE -->
+      @if(metric.title === 'DISPONIBLE'){
+
+      <svg class="w-4 h-4 text-[#3F6B43]"
+           fill="none"
+           stroke="currentColor"
+           stroke-width="2"
+           viewBox="0 0 24 24">
+
+        <path stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 12l2 2 4-4"/>
+
+        <circle
+          cx="12"
+          cy="12"
+          r="9"/>
+
+      </svg>
+
+      }
+
+      <span>
+
+        {{ metric.detail }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  }
+
+</div>

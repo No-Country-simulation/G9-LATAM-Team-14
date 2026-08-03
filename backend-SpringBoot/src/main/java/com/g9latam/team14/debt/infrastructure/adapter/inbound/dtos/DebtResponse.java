@@ -1,0 +1,21 @@
+package com.g9latam.team14.debt.infrastructure.adapter.inbound.dtos;
+import com.g9latam.team14.debt.domain.model.DebtPaymentMode;
+import com.g9latam.team14.debt.domain.model.DebtStatus;
+import com.g9latam.team14.debt.domain.model.DebtType;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+public record DebtResponse(
+        Integer id,
+        DebtType type,
+        String category,
+        BigDecimal totalAmount,
+        BigDecimal monthlyAmount,
+        Integer monthsTerm,
+        Integer paidInstallments,
+        DebtPaymentMode paymentMode,
+        LocalDate startDate,
+        LocalDate endDate,
+        Boolean isIndefinite,
+        DebtStatus status,
+        Integer userId
+) {}

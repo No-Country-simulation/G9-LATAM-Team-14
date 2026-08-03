@@ -1,0 +1,55 @@
+<div class="flex justify-between items-center mb-8">
+
+  <!-- Título -->
+  <div>
+
+    <h1 class="text-3xl font-bold text-[#2F3A2F]">
+      Movimientos
+    </h1>
+
+    <p class="text-[#6B6B5D] mt-2">
+      Registra tus gastos e ingresos del día para nutrir tu crecimiento.
+    </p>
+
+  </div>
+
+  <!-- Acciones -->
+  <div class="flex items-center gap-4">
+
+    <!-- Fecha -->
+    <div
+      class="flex items-center gap-2 border border-[#CFCFAE] rounded-xl px-5 py-3 bg-[#f3f7d2]">
+
+      <span class="material-symbols-outlined text-[#556B4F]">
+        📅
+      </span>
+
+      <span class="text-[#2F3A2F]">
+        {{ currentDate }}
+      </span>
+
+    </div>
+
+    <!-- Botón -->
+    <button
+      (click)="onOpenModal()"
+      class="flex items-center gap-2
+             bg-[#4A6042]
+             hover:bg-[#40543A]
+             text-white
+             rounded-xl
+             px-6
+             py-3
+             transition">
+
+      <span class="material-symbols-outlined">
+        add
+      </span>
+
+      Nuevo Movimiento
+
+    </button>
+
+  </div>
+
+</div>
