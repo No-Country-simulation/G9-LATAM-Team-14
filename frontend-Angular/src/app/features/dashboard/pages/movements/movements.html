@@ -1,1 +1,112 @@
-<p>movements works!</p>
+<app-movements-header
+  [currentDate]="currentDate"
+  (openModal)="openModal()">
+</app-movements-header>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+
+  <!-- Columna izquierda -->
+  <div class="lg:col-span-2">
+
+    <app-movements-list
+      [movements]="movements">
+    </app-movements-list>
+
+  </div>
+
+  <!-- Columna derecha -->
+  <div class="space-y-6">
+
+    <app-movements-summary-cards
+      [movements]="movements">
+    </app-movements-summary-cards>
+
+  </div>
+
+</div>
+
+<!-- MODAL -->
+@if (isModalOpen) {
+
+<app-movement-modal
+  (close)="closeModal()"
+  (save)="saveMovement($event)">
+</app-movement-modal>
+
+}
+
+<!-- Subir comprobante -->
+<div class="mt-8">
+
+  <div class="bg-[#f3f7d2] border border-[#D6D6B8] rounded-3xl p-8">
+
+    <div class="flex flex-col items-center text-center">
+
+      <!-- Icono -->
+      <div
+        class="w-20 h-20 rounded-full bg-[#E8F4D9] flex items-center justify-center text-4xl mb-6">
+
+        📄
+
+      </div>
+
+      <!-- Título -->
+      <h3 class="text-2xl font-semibold text-[#364234] mb-3">
+
+        Subir comprobante
+
+      </h3>
+
+      <!-- Descripción -->
+      <p class="text-[#6B6B5D] mb-8 max-w-xl">
+
+        Adjunta un archivo PDF, JPG o PNG para analizar automáticamente
+        tus movimientos.
+
+      </p>
+
+      <!-- Zona Drag & Drop -->
+      <div
+        class="w-full border-2 border-dashed border-[#A9C99C]
+               rounded-2xl p-10
+               hover:border-[#4E6545]
+               transition-all duration-300">
+
+        <p class="text-[#6B6B5D] text-lg mb-4">
+
+          Arrastra tu archivo aquí
+
+        </p>
+
+        <p class="text-[#8A8A6A] mb-6">
+
+          o
+
+        </p>
+
+        <button
+          class="px-8 py-3
+                 bg-[#4E6545]
+                 hover:bg-[#44583D]
+                 text-white
+                 rounded-2xl
+                 transition">
+
+          Seleccionar archivo
+
+        </button>
+
+      </div>
+
+      <!-- Texto inferior -->
+      <p class="text-sm text-[#8A8A6A] mt-6">
+
+        Formatos permitidos: PDF · JPG · PNG
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

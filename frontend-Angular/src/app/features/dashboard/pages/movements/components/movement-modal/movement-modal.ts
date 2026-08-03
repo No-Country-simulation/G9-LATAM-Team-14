@@ -1,0 +1,86 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-movement-modal',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule
+  ],
+  templateUrl: './movement-modal.html'
+})
+export class MovementModalComponent {
+
+  @Output() close = new EventEmitter<void>();
+
+  @Output() save = new EventEmitter<any>();
+
+  movement = {
+    description: '',
+    amount: null as number | null,
+    type: 'GASTO' as 'INGRESO' | 'GASTO',
+    category: '',
+    date: new Date().toISOString().split('T')[0],
+    userId: 1
+  };
+
+  expenseCategories = [
+    'ALIMENTOS',
+    'TRANSPORTE',
+    'SALUD',
+    'HOGAR',
+    'SERVICIOS',
+    'ENTRETENIMIENTO',
+    'EDUCACION',
+    'COMPRAS'
+  ];
+
+  incomeCategories = [
+    'SALARIO',
+    'FREELANCE',
+    'BONO',
+    'VENTA',
+    'INVERSION',
+    'INTERESES',
+    'REGALO',
+    'OTRO'
+  ];
+
+  categories = this.expenseCategories;
+
+  selectType(type: 'INGRESO' | 'GASTO'): void {
+    this.movement.type = type;
+    this.categories = type === 'INGRESO' ? this.incomeCategories : this.expenseCategories;
+  }
+
+  selectCategory(category: string): void {
+    this.movement.category = category;
+  }
+
+  registerMovement(): void {
+    console.log("Enviando movimiento...");
+    console.log(this.movement);
+    this.save.emit(this.movement);
+    this.resetForm();
+  }
+
+  closeModal(): void {
+    this.resetForm();
+    this.close.emit();
+  }
+
+  private resetForm(): void {
+    this.movement = {
+      description: '',
+      amount: null as number | null,
+      type: 'GASTO' as 'INGRESO' | 'GASTO',
+      category: '',
+      date: new Date().toISOString().split('T')[0],
+      userId: 1
+    };
+    this.categories = this.expenseCategories;
+  }
+
+}

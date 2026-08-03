@@ -1,0 +1,131 @@
+<div class="bg-[#E7EBC7] border border-[#D6D6B8] rounded-[28px] px-7 py-7">
+
+  <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+
+    <!-- Información -->
+    <div class="flex-1">
+
+      <!-- Estado -->
+      <span
+        class="inline-flex items-center
+               bg-[#FBE4C8]
+               text-[#A15B3E]
+               text-[14px]
+               font-semibold
+               px-5
+               py-2
+               rounded-full
+               mb-8">
+
+        {{ status }}
+
+      </span>
+
+      <!-- Título -->
+      <h2
+        class="text-[44px]
+               leading-[1.1]
+               font-bold
+               text-[#364234]
+               mb-4">
+
+        {{ title }}
+
+      </h2>
+
+      <!-- Descripción -->
+      <p
+        class="text-[#4E544A]
+               text-[17px]
+               leading-7
+               font-normal
+               max-w-3xl">
+
+        Tus gastos de transporte subieron un
+        <span class="font-bold">18% este mes.</span>
+        Tu nivel de endeudamiento se mantiene manejable.
+
+      </p>
+
+      <!-- Botón -->
+      <button
+        class="mt-6
+               px-6
+               py-3
+               rounded-xl
+               bg-[#4E6545]
+               hover:bg-[#44583D]
+               text-white
+               text-[16px]
+               font-semibold
+               transition">
+
+        Ver detalle →
+
+      </button>
+
+    </div>
+
+
+    <!-- Confianza IA -->
+
+    <div class="flex justify-center items-center">
+
+      <div class="relative w-45 h-45 flex items-center justify-center">
+
+        <svg
+          viewBox="0 0 120 120"
+          class="absolute inset-0 w-full h-full">
+
+          <!-- Fondo gris -->
+          <circle
+            cx="60"
+            cy="60"
+            r="48"
+            fill="none"
+            stroke="#D6D6B8"
+            stroke-width="8" />
+
+          <!-- Arco verde -->
+
+          <circle
+            cx="60"
+            cy="60"
+            r="48"
+            fill="none"
+            stroke="#4E6545"
+            stroke-width="7"
+            stroke-linecap="round"
+            stroke-dasharray="247"
+            stroke-dashoffset="44"
+            transform="rotate(-90 60 60)" />
+
+        </svg>
+
+        <!-- Texto -->
+        <div class="relative text-center">
+
+          <h3
+            class="text-[44px] font-bold leading-none text-[#364234]">
+
+            {{ confidence }}%
+
+          </h3>
+
+          <p
+            class="mt-1
+         text-[12px]
+         font-normal
+         tracking-[0.04em]
+         uppercase
+         text-[#6B6B5D]">
+
+            CONFIANZA IA
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>

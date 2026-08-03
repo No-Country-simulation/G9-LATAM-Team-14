@@ -1,0 +1,265 @@
+<div
+  class="mt-8
+         rounded-[28px]
+         bg-[#F3F7D2]
+         border border-[#DCDDCB]
+         px-8
+         py-7">
+
+  <!-- Título -->
+  <h2
+    class="text-[34px]
+           font-bold
+           text-[#3F5343]
+           mb-8">
+
+    Distribución de tu ingreso
+
+  </h2>
+
+  <div
+    class="flex
+           flex-col
+           lg:flex-row
+           items-start
+           gap-12">
+
+    <!-- ================= DONA ================= -->
+
+    <div class="flex justify-center">
+
+      <svg
+        width="240"
+        height="240"
+        viewBox="0 0 240 240">
+
+        <!-- Círculo gris -->
+        <circle
+          cx="120"
+          cy="120"
+          r="85"
+          fill="none"
+          stroke="#E7E8D8"
+          stroke-width="24"/>
+
+        <!-- Arco verde -->
+        <circle
+          cx="120"
+          cy="120"
+          r="85"
+          fill="none"
+          stroke="#556F53"
+          stroke-width="24"
+          stroke-linecap="round"
+          stroke-dasharray="340 194"
+          transform="rotate(-90 120 120)"/>
+
+        <!-- Arco marrón -->
+        <circle
+          cx="120"
+          cy="120"
+          r="85"
+          fill="none"
+          stroke="#B37713"
+          stroke-width="24"
+          stroke-linecap="round"
+          stroke-dasharray="95 439"
+          stroke-dashoffset="-350"
+          transform="rotate(-90 120 120)"/>
+
+        <!-- Icono -->
+        <g
+          transform="translate(120 120) scale(1.4)"
+          stroke="#B9BEA3"
+          fill="none"
+          stroke-width="2">
+
+          <path
+            d="M0-12
+           C10-12 14-4 10 6
+           C6 14 -4 16 -10 8
+           C-14 2 -10 -8 0-12Z"/>
+
+          <path
+            d="M-6 7
+           L6 -7"/>
+
+        </g>
+
+      </svg>
+
+    </div>
+
+    <!-- ================= GRUPOS FIJOS ================= -->
+
+    <div class="flex-1">
+
+      <h3
+        class="uppercase
+               text-[15px]
+               font-semibold
+               tracking-wide
+               text-[#73766A]">
+
+        GRUPOS FIJOS
+
+      </h3>
+
+      <div
+        class="border-b
+               border-[#DEDFD0]
+               mt-3
+               mb-7">
+
+      </div>
+
+      <div class="space-y-8">
+
+        <div class="flex items-center justify-between">
+
+          <div class="flex items-center gap-4">
+
+            <span
+              class="w-4
+                     h-4
+                     rounded-full
+                     bg-[#556F53]">
+
+            </span>
+
+            <span
+              class="text-[18px]
+                     text-[#343A34]">
+
+              Gastos fijos
+
+            </span>
+
+          </div>
+
+          <strong
+            class="text-[18px]
+                   font-semibold
+                   text-[#343A34]">
+
+            {{ fixedExpenses }}%
+
+          </strong>
+
+        </div>
+
+        <div class="flex items-center justify-between">
+
+          <div class="flex items-center gap-4">
+
+            <span
+              class="w-4
+                     h-4
+                     rounded-full
+                     bg-[#B37713]">
+
+            </span>
+
+            <span
+              class="text-[18px]
+                     text-[#343A34]">
+
+              Disponible
+
+            </span>
+
+          </div>
+
+          <strong
+            class="text-[18px]
+                   font-semibold
+                   text-[#343A34]">
+
+            {{ available }}%
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= VARIABLES ================= -->
+
+    <div class="flex-1">
+
+      <h3
+        class="uppercase
+               text-[15px]
+               font-semibold
+               tracking-wide
+               text-[#73766A]">
+
+        VARIABLES (14%)
+
+      </h3>
+
+      <div
+        class="border-b
+               border-[#DEDFD0]
+               mt-3
+               mb-7">
+
+      </div>
+
+      <div class="space-y-8">
+
+        @for(item of variables; track item.name){
+
+        <div
+          class="flex
+                 items-center
+                 justify-between">
+
+          <span
+            class="text-[18px]
+                   text-[#343A34]">
+
+            {{ item.name }}
+
+          </span>
+
+          <strong
+            class="text-[18px]
+                   font-semibold
+                   text-[#343A34]">
+
+            {{ item.amount }}
+
+          </strong>
+
+        </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= PIE ================= -->
+
+  <div
+    class="mt-10
+           pt-6
+           border-t
+           border-[#E7E8D8]">
+
+    <p
+      class="text-[15px]
+             text-[#7D8177]">
+
+      Los gastos fijos provienen de tus deudas activas registradas en el sistema.
+
+    </p>
+
+  </div>
+
+</div>
