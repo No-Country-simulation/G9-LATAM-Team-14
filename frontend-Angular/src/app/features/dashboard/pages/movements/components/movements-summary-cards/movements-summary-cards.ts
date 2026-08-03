@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Movement } from '../../../../../../models/movement.model';
+import { Movement } from '@core/movements/models/movement.model';
 
 @Component({
   selector: 'app-movements-summary-cards',

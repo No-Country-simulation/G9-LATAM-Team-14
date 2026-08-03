@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-import { MovementService } from '../../services/movement.service';
-import { Movement } from '../../../../models/movement.model';
-
+import { MovementService } from '@core/movements/services/movement.service';
+import { Movement, CreateMovementRequest } from '@core/movements/models/movement.model';
 import { MovementModalComponent } from './components/movement-modal/movement-modal';
 import { MovementsHeader } from './components/movements-header/movements-header';
 import { MovementsList } from './components/movements-list/movements-list';
@@ -16,19 +15,15 @@ import { MovementsSummaryCards } from './components/movements-summary-cards/move
   imports: [
     CommonModule,
     FormsModule,
-
     MovementsHeader,
     MovementsList,
     MovementsSummaryCards,
-
     MovementModalComponent
   ],
   templateUrl: './movements.html',
 })
 export class Movements implements OnInit {
-
   movements: Movement[] = [];
-
   currentDate = new Date().toLocaleDateString('es-PE', {
     weekday: 'long',
     day: 'numeric',
@@ -41,7 +36,7 @@ export class Movements implements OnInit {
   constructor(
     private movementService: MovementService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadMovements();
@@ -91,29 +86,29 @@ export class Movements implements OnInit {
 
   }
 
- saveMovement(movement: any): void {
+  saveMovement(movement: any): void {
 
-   console.log("Antes del POST");
+    console.log("Antes del POST");
 
-   this.movementService.createMovement(movement).subscribe({
+    this.movementService.createMovement(movement).subscribe({
 
-     next: (data) => {
+      next: (data) => {
 
-       console.log("NEXT", data);
+        console.log("NEXT", data);
 
-       this.closeModal();
-       this.loadMovements();
-       this.cdr.detectChanges();
+        this.closeModal();
+        this.loadMovements();
+        this.cdr.detectChanges();
 
-     },
+      },
 
-     error: (err) => {
+      error: (err) => {
 
-       console.error("ERROR", err);
+        console.error("ERROR", err);
 
-     }
+      }
 
-   });
+    });
 
   }
 }
