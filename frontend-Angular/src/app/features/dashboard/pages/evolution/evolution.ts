@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { EvolutionService } from '@core/evolution/services/evolution.service';
-import { EvolutionData, TimeRange } from '@core/evolution/models/evolution.model';
+import { EvolutionResponse, TimeRange } from '@core/evolution/models/evolution.model';
 import { EvolutionHeaderComponent } from './components/evolution-header/evolution-header';
 import { ScoreLineChartComponent } from './components/score-line-chart/score-line-chart';
 import { IncomeExpensesChartComponent } from './components/income-expenses-chart/income-expenses-chart';
@@ -23,7 +23,7 @@ export class Evolution implements OnInit {
   private evolutionService = inject(EvolutionService);
 
   range = signal<TimeRange>('6M');
-  data = signal<EvolutionData | null>(null);
+  data = signal<EvolutionResponse | null>(null);
 
   ngOnInit(): void {
     this.load();
@@ -35,7 +35,7 @@ export class Evolution implements OnInit {
   }
 
   private load(): void {
-    this.evolutionService.getMock(this.range()).subscribe(result => {
+    this.evolutionService.getEvolution(this.range()).subscribe(result => {
       this.data.set(result);
     });
   }
