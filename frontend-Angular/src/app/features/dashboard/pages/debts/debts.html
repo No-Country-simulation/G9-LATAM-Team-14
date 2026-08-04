@@ -10,7 +10,7 @@
             <app-active-debts-list [debts]="activeDebts()" (edit)="onEditDebt($event)" (delete)="onDeleteDebt($event)"></app-active-debts-list>
         </div>
         <div class="lg:col-span-5 xl:col-span-5 space-y-5 sm:space-y-6">
-            <app-debt-projection-chart></app-debt-projection-chart>
+            <app-debt-projection-chart [points]="projectionPoints()"></app-debt-projection-chart>
             <app-paid-debts-list [paidDebts]="paidDebts()"></app-paid-debts-list>
         </div>
     </div>

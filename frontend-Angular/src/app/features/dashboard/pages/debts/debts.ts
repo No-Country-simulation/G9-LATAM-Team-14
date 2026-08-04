@@ -8,7 +8,7 @@ import { PaidDebtsListComponent, PaidDebt } from './components/paid-debts-list/p
 import { AddDebtModalComponent, NewDebtPayload } from './components/add-debt-modal/add-debt-modal';
 import { DebtService } from '@app/core/debts/services/debt.service';
 import { AuthService } from '@app/core/auth/services/auth.service';
-import { Debt, CreateDebtRequest, DebtSummary } from '@app/core/debts/models/debt.model';
+import { Debt, DebtSummary, DebtProjectionPoint } from '@app/core/debts/models/debt.model';
 
 @Component({
   selector: 'app-debts',
@@ -39,6 +39,7 @@ export class Debts implements OnInit {
   });
   activeDebts = signal<ActiveDebt[]>([]);
   paidDebts = signal<PaidDebt[]>([]);
+  projectionPoints = signal<DebtProjectionPoint[]>([]);
 
   ngOnInit(): void {
     this.loadData();
@@ -78,6 +79,16 @@ export class Debts implements OnInit {
       },
       error: (err) => {
         console.error('Error al cargar resumen de deudas desde la BD:', err);
+      }
+    });
+
+    this.debtService.getProjection(userId).subscribe({
+      next: (points) => {
+        this.projectionPoints.set(points || []);
+      },
+      error: (err) => {
+        console.error('Error al cargar proyección desde la BD:', err);
+        this.projectionPoints.set([]);
       }
     });
   }
