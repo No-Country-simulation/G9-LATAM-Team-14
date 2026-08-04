@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import {
-  Chart, ChartConfiguration, ChartOptions, ChartType, registerables
+  Chart, ChartConfiguration, ChartOptions, registerables
 } from 'chart.js';
 import { IncomeVsExpensesPoint } from '@core/evolution/models/evolution.model';
 
@@ -16,7 +16,7 @@ Chart.register(...registerables);
 export class IncomeExpensesChartComponent {
   data = input<IncomeVsExpensesPoint[]>([]);
 
-  chartType: ChartType = 'bar';
+  chartType = 'bar' as const;
 
   labels = computed(() => this.data().map(point => this.shortMonthLabel(point.mes)));
 
@@ -61,7 +61,10 @@ export class IncomeExpensesChartComponent {
         padding: 10,
         displayColors: false,
         callbacks: {
-          label: (context) => `${context.dataset.label}: S/ ${context.parsed.y.toLocaleString('es-PE')}`
+          label: (context) => {
+            const value = context.parsed?.['y'] ?? 0;
+            return `${context.dataset.label}: S/ ${value.toLocaleString('es-PE')}`;
+          }
         }
       }
     },

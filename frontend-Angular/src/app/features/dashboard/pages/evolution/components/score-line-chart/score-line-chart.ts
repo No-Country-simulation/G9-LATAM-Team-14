@@ -1,7 +1,7 @@
 import { Component, computed, input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import {
-  Chart, ChartConfiguration, ChartOptions, ChartType, Plugin, registerables
+  Chart, ChartConfiguration, ChartOptions, Plugin, ScriptableContext, registerables
 } from 'chart.js';
 import { MonthlyProfile } from '@core/evolution/models/evolution.model';
 
@@ -21,7 +21,7 @@ const stateBandsPlugin: Plugin = {
   beforeDraw(chart) {
     const { ctx, chartArea } = chart;
     if (!chartArea) return;
-    const yScale = chart.scales.y;
+    const yScale = chart.scales['y'];
     ctx.save();
     for (const band of STATE_BANDS) {
       const top = yScale.getPixelForValue(band.to);
@@ -50,20 +50,20 @@ export class ScoreLineChartComponent {
   ultimoMes = input('');
   ultimoScore = input(0);
 
-  chartType: ChartType = 'line';
+  chartType = 'line' as const;
 
   labels = computed(() => this.perfilMensual().map(profile => this.shortMonthLabel(profile.mes)));
 
   ultimoMesLabel = computed(() => this.longMonthLabel(this.ultimoMes()));
 
-  chartData = computed<ChartConfiguration['data']>(() => ({
+  chartData = computed<ChartConfiguration<'line'>['data']>(() => ({
     labels: this.perfilMensual().map(profile => this.shortMonthLabel(profile.mes)),
     datasets: [
       {
         data: this.perfilMensual().map(profile => profile.score),
         borderColor: '#425942',
         borderWidth: 3,
-        backgroundColor: (context) => {
+        backgroundColor: (context: ScriptableContext<'line'>) => {
           const { ctx, chartArea } = context.chart;
           if (!chartArea) return 'rgba(90, 114, 89, 0.25)';
           const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
@@ -96,7 +96,7 @@ export class ScoreLineChartComponent {
         padding: 10,
         displayColors: false,
         callbacks: {
-          label: (context) => `Score: ${context.parsed.y}/100`
+          label: (context) => `Score: ${context.parsed?.['y'] ?? 0}/100`
         }
       }
     },
