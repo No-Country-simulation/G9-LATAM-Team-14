@@ -1,0 +1,50 @@
+<div class="bg-[#EDF1CD] rounded-2xl p-6 border border-[#C3C8BF] overflow-x-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight">Historial de análisis</h2>
+        <button
+            type="button"
+            class="text-[#425942] text-sm font-semibold flex items-center gap-2 hover:underline cursor-pointer"
+        >
+            Descargar reporte completo
+            <span class="text-[18px] leading-none">⤓</span>
+        </button>
+    </div>
+
+    <table class="w-full min-w-[700px]">
+        <thead>
+            <tr class="text-left border-b border-[#C3C8BF]">
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider">Fecha</th>
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider">Estado</th>
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider text-center">Score</th>
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider">Ingresos</th>
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider">Gastos</th>
+                <th class="py-4 text-xs font-semibold text-[#526655] uppercase tracking-wider text-right">Acción</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-[#C3C8BF]">
+            @for (row of historial(); track row.fecha) {
+                <tr class="hover:bg-[#E1E6C2]/50 transition-colors">
+                    <td class="py-5 text-sm font-bold text-[#364234]">{{ row.fecha }}</td>
+                    <td class="py-5">
+                        <span
+                            class="px-3 py-1 text-xs font-semibold rounded-full border"
+                            [class]="pillClass(row.estado)"
+                        >{{ row.estado }}</span>
+                    </td>
+                    <td class="py-5 text-center font-bold text-[#425942]">{{ row.score }}%</td>
+                    <td class="py-5 text-sm text-[#364234]">S/ {{ row.ingresos.toLocaleString('es-PE') }}</td>
+                    <td class="py-5 text-sm text-[#364234]">S/ {{ row.gastos.toLocaleString('es-PE') }}</td>
+                    <td class="py-5 text-right">
+                        <button
+                            type="button"
+                            class="p-2 text-[#425942] hover:bg-[#425942]/10 rounded-full transition-colors cursor-pointer"
+                            aria-label="Ver detalle"
+                        >
+                            <app-icon-fin-coach name="eye" class="w-5 h-5" />
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -101,6 +101,6 @@ export class EvolutionService {
 
   private mesLabel(mes: string): string {
     const [year, month] = mes.split('-').map(Number);
-    return new Date(year, month - 1, 1).toLocaleDateString('es-PE', { day: '2-digit', month: 'short' });
+    return new Date(year, month - 1, 12).toLocaleDateString('es-PE', { day: '2-digit', month: 'short' });
   }
 }

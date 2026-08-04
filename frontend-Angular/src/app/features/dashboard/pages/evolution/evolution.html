@@ -1,1 +1,36 @@
-<p>evolution works!</p>
+<div class="max-w-6xl mx-auto px-6 py-8">
+
+  <app-evolution-header [range]="range()" (rangeChange)="onRangeChange($event)" />
+
+  @if (data(); as data) {
+    <div class="grid grid-cols-12 gap-4 md:gap-6">
+
+      <div class="col-span-12">
+        <app-score-line-chart
+          [perfilMensual]="data.perfilMensual"
+          [ultimoMes]="data.ultimoMes"
+          [ultimoScore]="data.ultimoScore"
+        />
+      </div>
+
+      <div class="col-span-12 lg:col-span-7">
+        <app-income-expenses-chart [data]="data.ingresosVsGastos" />
+      </div>
+
+      <div class="col-span-12 lg:col-span-5">
+        <app-category-expenses-panel
+          [gastos]="data.gastosPorCategoria"
+          [total]="data.gastoTotalMes"
+          [variacion]="data.variacionGasto"
+          [ultimoMes]="data.ultimoMes"
+        />
+      </div>
+
+      <div class="col-span-12">
+        <app-analysis-history-table [historial]="data.historial" />
+      </div>
+
+    </div>
+  }
+
+</div>
