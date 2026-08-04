@@ -28,6 +28,8 @@ export class Debts implements OnInit {
   private debtService = inject(DebtService);
   private authService = inject(AuthService);
   isModalOpen = signal<boolean>(false);
+  editingDebt = signal<Debt | null>(null);
+
   summaryData = signal<DebtSummary>({
     totalPendingAmount: 0,
     totalMonthlyPayment: 0,
@@ -81,16 +83,38 @@ export class Debts implements OnInit {
   }
 
   onAddDebt(): void {
+    this.editingDebt.set(null);
     this.isModalOpen.set(true);
+  }
+
+  onEditDebt(activeDebt: ActiveDebt): void {
+    if (activeDebt.raw) {
+      this.editingDebt.set(activeDebt.raw);
+      this.isModalOpen.set(true);
+    }
+  }
+
+  onDeleteDebt(id: number): void {
+    if (confirm('¿Estás seguro de eliminar esta deuda?')) {
+      this.debtService.deleteDebt(id).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al eliminar la deuda:', err);
+        }
+      });
+    }
   }
 
   onCloseModal(): void {
     this.isModalOpen.set(false);
+    this.editingDebt.set(null);
   }
 
   onSaveDebt(payload: NewDebtPayload): void {
     const userId = this.authService.currentUser()?.id || 1;
-    const request: CreateDebtRequest = {
+    const request: any = {
       type: payload.type === 'installment' ? 'INSTALLMENT' : 'FIXED',
       category: payload.category,
       totalAmount: payload.totalAmount,
@@ -100,19 +124,32 @@ export class Debts implements OnInit {
       startDate: payload.startDate,
       endDate: payload.endDate,
       isIndefinite: payload.isIndefinite,
+      status: this.editingDebt()?.status || 'ACTIVE',
+      paidInstallments: this.editingDebt()?.paidInstallments || 0,
       userId
     };
 
-    this.debtService.createDebt(request).subscribe({
-      next: () => {
-        this.loadData();
-      },
-      error: (err) => {
-        console.error('Error al guardar la deuda en la BD:', err);
-      }
-    });
+    if (payload.id) {
+      this.debtService.updateDebt(payload.id, request).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al actualizar la deuda:', err);
+        }
+      });
+    } else {
+      this.debtService.createDebt(request).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al guardar la deuda en la BD:', err);
+        }
+      });
+    }
 
-    this.isModalOpen.set(false);
+    this.onCloseModal();
   }
 
   private mapToActiveDebt(d: Debt): ActiveDebt {
@@ -132,7 +169,8 @@ export class Debts implements OnInit {
       remainingAmount: `Quedan S/ ${total.toLocaleString()}`,
       progressText: isInstallment ? `Progreso ${paid}/${term}` : `${paid}/${term} cuotas`,
       percentage: progressPct,
-      iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts'
+      iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts',
+      raw: d
     };
   }
 }
