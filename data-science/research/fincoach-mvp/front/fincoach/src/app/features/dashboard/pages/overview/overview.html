@@ -1,0 +1,493 @@
+<div class="min-h-screen bg-[#F4F7EB] text-[#213E27]">
+  <app-header />
+
+  <main class="mx-auto min-h-[70vh] max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    @if (errorMessage()) {
+      <p class="mb-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm font-semibold text-red-700" aria-live="polite">
+        {{ errorMessage() }}
+      </p>
+    }
+
+    @if (isLoading()) {
+      <div class="h-52 animate-pulse rounded-3xl bg-[#E5EBCB]"></div>
+    } @else if (profile(); as currentProfile) {
+      <article class="grid items-center gap-8 rounded-2xl border border-[#D8E0B4] bg-[#E8EDC9] p-6 shadow-[0_10px_30px_rgba(49,93,54,0.08)] sm:p-8 md:grid-cols-[minmax(0,1fr)_12rem] md:px-9">
+        <div class="min-w-0">
+          <span class="inline-flex rounded-full bg-[#DDB69F] px-2.5 py-1 text-[0.58rem] font-extrabold uppercase tracking-[0.12em] text-white">
+            En observación
+          </span>
+          <h1 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-[#173B20] sm:text-3xl">
+            Tu perfil financiero este mes
+          </h1>
+          <p class="mt-3 max-w-3xl text-sm leading-6 text-[#405D42]">Hola mensaje</p>
+          <a
+            routerLink="/transactions"
+            class="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#315D36] px-4 py-2.5 text-xs font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#214523] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523]"
+          >
+            Ver detalle
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="flex justify-center md:justify-self-end">
+          <div
+            class="relative h-40 w-40 shrink-0 sm:h-44 sm:w-44"
+            role="img"
+            [attr.aria-label]="'Confianza de la inteligencia artificial: ' + confidencePercentage() + ' por ciento'"
+          >
+            <canvas
+              baseChart
+              type="doughnut"
+              class="absolute inset-0 !h-full !w-full"
+              [data]="confidenceChartData()"
+              [options]="confidenceChartOptions"
+              aria-hidden="true"
+            ></canvas>
+
+            <div class="pointer-events-none absolute inset-0 grid place-items-center text-center">
+              <div class="flex flex-col items-center justify-center px-5">
+                <p class="text-[1.35rem] font-extrabold leading-none tabular-nums tracking-[-0.04em] text-[#173B20] sm:text-[1.55rem]">{{ confidencePercentage() }}%</p>
+                <p class="mt-2.5 text-[0.5rem] font-extrabold uppercase leading-none tracking-[0.14em] text-[#526650]">Confianza IA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      @if (dashboard(); as currentDashboard) {
+      <section class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Resumen financiero del mes">
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5 shadow-sm">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Ingreso total</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums text-[#214523]">{{ formatCurrency(currentDashboard.overview.income) }}</p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">Entradas confirmadas del mes</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#DCEAC7] text-[#315D36]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V7m0 0L7 12m5-5l5 5M5 3h14" />
+              </svg>
+            </span>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5 shadow-sm">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Gastos fijos</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums text-[#654E3F]">{{ formatCurrency(currentDashboard.overview.fixed_expenses) }}</p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">Egresos clasificados como fijos</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#E8DDC9] text-[#72533F]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v12H4zM7 7V5h10v2M8 12h8m-8 4h5" />
+              </svg>
+            </span>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5 shadow-sm">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Gastos variables</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums text-[#654E3F]">{{ formatCurrency(currentDashboard.overview.variable_expenses) }}</p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">Egresos variables del mes</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F2D6C1] text-[#7A4F3C]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 18l5-6 4 3 7-9M16 6h4v4" />
+              </svg>
+            </span>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-[#BFCF94] bg-[#E7EFC4] p-5 shadow-sm">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Disponible</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums"
+                [class.text-[#214523]]="currentDashboard.overview.available >= 0"
+                [class.text-red-700]="currentDashboard.overview.available < 0">
+                {{ formatCurrency(currentDashboard.overview.available) }}
+              </p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">Ingresos menos gastos del mes</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#D3E2A8] text-[#315D36]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18v12H3zM16 11h5M7 7V5h10v2" />
+              </svg>
+            </span>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-6 grid gap-5 lg:grid-cols-2" aria-label="Distribución financiera del mes">
+        <article class="rounded-3xl border border-[#D3DDB0] bg-[#F2F5D6] p-6 shadow-sm sm:p-7">
+          <div>
+            <p class="text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#6D7D62]">Composición mensual</p>
+            <h2 class="mt-2 text-xl font-extrabold text-[#214523]">Distribución de ingresos</h2>
+            <p class="mt-1 text-sm text-[#75816E]">Origen fijo y variable de las entradas confirmadas.</p>
+          </div>
+
+          <div class="mt-6 grid items-center gap-6 sm:grid-cols-[12rem_1fr]">
+            <div class="relative mx-auto h-48 w-48" role="img" aria-label="Distribución de ingresos fijos y variables">
+              <canvas
+                baseChart
+                type="doughnut"
+                class="absolute inset-0 !h-full !w-full"
+                [data]="incomeDistributionData()"
+                [options]="distributionChartOptions"
+              ></canvas>
+              <div class="pointer-events-none absolute inset-0 grid place-items-center text-center">
+                <div>
+                  <p class="text-[0.62rem] font-extrabold uppercase tracking-[0.12em] text-[#75816E]">Total</p>
+                  <p class="mt-1 text-sm font-extrabold text-[#214523]">{{ formatCurrency(currentDashboard.overview.income) }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="flex items-center gap-2 text-sm font-bold text-[#405D42]"><span class="h-3 w-3 rounded-full bg-[#315D36]"></span>Ingreso fijo</span>
+                  <span class="font-extrabold tabular-nums text-[#214523]">{{ formatPercentage(incomeFixedPercentage()) }}</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="flex items-center gap-2 text-sm font-bold text-[#405D42]"><span class="h-3 w-3 rounded-full bg-[#E4A07D]"></span>Ingreso variable</span>
+                  <span class="font-extrabold tabular-nums text-[#214523]">{{ formatPercentage(incomeVariablePercentage()) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-3xl border border-[#D3DDB0] bg-[#F2F5D6] p-6 shadow-sm sm:p-7">
+          <div>
+            <p class="text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#6D7D62]">Composición mensual</p>
+            <h2 class="mt-2 text-xl font-extrabold text-[#214523]">Distribución del gasto</h2>
+            <p class="mt-1 text-sm text-[#75816E]">Participación fija y variable de los egresos confirmados.</p>
+          </div>
+
+          <div class="mt-6 grid items-center gap-6 sm:grid-cols-[12rem_1fr]">
+            <div class="relative mx-auto h-48 w-48" role="img" aria-label="Distribución de gastos fijos y variables">
+              <canvas
+                baseChart
+                type="doughnut"
+                class="absolute inset-0 !h-full !w-full"
+                [data]="expenseDistributionData()"
+                [options]="distributionChartOptions"
+              ></canvas>
+              <div class="pointer-events-none absolute inset-0 grid place-items-center text-center">
+                <div>
+                  <p class="text-[0.62rem] font-extrabold uppercase tracking-[0.12em] text-[#75816E]">Total</p>
+                  <p class="mt-1 text-sm font-extrabold text-[#214523]">{{ formatCurrency(currentDashboard.overview.fixed_expenses + currentDashboard.overview.variable_expenses) }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="flex items-center gap-2 text-sm font-bold text-[#405D42]"><span class="h-3 w-3 rounded-full bg-[#315D36]"></span>Gasto fijo</span>
+                  <span class="font-extrabold tabular-nums text-[#214523]">{{ formatPercentage(expenseFixedPercentage()) }}</span>
+                </div>
+              </div>
+              <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                <div class="flex items-center justify-between gap-3">
+                  <span class="flex items-center gap-2 text-sm font-bold text-[#405D42]"><span class="h-3 w-3 rounded-full bg-[#E4A07D]"></span>Gasto variable</span>
+                  <span class="font-extrabold tabular-nums text-[#214523]">{{ formatPercentage(expenseVariablePercentage()) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="mt-6" aria-label="Comparación financiera de los últimos dos meses">
+        <article class="overflow-hidden rounded-3xl border border-[#C9D5A5] bg-[#F2F5D6] shadow-sm">
+          <header class="border-b border-[#D5DEB5] bg-[#E7EFC4] px-6 py-6 sm:px-8">
+            <p class="text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#6D7D62]">Evolución reciente</p>
+            <h2 class="mt-2 text-xl font-extrabold text-[#214523] sm:text-2xl">Mes anterior frente al mes actual</h2>
+            <p class="mt-2 text-sm leading-6 text-[#61705D]">Una lectura comparativa de los movimientos confirmados y del comportamiento financiero observado.</p>
+          </header>
+
+          @if (isAnalysisLoading()) {
+            <div class="grid gap-5 p-6 sm:grid-cols-2 sm:p-8">
+              <div class="h-28 animate-pulse rounded-2xl bg-[#E1E8C2]"></div>
+              <div class="h-28 animate-pulse rounded-2xl bg-[#E1E8C2]"></div>
+              <div class="h-64 animate-pulse rounded-2xl bg-[#E1E8C2] sm:col-span-2"></div>
+            </div>
+          } @else if (analysisErrorMessage()) {
+            <p class="m-6 rounded-2xl border border-[#E4C8B7] bg-[#FFF4EC] px-5 py-4 text-sm font-semibold text-[#8A4D35] sm:m-8" aria-live="polite">
+              {{ analysisErrorMessage() }}
+            </p>
+          } @else if (previousAnalysis(); as previous) {
+            @if (currentAnalysis(); as current) {
+              <div class="p-6 sm:p-8">
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div class="rounded-2xl border border-[#D7E0B8] bg-white/45 p-5">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-[#75816E]">Mes anterior</p>
+                        <p class="mt-2 text-lg font-extrabold text-[#214523]">{{ formatMonth(previous.month) }}</p>
+                      </div>
+                      <span class="rounded-full bg-[#DEE7C2] px-3 py-1 text-xs font-extrabold text-[#405D42]">{{ formatStatus(previous.financial_status.classification) }}</span>
+                    </div>
+                    <p class="mt-4 text-sm text-[#61705D]">Trayectoria: <strong class="text-[#405D42]">{{ formatStatus(previous.financial_status.trajectory) }}</strong></p>
+                  </div>
+
+                  <div class="rounded-2xl border border-[#AFC587] bg-[#E9F0CD] p-5">
+                    <div class="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-[#61705D]">Mes actual</p>
+                        <p class="mt-2 text-lg font-extrabold text-[#173B20]">{{ formatMonth(current.month) }}</p>
+                      </div>
+                      <span class="rounded-full bg-[#315D36] px-3 py-1 text-xs font-extrabold text-white">{{ formatStatus(current.financial_status.classification) }}</span>
+                    </div>
+                    <p class="mt-4 text-sm text-[#526650]">Trayectoria: <strong class="text-[#214523]">{{ formatStatus(current.financial_status.trajectory) }}</strong></p>
+                  </div>
+                </div>
+
+                <div class="mt-7 overflow-hidden rounded-2xl border border-[#D7E0B8] bg-white/35">
+                  <div class="grid grid-cols-[minmax(7rem,1fr)_minmax(8rem,1.5fr)_5rem] gap-4 border-b border-[#D7E0B8] px-4 py-3 text-[0.65rem] font-extrabold uppercase tracking-[0.1em] text-[#75816E] sm:grid-cols-[minmax(10rem,1fr)_minmax(14rem,2fr)_7rem] sm:px-5">
+                    <span>Indicador</span>
+                    <span>Comparación</span>
+                    <span class="text-right">Cambio</span>
+                  </div>
+
+                  @for (metric of [
+                    { label: 'Ingresos', previous: previous.summary.total_income, current: current.summary.total_income },
+                    { label: 'Gastos', previous: previous.summary.total_expenses, current: current.summary.total_expenses },
+                    { label: 'Pago de deudas', previous: previous.summary.debt_payments, current: current.summary.debt_payments },
+                    { label: 'Saldo disponible', previous: previous.summary.available_balance, current: current.summary.available_balance },
+                    { label: 'Capacidad de ahorro', previous: previous.summary.saving_capacity, current: current.summary.saving_capacity }
+                  ]; track metric.label) {
+                    <div class="grid grid-cols-[minmax(7rem,1fr)_minmax(8rem,1.5fr)_5rem] items-center gap-4 border-b border-[#E0E6CA] px-4 py-5 last:border-b-0 sm:grid-cols-[minmax(10rem,1fr)_minmax(14rem,2fr)_7rem] sm:px-5">
+                      <div>
+                        <p class="text-sm font-extrabold text-[#405D42]">{{ metric.label }}</p>
+                        <p class="mt-1 text-[0.68rem] text-[#819078]">Valores mensuales</p>
+                      </div>
+
+                      <div class="space-y-2.5">
+                        <div class="grid grid-cols-[4.3rem_1fr] items-center gap-2 sm:grid-cols-[6.5rem_1fr]">
+                          <span class="truncate text-[0.65rem] font-bold tabular-nums text-[#75816E] sm:text-xs">{{ formatCurrency(metric.previous) }}</span>
+                          <div class="h-2.5 overflow-hidden rounded-full bg-[#E1E7CB]">
+                            <div class="h-full rounded-full bg-[#9AAA7E]" [style.width.%]="comparisonWidth(metric.previous, metric.current)"></div>
+                          </div>
+                        </div>
+                        <div class="grid grid-cols-[4.3rem_1fr] items-center gap-2 sm:grid-cols-[6.5rem_1fr]">
+                          <span class="truncate text-[0.65rem] font-extrabold tabular-nums text-[#315D36] sm:text-xs">{{ formatCurrency(metric.current) }}</span>
+                          <div class="h-2.5 overflow-hidden rounded-full bg-[#E1E7CB]">
+                            <div class="h-full rounded-full bg-[#315D36]" [style.width.%]="comparisonWidth(metric.current, metric.previous)"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="text-right">
+                        @if (changePercentage(metric.current, metric.previous) !== null) {
+                          <span class="inline-flex rounded-full px-2 py-1 text-xs font-extrabold tabular-nums"
+                            [class.bg-[#DCEAC7]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                            [class.text-[#315D36]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                            [class.bg-[#F2D6C1]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
+                            [class.text-[#8A4D35]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0">
+                            {{ (changePercentage(metric.current, metric.previous) ?? 0) > 0 ? '+' : '' }}{{ formatPercentage(changePercentage(metric.current, metric.previous) ?? 0) }}
+                          </span>
+                        } @else {
+                          <span class="text-[0.65rem] font-bold text-[#819078]">Sin base</span>
+                        }
+                      </div>
+                    </div>
+                  }
+                </div>
+
+                <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-bold text-[#61705D]">
+                  <span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#9AAA7E]"></span>{{ formatMonth(previous.month) }}</span>
+                  <span class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full bg-[#315D36]"></span>{{ formatMonth(current.month) }}</span>
+                </div>
+              </div>
+            }
+          }
+        </article>
+      </section>
+      }
+
+      <section class="mt-6" aria-label="Estado financiero y recomendación actual">
+        <div class="mb-5">
+          <p class="text-[0.68rem] font-extrabold uppercase tracking-[0.14em] text-[#6D7D62]">Lectura de los últimos 60 días</p>
+          <h2 class="mt-2 text-xl font-extrabold text-[#214523] sm:text-2xl">Tu estado financiero y el siguiente paso</h2>
+        </div>
+
+        @if (isRecommendationLoading()) {
+          <div class="grid gap-5 lg:grid-cols-2">
+            <div class="h-96 animate-pulse rounded-3xl bg-[#E1E8C2]"></div>
+            <div class="h-96 animate-pulse rounded-3xl bg-[#E1E8C2]"></div>
+          </div>
+        } @else if (recommendationErrorMessage()) {
+          <p class="rounded-2xl border border-[#E4C8B7] bg-[#FFF4EC] px-5 py-4 text-sm font-semibold text-[#8A4D35]" aria-live="polite">
+            {{ recommendationErrorMessage() }}
+          </p>
+        } @else if (recommendationResult(); as result) {
+          <div class="grid items-stretch gap-5 lg:grid-cols-2">
+            <article class="flex flex-col overflow-hidden rounded-3xl border border-[#C9D5A5] bg-[#F2F5D6] shadow-sm">
+              <header class="border-b border-[#D5DEB5] bg-[#E7EFC4] px-6 py-6">
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p class="text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-[#6D7D62]">Modelo 04 · Trayectoria</p>
+                    <h3 class="mt-2 text-xl font-extrabold text-[#214523]">Tu estado financiero</h3>
+                  </div>
+                  <span class="rounded-full px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.08em]"
+                    [class.bg-[#315D36]]="result.financial_state.status === 'calculated'"
+                    [class.text-white]="result.financial_state.status === 'calculated'"
+                    [class.bg-[#F5D6A8]]="result.financial_state.status === 'requires_review'"
+                    [class.text-[#7B4B20]]="result.financial_state.status === 'requires_review'"
+                    [class.bg-[#E5D8CF]]="result.financial_state.status === 'insufficient_evidence'"
+                    [class.text-[#72533F]]="result.financial_state.status === 'insufficient_evidence'">
+                    {{ result.financial_state.status === 'calculated' ? 'Calculado' : result.financial_state.status === 'requires_review' ? 'Requiere revisión' : 'Evidencia insuficiente' }}
+                  </span>
+                </div>
+              </header>
+
+              <div class="flex flex-1 flex-col p-6">
+                <div class="rounded-2xl border border-[#BFD097] bg-[#EAF0D1] p-5">
+                  <p class="text-xs font-bold text-[#61705D]">Estado actual</p>
+                  <div class="mt-2 flex flex-wrap items-end justify-between gap-3">
+                    <p class="text-2xl font-extrabold text-[#173B20]">{{ formatStatus(result.financial_state.challenge_state) }}</p>
+                    @if (result.financial_state.confidence_percentage !== null) {
+                      <p class="text-lg font-extrabold tabular-nums text-[#315D36]">{{ formatPercentage(result.financial_state.confidence_percentage) }}</p>
+                    }
+                  </div>
+                  <p class="mt-2 text-sm text-[#526650]">Trayectoria: <strong>{{ formatStatus(result.financial_state.state) }}</strong></p>
+                  @if (result.financial_state.confidence_percentage !== null) {
+                    <div class="mt-4 h-2.5 overflow-hidden rounded-full bg-[#D4DEB5]" aria-hidden="true">
+                      <div class="h-full rounded-full bg-[#315D36]" [style.width.%]="result.financial_state.confidence_percentage"></div>
+                    </div>
+                  }
+                </div>
+
+                <div class="mt-4 grid grid-cols-2 gap-3">
+                  <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                    <p class="text-2xl font-extrabold tabular-nums text-[#214523]">{{ result.financial_state.observed_period.days_with_history }}</p>
+                    <p class="mt-1 text-xs font-bold text-[#75816E]">Días con historial</p>
+                  </div>
+                  <div class="rounded-2xl border border-[#D8E1B9] bg-white/45 p-4">
+                    <p class="text-2xl font-extrabold tabular-nums text-[#214523]">{{ result.financial_state.observed_period.confirmed_transactions }}</p>
+                    <p class="mt-1 text-xs font-bold text-[#75816E]">Movimientos confirmados</p>
+                  </div>
+                </div>
+                <p class="mt-3 text-xs text-[#819078]">Periodo: {{ formatDate(result.financial_state.observed_period.from) }} — {{ formatDate(result.financial_state.observed_period.to) }}</p>
+
+                @if (result.financial_state.main_factors.length) {
+                  <div class="mt-5">
+                    <p class="text-xs font-extrabold uppercase tracking-[0.1em] text-[#61705D]">Factores observados</p>
+                    <div class="mt-3 grid gap-2 sm:grid-cols-2">
+                      @for (factor of result.financial_state.main_factors; track factor.factor) {
+                        <div class="rounded-xl border border-[#D8E1B9] bg-white/40 px-3.5 py-3">
+                          <p class="text-xs font-bold text-[#75816E]">{{ factorLabel(factor.factor) }}</p>
+                          <p class="mt-1 text-sm font-extrabold text-[#405D42]">{{ assessmentLabel(factor.assessment) }}</p>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                @if (result.financial_state.reasons.length) {
+                  <div class="mt-5 rounded-2xl border border-[#E3CBAE] bg-[#FFF3DF] p-4">
+                    <p class="text-xs font-extrabold uppercase tracking-[0.1em] text-[#8A5A2F]">Qué necesitamos revisar</p>
+                    <ul class="mt-2 space-y-1.5 text-sm text-[#755338]">
+                      @for (reason of result.financial_state.reasons; track reason) {
+                        <li>• {{ reasonLabel(reason) }}</li>
+                      }
+                    </ul>
+                  </div>
+                }
+              </div>
+            </article>
+
+            <article class="flex flex-col overflow-hidden rounded-3xl border border-[#B9C994] bg-[#EEF3D6] shadow-sm">
+              <header class="border-b border-[#CBD7AA] bg-[#DDE8BC] px-6 py-6">
+                <div class="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <p class="text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-[#607456]">Modelo 05 · Acción</p>
+                    <h3 class="mt-2 text-xl font-extrabold text-[#173B20]">Recomendación para ti</h3>
+                  </div>
+                  @if (result.recommendation.status === 'available') {
+                    <span class="rounded-full bg-[#315D36] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.08em] text-white">Disponible</span>
+                  } @else {
+                    <span class="rounded-full bg-[#E5D8CF] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.08em] text-[#72533F]">Aún no disponible</span>
+                  }
+                </div>
+              </header>
+
+              <div class="flex flex-1 flex-col p-6">
+                @if (result.recommendation.status === 'available') {
+                  @if (result.recommendation.priority || result.recommendation.type) {
+                    <div class="flex flex-wrap gap-2">
+                      @if (result.recommendation.priority) {
+                        <span class="rounded-full bg-[#F2D6C1] px-3 py-1 text-xs font-extrabold text-[#7A4F3C]">Prioridad: {{ formatStatus(result.recommendation.priority) }}</span>
+                      }
+                      @if (result.recommendation.type) {
+                        <span class="rounded-full bg-white/60 px-3 py-1 text-xs font-bold text-[#526650]">{{ formatStatus(result.recommendation.type) }}</span>
+                      }
+                    </div>
+                  }
+
+                  <p class="mt-5 text-xl font-extrabold leading-8 text-[#214523]">{{ result.recommendation.message }}</p>
+
+                  @if (result.recommendation.action) {
+                    <div class="mt-5 rounded-2xl border border-[#AAC181] bg-[#315D36] p-5 text-white shadow-[0_8px_22px_rgba(49,93,54,0.14)]">
+                      <p class="text-[0.65rem] font-extrabold uppercase tracking-[0.12em] text-[#DCEAC7]">Siguiente acción</p>
+                      <p class="mt-2 text-base font-bold leading-6">{{ result.recommendation.action }}</p>
+                    </div>
+                  }
+
+                  <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                    <div class="rounded-2xl border border-[#CBD7AA] bg-white/45 p-4">
+                      <p class="text-xs font-bold text-[#75816E]">Confianza</p>
+                      <p class="mt-2 text-xl font-extrabold tabular-nums text-[#214523]">
+                        {{ result.recommendation.confidence_percentage === null ? 'Protección ética aplicada' : formatPercentage(result.recommendation.confidence_percentage) }}
+                      </p>
+                    </div>
+                    <div class="rounded-2xl border border-[#CBD7AA] bg-white/45 p-4">
+                      <p class="text-xs font-bold text-[#75816E]">Meta relacionada</p>
+                      <p class="mt-2 text-sm font-extrabold leading-6 text-[#214523]">{{ result.recommendation.related_goal || 'No se asumió una meta' }}</p>
+                    </div>
+                  </div>
+
+                  @if (result.recommendation.applied_safeguards.length) {
+                    <div class="mt-5">
+                      <p class="text-xs font-extrabold uppercase tracking-[0.1em] text-[#61705D]">Criterios considerados</p>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        @for (safeguard of result.recommendation.applied_safeguards; track safeguard) {
+                          <span class="rounded-full border border-[#C5D39F] bg-white/55 px-3 py-1.5 text-xs font-bold text-[#526650]">{{ safeguardLabel(safeguard) }}</span>
+                        }
+                      </div>
+                    </div>
+                  }
+                } @else {
+                  <div class="grid flex-1 place-items-center py-8 text-center">
+                    <div class="max-w-md">
+                      <span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[#E5D8CF] text-2xl" aria-hidden="true">⌛</span>
+                      <h4 class="mt-4 text-xl font-extrabold text-[#214523]">Aún necesitamos más evidencia</h4>
+                      <p class="mt-3 text-sm leading-6 text-[#61705D]">No generamos una recomendación hasta contar con información suficiente y confiable.</p>
+                      @if (result.recommendation.reasons.length) {
+                        <ul class="mt-5 space-y-2 rounded-2xl border border-[#D8E1B9] bg-white/45 p-4 text-left text-sm text-[#61705D]">
+                          @for (reason of result.recommendation.reasons; track reason) {
+                            <li>• {{ reasonLabel(reason) }}</li>
+                          }
+                        </ul>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </article>
+          </div>
+        }
+      </section>
+    }
+  </main>
+
+  <app-footer />
+</div>

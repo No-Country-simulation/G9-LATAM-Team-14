@@ -1,0 +1,164 @@
+<div class="min-h-screen bg-[#F4F7EB] text-[#213E27]">
+  <app-header />
+
+  <main class="mx-auto min-h-[70vh] max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    <section class="rounded-3xl border border-[#D8E0BB] bg-[#FAFCDC] p-5 shadow-sm sm:p-8">
+      <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+        <div>
+          <a routerLink="/transactions"
+            class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-[#6D8C4B] transition hover:text-[#214523]">
+            <span aria-hidden="true">←</span>
+            Movimientos
+          </a>
+          <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-[#173B20]">Análisis del mes</h1>
+          <p class="mt-2 text-sm leading-6 text-[#61705D]">
+            {{ analysis()?.pagination?.total_items ?? 0 }} movimientos confirmados en {{ monthLabel() }}.
+          </p>
+        </div>
+
+        <label class="w-full md:w-auto">
+          <span class="mb-2 block text-xs font-extrabold uppercase tracking-[0.12em] text-[#6E7E67]">Mes</span>
+          <input type="month" [value]="selectedMonth()" (change)="changeMonth($event)"
+            class="w-full rounded-xl border border-[#C6D09F] bg-[#F5F8DE] px-4 py-3 text-sm font-extrabold text-[#29492E] outline-none transition focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10 md:w-48" />
+        </label>
+      </div>
+
+      @if (errorMessage()) {
+      <div class="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 sm:flex-row sm:items-center">
+        <p class="text-sm font-semibold text-red-700">{{ errorMessage() }}</p>
+        <button type="button" class="rounded-xl bg-red-700 px-4 py-2 text-xs font-extrabold text-white"
+          (click)="loadMonth(selectedMonth() || undefined)">
+          Reintentar
+        </button>
+      </div>
+      }
+
+      <div class="mt-7 grid gap-4 sm:grid-cols-2">
+        @for (card of expenseCards(); track $index) {
+        <article class="group min-h-36 rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5 transition hover:-translate-y-0.5 hover:border-[#BAC88E] hover:shadow-sm"
+          [class.opacity-60]="card.empty">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-[0.68rem] font-extrabold uppercase tracking-[0.12em] text-[#68775F]">{{ card.category }}</p>
+              <p class="mt-6 text-2xl font-extrabold tabular-nums text-[#214523]">{{ formatCurrency(card.amount) }}</p>
+            </div>
+            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#DFE9B8] text-[#315D36] transition group-hover:bg-[#D5E2A7]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v12H4zM7 7V5h10v2M8 12h8m-8 4h5" />
+              </svg>
+            </div>
+          </div>
+        </article>
+        }
+      </div>
+
+      <section class="mt-7 overflow-hidden rounded-2xl border border-[#D3DDB0] bg-[#F5F7DE]">
+        <div class="flex flex-col gap-4 border-b border-[#D8E1B8] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div>
+            <h2 class="text-base font-extrabold text-[#29492E]">Movimientos del mes</h2>
+            <p class="mt-1 text-xs text-[#73806E]">Siete movimientos por página.</p>
+          </div>
+          <div class="flex flex-col items-stretch gap-2 sm:items-end">
+            <button type="button" (click)="exportCsv()" [disabled]="isExporting() || !selectedMonth()"
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#315D36] px-4 py-2.5 text-xs font-extrabold text-white transition hover:bg-[#214523] disabled:cursor-not-allowed disabled:opacity-60">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14" />
+              </svg>
+              {{ isExporting() ? 'Exportando...' : 'Exportar CSV' }}
+            </button>
+            @if (exportError()) {
+            <p class="max-w-72 text-xs font-semibold text-red-700" aria-live="polite">{{ exportError() }}</p>
+            }
+          </div>
+        </div>
+
+        @if (isLoading()) {
+        <div class="space-y-2 p-4 sm:p-5">
+          @for (item of [1, 2, 3, 4, 5, 6, 7]; track item) {
+          <div class="h-14 animate-pulse rounded-xl bg-[#E6ECC8]"></div>
+          }
+        </div>
+        } @else if (!analysis()?.transactions?.length) {
+        <div class="grid min-h-64 place-items-center px-5 py-12 text-center">
+          <div>
+            <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#E5ECC3] text-[#315D36]">
+              <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18v12H3zM16 11h5M7 7V5h10v2" />
+              </svg>
+            </div>
+            <h3 class="mt-4 text-lg font-extrabold text-[#214523]">No hay movimientos confirmados</h3>
+            <p class="mt-2 text-sm text-[#61705D]">Selecciona otro mes o registra nuevos movimientos.</p>
+          </div>
+        </div>
+        } @else {
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[820px] border-collapse text-left">
+            <thead>
+              <tr class="border-b border-[#D8E1B8] text-[0.65rem] font-extrabold uppercase tracking-[0.1em] text-[#66735F]">
+                <th class="px-5 py-3.5">Descripción</th>
+                <th class="px-4 py-3.5">Categoría</th>
+                <th class="px-4 py-3.5">Tipo</th>
+                <th class="px-4 py-3.5 text-right">Valor</th>
+                <th class="px-4 py-3.5 text-center">Confianza</th>
+                <th class="px-5 py-3.5 text-right">Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (transaction of analysis()!.transactions; track transaction.id) {
+              <tr class="border-b border-[#E0E6C7] text-sm transition last:border-b-0 hover:bg-[#EDF2D1]">
+                <td class="px-5 py-4">
+                  <p class="max-w-64 truncate font-extrabold text-[#29492E]">{{ transaction.description }}</p>
+                  @if (transaction.note) {
+                  <p class="mt-1 max-w-64 truncate text-xs text-[#7B8874]">{{ transaction.note }}</p>
+                  }
+                </td>
+                <td class="px-4 py-4">
+                  <span class="inline-flex max-w-52 rounded-full bg-[#E2EABC] px-3 py-1 text-[0.65rem] font-extrabold uppercase tracking-[0.06em] text-[#4B6643]">
+                    <span class="truncate">{{ category(transaction) }}</span>
+                  </span>
+                </td>
+                <td class="px-4 py-4 font-semibold text-[#5F6E59]">{{ movementType(transaction) }}</td>
+                <td class="whitespace-nowrap px-4 py-4 text-right font-extrabold tabular-nums"
+                  [class.text-[#2F6B3A]]="transaction.direction === 'entrada'"
+                  [class.text-[#654E3F]]="transaction.direction === 'salida'">
+                  {{ formatAmount(transaction) }}
+                </td>
+                <td class="px-4 py-4 text-center font-extrabold tabular-nums"
+                  [class.text-[#A14C3B]]="transaction.confidence_percentage !== null && transaction.confidence_percentage < 70"
+                  [class.text-[#315D36]]="transaction.confidence_percentage === null || transaction.confidence_percentage >= 70">
+                  {{ confidence(transaction) }}
+                </td>
+                <td class="whitespace-nowrap px-5 py-4 text-right font-semibold text-[#66735F]">{{ formatDate(transaction.date) }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="flex flex-col gap-4 border-t border-[#D8E1B8] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-xs font-semibold text-[#6B7864]">
+            Mostrando {{ analysis()!.transactions.length }} de {{ analysis()!.pagination.total_items }} movimientos
+          </p>
+
+          @if (analysis()!.pagination.total_pages > 1) {
+          <nav class="flex flex-wrap items-center gap-1.5" aria-label="Paginación del análisis mensual">
+            @for (page of pageNumbers(); track page) {
+            <button type="button" (click)="changePage(page)" [attr.aria-current]="analysis()!.pagination.page === page ? 'page' : null"
+              class="grid h-9 min-w-9 place-items-center rounded-lg px-2 text-xs font-extrabold transition"
+              [class.bg-[#315D36]]="analysis()!.pagination.page === page"
+              [class.text-white]="analysis()!.pagination.page === page"
+              [class.text-[#405D42]]="analysis()!.pagination.page !== page"
+              [class.hover:bg-[#E2EABC]]="analysis()!.pagination.page !== page">
+              {{ page }}
+            </button>
+            }
+          </nav>
+          }
+        </div>
+        }
+      </section>
+    </section>
+  </main>
+
+  <app-footer />
+</div>
