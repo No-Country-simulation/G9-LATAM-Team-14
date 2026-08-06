@@ -13,5 +13,6 @@ public class User {
     private final String email;
     private final String password;
     private final Float ingresoMensual;
+    private final String frecuenciaAhorro;
     private final LocalDate fechaRegistro;
 }
