@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 
 @Component({
@@ -8,6 +8,7 @@ import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
   templateUrl: './modal-footer.html',
 })
 export class ModalFooterComponent {
+  submitText = input<string>('Agregar Deuda');
   closeModal = output<void>();
   submitForm = output<void>();
 }

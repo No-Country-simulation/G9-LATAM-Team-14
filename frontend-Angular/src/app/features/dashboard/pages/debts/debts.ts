@@ -8,7 +8,7 @@ import { PaidDebtsListComponent, PaidDebt } from './components/paid-debts-list/p
 import { AddDebtModalComponent, NewDebtPayload } from './components/add-debt-modal/add-debt-modal';
 import { DebtService } from '@app/core/debts/services/debt.service';
 import { AuthService } from '@app/core/auth/services/auth.service';
-import { Debt, CreateDebtRequest, DebtSummary } from '@app/core/debts/models/debt.model';
+import { Debt, DebtSummary, DebtProjectionPoint } from '@app/core/debts/models/debt.model';
 
 @Component({
   selector: 'app-debts',
@@ -28,6 +28,8 @@ export class Debts implements OnInit {
   private debtService = inject(DebtService);
   private authService = inject(AuthService);
   isModalOpen = signal<boolean>(false);
+  editingDebt = signal<Debt | null>(null);
+
   summaryData = signal<DebtSummary>({
     totalPendingAmount: 0,
     totalMonthlyPayment: 0,
@@ -37,6 +39,7 @@ export class Debts implements OnInit {
   });
   activeDebts = signal<ActiveDebt[]>([]);
   paidDebts = signal<PaidDebt[]>([]);
+  projectionPoints = signal<DebtProjectionPoint[]>([]);
 
   ngOnInit(): void {
     this.loadData();
@@ -78,19 +81,51 @@ export class Debts implements OnInit {
         console.error('Error al cargar resumen de deudas desde la BD:', err);
       }
     });
+
+    this.debtService.getProjection(userId).subscribe({
+      next: (points) => {
+        this.projectionPoints.set(points || []);
+      },
+      error: (err) => {
+        console.error('Error al cargar proyección desde la BD:', err);
+        this.projectionPoints.set([]);
+      }
+    });
   }
 
   onAddDebt(): void {
+    this.editingDebt.set(null);
     this.isModalOpen.set(true);
+  }
+
+  onEditDebt(activeDebt: ActiveDebt): void {
+    if (activeDebt.raw) {
+      this.editingDebt.set(activeDebt.raw);
+      this.isModalOpen.set(true);
+    }
+  }
+
+  onDeleteDebt(id: number): void {
+    if (confirm('¿Estás seguro de eliminar esta deuda?')) {
+      this.debtService.deleteDebt(id).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al eliminar la deuda:', err);
+        }
+      });
+    }
   }
 
   onCloseModal(): void {
     this.isModalOpen.set(false);
+    this.editingDebt.set(null);
   }
 
   onSaveDebt(payload: NewDebtPayload): void {
     const userId = this.authService.currentUser()?.id || 1;
-    const request: CreateDebtRequest = {
+    const request: any = {
       type: payload.type === 'installment' ? 'INSTALLMENT' : 'FIXED',
       category: payload.category,
       totalAmount: payload.totalAmount,
@@ -100,19 +135,32 @@ export class Debts implements OnInit {
       startDate: payload.startDate,
       endDate: payload.endDate,
       isIndefinite: payload.isIndefinite,
+      status: this.editingDebt()?.status || 'ACTIVE',
+      paidInstallments: this.editingDebt()?.paidInstallments || 0,
       userId
     };
 
-    this.debtService.createDebt(request).subscribe({
-      next: () => {
-        this.loadData();
-      },
-      error: (err) => {
-        console.error('Error al guardar la deuda en la BD:', err);
-      }
-    });
+    if (payload.id) {
+      this.debtService.updateDebt(payload.id, request).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al actualizar la deuda:', err);
+        }
+      });
+    } else {
+      this.debtService.createDebt(request).subscribe({
+        next: () => {
+          this.loadData();
+        },
+        error: (err) => {
+          console.error('Error al guardar la deuda en la BD:', err);
+        }
+      });
+    }
 
-    this.isModalOpen.set(false);
+    this.onCloseModal();
   }
 
   private mapToActiveDebt(d: Debt): ActiveDebt {
@@ -132,7 +180,8 @@ export class Debts implements OnInit {
       remainingAmount: `Quedan S/ ${total.toLocaleString()}`,
       progressText: isInstallment ? `Progreso ${paid}/${term}` : `${paid}/${term} cuotas`,
       percentage: progressPct,
-      iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts'
+      iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts',
+      raw: d
     };
   }
 }

@@ -1,0 +1,75 @@
+<header
+  class="sticky top-0 z-50 w-full border-b border-[#D5E0A5] bg-[#F3F7D2]/90 shadow-xs backdrop-blur-md"
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+    <app-logo />
+
+    <nav
+      class="hidden items-center gap-1.5 rounded-full border border-[#D5E0A5] bg-[#E2EBB6]/60 p-1.5 md:flex"
+      aria-label="Navegación principal"
+    >
+      @for (item of navigation; track item.label) {
+        <a
+          [href]="item.link"
+          class="rounded-full px-4 py-1.5 text-sm font-medium text-[#3B523E] transition-colors hover:bg-[#D4E0A5]/70 hover:text-[#214523]"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+
+    <div class="hidden items-center gap-3 md:flex">
+      <a
+        routerLink="/login"
+        class="rounded-xl bg-[#5A7259] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#465A45] hover:shadow-md"
+      >
+        Ingresar
+      </a>
+    </div>
+
+    <button
+      type="button"
+      (click)="toggleMenu()"
+      class="flex items-center justify-center rounded-xl border border-[#D5E0A5] p-2 text-[#214523] transition-colors hover:bg-[#E2EBB6] md:hidden"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mobile-navigation"
+      aria-label="Abrir menú"
+    >
+      @if (menuOpen()) {
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      } @else {
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      }
+    </button>
+  </div>
+
+  @if (menuOpen()) {
+    <nav
+      id="mobile-navigation"
+      class="absolute right-4 top-[68px] flex w-60 flex-col gap-2 rounded-2xl border border-[#D5E0A5] bg-[#F3F7D2]/95 p-4 shadow-xl backdrop-blur-xl md:hidden"
+      aria-label="Navegación móvil"
+    >
+      @for (item of navigation; track item.label) {
+        <a
+          [href]="item.link"
+          (click)="closeMenu()"
+          class="rounded-xl px-3.5 py-2 text-sm font-medium text-[#3B523E] hover:bg-[#E2EBB6] hover:text-[#214523]"
+        >
+          {{ item.label }}
+        </a>
+      }
+      <hr class="my-1 border-[#D5E0A5]" />
+      <a
+        routerLink="/login"
+        (click)="closeMenu()"
+        class="rounded-xl bg-[#5A7259] px-4 py-2.5 text-center text-sm font-semibold text-white"
+      >
+        Ingresar
+      </a>
+    </nav>
+  }
+</header>

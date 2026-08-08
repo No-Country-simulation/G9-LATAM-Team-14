@@ -1,0 +1,34 @@
+<div class="bg-[#364A38] rounded-3xl p-6 sm:p-8 text-white border border-[#2B3B2D] shadow-xl space-y-5">
+    <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-2 text-white tracking-tight">
+        <span>💡</span>
+        <span>Proyección mensual</span>
+    </h2>
+
+    <div class="space-y-3 font-medium text-sm sm:text-base">
+        <div class="flex items-center justify-between">
+            <span class="text-white/90">Ingreso mensual</span>
+            <span class="font-bold">S/ {{ income() | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="flex items-center justify-between text-[#FCA5A5]">
+            <span>Cuotas de deuda</span>
+            <span class="font-bold">- S/ {{ debtPayment() | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="flex items-center justify-between text-[#FCA5A5]">
+            <span>Gasto promedio</span>
+            <span class="font-bold">- S/ {{ averageExpense() | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="border-t border-[#4E6545] pt-4 my-2"></div>
+
+        <div class="flex items-center justify-between pt-1">
+            <span class="text-base sm:text-lg font-bold text-white">Capacidad de ahorro</span>
+            <span class="text-2xl sm:text-3xl font-black text-white">S/ {{ savingsCapacity() | number:'1.0-0' }}</span>
+        </div>
+    </div>
+
+    <p class="text-xs text-white/70 text-right font-medium pt-1">
+        Estimado mensual
+    </p>
+</div>

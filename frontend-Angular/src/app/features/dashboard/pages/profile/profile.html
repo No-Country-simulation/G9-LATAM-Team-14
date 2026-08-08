@@ -1,8 +1,10 @@
-<div class="">
-    <h2 class="text-2xl font-bold text-gray-800">Perfil de Usuario</h2>
-    <p class="text-gray-600 mt-2">Aquí puedes ver y editar tu información personal.</p>
-    
-    <div class="mt-4 p-4 bg-[#f6fbdd] rounded-lg text-[#2d4231]">
-        Aquí irían los detalles del perfil del usuario.
-    </div>
+<div class="max-w-4xl mx-auto space-y-6 pb-12 animate-fadeIn">
+    <app-profile-header></app-profile-header>
+    <app-monthly-income-card [(income)]="monthlyIncome"></app-monthly-income-card>
+    <app-profile-debts-card [debts]="activeDebts()"></app-profile-debts-card>
+    <app-debt-ratio-card [monthlyPayment]="summaryData().totalMonthlyPayment"
+        [incomePercentage]="summaryData().incomePercentage"></app-debt-ratio-card>
+    <app-savings-frequency-card [(frequency)]="savingsFrequency"></app-savings-frequency-card>
+    <app-monthly-projection-card [income]="monthlyIncome()"
+        [debtPayment]="summaryData().totalMonthlyPayment"></app-monthly-projection-card>
 </div>
