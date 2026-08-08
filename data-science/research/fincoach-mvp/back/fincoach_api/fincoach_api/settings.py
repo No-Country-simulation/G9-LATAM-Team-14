@@ -14,6 +14,7 @@ if ENVIRONMENT == 'local':
         'localhost',
         '127.0.0.1',
         '0.0.0.0',
+        'back-mvp',
     ]
 elif ENVIRONMENT == 'production':
     DEBUG = False
