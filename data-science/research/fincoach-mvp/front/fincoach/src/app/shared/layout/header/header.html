@@ -1,0 +1,38 @@
+<header class="sticky top-0 z-40 border-b border-[#DCE5B7] bg-[#F8FBE5]/95 shadow-sm backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-3.5 sm:px-8">
+    <div class="min-w-0">
+      <app-logo link="/me" />
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-4">
+      <a routerLink="/edit-profile" aria-label="Abrir mi perfil"
+        class="group flex items-center gap-3 rounded-xl px-2 py-1.5 transition hover:bg-[#E8EFC7] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523] sm:px-3">
+        <span class="grid h-10 w-10 place-items-center rounded-full bg-[#DDE8A0] text-xs font-extrabold text-[#315D36]">
+          {{ initials() }}
+        </span>
+        <div class="hidden max-w-40 lg:block">
+          <p class="truncate text-sm font-extrabold text-[#29492E] group-hover:text-[#173B20]">{{ fullName() }}</p>
+          <p class="truncate text-xs text-[#73806E]">{{ user()?.email }}</p>
+        </div>
+      </a>
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-xl border border-[#C9D59F] px-3.5 py-2.5 text-sm font-extrabold text-[#36583A] transition hover:border-red-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523] disabled:cursor-not-allowed disabled:opacity-60"
+        [disabled]="isLoggingOut()"
+        (click)="logout()"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 17l5-5-5-5M15 12H3m9-9h6a3 3 0 013 3v12a3 3 0 01-3 3h-6" />
+        </svg>
+        <span class="hidden sm:inline">{{ isLoggingOut() ? 'Cerrando...' : 'Cerrar sesión' }}</span>
+      </button>
+    </div>
+  </div>
+
+  @if (logoutError()) {
+    <p class="border-t border-red-100 bg-red-50 px-5 py-2 text-center text-xs font-semibold text-red-700" aria-live="polite">
+      {{ logoutError() }}
+    </p>
+  }
+</header>
