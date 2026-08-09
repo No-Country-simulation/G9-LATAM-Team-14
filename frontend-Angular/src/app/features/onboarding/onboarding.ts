@@ -1,17 +1,21 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { StepAboutComponent, StepDebtsComponent, StepExpensesComponent, StepGoalsComponent } from './components';
 import { DebtService } from '@core/debts/services/debt.service';
 import { AuthService } from '@core/auth/services/auth.service';
+import { AiClassificationModalComponent, CategoryOption } from '@shared/components/ai-classification-modal/ai-classification-modal';
 
 @Component({
   selector: 'app-onboarding',
   standalone: true,
   imports: [
+    CommonModule,
     StepAboutComponent,
     StepDebtsComponent,
     StepExpensesComponent,
-    StepGoalsComponent
+    StepGoalsComponent,
+    AiClassificationModalComponent
   ],
   templateUrl: './onboarding.html',
 })
@@ -23,10 +27,22 @@ export class Onboarding {
   currentStep = 1;
   totalSteps = 4;
 
+  // Estado del modal de confirmación de IA
+  showAiModal = false;
+  selectedCategory = 'Trabajo independiente';
+  selectedRegularity = 'Variable';
+
+  categories: CategoryOption[] = [
+    { name: 'Trabajo independiente', confidence: '60.27%' },
+    { name: 'Ingresos laborales', confidence: '17.68%' },
+    { name: 'Otra / ambigua', confidence: '8.11%' },
+    { name: 'Vestimenta', confidence: '2.75%' },
+  ];
+
   steps: OnboardingStep[] = [
     { id: 1, label: 'Datos' },
     { id: 2, label: 'Endeudamiento' },
-    { id: 3, label: 'Gastos' },
+    { id: 3, label: 'Movimiento' },
     { id: 4, label: 'Metas' },
   ];
 
@@ -36,11 +52,24 @@ export class Onboarding {
   }
 
   nextStep() {
+    if (this.currentStep === 3 && !this.showAiModal) {
+      this.showAiModal = true;
+      return;
+    }
     if (this.currentStep < this.totalSteps) {
       this.currentStep++;
     } else {
       this.finishOnboarding();
     }
+  }
+
+  confirmAiModal() {
+    this.showAiModal = false;
+    this.currentStep = 4;
+  }
+
+  closeAiModal() {
+    this.showAiModal = false;
   }
 
   prevStep() {
@@ -66,6 +95,7 @@ export class Onboarding {
     });
   }
 }
+
 
 export interface OnboardingStep {
   id: number;

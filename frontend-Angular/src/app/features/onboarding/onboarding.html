@@ -53,4 +53,10 @@
             Omitir por ahora
         </button>
     </footer>
+
+    <!-- MODAL REUTILIZABLE DE IA (DESDE @SHARED) -->
+    <app-ai-classification-modal
+        [isOpen]="showAiModal"
+        (confirm)="confirmAiModal()"
+        (close)="closeAiModal()" />
 </div>
