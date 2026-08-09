@@ -15,10 +15,22 @@ export class StepDebtsComponent {
 
   debts = this.debtService.onboardingDebts;
 
+  totalDebt = computed(() => {
+    return this.debts().reduce((acc, d) => acc + (d.amount || 0), 0);
+  });
+
+  income = computed(() => {
+    return this.debtService.onboardingIncome() || 0;
+  });
+
   debtPercentage = computed(() => {
-    const total = this.debts().reduce((acc, d) => acc + (d.amount || 0), 0);
+    const total = this.totalDebt();
+    const userIncome = this.income();
     if (total === 0) return 0;
-    return Math.min(Math.round((total / 5000) * 100), 100);
+    if (userIncome > 0) {
+      return Math.min(Math.round((total / userIncome) * 100), 100);
+    }
+    return Math.min(Math.round((total / 3000) * 100), 100);
   });
 
   addDebt() {

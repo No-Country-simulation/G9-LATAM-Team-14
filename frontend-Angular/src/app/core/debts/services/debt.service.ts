@@ -19,6 +19,7 @@ export class DebtService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/v1/debts`;
   private onboardingUrl = `${environment.apiUrl}/v1/onboarding/debts`;
+  onboardingIncome = signal<number | null>(null);
   onboardingDebts = signal<SingleDebtItemRequest[]>([
     { category: '', amount: null }
   ]);

@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IconFinCoachComponent, IconName } from '../../../../shared/icons/iconsFinCoach';
+import { DebtService } from '@core/debts/services/debt.service';
 
 export interface HabitOption {
   id: string;
@@ -15,7 +16,16 @@ export interface HabitOption {
   templateUrl: './step-about.html',
 })
 export class StepAboutComponent {
-  income: number | null = null;
+  private debtService = inject(DebtService);
+
+  get income(): number | null {
+    return this.debtService.onboardingIncome();
+  }
+
+  set income(val: number | null) {
+    this.debtService.onboardingIncome.set(val);
+  }
+
   selectedHabit = signal<string>('Nunca');
 
   habitOptions: HabitOption[] = [
