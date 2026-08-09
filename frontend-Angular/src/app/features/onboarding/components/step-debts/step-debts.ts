@@ -1,8 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IconFinCoachComponent } from '@shared/icons/iconsFinCoach';
-import { DebtService } from '@core/debts/services/debt.service';
-import { SingleDebtItemRequest } from '@core/debts/models/debt.model';
+import { OnboardingService } from '@core/onboarding/services/onboarding.service';
 
 @Component({
   selector: 'app-step-debts',
@@ -11,16 +10,16 @@ import { SingleDebtItemRequest } from '@core/debts/models/debt.model';
   templateUrl: './step-debts.html',
 })
 export class StepDebtsComponent {
-  private debtService = inject(DebtService);
+  private onboardingService = inject(OnboardingService);
 
-  debts = this.debtService.onboardingDebts;
+  debts = this.onboardingService.onboardingDebts;
 
   totalDebt = computed(() => {
     return this.debts().reduce((acc, d) => acc + (d.amount || 0), 0);
   });
 
   income = computed(() => {
-    return this.debtService.onboardingIncome() || 0;
+    return this.onboardingService.onboardingIncome() || 0;
   });
 
   debtPercentage = computed(() => {
@@ -34,7 +33,7 @@ export class StepDebtsComponent {
   });
 
   addDebt() {
-    this.debtService.onboardingDebts.update(list => [
+    this.onboardingService.onboardingDebts.update(list => [
       ...list,
       { category: '', amount: null }
     ]);
@@ -42,7 +41,7 @@ export class StepDebtsComponent {
 
   removeDebt(index: number) {
     if (this.debts().length > 1) {
-      this.debtService.onboardingDebts.update(list => list.filter((_, i) => i !== index));
+      this.onboardingService.onboardingDebts.update(list => list.filter((_, i) => i !== index));
     }
   }
 }

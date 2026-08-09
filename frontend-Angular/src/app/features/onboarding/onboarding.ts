@@ -2,7 +2,7 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { StepAboutComponent, StepDebtsComponent, StepExpensesComponent, StepGoalsComponent } from './components';
-import { DebtService } from '@core/debts/services/debt.service';
+import { OnboardingService } from '@core/onboarding/services/onboarding.service';
 import { AuthService } from '@core/auth/services/auth.service';
 import { AiClassificationModalComponent, CategoryOption } from '@shared/components/ai-classification-modal/ai-classification-modal';
 
@@ -21,7 +21,7 @@ import { AiClassificationModalComponent, CategoryOption } from '@shared/componen
 })
 export class Onboarding {
   private router = inject(Router);
-  private debtService = inject(DebtService);
+  private onboardingService = inject(OnboardingService);
   private authService = inject(AuthService);
 
   @ViewChild(StepAboutComponent) stepAboutComp?: StepAboutComponent;
@@ -61,13 +61,13 @@ export class Onboarding {
     this.validationError = null;
 
     if (this.currentStep === 1) {
-      const income = this.debtService.onboardingIncome();
+      const income = this.onboardingService.onboardingIncome();
       if (!income || income <= 0) {
         this.validationError = 'Por favor, ingresa tu ingreso mensual neto para continuar.';
         return false;
       }
     } else if (this.currentStep === 2) {
-      const debts = this.debtService.onboardingDebts();
+      const debts = this.onboardingService.onboardingDebts();
       const hasIncomplete = debts.some(d => (d.category && (!d.amount || d.amount <= 0)) || (!d.category && d.amount && d.amount > 0));
       if (hasIncomplete) {
         this.validationError = 'Por favor, selecciona la categoría y el monto de tus compromisos.';
@@ -140,7 +140,7 @@ export class Onboarding {
 
   finishOnboarding() {
     const userId = this.authService.currentUser()?.id || 1;
-    this.debtService.saveOnboardingDebtsToBackend(userId).subscribe({
+    this.onboardingService.saveOnboardingDebtsToBackend(userId).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);
       },

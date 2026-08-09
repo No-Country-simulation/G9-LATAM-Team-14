@@ -1,4 +1,5 @@
-package com.g9latam.team14.debt.infrastructure.adapter.inbound;
+package com.g9latam.team14.onboarding.infrastructure.adapter.inbound;
+
 import com.g9latam.team14.debt.domain.model.Debt;
 import com.g9latam.team14.debt.domain.ports.inbound.CreateBatchDebtsUseCase;
 import com.g9latam.team14.debt.infrastructure.adapter.inbound.dtos.CreateBatchDebtsRequest;
