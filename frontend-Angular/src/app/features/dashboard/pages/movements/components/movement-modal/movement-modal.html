@@ -1,10 +1,7 @@
-<!-- movement-modal.html -->
+<div class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50 p-4">
 
-<div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-
-  <!-- Modal -->
-  <div
-    class="bg-[#FDFEEA]
+  <!-- Modal Container -->
+  <div class="bg-[#FDFEEA]
            border
            border-[#D6D6B8]
            rounded-3xl
@@ -13,190 +10,137 @@
            max-w-xl
            max-h-[90vh]
            flex
-           flex-col">
+           flex-col
+           overflow-hidden">
 
     <!-- Header -->
-    <div class="flex justify-between items-center p-8 pb-6 shrink-0">
+    <div class="flex justify-between items-start p-6 sm:p-8 pb-4 border-b border-[#D6D6B8]/50 shrink-0">
 
-      <h2 class="text-3xl font-semibold text-[#364234]">
-        Nuevo Movimiento
-      </h2>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#214523] tracking-tight">
+          Nuevo movimiento
+        </h2>
+        <p class="text-xs sm:text-sm text-[#4E6750] mt-1">
+          Registra un nuevo movimiento para ver el análisis en tiempo real.
+        </p>
+      </div>
 
-      <button
-        type="button"
-        (click)="closeModal()"
-        class="text-[#6B6B5D] hover:text-[#364234] text-2xl">
-
+      <button type="button" (click)="closeModal()"
+        class="p-2 text-[#6B6B5D] hover:text-[#214523] text-xl font-bold transition rounded-full hover:bg-[#EAEFC8]">
         ✕
-
       </button>
 
     </div>
 
     <!-- Contenido con scroll -->
-    <div class="flex-1 overflow-y-auto px-8 pb-8">
+    <div class="flex-1 overflow-y-auto p-6 sm:p-8">
 
-      <form class="space-y-6">
+      <form (submit)="registerMovement(); $event.preventDefault()" class="w-full flex flex-col gap-4">
 
-        <!-- Tipo -->
-        <div class="grid grid-cols-2 border border-[#D6D6B8] rounded-2xl p-1">
-
-          <button
-            type="button"
-            (click)="selectType('GASTO')"
-            class="py-3 rounded-xl font-medium transition"
-            [ngClass]="movement.type==='GASTO'
-              ? 'bg-[#4E6545] text-white'
-              : 'text-[#364234] hover:bg-[#EEF2D2]'">
-
-            Gasto
-
-          </button>
-
-          <button
-            type="button"
-            (click)="selectType('INGRESO')"
-            class="py-3 rounded-xl font-medium transition"
-            [ngClass]="movement.type==='INGRESO'
-              ? 'bg-[#4E6545] text-white'
-              : 'text-[#364234] hover:bg-[#EEF2D2]'">
-
-            Ingreso
-
-          </button>
-
+        <!-- Fila 1: Fecha y Hora -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1.5">
+            <label for="modalMovementDate" class="text-xs sm:text-sm font-semibold text-[#214523]">
+              Fecha
+            </label>
+            <div class="relative flex items-center w-full">
+              <input id="modalMovementDate" type="date" [(ngModel)]="date" name="date"
+                class="w-full py-3 px-3.5 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-2xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium shadow-xs" />
+            </div>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <label for="modalMovementTime" class="text-xs sm:text-sm font-semibold text-[#214523]">
+              Hora
+            </label>
+            <div class="relative flex items-center w-full">
+              <input id="modalMovementTime" type="time" [(ngModel)]="time" name="time"
+                class="w-full py-3 px-3.5 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-2xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium shadow-xs" />
+            </div>
+          </div>
         </div>
 
-        <!-- Descripción -->
-        <div>
-
-          <label class="block mb-2 font-medium text-[#364234]">
-
-            {{ movement.type === 'GASTO'
-            ? '¿En qué gastaste?'
-            : '¿Cómo obtuviste este ingreso?' }}
-
+        <!-- Fila 2: Botón de Ingreso / Botón de Gasto con Iconos -->
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs sm:text-sm font-semibold text-[#214523]">
+            Tipo de movimiento
           </label>
-
-          <input
-            type="text"
-            name="description"
-            [(ngModel)]="movement.description"
-            [placeholder]="movement.type === 'GASTO'
-            ? 'Ej. Almuerzo menú'
-            : 'Ej. Pago de sueldo'"
-            class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
-
-        </div>
-
-        <!-- Monto -->
-        <div>
-
-          <label class="block mb-2 font-medium text-[#364234]">
-
-            Monto (S/)
-
-          </label>
-
-          <input
-            type="number"
-            step="0.01"
-            name="amount"
-            [(ngModel)]="movement.amount"
-            placeholder="0.00"
-            class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
-
-        </div>
-
-        <!-- Fecha -->
-        <div>
-
-          <label class="block mb-2 font-medium text-[#364234]">
-
-            Fecha
-
-          </label>
-
-          <input
-            type="date"
-            name="date"
-            [(ngModel)]="movement.date"
-            class="w-full rounded-xl border border-[#D6D6B8] bg-[#FAFCD9] p-4 focus:outline-none focus:border-[#4E6545]">
-
-        </div>
-
-        <!-- Categorías -->
-        <div>
-
-          <label class="block mb-3 font-medium text-[#364234]">
-
-            Categorías rápidas
-
-          </label>
-
-          <div class="flex flex-wrap gap-3">
-
-            @for (category of categories; track category) {
-
-            <button
-              type="button"
-              (click)="selectCategory(category)"
-              class="px-5 py-2 rounded-full border transition"
-              [ngClass]="movement.category===category
-                    ? 'bg-[#4E6545] text-white border-[#4E6545]'
-                    : 'bg-[#FDFEEA] border-[#D6D6B8] text-[#364234] hover:bg-[#EEF2D2]'">
-
-              {{ category }}
-
+          <div class="grid grid-cols-2 gap-3.5 w-full">
+            <button type="button" (click)="selectType('INGRESO')" [class.bg-[#D7E3A9]]="movement.type === 'INGRESO'"
+              [class.border-[#3E5741]]="movement.type === 'INGRESO'" [class.ring-2]="movement.type === 'INGRESO'"
+              [class.ring-[#3E5741]/30]="movement.type === 'INGRESO'"
+              [class.bg-[#EAEFC8]/80]="movement.type !== 'INGRESO'"
+              [class.border-[#C9DAA7]]="movement.type !== 'INGRESO'"
+              class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border text-xs sm:text-sm font-bold text-[#214523] transition-all duration-200 hover:bg-[#E3EAA5] hover:border-[#4A634E] cursor-pointer shadow-xs">
+              <app-icon-fin-coach name="arrow-up" class="w-4 h-4 text-[#214523]" />
+              <span>Ingreso</span>
             </button>
 
-            }
-
+            <button type="button" (click)="selectType('GASTO')" [class.bg-[#D7E3A9]]="movement.type === 'GASTO'"
+              [class.border-[#3E5741]]="movement.type === 'GASTO'" [class.ring-2]="movement.type === 'GASTO'"
+              [class.ring-[#3E5741]/30]="movement.type === 'GASTO'" [class.bg-[#EAEFC8]/80]="movement.type !== 'GASTO'"
+              [class.border-[#C9DAA7]]="movement.type !== 'GASTO'"
+              class="flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border text-xs sm:text-sm font-bold text-[#214523] transition-all duration-200 hover:bg-[#E3EAA5] hover:border-[#4A634E] cursor-pointer shadow-xs">
+              <app-icon-fin-coach name="arrow-down" class="w-4 h-4 text-[#214523]" />
+              <span>Gasto</span>
+            </button>
           </div>
-
         </div>
 
-        <!-- Aviso -->
-        <div class="bg-[#FBE4C8] border border-[#E8C18D] rounded-xl p-4">
-
-          <p class="text-sm text-[#7B5328]">
-
-            <strong>¿Pago de deuda?</strong>
-
-            Tus cuotas ya están registradas en tu perfil para evitar duplicados.
-
-          </p>
-
+        <!-- Fila 3: Título o descripción del movimiento -->
+        <div class="flex flex-col gap-1.5">
+          <label for="modalMovementDescription" class="text-xs sm:text-sm font-semibold text-[#214523]">
+            Título o descripción del movimiento
+          </label>
+          <input id="modalMovementDescription" type="text" [(ngModel)]="movement.description" name="description"
+            [placeholder]="movement.type === 'GASTO' ? 'Ejemplo: comprar helado' : 'Ejemplo: pago de sueldo'"
+            class="w-full py-3 px-4 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-2xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] placeholder-[#6E8870] font-medium shadow-xs" />
         </div>
 
-        <!-- Botón -->
-        <button
-          type="button"
-          (click)="registerMovement()"
-          class="w-full bg-[#4E6545] hover:bg-[#44583D] text-white rounded-2xl py-4 font-semibold transition">
+        <!-- Fila 4: Valor -->
+        <div class="flex flex-col gap-1.5">
+          <label for="modalMovementAmount" class="text-xs sm:text-sm font-semibold text-[#214523]">
+            Valor
+          </label>
+          <div class="relative flex items-center w-full">
+            <span class="absolute left-4 text-[#4A634E] font-semibold text-xs sm:text-sm">S/</span>
+            <input id="modalMovementAmount" type="number" step="0.01" [(ngModel)]="movement.amount" name="amount"
+              placeholder="0.00"
+              class="w-full pl-9 pr-4 py-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-2xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] placeholder-[#6E8870] font-medium shadow-xs" />
+          </div>
+        </div>
 
-          Registrar Movimiento
+        <!-- Fila 6: Nota o contexto -->
+        <div class="flex flex-col gap-1.5">
+          <label for="modalMovementNote" class="text-xs sm:text-sm font-semibold text-[#214523]">
+            Nota o contexto
+          </label>
+          <textarea id="modalMovementNote" rows="2" [(ngModel)]="movement.note" name="note"
+            placeholder="Ejemplo: salida del fin de semana con amigos"
+            class="w-full py-3 px-4 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-2xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] placeholder-[#6E8870] font-medium shadow-xs resize-none"></textarea>
+        </div>
 
-        </button>
-
-        <!-- Cancelar -->
-        <div class="text-center">
-
-          <button
-            type="button"
-            (click)="closeModal()"
-            class="text-[#6B6B5D] hover:text-[#364234] transition">
-
-            Cancelar y volver
-
+        <!-- Acciones -->
+        <div class="flex flex-col gap-2 mt-4">
+          <button type="submit" [disabled]="isSubmitting"
+            class="w-full py-3.5 bg-[#4E6545] hover:bg-[#44583D] disabled:opacity-60 text-white rounded-2xl font-bold text-sm transition shadow-sm cursor-pointer flex items-center justify-center gap-2">
+            @if (isSubmitting) {
+            <span>Analizando...</span>
+            } @else {
+            <span>Registrar Movimiento</span>
+            }
           </button>
-
+          <button type="button" (click)="closeModal()" [disabled]="isSubmitting"
+            class="w-full py-2.5 text-[#6B6B5D] hover:text-[#214523] font-medium text-xs sm:text-sm transition cursor-pointer disabled:opacity-50">
+            Cancelar y volver
+          </button>
         </div>
-
       </form>
-
     </div>
-
   </div>
+
+  <app-ai-classification-modal [isOpen]="showAiModal" [description]="movement.description || movement.note || 'Nuevo movimiento'" [amount]="movement.amount"
+    [type]="movement.type === 'INGRESO' ? 'INGRESO' : 'EGRESO'" [suggestion]="modelSuggestion"
+    (confirm)="confirmAiClassification($event)" (close)="closeAiModal()" />
+
 
 </div>

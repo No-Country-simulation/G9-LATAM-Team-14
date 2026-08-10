@@ -18,5 +18,5 @@ public class Movement {
     private final String category;
     private final LocalDate date;
     private final Integer userId;
-
+    private final AiClassification aiClassification;
 }

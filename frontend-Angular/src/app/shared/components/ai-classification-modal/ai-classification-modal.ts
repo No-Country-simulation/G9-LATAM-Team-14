@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconFinCoachComponent } from '../../icons/iconsFinCoach';
 
@@ -7,32 +7,80 @@ export interface CategoryOption {
   confidence: string;
 }
 
+export interface AiSuggestion {
+  category: string;
+  categoryConfidencePercentage: number;
+  alternativeCategories: { category: string; percentage: number }[];
+  purpose: string;
+  regularity: string;
+  modelRequiresReview: boolean;
+}
+
 @Component({
   selector: 'app-ai-classification-modal',
   standalone: true,
   imports: [CommonModule, IconFinCoachComponent],
   templateUrl: './ai-classification-modal.html',
 })
-export class AiClassificationModalComponent {
+export class AiClassificationModalComponent implements OnChanges {
+  private cdr = inject(ChangeDetectorRef);
+
   @Input() isOpen = false;
-  @Input() description = 'comprar helado';
-  @Input() amount: number | null = 180;
+  @Input() description = '';
+  @Input() amount: number | null = null;
   @Input() type: 'EGRESO' | 'INGRESO' = 'EGRESO';
-  @Input() confidencePercentage = '60.27%';
-  @Input() suggestedPurpose = 'Gasto ocasional / ocio';
+  @Input() suggestion?: AiSuggestion;
 
   @Output() confirm = new EventEmitter<{ category: string; regularity: string }>();
   @Output() close = new EventEmitter<void>();
 
-  selectedCategory = 'Trabajo independiente';
-  selectedRegularity = 'Variable';
+  selectedCategory = '';
+  selectedRegularity = 'variable';
+  confidencePercentage = '';
+  suggestedPurpose = '';
+  categories: CategoryOption[] = [];
 
-  categories: CategoryOption[] = [
-    { name: 'Trabajo independiente', confidence: '60.27%' },
-    { name: 'Ingresos laborales', confidence: '17.68%' },
-    { name: 'Otra / ambigua', confidence: '8.11%' },
-    { name: 'Vestimenta', confidence: '2.75%' },
-  ];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.suggestion) {
+      this.buildFromSuggestion(this.suggestion);
+      this.cdr.markForCheck();
+    }
+  }
+
+
+  private buildFromSuggestion(s: AiSuggestion): void {
+    this.selectedCategory = s.category || '';
+    this.selectedRegularity = s.regularity || 'variable';
+    this.confidencePercentage = s.categoryConfidencePercentage != null
+      ? `${s.categoryConfidencePercentage.toFixed(2)}%`
+      : '0%';
+    this.suggestedPurpose = s.purpose || 'General';
+
+    const mainCat = s.category
+      ? [{ name: s.category, confidence: `${s.categoryConfidencePercentage?.toFixed(2) || 0}%` }]
+      : [];
+
+    const altCats = (s.alternativeCategories || []).map(a => ({
+      name: a.category,
+      confidence: `${a.percentage?.toFixed(2) || 0}%`
+    }));
+
+    const seen = new Set<string>();
+    const combined: CategoryOption[] = [];
+    for (const item of [...mainCat, ...altCats]) {
+      if (item.name && !seen.has(item.name)) {
+        seen.add(item.name);
+        combined.push(item);
+      }
+    }
+
+    this.categories = combined;
+  }
+
+  
+  trackByName(index: number, item: CategoryOption): string | number {
+    return item?.name ?? index;
+  }
 
   selectCategory(catName: string): void {
     this.selectedCategory = catName;

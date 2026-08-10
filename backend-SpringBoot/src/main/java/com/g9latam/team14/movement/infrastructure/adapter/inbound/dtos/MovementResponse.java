@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record MovementResponse(
-
         Integer id,
         String description,
         BigDecimal amount,
         String type,
         String category,
         LocalDate date,
-        Integer userId
-
+        Integer userId,
+        String status,
+        AiClassificationResponse modelSuggestion
 ) {
 }

@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 10
 
-  # 2. Service Python Data Science
+  # 2. Service Python Data Science (API antigua - FastAPI - se mantiene sin cambios)
   data-science:
     build:
       context: ../data-science/api
@@ -38,7 +38,24 @@ services:
     depends_on:
       - mysql
 
-  # 3. Backend Spring Boot
+  # 3. DS-Service Django DRF - Servicio Dedicado de Clasificación por IA
+  ds-service:
+    build:
+      context: ../data-science/research/fincoach-mvp/ds-service
+      dockerfile: Dockerfile
+    container_name: fincoach_ds_service
+    hostname: fincoach-ds-service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ../data-science/research/fincoach-mvp/back/fincoach_api/joblibs:/app/joblibs:ro
+    environment:
+      - MODEL_PATH=/app/joblibs/02_clasificacion_transacciones.joblib
+      - DJANGO_SETTINGS_MODULE=config.settings
+    depends_on:
+      - mysql
+
+  # 4. Backend Spring Boot
   backend:
     build:
       context: ../backend-SpringBoot
@@ -51,11 +68,12 @@ services:
     environment:
       - DB_HOST=mysql
       - CORS_ORIGINS=http://localhost:4000
+      - DS_SERVICE_URL=http://fincoach-ds-service:8001
     depends_on:
       mysql:
         condition: service_healthy
 
-  # 4. Frontend Angular
+  # 5. Frontend Angular
   frontend:
     build:
       context: ../frontend-Angular

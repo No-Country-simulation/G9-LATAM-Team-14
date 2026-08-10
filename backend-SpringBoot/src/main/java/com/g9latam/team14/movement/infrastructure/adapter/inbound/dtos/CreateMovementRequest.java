@@ -17,7 +17,6 @@ public record CreateMovementRequest(
         @NotBlank(message = "El tipo es obligatorio")
         String type,
 
-        @NotBlank(message = "La categoría es obligatoria")
         String category,
 
         @NotNull(message = "La fecha es obligatoria")
