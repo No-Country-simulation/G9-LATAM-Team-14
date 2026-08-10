@@ -7,6 +7,6 @@
     <button type="button" (click)="submitForm.emit()"
         class="bg-[#2F4836] text-white hover:bg-[#223628] active:scale-[0.98] px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-2">
         <app-icon-fin-coach name="plus" class="w-4 h-4" />
-        <span>Agregar Deuda</span>
+        <span>{{ submitText() }}</span>
     </button>
 </div>

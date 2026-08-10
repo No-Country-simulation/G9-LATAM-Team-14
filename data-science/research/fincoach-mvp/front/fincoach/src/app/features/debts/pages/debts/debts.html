@@ -1,0 +1,201 @@
+<div class="min-h-screen bg-[#F4F7EB] text-[#213E27]">
+  <app-header />
+
+  <main class="mx-auto min-h-[70vh] max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    <section class="rounded-3xl border border-[#D8E0BB] bg-[#FAFCDC] p-5 shadow-sm sm:p-8">
+      <div class="flex flex-col gap-4 border-b border-[#DCE4BD] pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <a routerLink="/transactions"
+            class="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-[#6D8C4B] transition hover:text-[#214523]">
+            <span aria-hidden="true">←</span>
+            Movimientos
+          </a>
+          <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-[#173B20]">Mis deudas</h1>
+          <p class="mt-2 text-sm leading-6 text-[#61705D]">Saldos, cuotas y progreso de pago de tus créditos.</p>
+        </div>
+        <span class="self-start rounded-xl border border-[#C6D09F] bg-[#F2F5D8] px-4 py-3 text-sm font-extrabold text-[#405D42] sm:self-auto">
+          Estado de cuota · {{ monthLabel() }}
+        </span>
+      </div>
+
+      @if (errorMessage()) {
+      <div class="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 sm:flex-row sm:items-center">
+        <p class="text-sm font-semibold text-red-700">{{ errorMessage() }}</p>
+        <button type="button" class="rounded-xl bg-red-700 px-4 py-2 text-xs font-extrabold text-white" (click)="loadDebts()">
+          Reintentar
+        </button>
+      </div>
+      }
+
+      @if (isLoading()) {
+      <div class="mt-7 grid gap-4 sm:grid-cols-3">
+        @for (item of [1, 2, 3]; track item) {
+        <div class="h-36 animate-pulse rounded-2xl bg-[#E7EDC9]"></div>
+        }
+      </div>
+      <div class="mt-7 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <div class="h-96 animate-pulse rounded-2xl bg-[#E7EDC9]"></div>
+        <div class="h-96 animate-pulse rounded-2xl bg-[#E7EDC9]"></div>
+      </div>
+      } @else if (debtData(); as data) {
+      <div class="mt-7 grid gap-4 sm:grid-cols-3">
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Deuda total pendiente</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums text-[#214523]">{{ formatCurrency(data.summary.total_outstanding_balance) }}</p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">{{ data.summary.active_debts }} créditos activos</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#DCEAC7] text-[#315D36]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v12H4zM8 12h8m-8 4h5" />
+              </svg>
+            </span>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Cuota mensual total</p>
+              <p class="mt-3 text-2xl font-extrabold tabular-nums text-[#214523]">{{ formatCurrency(data.summary.total_monthly_payment) }}</p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">Suma de cuotas activas</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#DCEAC7] text-[#315D36]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 3v3m12-3v3M4 9h16M5 5h14a1 1 0 011 1v14H4V6a1 1 0 011-1z" />
+              </svg>
+            </span>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs font-bold text-[#61705D]">Libre de deudas en</p>
+              <p class="mt-3 text-2xl font-extrabold text-[#214523]">
+                {{ data.summary.projected_end_date ? formatDate(data.summary.projected_end_date) : 'Sin fecha' }}
+              </p>
+              <p class="mt-2 text-xs font-semibold text-[#75816E]">{{ monthsUntilDebtFree() }}</p>
+            </div>
+            <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#DCEAC7] text-[#315D36]">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 21V4m0 1h11l-2 3 2 3H5" />
+              </svg>
+            </span>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-8 grid items-start gap-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+        <section>
+          <div class="mb-4 flex items-center justify-between gap-4">
+            <h2 class="text-lg font-extrabold text-[#29492E]">Deudas activas</h2>
+            <span class="text-xs font-semibold text-[#73806E]">{{ activeDebts().length }} registradas</span>
+          </div>
+
+          @if (activeDebts().length) {
+          <div class="space-y-4">
+            @for (debt of activeDebts(); track debt.id) {
+            <article class="rounded-2xl border border-[#D7DFBD] bg-[#F1F4D4] p-5 transition hover:border-[#C1CE97] hover:shadow-sm">
+              <div class="flex items-start gap-4">
+                <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[#F2D6C1] text-[#7A4F3C]">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v12H4zM7 7V5h10v2M8 12h8" />
+                  </svg>
+                </span>
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h3 class="font-extrabold text-[#29492E]">{{ debtTypeLabel(debt.type) }}</h3>
+                      <p class="mt-1 text-xs text-[#6E7E67]">Saldo {{ formatCurrency(debt.outstanding_balance) }} · {{ debt.annual_effective_rate_percentage }}% EA</p>
+                    </div>
+                    <p class="whitespace-nowrap text-sm font-extrabold text-[#315D36]">{{ formatCurrency(debt.monthly_payment) }}/mes</p>
+                  </div>
+                  <div class="mt-4 h-2 overflow-hidden rounded-full bg-[#D8E1B8]">
+                    <div class="h-full rounded-full bg-[#6D8C4B]" [style.width.%]="debt.progress_percentage"></div>
+                  </div>
+                  <div class="mt-2 flex items-center justify-between gap-3 text-[0.68rem] font-semibold text-[#6E7E67]">
+                    <span>{{ debt.progress_percentage.toFixed(0) }}% pagado</span>
+                    <span>{{ debt.remaining_months ?? 0 }} meses estimados</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            }
+          </div>
+          } @else {
+          <div class="grid min-h-64 place-items-center rounded-2xl border border-dashed border-[#C8D3A6] bg-white/35 p-8 text-center">
+            <div>
+              <h3 class="text-lg font-extrabold text-[#214523]">No tienes deudas activas</h3>
+              <p class="mt-2 text-sm text-[#61705D]">Tus créditos registrados aparecerán en este espacio.</p>
+            </div>
+          </div>
+          }
+        </section>
+
+        <section class="rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5">
+            <div>
+              <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-[#6D8C4B]">Estado mensual</p>
+              <h2 class="mt-2 text-lg font-extrabold text-[#29492E]">Pago de cuotas en {{ monthLabel() }}</h2>
+              <p class="mt-1 text-xs leading-5 text-[#73806E]">Se cuentan únicamente movimientos confirmados asociados a cada deuda.</p>
+            </div>
+
+            @if (monthlyPayments().length) {
+            <div class="mt-5 space-y-4">
+              @for (payment of monthlyPayments(); track payment.debt.id) {
+              <article class="rounded-2xl border border-[#D8E1B8] bg-[#FAFCEB] p-4">
+                <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h3 class="text-sm font-extrabold text-[#29492E]">{{ debtTypeLabel(payment.debt.type) }}</h3>
+                    <p class="mt-1 text-xs text-[#6E7E67]">Pagado {{ formatCurrency(payment.paidAmount) }} de {{ formatCurrency(payment.debt.monthly_payment) }}</p>
+                  </div>
+                  <span class="self-start rounded-full px-3 py-1.5 text-[0.68rem] font-extrabold uppercase tracking-[0.06em] sm:self-auto"
+                    [class.bg-[#DCEAC7]]="payment.status === 'paid'"
+                    [class.text-[#2F6B3A]]="payment.status === 'paid'"
+                    [class.bg-amber-100]="payment.status === 'partial'"
+                    [class.text-amber-800]="payment.status === 'partial'"
+                    [class.bg-[#E9DDCF]]="payment.status === 'pending'"
+                    [class.text-[#7A4F3C]]="payment.status === 'pending'">
+                    {{ paymentStatusLabel(payment.status) }}
+                  </span>
+                </div>
+                <div class="mt-3 h-2 overflow-hidden rounded-full bg-[#D8E1B8]">
+                  <div class="h-full rounded-full transition-all"
+                    [class.bg-[#4F7B4A]]="payment.status === 'paid'"
+                    [class.bg-amber-500]="payment.status === 'partial'"
+                    [class.bg-[#B78A72]]="payment.status === 'pending'"
+                    [style.width.%]="payment.percentage"></div>
+                </div>
+              </article>
+              }
+            </div>
+            } @else {
+            <p class="mt-5 rounded-2xl bg-[#FAFCEB] p-4 text-sm text-[#61705D]">No hay cuotas activas para revisar.</p>
+            }
+        </section>
+      </div>
+
+      <section class="mt-7 rounded-2xl border border-[#D3DDB0] bg-[#F2F5D6] p-5 sm:p-6">
+            <div>
+              <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-[#6D8C4B]">Proyección</p>
+              <h2 class="mt-2 text-lg font-extrabold text-[#29492E]">Evolución de la deuda</h2>
+              <p class="mt-1 text-xs leading-5 text-[#73806E]">Saldo pendiente según créditos y pagos confirmados.</p>
+            </div>
+
+            @if (data.evolution.length) {
+            <div class="mt-5 h-80 sm:h-96">
+              <canvas baseChart type="line" class="!h-full !w-full" [data]="evolutionChartData()" [options]="evolutionChartOptions"></canvas>
+            </div>
+            } @else {
+            <div class="mt-5 grid h-52 place-items-center rounded-2xl border border-dashed border-[#C8D3A6] text-center text-sm text-[#61705D]">
+              Aún no hay información suficiente para construir la evolución.
+            </div>
+            }
+      </section>
+      }
+    </section>
+  </main>
+
+  <app-footer />
+</div>

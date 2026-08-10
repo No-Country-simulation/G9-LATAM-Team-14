@@ -1,0 +1,20 @@
+services:
+  back-mvp:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    container_name: django_back_mvp
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_ENV=local
+
+  front-mvp:
+    build:
+      context: ./front/fincoach
+      dockerfile: Dockerfile
+    container_name: angular_front_mvp
+    ports:
+      - "4200:4200"
+    depends_on:
+      - back-mvp

@@ -1,0 +1,212 @@
+<main class="relative min-h-screen overflow-hidden bg-[#F0F4D0] px-5 py-6 sm:px-8 lg:px-12">
+  <div class="pointer-events-none absolute -left-28 bottom-12 h-80 w-80 rounded-full bg-[#BBD5A5]/40 blur-3xl"></div>
+  <div class="pointer-events-none absolute -right-24 top-24 h-72 w-72 rounded-full bg-[#D7E58D]/50 blur-3xl"></div>
+
+  <div class="relative mx-auto flex min-h-[calc(100vh-3rem)] max-w-7xl flex-col">
+    <header class="flex items-center justify-between">
+      <app-logo />
+      <a
+        routerLink="/"
+        class="rounded-xl px-4 py-2 text-sm font-bold text-[#315D36] transition hover:bg-white/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523]"
+      >
+        Volver al inicio
+      </a>
+    </header>
+
+    <section class="grid flex-1 items-center gap-12 py-10 lg:grid-cols-[0.82fr_1fr] lg:py-14">
+      <div class="hidden max-w-lg lg:block">
+        <span class="inline-flex rounded-full bg-[#DDE8A0] px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#315D36]">
+          Comienza con tu contexto
+        </span>
+        <h1 class="mt-6 text-5xl font-extrabold leading-[1.08] tracking-tight text-[#173B20] xl:text-6xl">
+          Construye una visión financiera más clara.
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-[#49604B]">
+          Crea tu cuenta y luego completa tu perfil para que FinCoach pueda analizar tus finanzas respetando los datos que declares.
+        </p>
+
+        <ul class="mt-9 space-y-4 text-sm font-bold text-[#405D42]">
+          <li class="flex items-center gap-3">
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-[#DDE8A0] text-[#315D36]">1</span>
+            Crea tus credenciales de acceso.
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-[#DDE8A0] text-[#315D36]">2</span>
+            Completa tu realidad financiera.
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-[#DDE8A0] text-[#315D36]">3</span>
+            Confirma las clasificaciones sugeridas.
+          </li>
+        </ul>
+      </div>
+
+      <div class="mx-auto w-full max-w-2xl rounded-[2rem] border border-[#CFDAA7] bg-[#FAFCEB]/90 p-6 shadow-[0_24px_70px_rgba(55,80,43,0.14)] backdrop-blur sm:p-9">
+        <div>
+          <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-[#6D8C4B]">Nueva cuenta</p>
+          <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-[#173B20]">Regístrate en FinCoach</h2>
+          <p class="mt-3 text-sm leading-6 text-[#61705D]">Usa datos reales que puedas recordar para acceder nuevamente.</p>
+        </div>
+
+        <form class="mt-8 space-y-5" [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="firstName" class="mb-2 block text-sm font-bold text-[#29492E]">Nombre</label>
+              <input
+                id="firstName"
+                type="text"
+                formControlName="firstName"
+                autocomplete="given-name"
+                maxlength="150"
+                placeholder="Tu nombre"
+                class="w-full rounded-2xl border border-[#C8D3B2] bg-white/80 px-4 py-3.5 text-sm text-[#173B20] outline-none transition placeholder:text-[#91A08B] focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"
+              />
+              @if (registerForm.controls.firstName.touched && registerForm.controls.firstName.hasError('required')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Ingresa tu nombre.</p>
+              }
+              @if (fieldServerError('firstName')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">{{ fieldServerError('firstName') }}</p>
+              }
+            </div>
+
+            <div>
+              <label for="lastName" class="mb-2 block text-sm font-bold text-[#29492E]">Apellido</label>
+              <input
+                id="lastName"
+                type="text"
+                formControlName="lastName"
+                autocomplete="family-name"
+                maxlength="150"
+                placeholder="Tu apellido"
+                class="w-full rounded-2xl border border-[#C8D3B2] bg-white/80 px-4 py-3.5 text-sm text-[#173B20] outline-none transition placeholder:text-[#91A08B] focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"
+              />
+              @if (registerForm.controls.lastName.touched && registerForm.controls.lastName.hasError('required')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Ingresa tu apellido.</p>
+              }
+              @if (fieldServerError('lastName')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">{{ fieldServerError('lastName') }}</p>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label for="registerEmail" class="mb-2 block text-sm font-bold text-[#29492E]">Correo electrónico</label>
+            <input
+              id="registerEmail"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              placeholder="nombre@correo.com"
+              class="w-full rounded-2xl border border-[#C8D3B2] bg-white/80 px-4 py-3.5 text-sm text-[#173B20] outline-none transition placeholder:text-[#91A08B] focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"
+            />
+            @if (registerForm.controls.email.touched && registerForm.controls.email.hasError('required')) {
+              <p class="mt-2 text-xs font-semibold text-red-700">Ingresa tu correo electrónico.</p>
+            } @else if (registerForm.controls.email.touched && registerForm.controls.email.hasError('email')) {
+              <p class="mt-2 text-xs font-semibold text-red-700">Ingresa un correo electrónico válido.</p>
+            }
+            @if (fieldServerError('email')) {
+              <p class="mt-2 text-xs font-semibold text-red-700">{{ fieldServerError('email') }}</p>
+            }
+          </div>
+
+          <div class="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label for="registerPassword" class="mb-2 block text-sm font-bold text-[#29492E]">Contraseña</label>
+              <div class="relative">
+                <input
+                  id="registerPassword"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  formControlName="password"
+                  autocomplete="new-password"
+                  placeholder="Mínimo 8 caracteres"
+                  class="w-full rounded-2xl border border-[#C8D3B2] bg-white/80 px-4 py-3.5 pr-20 text-sm text-[#173B20] outline-none transition placeholder:text-[#91A08B] focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"
+                />
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-3 my-auto h-fit rounded-lg px-2 py-1 text-xs font-extrabold text-[#477149] hover:bg-[#E9EFC8] focus-visible:outline-2 focus-visible:outline-[#214523]"
+                  (click)="togglePassword()"
+                  [attr.aria-label]="showPassword() ? 'Ocultar contraseñas' : 'Mostrar contraseñas'"
+                >
+                  {{ showPassword() ? 'Ocultar' : 'Ver' }}
+                </button>
+              </div>
+              @if (registerForm.controls.password.touched && registerForm.controls.password.hasError('required')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Crea una contraseña.</p>
+              } @else if (registerForm.controls.password.touched && registerForm.controls.password.hasError('minlength')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Usa al menos 8 caracteres.</p>
+              }
+              @if (fieldServerError('password')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">{{ fieldServerError('password') }}</p>
+              }
+            </div>
+
+            <div>
+              <label for="passwordConfirmation" class="mb-2 block text-sm font-bold text-[#29492E]">Confirmar contraseña</label>
+              <input
+                id="passwordConfirmation"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="passwordConfirmation"
+                autocomplete="new-password"
+                placeholder="Repite tu contraseña"
+                class="w-full rounded-2xl border border-[#C8D3B2] bg-white/80 px-4 py-3.5 text-sm text-[#173B20] outline-none transition placeholder:text-[#91A08B] focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"
+              />
+              @if (registerForm.controls.passwordConfirmation.touched && registerForm.controls.passwordConfirmation.hasError('required')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Confirma tu contraseña.</p>
+              } @else if (registerForm.controls.passwordConfirmation.touched && registerForm.hasError('passwordsMismatch')) {
+                <p class="mt-2 text-xs font-semibold text-red-700">Las contraseñas no coinciden.</p>
+              }
+            </div>
+          </div>
+
+          <div>
+            <label class="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#D3DCB4] bg-white/55 p-4">
+              <input
+                type="checkbox"
+                formControlName="acceptsDataProcessing"
+                class="mt-0.5 h-5 w-5 shrink-0 rounded border-[#9EAE83] accent-[#315D36]"
+              />
+              <span class="text-sm font-semibold leading-6 text-[#52634F]">
+                Acepto la autorización para el tratamiento de mis datos personales (ATDP) por parte de FinCoach.
+              </span>
+            </label>
+            @if (registerForm.controls.acceptsDataProcessing.touched && registerForm.controls.acceptsDataProcessing.invalid) {
+              <p class="mt-2 text-xs font-semibold text-red-700">Debes aceptar el tratamiento de datos para continuar.</p>
+            }
+            @if (fieldServerError('acceptsDataProcessing')) {
+              <p class="mt-2 text-xs font-semibold text-red-700">{{ fieldServerError('acceptsDataProcessing') }}</p>
+            }
+          </div>
+
+          <div aria-live="polite">
+            @if (errorMessage()) {
+              <p class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold leading-6 text-red-700">
+                {{ errorMessage() }}
+              </p>
+            }
+
+          </div>
+
+          <button
+            type="submit"
+            class="flex w-full items-center justify-center rounded-2xl bg-[#214523] px-5 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-[#214523]/15 transition hover:-translate-y-0.5 hover:bg-[#2E5A32] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[#214523] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
+            [disabled]="isLoading()"
+          >
+            @if (isLoading()) {
+              <span class="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white/35 border-t-white" aria-hidden="true"></span>
+              Creando cuenta...
+            } @else {
+              Crear cuenta
+            }
+          </button>
+        </form>
+
+        <p class="mt-7 text-center text-sm text-[#61705D]">
+          ¿Ya tienes una cuenta?
+          <a routerLink="/login" class="font-extrabold text-[#315D36] underline decoration-[#9EB176] decoration-2 underline-offset-4 hover:text-[#173B20]">
+            Inicia sesión
+          </a>
+        </p>
+      </div>
+    </section>
+  </div>
+</main>

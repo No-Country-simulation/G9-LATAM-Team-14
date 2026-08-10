@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 
 @Component({
@@ -8,5 +8,6 @@ import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
   templateUrl: './modal-header.html',
 })
 export class ModalHeaderComponent {
+  title = input<string>('Registrar Deuda / Obligación');
   closeModal = output<void>();
 }

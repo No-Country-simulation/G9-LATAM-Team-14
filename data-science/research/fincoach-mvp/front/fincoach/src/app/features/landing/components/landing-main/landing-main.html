@@ -1,0 +1,183 @@
+<main class="overflow-hidden bg-[#F0F4D0]">
+  <section
+    id="inicio"
+    class="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:gap-12 lg:px-8 lg:py-20"
+  >
+    <div appScrollReveal class="reveal-on-scroll flex flex-col items-start gap-6 text-left">
+      <span
+        class="inline-flex items-center gap-2 rounded-full border border-[#BBDFA7] bg-[#CFEACB] px-3.5 py-1.5 text-xs font-semibold text-[#214523] shadow-xs sm:text-sm"
+      >
+        Creciendo juntos
+      </span>
+      <h1 class="text-4xl font-extrabold leading-tight tracking-tight text-[#214523] sm:text-5xl lg:text-6xl">
+        Entiende tus hábitos y cultiva tu
+        <span class="bg-gradient-to-r from-[#214523] to-[#5A7259] bg-clip-text text-transparent">
+          futuro financiero
+        </span>
+      </h1>
+      <p class="max-w-xl text-base leading-relaxed text-[#3B523E] sm:text-lg">
+        FinCoach organiza tus movimientos, comprende tu contexto y transforma tus datos en una visión financiera clara,
+        con recomendaciones sencillas y explicables.
+      </p>
+      <div class="flex w-full flex-col gap-3 pt-1 sm:w-auto sm:flex-row sm:items-center">
+        <a
+          routerLink="/register"
+          class="inline-flex w-full items-center justify-center rounded-xl bg-[#5A7259] px-6 py-3.5 text-base font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-[#465A45] hover:shadow-lg sm:w-auto"
+        >
+          Crear una cuenta
+        </a>
+        <a
+          routerLink="/login"
+          class="inline-flex w-full items-center justify-center rounded-xl border border-[#C6D691] bg-[#E1EAA8]/80 px-6 py-3.5 text-base font-semibold text-[#214523] shadow-xs transition-colors hover:bg-[#D5E196] sm:w-auto"
+        >
+          Iniciar sesión
+        </a>
+      </div>
+    </div>
+
+    <div appScrollReveal class="reveal-on-scroll delay-200 flex items-center justify-center py-4 lg:py-6">
+      <div
+        class="aspect-square w-full max-w-[300px] overflow-hidden rounded-[60%_40%_70%_30%/50%_60%_40%_50%] border-4 border-[#E2EBBD] bg-[#D9E1BF] shadow-xl transition-transform duration-500 hover:scale-[1.03] sm:max-w-md lg:max-w-lg"
+      >
+        <img
+          src="/images/landingImagen_01.webp"
+          alt="Planta creciendo junto a monedas"
+          class="h-full w-full object-cover animate-float"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="beneficios" class="border-y border-[#D8E3B0] bg-[#E8F0C0]/60 py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div appScrollReveal class="reveal-on-scroll mx-auto mb-12 max-w-2xl text-center">
+        <h2 class="mb-4 text-3xl font-bold text-[#214523] md:text-4xl">Una visión completa de tus finanzas</h2>
+        <p class="text-base leading-relaxed text-[#3B523E] md:text-lg">
+          No nos limitamos a sumar gastos: relacionamos tus movimientos con el contexto que declaraste.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <article
+          appScrollReveal
+          class="reveal-on-scroll delay-100 flex min-h-64 flex-col justify-between rounded-[2.5rem] border border-[#3E5242] bg-[#4D6551] p-8 text-white shadow-sm md:col-span-2"
+        >
+          <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              <path d="m9 12 2 2 4-4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="mb-3 text-2xl font-bold lg:text-3xl">Clasificación con contexto</h3>
+            <p class="max-w-2xl text-base leading-relaxed text-white/90 lg:text-lg">
+              Una misma compra puede tener finalidades distintas. El modelo propone y tú conservas la decisión final.
+            </p>
+          </div>
+        </article>
+
+        <article
+          appScrollReveal
+          class="reveal-on-scroll delay-200 flex min-h-64 flex-col justify-between rounded-[2.5rem] bg-[#FDE5D2] p-8 text-[#3B2314] shadow-sm"
+        >
+          <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F5D4BB]">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19V9M10 19V5M16 19v-7M22 19V3" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="mb-3 text-2xl font-bold">Panorama mensual</h3>
+            <p class="text-base leading-relaxed text-[#4A3525]">
+              Comprende ingresos, gastos, deudas y capacidad de ahorro con indicadores fáciles de leer.
+            </p>
+          </div>
+        </article>
+
+        <article
+          appScrollReveal
+          class="reveal-on-scroll delay-300 flex min-h-64 flex-col justify-between rounded-[2.5rem] border border-[#DCE7B5] bg-[#F5F9DA] p-8 text-[#214523] shadow-sm"
+        >
+          <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#E4EDBD]">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 18h6M10 22h4M15 14c.2-1 .7-1.7 1.5-2.5A6 6 0 1 0 7.5 11.5C8.3 12.3 8.8 13 9 14" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="mb-3 text-2xl font-bold">Recomendaciones explicables</h3>
+            <p class="text-base leading-relaxed text-[#3B523E]">
+              Cada recomendación muestra la evidencia observada y se abstiene cuando la información no es suficiente.
+            </p>
+          </div>
+        </article>
+
+        <article
+          appScrollReveal
+          class="reveal-on-scroll delay-400 flex min-h-64 flex-col justify-between rounded-[2.5rem] border border-[#7D5C43] bg-[#937054] p-8 text-white shadow-sm md:col-span-2"
+        >
+          <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 3v18h18" />
+              <path d="m7 16 4-5 3 3 5-7" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="mb-3 text-2xl font-bold lg:text-3xl">Seguimiento de tu evolución</h3>
+            <p class="max-w-2xl text-base leading-relaxed text-white/90 lg:text-lg">
+              Observa cómo cambian tus hábitos y el saldo de tus deudas sin convertir un resultado mensual en una etiqueta permanente.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" class="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-24 lg:px-8">
+    <div appScrollReveal class="reveal-on-scroll mx-auto mb-12 max-w-3xl text-center">
+      <span class="rounded-full bg-[#CFEACB] px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-[#364C36]">
+        Paso a paso
+      </span>
+      <h2 class="mb-4 mt-4 text-3xl font-bold text-[#214523] md:text-4xl">Comenzar es muy sencillo</h2>
+      <p class="text-base text-[#3B523E] md:text-lg">Tres pasos para convertir tus movimientos en información útil.</p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+      @for (
+        step of [
+          { number: '1', title: 'Cuéntanos tu contexto', text: 'Declara tu actividad, ingresos, hábitos, responsabilidades y objetivos.' },
+          { number: '2', title: 'Registra tus movimientos', text: 'Recibe una clasificación sugerida y confírmala o corrígela cuando sea necesario.' },
+          { number: '3', title: 'Revisa tu evolución', text: 'Consulta indicadores, alertas y recomendaciones basadas en evidencia.' },
+        ];
+        track step.number
+      ) {
+        <article
+          appScrollReveal
+          class="reveal-on-scroll flex flex-col items-center rounded-3xl border border-[#DCE7B5] bg-[#EEF5CE] p-8 text-center shadow-xs"
+        >
+          <span class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#5A7259] text-lg font-bold text-white">
+            {{ step.number }}
+          </span>
+          <h3 class="mb-2 text-xl font-bold text-[#214523]">{{ step.title }}</h3>
+          <p class="text-sm leading-relaxed text-[#405643]">{{ step.text }}</p>
+        </article>
+      }
+    </div>
+
+    <div
+      appScrollReveal
+      class="reveal-on-scroll mt-16 overflow-hidden rounded-3xl bg-gradient-to-r from-[#364C36] to-[#214523] p-8 text-center text-white shadow-xl sm:p-12"
+    >
+      <div class="mx-auto flex max-w-2xl flex-col items-center gap-5">
+        <h2 class="text-3xl font-bold md:text-4xl">¿Listo para comprender mejor tus finanzas?</h2>
+        <p class="text-sm leading-relaxed text-emerald-100 sm:text-base">
+          Crea tu perfil, registra tus movimientos y deja que FinCoach organice la información contigo.
+        </p>
+        <a
+          routerLink="/register"
+          class="inline-flex w-full items-center justify-center rounded-xl bg-[#CFEACB] px-8 py-3.5 text-base font-bold text-[#214523] shadow-lg transition-transform hover:scale-105 hover:bg-[#BDE4B8] sm:w-auto"
+        >
+          Empezar ahora
+        </a>
+      </div>
+    </div>
+  </section>
+</main>

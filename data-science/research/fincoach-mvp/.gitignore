@@ -1,0 +1,37 @@
+# Entornos virtuales
+/env/
+/venv/
+**/env/
+**/venv/
+**/.venv/
+
+# Documentación interna
+/[Dd]ocumentaci*/
+
+# Variables privadas
+**/.env
+!**/.env.example
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Python
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+
+# Django local
+**/db.sqlite3
+**/staticfiles/
+
+# Angular y Node
+**/node_modules/
+**/.angular/
+**/dist/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

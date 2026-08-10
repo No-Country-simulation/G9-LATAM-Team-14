@@ -1,14 +1,6 @@
 <div>
     <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-2">Proyección de endeudamiento</h2>
     <div class="bg-[#EAF2CC] p-4 sm:p-5 rounded-2xl border border-[#DCE8B5] shadow-xs flex flex-col gap-3">
-        <!-- Chart Badges Overlay Indicators -->
-        <div class="flex flex-wrap gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] font-semibold">
-            <span class="bg-[#2F4836] text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md shadow-xs">21% (Jul 2026)</span>
-            <span class="bg-[#2F4836] text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md shadow-xs">Oct: termina vehicular (17%)</span>
-            <span class="bg-[#2F4836] text-white px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md shadow-xs">Jun 2028: 0%</span>
-        </div>
-
-        <!-- Chart Container -->
         <div class="h-52 sm:h-64 w-full relative mt-1">
             <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType">
             </canvas>

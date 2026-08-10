@@ -1,33 +1,26 @@
 @if (isOpen()) {
 <div
-  class="fixed inset-0 z-50 bg-[#F8FCE6] sm:bg-black/50 sm:backdrop-blur-xs flex items-center justify-center p-0 sm:p-4 animate-fade-in"
-  (click)="onClose()">
+  class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs animate-fadeIn">
   <div
-    class="bg-[#F8FCE6] text-[#214523] w-full h-full sm:h-auto sm:max-w-2xl max-h-full sm:max-h-[90vh] rounded-none sm:rounded-3xl border-0 sm:border border-[#DCE8B5] shadow-none sm:shadow-2xl overflow-hidden flex flex-col my-0 sm:my-auto"
-    (click)="$event.stopPropagation()">
-    <app-modal-header (closeModal)="onClose()"></app-modal-header>
-    <div
-      class="p-4 sm:p-6 space-y-5 flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+    class="bg-[#EFF5D3] w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] rounded-3xl shadow-2xl border border-[#DCE8B5] flex flex-col overflow-hidden animate-scaleUp">
+    <app-modal-header [title]="debtToEdit() ? 'Editar Deuda / Obligación' : 'Registrar Deuda / Obligación'"
+      (closeModal)="onClose()"></app-modal-header>
+    <div class="p-5 sm:p-6 sm:py-7 overflow-y-auto space-y-6 sm:space-y-7 flex-1 custom-scrollbar">
       <app-modal-type-selector [(selectedType)]="registrationType"></app-modal-type-selector>
       @if (registrationType() === 'installment') {
       <app-debt-details-form [(category)]="installmentCategory" [(totalAmount)]="installmentTotalAmount"
         [(paymentMode)]="paymentMode" [(fixedTermMonths)]="fixedTermMonths"
-        [(freePaymentMonthlyQuota)]="freePaymentMonthlyQuota" [(startDate)]="startDate">
-      </app-debt-details-form>
-      }
-      @if (registrationType() === 'fixed') {
+        [(freePaymentMonthlyQuota)]="freePaymentMonthlyQuota" [(startDate)]="startDate"></app-debt-details-form>
+      } @else {
       <app-fixed-expense-form [(category)]="fixedCategory" [(monthlyAmount)]="fixedMonthlyAmount"
-        [(isIndefinite)]="isIndefinite" [(monthsTerm)]="fixedMonthsTerm" [(startDate)]="startDate">
-      </app-fixed-expense-form>
+        [(isIndefinite)]="isIndefinite" [(monthsTerm)]="fixedMonthsTerm"
+        [(startDate)]="startDate"></app-fixed-expense-form>
       }
-      <app-modal-summary [monthlyQuota]="calculatedMonthlyQuota()" [endDate]="calculatedEndDate()"
-        [incomePercentage]="calculatedIncomePercentage()">
-      </app-modal-summary>
-
+      <app-modal-summary [monthlyQuota]="calculatedMonthlyQuota()"
+        [endDate]="calculatedEndDate()" [incomePercentage]="calculatedIncomePercentage()"></app-modal-summary>
     </div>
-    <app-modal-footer (closeModal)="onClose()" (submitForm)="onSubmit()">
-    </app-modal-footer>
-
+    <app-modal-footer [submitText]="debtToEdit() ? 'Guardar Cambios' : 'Agregar Deuda'" (closeModal)="onClose()"
+      (submitForm)="onSubmit()"></app-modal-footer>
   </div>
 </div>
 }

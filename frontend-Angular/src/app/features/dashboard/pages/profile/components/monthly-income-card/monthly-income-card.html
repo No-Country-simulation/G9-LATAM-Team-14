@@ -1,0 +1,40 @@
+<div class="bg-[#EFF5D3] rounded-3xl p-6 sm:p-8 border border-[#DCE8B5] shadow-xs text-center space-y-4">
+    <p class="text-xs font-bold uppercase tracking-widest text-[#5A7259]">INGRESO MENSUAL</p>
+
+    @if (!isEditing()) {
+    <div class="space-y-3">
+        <div class="text-3xl sm:text-5xl font-black text-[#214523] tracking-tight">
+            S/ {{ income() | number:'1.0-0' }}
+        </div>
+        <div>
+            <button type="button" (click)="toggleEdit()"
+                class="bg-[#2F4836] hover:bg-[#223628] text-white px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer shadow-xs inline-flex items-center gap-2">
+                <app-icon-fin-coach name="edit" class="w-4 h-4" />
+                <span>Actualizar monto</span>
+            </button>
+        </div>
+    </div>
+    } @else {
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
+        <div class="relative w-full">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-[#214523]">S/</span>
+            <input type="number" [(ngModel)]="tempIncome"
+                class="w-full bg-[#F4F8DE] border border-[#C6D8A2] rounded-2xl pl-10 pr-4 py-2.5 text-lg font-bold text-[#214523] focus:outline-none focus:ring-2 focus:ring-[#5A7259]" />
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button type="button" (click)="save()"
+                class="bg-[#2F4836] hover:bg-[#223628] text-white px-5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer shadow-xs flex-1 sm:flex-initial">
+                Guardar
+            </button>
+            <button type="button" (click)="toggleEdit()"
+                class="border border-[#C3D3A0] text-[#2D4231] hover:bg-[#EAF2CC] px-4 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer flex-1 sm:flex-initial">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    }
+
+    <p class="text-xs text-[#526655] font-medium pt-1 max-w-xl mx-auto leading-relaxed">
+        Tu ingreso neto mensual, después de impuestos. Podrás registrar ingresos extra en Movimientos.
+    </p>
+</div>

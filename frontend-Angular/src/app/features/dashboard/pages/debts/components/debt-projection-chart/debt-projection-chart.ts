@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions, ChartType, Chart, registerables } from 'chart.js';
+import { DebtProjectionPoint } from '@app/core/debts/models/debt.model';
 
 Chart.register(...registerables);
 
@@ -11,14 +12,14 @@ Chart.register(...registerables);
   templateUrl: './debt-projection-chart.html',
 })
 export class DebtProjectionChartComponent {
+  points = input<DebtProjectionPoint[]>([]);
   public lineChartType: ChartType = 'line';
 
   public lineChartData: ChartConfiguration['data'] = {
     datasets: [
       {
-        data: [21, 21, 17, 17, 0, 0],
-        label: 'Endeudamiento (%)',
-        stepped: 'before',
+        data: [],
+        label: 'Saldo pendiente (S/)',
         borderColor: '#5A7259',
         borderWidth: 3,
         backgroundColor: 'rgba(90, 114, 89, 0.12)',
@@ -26,11 +27,11 @@ export class DebtProjectionChartComponent {
         pointBackgroundColor: '#2F4836',
         pointBorderColor: '#ffffff',
         pointBorderWidth: 2,
-        pointRadius: 6,
-        pointHoverRadius: 8,
+        pointRadius: 5,
+        pointHoverRadius: 7,
       }
     ],
-    labels: ['Ene 2026', 'Jul 2026', 'Oct 2027', 'May 2028', 'Jun 2028', 'Dic 2028']
+    labels: []
   };
 
   public lineChartOptions: ChartOptions = {
@@ -47,32 +48,54 @@ export class DebtProjectionChartComponent {
         padding: 10,
         displayColors: false,
         callbacks: {
-          label: (context) => `Endeudamiento: ${context.parsed.y}%`
+          label: (context) => `Saldo: S/ ${Number(context.parsed.y || 0).toLocaleString()}`
         }
       }
     },
     scales: {
       x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          color: '#526655',
-          font: { size: 10 }
-        }
+        grid: { display: false },
+        ticks: { color: '#526655', font: { size: 10 } }
       },
       y: {
-        min: 0,
-        max: 30,
-        grid: {
-          color: '#E0E8C3'
-        },
+        beginAtZero: true,
+        grid: { color: '#E0E8C3' },
         ticks: {
           color: '#526655',
           font: { size: 10 },
-          callback: (value) => value + '%'
+          callback: (value) => 'S/ ' + Number(value).toLocaleString()
         }
       }
     }
   };
+
+  constructor() {
+    effect(() => {
+      const dataPoints = this.points() || [];
+      if (dataPoints.length > 0) {
+        const labels = dataPoints.map(p => this.formatMonthLabel(p.month));
+        const values = dataPoints.map(p => p.balance);
+
+        this.lineChartData = {
+          labels,
+          datasets: [
+            {
+              ...this.lineChartData.datasets[0],
+              data: values
+            }
+          ]
+        };
+      }
+    });
+  }
+
+  private formatMonthLabel(monthStr: string): string {
+    if (!monthStr) return '';
+    const [year, month] = monthStr.split('-');
+    if (!year || !month) return monthStr;
+
+    const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic'];
+    const idx = parseInt(month, 10) - 1;
+    return `${monthNames[idx] || month} ${year.slice(2)}`;
+  }
 }

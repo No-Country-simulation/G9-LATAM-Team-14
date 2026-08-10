@@ -1,0 +1,23 @@
+<div class="bg-[#EFF5D3] rounded-3xl p-6 sm:p-7 border border-[#DCE8B5] shadow-xs space-y-4">
+    <h2 class="text-xl sm:text-2xl font-bold text-[#214523] tracking-tight">Frecuencia de ahorro</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button type="button" (click)="selectFrequency('baja')"
+            [class]="'p-4 rounded-2xl border transition-all cursor-pointer text-center space-y-1 ' + (frequency() === 'baja' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] hover:bg-[#EAF2CC]')">
+            <p class="font-bold text-sm sm:text-base">Baja</p>
+            <p [class]="'text-xs font-medium ' + (frequency() === 'baja' ? 'text-white/80' : 'text-[#526655]')">Ahorro rara vez</p>
+        </button>
+
+        <button type="button" (click)="selectFrequency('media')"
+            [class]="'p-4 rounded-2xl border transition-all cursor-pointer text-center space-y-1 ' + (frequency() === 'media' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] hover:bg-[#EAF2CC]')">
+            <p class="font-bold text-sm sm:text-base">Media</p>
+            <p [class]="'text-xs font-medium ' + (frequency() === 'media' ? 'text-white/80' : 'text-[#526655]')">Ahorro algunos meses</p>
+        </button>
+
+        <button type="button" (click)="selectFrequency('alta')"
+            [class]="'p-4 rounded-2xl border transition-all cursor-pointer text-center space-y-1 ' + (frequency() === 'alta' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] hover:bg-[#EAF2CC]')">
+            <p class="font-bold text-sm sm:text-base">Alta</p>
+            <p [class]="'text-xs font-medium ' + (frequency() === 'alta' ? 'text-white/80' : 'text-[#526655]')">Ahorro todos los meses</p>
+        </button>
+    </div>
+</div>

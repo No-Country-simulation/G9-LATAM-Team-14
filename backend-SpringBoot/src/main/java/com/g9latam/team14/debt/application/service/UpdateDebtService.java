@@ -20,6 +20,12 @@ public class UpdateDebtService implements UpdateDebtUseCase {
                     if (debt.getUserId() == null) {
                         debt.setUserId(existing.getUserId());
                     }
+                    if (debt.getStatus() == null) {
+                        debt.setStatus(existing.getStatus());
+                    }
+                    if (debt.getPaidInstallments() == null) {
+                        debt.setPaidInstallments(existing.getPaidInstallments());
+                    }
                     return debtRepository.save(debt);
                 })
                 .orElseThrow(() -> new IllegalArgumentException("Debt with ID " + id + " not found"));

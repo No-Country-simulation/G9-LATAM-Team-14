@@ -11,6 +11,11 @@
             </div>
             <span class="text-xs text-[#526655] font-medium shrink-0">{{ item.date }}</span>
         </div>
+        } @empty {
+        <div class="py-4 text-center text-[#526655] space-y-1">
+            <p class="text-xs sm:text-sm font-semibold text-[#214523]">No tienes deudas pagadas registradas</p>
+            <p class="text-[11px] sm:text-xs text-[#526655]">Tus compromisos liquidados aparecerán en este historial.</p>
+        </div>
         }
     </div>
 </div>

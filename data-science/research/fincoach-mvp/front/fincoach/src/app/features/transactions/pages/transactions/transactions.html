@@ -1,0 +1,516 @@
+<div class="min-h-screen bg-[#F4F7EB] text-[#213E27]">
+  <app-header />
+
+  <main class="mx-auto min-h-[70vh] max-w-7xl px-5 py-8 sm:px-8 sm:py-12">
+    <section class="rounded-3xl border border-[#D8E0BB] bg-[#FAFCDC] p-5 shadow-sm sm:p-8">
+      <div class="flex flex-col gap-5 border-b border-[#DCE4BD] pb-6 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#6D8C4B]">Historial financiero</p>
+          <h1 class="mt-2 text-3xl font-extrabold tracking-tight text-[#173B20]">Movimientos</h1>
+          <p class="mt-2 text-sm leading-6 text-[#61705D]">Revisa tus gastos e ingresos más recientes.</p>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
+          <button type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-[#214523] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523]"
+            (click)="openNewMovement()">
+            <span class="text-lg leading-none" aria-hidden="true">+</span>
+            Nuevo movimiento
+          </button>
+          <button type="button"
+            class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#AEBE82] bg-[#E5EDC5] px-5 py-3 text-sm font-extrabold text-[#315D36] transition hover:-translate-y-0.5 hover:bg-[#DCE7B4] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523]"
+            (click)="openNewDebt()">
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16v12H4zM7 7V5h10v2M8 12h8m-8 4h5" />
+            </svg>
+            Nuevo crédito
+          </button>
+          <a routerLink="/monthly-analysis"
+            class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#BFCB98] bg-[#EEF3D5] px-5 py-3 text-sm font-extrabold text-[#315D36] transition hover:-translate-y-0.5 hover:bg-[#E4EBC5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#214523]">
+            Analizar mes
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+
+      @if (errorMessage()) {
+      <div
+        class="mt-6 flex flex-col items-start justify-between gap-4 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 sm:flex-row sm:items-center">
+        <p class="text-sm font-semibold text-red-700">{{ errorMessage() }}</p>
+        <button type="button" class="rounded-xl bg-red-700 px-4 py-2 text-xs font-extrabold text-white"
+          (click)="loadTransactions()">
+          Reintentar
+        </button>
+      </div>
+      }
+
+      <div class="mt-7 grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_19rem]">
+        <div>
+          <div class="mb-4 flex items-center justify-between gap-4">
+            <h2 class="text-base font-extrabold text-[#29492E]">Últimos 10 movimientos</h2>
+            @if (!isLoading()) {
+            <p class="text-xs font-semibold text-[#73806E]">{{ totalItems() }} registrados en total</p>
+            }
+          </div>
+
+          @if (isLoading()) {
+          <div class="space-y-3">
+            @for (item of [1, 2, 3, 4, 5]; track item) {
+            <div class="h-20 animate-pulse rounded-2xl bg-[#E9EFCF]"></div>
+            }
+          </div>
+          } @else if (transactions().length === 0) {
+          <div
+            class="grid min-h-72 place-items-center rounded-3xl border border-dashed border-[#C8D3A6] bg-white/45 p-8 text-center">
+            <div>
+              <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-[#E8EFC7] text-[#315D36]">
+                <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18v12H3zM16 11h5M7 7V5h10v2" />
+                </svg>
+              </div>
+              <h3 class="mt-5 text-xl font-extrabold text-[#214523]">Aún no tienes movimientos</h3>
+              <p class="mt-2 text-sm text-[#61705D]">Cuando registres el primero, aparecerá en este historial.</p>
+            </div>
+          </div>
+          } @else {
+          <div class="space-y-3">
+            @for (transaction of transactions(); track transaction.id) {
+            <article
+              class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-4 rounded-2xl border border-transparent bg-[#F1F5D5] px-4 py-3.5 transition hover:border-[#CCD7A9] hover:bg-[#EDF2CE]">
+              <div class="grid h-11 w-11 place-items-center rounded-xl"
+                [class.bg-[#DCEAC7]]="transaction.direction === 'entrada'"
+                [class.text-[#2F6B3A]]="transaction.direction === 'entrada'"
+                [class.bg-[#E7E8C4]]="transaction.direction === 'salida'"
+                [class.text-[#5D654D]]="transaction.direction === 'salida'">
+                @if (transaction.direction === 'entrada') {
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v14m0 0l-5-5m5 5l5-5M5 21h14" />
+                </svg>
+                } @else {
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 21V7m0 0L7 12m5-5l5 5M5 3h14" />
+                </svg>
+                }
+              </div>
+
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h3 class="truncate text-sm font-extrabold text-[#29492E]">{{ transaction.description }}</h3>
+                  <span class="text-xs text-[#7B8874]">{{ formatTime(transaction.created_at) }}</span>
+                </div>
+                <div class="mt-1 flex flex-wrap items-center gap-2">
+                  <span class="text-[0.65rem] font-extrabold uppercase tracking-[0.09em] text-[#6D8C4B]">{{
+                    category(transaction) }}</span>
+                  <span class="text-[0.65rem] text-[#8A9584]">{{ formatDate(transaction.transaction_date) }}</span>
+                </div>
+              </div>
+
+              <p class="whitespace-nowrap text-sm font-extrabold tabular-nums"
+                [class.text-[#2F6B3A]]="transaction.direction === 'entrada'"
+                [class.text-[#654E3F]]="transaction.direction === 'salida'">
+                {{ formatAmount(transaction) }}
+              </p>
+            </article>
+            }
+          </div>
+          }
+        </div>
+
+        <aside class="space-y-4 lg:sticky lg:top-24">
+          <section class="rounded-3xl border border-[#CED8AA] bg-[#F2F5D8] p-5">
+            <p class="text-xs font-extrabold uppercase tracking-[0.12em] text-[#7B8874]">Resumen del mes actual</p>
+
+            <div class="mt-5 space-y-4">
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-sm text-[#61705D]">Ingresos</span>
+                <span class="text-sm font-extrabold text-[#315D36]">{{ formatCurrency(incomeTotal()) }}</span>
+              </div>
+              <div class="flex items-center justify-between gap-4">
+                <span class="text-sm text-[#61705D]">Gastos</span>
+                <span class="text-sm font-extrabold text-[#654E3F]">{{ formatCurrency(expenseTotal()) }}</span>
+              </div>
+              <div class="border-t border-[#D4DDB4] pt-4">
+                <div class="flex items-center justify-between gap-4">
+                  <span class="text-sm font-bold text-[#405D42]">Balance</span>
+                  <span class="text-sm font-extrabold text-[#214523]">{{ formatCurrency(incomeTotal() - expenseTotal())
+                    }}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="rounded-3xl border border-[#CED8AA] bg-[#E8EDC9] p-5 text-center">
+            <p class="text-3xl font-extrabold text-[#214523]">{{ totalItems() }}</p>
+            <p class="mt-1 text-xs font-semibold text-[#61705D]">movimientos registrados</p>
+            <a routerLink="/monthly-analysis"
+              class="mt-5 flex items-center justify-center gap-2 rounded-xl bg-[#315D36] px-4 py-3 text-xs font-extrabold text-white transition hover:bg-[#214523]">
+              Analizar mes
+              <span aria-hidden="true">→</span>
+            </a>
+          </section>
+
+          <section class="rounded-3xl border border-[#CED8AA] bg-[#E8EDC9] p-5 text-center">
+            <p class="text-3xl font-extrabold text-[#214523]">{{ registeredDebtCount() }}</p>
+            <p class="mt-1 text-xs font-semibold text-[#61705D]">deudas registradas</p>
+            <a routerLink="/debts"
+              class="mt-5 flex items-center justify-center gap-2 rounded-xl bg-[#315D36] px-4 py-3 text-xs font-extrabold text-white transition hover:bg-[#214523]">
+              Mis deudas
+              <span aria-hidden="true">→</span>
+            </a>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <app-footer />
+
+  @if (showNewMovementModal()) {
+  <div class="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-[#173B20]/50 px-5 py-8 backdrop-blur-sm"
+    (click)="closeNewMovement()">
+    <section role="dialog" aria-modal="true" aria-labelledby="newMovementTitle"
+      class="relative w-full max-w-2xl rounded-3xl border border-[#D8E0BB] bg-[#FAFCEB] p-6 shadow-2xl sm:p-8"
+      (click)="$event.stopPropagation()">
+
+      @if (canCloseModal()) {
+      <button type="button" aria-label="Cerrar"
+        class="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full text-[#61705D] transition hover:bg-[#E8EFC7] hover:text-[#214523]"
+        (click)="closeNewMovement()">
+        <span class="text-xl leading-none" aria-hidden="true">×</span>
+      </button>
+      }
+
+      @if (modalStep() === 'form') {
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#6D8C4B]">Clasificación contextual</p>
+        <h2 id="newMovementTitle" class="mt-2 text-3xl font-extrabold text-[#173B20]">Nuevo movimiento</h2>
+        <p class="mt-2 text-sm leading-6 text-[#61705D]">Registra los datos y el modelo propondrá una clasificación para que la confirmes.</p>
+      </div>
+
+      @if (modalError()) {
+      <p class="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" aria-live="polite">{{ modalError() }}</p>
+      }
+
+      <form class="mt-7 space-y-5" [formGroup]="transactionForm" (ngSubmit)="registerMovement()" novalidate>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="transactionDate" class="mb-2 block text-sm font-bold text-[#29492E]">Fecha</label>
+            <input id="transactionDate" type="date" formControlName="transactionDate"
+              class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+          </div>
+          <div>
+            <label for="transactionDirection" class="mb-2 block text-sm font-bold text-[#29492E]">Tipo de movimiento</label>
+            <select id="transactionDirection" formControlName="direction"
+              class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10">
+              <option value="salida">Egreso</option>
+              <option value="entrada">Ingreso</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="transactionDescription" class="mb-2 block text-sm font-bold text-[#29492E]">Descripción</label>
+          <input id="transactionDescription" type="text" maxlength="250" formControlName="description" placeholder="Ejemplo: compra de mercado"
+            class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+          @if (transactionForm.controls.description.touched && transactionForm.controls.description.invalid) {
+          <p class="mt-2 text-xs font-semibold text-red-700">Describe el movimiento.</p>
+          }
+        </div>
+
+        <div>
+          <label for="transactionAmount" class="mb-2 block text-sm font-bold text-[#29492E]">Valor en COP</label>
+          <input id="transactionAmount" type="number" min="0.01" step="1" formControlName="amount" placeholder="Ejemplo: 180000"
+            class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+          @if (transactionForm.controls.amount.touched && transactionForm.controls.amount.invalid) {
+          <p class="mt-2 text-xs font-semibold text-red-700">Ingresa un valor mayor que 0.</p>
+          }
+        </div>
+
+        <div>
+          <label for="transactionNote" class="mb-2 block text-sm font-bold text-[#29492E]">Nota o contexto</label>
+          <textarea id="transactionNote" rows="3" maxlength="300" formControlName="note" placeholder="Ejemplo: compra para mi actividad laboral"
+            class="w-full resize-none rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10"></textarea>
+        </div>
+
+        <div class="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+          <button type="button" class="rounded-xl border border-[#C8D3B1] px-5 py-3 text-sm font-extrabold text-[#526650] hover:bg-[#EEF3D5]" (click)="closeNewMovement()">Cancelar</button>
+          <button type="submit" class="rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#214523]">Registrar movimiento</button>
+        </div>
+      </form>
+      } @else if (modalStep() === 'classifying' || modalStep() === 'saving') {
+      <div class="grid min-h-80 place-items-center text-center">
+        <div>
+          <span class="mx-auto block h-12 w-12 animate-spin rounded-full border-4 border-[#D8E0BB] border-t-[#315D36]" aria-hidden="true"></span>
+          <h2 id="newMovementTitle" class="mt-6 text-2xl font-extrabold text-[#173B20]">
+            {{ modalStep() === 'classifying' ? 'Clasificando movimiento' : 'Guardando confirmación' }}
+          </h2>
+          <p class="mt-3 text-sm text-[#61705D]">Espera un momento mientras procesamos la información.</p>
+        </div>
+      </div>
+      } @else if (modalStep() === 'classification-error') {
+      <div class="text-center">
+        <div class="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-amber-100 text-amber-800">
+          <span class="text-2xl font-extrabold">!</span>
+        </div>
+        <h2 id="newMovementTitle" class="mt-5 text-2xl font-extrabold text-[#173B20]">Movimiento registrado</h2>
+        <p class="mt-3 text-sm leading-6 text-[#61705D]">El movimiento fue creado, pero la clasificación no pudo terminar.</p>
+        <p class="mt-4 rounded-2xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">{{ modalError() }}</p>
+        <button type="button" class="mt-6 rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white hover:bg-[#214523]" (click)="retryClassification()">Reintentar clasificación</button>
+      </div>
+      } @else if (modalStep() === 'confirmation' && classification(); as classified) {
+      <div>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#6D8C4B]">Propuesta del modelo</p>
+            <h2 id="newMovementTitle" class="mt-2 text-3xl font-extrabold text-[#173B20]">Confirma la clasificación</h2>
+          </div>
+          <span class="self-start rounded-full bg-[#E8EFC7] px-4 py-2 text-sm font-extrabold text-[#315D36]">{{ classified.model_suggestion.category_confidence_percentage }}%</span>
+        </div>
+
+        @if (modalError()) {
+        <p class="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" aria-live="polite">{{ modalError() }}</p>
+        }
+
+        @if (createdTransaction(); as registered) {
+        <div class="mt-6 grid gap-4 rounded-2xl border border-[#DCE4BD] bg-[#F2F5D8] p-5 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-wider text-[#7B8874]">Movimiento</p>
+            <p class="mt-1 font-extrabold text-[#29492E]">{{ registered.transaction.description }}</p>
+            <p class="mt-1 text-sm text-[#61705D]">{{ registered.transaction.direction === 'entrada' ? 'Ingreso' : 'Egreso' }} · {{ formatCurrency(registered.transaction.amount) }}</p>
+          </div>
+          <div class="text-left sm:text-right">
+            <p class="text-xs text-[#7B8874]">Finalidad sugerida</p>
+            <p class="mt-1 text-sm font-extrabold text-[#315D36]">{{ readableValue(classified.model_suggestion.purpose) }}</p>
+          </div>
+        </div>
+        }
+
+        @if (classified.model_suggestion.model_requires_review) {
+        <p class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900">El modelo recomienda revisar esta clasificación antes de confirmarla.</p>
+        }
+
+        <div class="mt-6">
+          <p class="text-sm font-extrabold text-[#29492E]">Selecciona la categoría correcta</p>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            @for (option of classificationOptions(); track option.category) {
+            <button type="button"
+              class="flex items-center justify-between gap-4 rounded-2xl border p-4 text-left transition"
+              [class.border-[#315D36]]="selectedCategory() === option.category"
+              [class.bg-[#E8EFC7]]="selectedCategory() === option.category"
+              [class.border-[#D7DFBD]]="selectedCategory() !== option.category"
+              [class.bg-white]="selectedCategory() !== option.category"
+              (click)="selectCategory(option.category)">
+              <span class="text-sm font-extrabold text-[#29492E]">{{ option.category }}</span>
+              <span class="whitespace-nowrap text-xs font-bold text-[#6D8C4B]">{{ option.percentage }}%</span>
+            </button>
+            }
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-sm font-extrabold text-[#29492E]">Selecciona la regularidad correcta</p>
+            <p class="text-xs font-semibold text-[#6D8C4B]">Sugerencia: {{ readableValue(classified.model_suggestion.regularity) }}</p>
+          </div>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            <button type="button"
+              class="rounded-2xl border p-4 text-left transition"
+              [class.border-[#315D36]]="selectedRegularity() === 'fijo'"
+              [class.bg-[#E8EFC7]]="selectedRegularity() === 'fijo'"
+              [class.border-[#D7DFBD]]="selectedRegularity() !== 'fijo'"
+              [class.bg-white]="selectedRegularity() !== 'fijo'"
+              (click)="selectRegularity('fijo')">
+              <span class="block text-sm font-extrabold text-[#29492E]">Fijo</span>
+              <span class="mt-1 block text-xs leading-5 text-[#6E7E67]">Se repite periódicamente o corresponde a un compromiso habitual.</span>
+            </button>
+            <button type="button"
+              class="rounded-2xl border p-4 text-left transition"
+              [class.border-[#315D36]]="selectedRegularity() === 'variable'"
+              [class.bg-[#E8EFC7]]="selectedRegularity() === 'variable'"
+              [class.border-[#D7DFBD]]="selectedRegularity() !== 'variable'"
+              [class.bg-white]="selectedRegularity() !== 'variable'"
+              (click)="selectRegularity('variable')">
+              <span class="block text-sm font-extrabold text-[#29492E]">Variable</span>
+              <span class="mt-1 block text-xs leading-5 text-[#6E7E67]">Es ocasional o su valor y frecuencia pueden cambiar cada mes.</span>
+            </button>
+          </div>
+        </div>
+
+        @if (selectedCategory() === 'Deuda y financiación') {
+        <div class="mt-5 rounded-2xl border border-[#D7DFBD] bg-[#F2F5D8] p-5">
+          <label for="selectedDebt" class="block text-sm font-extrabold text-[#29492E]">Deuda que recibe el pago</label>
+          @if (isLoadingDebts()) {
+          <p class="mt-3 text-sm text-[#61705D]">Consultando deudas activas...</p>
+          } @else if (debts().length) {
+          <select id="selectedDebt" class="mt-3 w-full rounded-xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E]"
+            [value]="selectedDebtId() ?? ''" (change)="selectDebt($any($event.target).value)">
+            <option value="">Selecciona una deuda</option>
+            @for (debt of debts(); track debt.id) {
+            <option [value]="debt.id">{{ debt.type_label }} · saldo {{ formatCurrency(debt.outstanding_balance) }}</option>
+            }
+          </select>
+          } @else {
+          <p class="mt-3 text-sm font-semibold text-amber-800">No tienes deudas activas disponibles para asociar este pago.</p>
+          }
+        </div>
+        }
+
+        <button type="button" class="mt-7 w-full rounded-xl bg-[#315D36] px-5 py-3.5 text-sm font-extrabold text-white transition hover:bg-[#214523]" (click)="confirmClassification()">Confirmar clasificación</button>
+      </div>
+      } @else if (modalStep() === 'success' && confirmation(); as confirmed) {
+      <div class="text-center">
+        <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#DCEAC7] text-[#2F6B3A]">
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12l4 4L19 6" />
+          </svg>
+        </div>
+        <h2 id="newMovementTitle" class="mt-5 text-3xl font-extrabold text-[#173B20]">Movimiento confirmado</h2>
+        <p class="mt-3 text-sm leading-6 text-[#61705D]">La transacción quedó clasificada como:</p>
+        <p class="mt-3 text-xl font-extrabold text-[#315D36]">{{ confirmed.confirmed_classification.categories[0].category }}</p>
+        <p class="mt-2 text-sm font-bold text-[#61705D]">{{ readableValue(confirmed.confirmed_classification.regularity) }}</p>
+        <button type="button" class="mt-7 w-full rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#214523]" (click)="closeNewMovement()">Volver a movimientos</button>
+      </div>
+      }
+    </section>
+  </div>
+  }
+
+  @if (showNewDebtModal()) {
+  <div class="fixed inset-0 z-50 grid place-items-center overflow-y-auto bg-[#173B20]/50 px-5 py-8 backdrop-blur-sm"
+    (click)="closeNewDebt()">
+    <section role="dialog" aria-modal="true" aria-labelledby="newDebtTitle"
+      class="relative w-full max-w-2xl rounded-3xl border border-[#D8E0BB] bg-[#FAFCEB] p-6 shadow-2xl sm:p-8"
+      (click)="$event.stopPropagation()">
+
+      @if (debtModalStep() !== 'saving') {
+      <button type="button" aria-label="Cerrar"
+        class="absolute right-5 top-5 grid h-9 w-9 place-items-center rounded-full text-[#61705D] transition hover:bg-[#E8EFC7] hover:text-[#214523]"
+        (click)="closeNewDebt()">
+        <span class="text-xl leading-none" aria-hidden="true">×</span>
+      </button>
+      }
+
+      @if (debtModalStep() === 'form') {
+      <div>
+        <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#6D8C4B]">Plan de pagos</p>
+        <h2 id="newDebtTitle" class="mt-2 text-3xl font-extrabold text-[#173B20]">Nuevo crédito</h2>
+        <p class="mt-2 max-w-xl text-sm leading-6 text-[#61705D]">
+          Registra las condiciones iniciales. FinCoach calculará la tasa, la cuota mensual y la fecha estimada de finalización.
+        </p>
+      </div>
+
+      @if (debtModalError()) {
+      <p class="mt-5 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" aria-live="polite">
+        {{ debtModalError() }}
+      </p>
+      }
+
+      <form class="mt-7 space-y-5" [formGroup]="debtForm" (ngSubmit)="registerDebt()" novalidate>
+        <div>
+          <label for="debtType" class="mb-2 block text-sm font-bold text-[#29492E]">Tipo de crédito</label>
+          <select id="debtType" formControlName="debtType"
+            class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10">
+            <option value="housing">Crédito de vivienda</option>
+            <option value="educational">Crédito educativo</option>
+            <option value="credit_card">Tarjeta de crédito</option>
+            <option value="vehicle">Crédito de vehículo</option>
+            <option value="personal">Crédito personal</option>
+          </select>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="debtAmount" class="mb-2 block text-sm font-bold text-[#29492E]">Monto inicial en COP</label>
+            <input id="debtAmount" type="number" min="1" step="1" formControlName="originalAmount" placeholder="Ejemplo: 8000000"
+              class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+            @if (debtForm.controls.originalAmount.touched && debtForm.controls.originalAmount.invalid) {
+            <p class="mt-2 text-xs font-semibold text-red-700">Ingresa un monto mayor que 0.</p>
+            }
+          </div>
+
+          <div>
+            <label for="debtTerm" class="mb-2 block text-sm font-bold text-[#29492E]">Plazo en meses</label>
+            <input id="debtTerm" type="number" min="1" max="600" step="1" formControlName="termMonths" placeholder="Ejemplo: 36"
+              class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+            @if (debtForm.controls.termMonths.touched && debtForm.controls.termMonths.invalid) {
+            <p class="mt-2 text-xs font-semibold text-red-700">El plazo debe estar entre 1 y 600 meses.</p>
+            }
+          </div>
+        </div>
+
+        <div>
+          <label for="debtStartDate" class="mb-2 block text-sm font-bold text-[#29492E]">Fecha de inicio</label>
+          <input id="debtStartDate" type="date" formControlName="startDate"
+            class="w-full rounded-2xl border border-[#CBD5B1] bg-white px-4 py-3 text-sm outline-none focus:border-[#4C7B4E] focus:ring-4 focus:ring-[#4C7B4E]/10" />
+        </div>
+
+        <div class="rounded-2xl border border-[#D8E1B8] bg-[#F2F5D8] px-4 py-3 text-xs leading-5 text-[#61705D]">
+          La tasa efectiva anual se asigna según el tipo de crédito definido para este MVP.
+        </div>
+
+        <div class="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+          <button type="button" class="rounded-xl border border-[#C8D3B1] px-5 py-3 text-sm font-extrabold text-[#526650] hover:bg-[#EEF3D5]" (click)="closeNewDebt()">
+            Cancelar
+          </button>
+          <button type="submit" class="rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#214523]">
+            Registrar crédito
+          </button>
+        </div>
+      </form>
+      } @else if (debtModalStep() === 'saving') {
+      <div class="grid min-h-80 place-items-center text-center">
+        <div>
+          <span class="mx-auto block h-12 w-12 animate-spin rounded-full border-4 border-[#D8E0BB] border-t-[#315D36]" aria-hidden="true"></span>
+          <h2 id="newDebtTitle" class="mt-6 text-2xl font-extrabold text-[#173B20]">Calculando el crédito</h2>
+          <p class="mt-3 text-sm text-[#61705D]">Estamos preparando la cuota y la proyección de pago.</p>
+        </div>
+      </div>
+      } @else if (debtModalStep() === 'success' && createdDebt(); as registered) {
+      <div>
+        <div class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-[#DCEAC7] text-[#2F6B3A]">
+          <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12l4 4L19 6" />
+          </svg>
+        </div>
+        <div class="mt-5 text-center">
+          <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#6D8C4B]">Crédito registrado</p>
+          <h2 id="newDebtTitle" class="mt-2 text-3xl font-extrabold text-[#173B20]">{{ debtTypeLabel(registered.debt.type) }}</h2>
+          <p class="mt-2 text-sm text-[#61705D]">La proyección quedó guardada en tu cuenta.</p>
+        </div>
+
+        <div class="mt-7 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-2xl border border-[#D8E1B8] bg-[#F2F5D8] p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#7B8874]">Monto inicial</p>
+            <p class="mt-2 text-lg font-extrabold text-[#29492E]">{{ formatCurrency(registered.debt.original_amount) }}</p>
+          </div>
+          <div class="rounded-2xl border border-[#D8E1B8] bg-[#F2F5D8] p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#7B8874]">Cuota mensual</p>
+            <p class="mt-2 text-lg font-extrabold text-[#29492E]">{{ formatCurrency(registered.debt.monthly_payment) }}</p>
+          </div>
+          <div class="rounded-2xl border border-[#D8E1B8] bg-[#F2F5D8] p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#7B8874]">Tasa efectiva anual</p>
+            <p class="mt-2 text-lg font-extrabold text-[#29492E]">{{ registered.debt.annual_effective_rate_percentage }}%</p>
+          </div>
+          <div class="rounded-2xl border border-[#D8E1B8] bg-[#F2F5D8] p-4">
+            <p class="text-xs font-bold uppercase tracking-wider text-[#7B8874]">Finalización estimada</p>
+            <p class="mt-2 text-lg font-extrabold text-[#29492E]">
+              {{ registered.debt.projected_end_date ? formatDate(registered.debt.projected_end_date) : 'Sin fecha estimada' }}
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-4 rounded-2xl bg-[#E8EFC7] px-4 py-3 text-center text-sm font-semibold text-[#405D42]">
+          Interés total estimado: {{ formatCurrency(registered.debt.estimated_total_interest) }}
+        </p>
+        <button type="button" class="mt-6 w-full rounded-xl bg-[#315D36] px-5 py-3 text-sm font-extrabold text-white transition hover:bg-[#214523]" (click)="closeNewDebt()">
+          Volver a movimientos
+        </button>
+      </div>
+      }
+    </section>
+  </div>
+  }
+</div>

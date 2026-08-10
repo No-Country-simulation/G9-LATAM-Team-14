@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalHeaderComponent } from './components/modal-header/modal-header';
 import { ModalTypeSelectorComponent, RegistrationType } from './components/modal-type-selector/modal-type-selector';
@@ -6,10 +6,12 @@ import { DebtDetailsFormComponent, PaymentMode } from './components/debt-details
 import { FixedExpenseFormComponent } from './components/fixed-expense-form/fixed-expense-form';
 import { ModalSummaryComponent } from './components/modal-summary/modal-summary';
 import { ModalFooterComponent } from './components/modal-footer/modal-footer';
+import { Debt } from '@app/core/debts/models/debt.model';
 
 export type { RegistrationType, PaymentMode };
 
 export interface NewDebtPayload {
+  id?: number;
   type: RegistrationType;
   category: string;
   totalAmount?: number;
@@ -37,6 +39,7 @@ export interface NewDebtPayload {
 })
 export class AddDebtModalComponent {
   isOpen = input<boolean>(false);
+  debtToEdit = input<Debt | null>(null);
   closeModal = output<void>();
   addDebt = output<NewDebtPayload>();
 
@@ -59,6 +62,43 @@ export class AddDebtModalComponent {
   // Compartido
   startDate = signal<string>('2026-07');
   userMonthlyIncome = signal<number>(5000);
+
+  constructor() {
+    effect(() => {
+      const debt = this.debtToEdit();
+      if (debt) {
+        const isInstallment = debt.type === 'INSTALLMENT';
+        this.registrationType.set(isInstallment ? 'installment' : 'fixed');
+        if (isInstallment) {
+          this.installmentCategory.set(debt.category || 'Préstamo Personal');
+          this.installmentTotalAmount.set(debt.totalAmount || ((debt.monthlyAmount || 0) * (debt.monthsTerm || 12)));
+          this.paymentMode.set(debt.paymentMode === 'FIXED_TERM' ? 'fixed_term' : 'free_payment');
+          this.fixedTermMonths.set(debt.monthsTerm || 12);
+          this.freePaymentMonthlyQuota.set(debt.monthlyAmount || 150);
+        } else {
+          this.fixedCategory.set(debt.category || 'Alquiler / Vivienda');
+          this.fixedMonthlyAmount.set(debt.monthlyAmount || 1200);
+          this.isIndefinite.set(!!debt.isIndefinite);
+          this.fixedMonthsTerm.set(debt.monthsTerm || 12);
+        }
+        const rawDate = debt.startDate || '2026-07';
+        const formattedDate = rawDate.length >= 7 ? rawDate.substring(0, 7) : rawDate;
+        this.startDate.set(formattedDate);
+      } else {
+        this.registrationType.set('installment');
+        this.installmentCategory.set('Préstamo Personal');
+        this.installmentTotalAmount.set(6000);
+        this.paymentMode.set('fixed_term');
+        this.fixedTermMonths.set(12);
+        this.freePaymentMonthlyQuota.set(150);
+        this.fixedCategory.set('Alquiler / Vivienda');
+        this.fixedMonthlyAmount.set(1200);
+        this.isIndefinite.set(false);
+        this.fixedMonthsTerm.set(12);
+        this.startDate.set('2026-07');
+      }
+    });
+  }
 
   // Cálculos dinámicos
   calculatedMonthlyQuota = computed(() => {
@@ -99,7 +139,7 @@ export class AddDebtModalComponent {
 
     const [yearStr, monthStr] = (this.startDate() || '2026-07').split('-');
     if (!yearStr || !monthStr) return 'N/A';
-    
+
     let year = parseInt(yearStr, 10);
     let month = parseInt(monthStr, 10);
 
@@ -131,6 +171,7 @@ export class AddDebtModalComponent {
   onSubmit(): void {
     const isInstallment = this.registrationType() === 'installment';
     const payload: NewDebtPayload = {
+      id: this.debtToEdit()?.id,
       type: this.registrationType(),
       category: isInstallment ? this.installmentCategory() : this.fixedCategory(),
       totalAmount: isInstallment ? this.installmentTotalAmount() : undefined,

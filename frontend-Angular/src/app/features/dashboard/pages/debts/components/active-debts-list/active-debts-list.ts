@@ -1,6 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconFinCoachComponent, IconName } from '@app/shared/icons/iconsFinCoach';
+import { Debt } from '@app/core/debts/models/debt.model';
 
 export interface ActiveDebt {
   id: number;
@@ -11,6 +12,7 @@ export interface ActiveDebt {
   progressText: string;
   percentage: number;
   iconName: IconName;
+  raw?: Debt;
 }
 
 @Component({
@@ -21,4 +23,6 @@ export interface ActiveDebt {
 })
 export class ActiveDebtsListComponent {
   debts = input.required<ActiveDebt[]>();
+  edit = output<ActiveDebt>();
+  delete = output<number>();
 }

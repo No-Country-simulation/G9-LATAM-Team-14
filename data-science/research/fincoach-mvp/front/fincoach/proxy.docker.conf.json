@@ -1,0 +1,7 @@
+{
+  "/api": {
+    "target": "http://back-mvp:8000",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
