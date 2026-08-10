@@ -1,42 +1,22 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '@environments/environment';
 import {
   Debt,
   DebtStatus,
   CreateDebtRequest,
-  CreateBatchDebtsRequest,
   DebtSummary,
   DebtProjectionPoint,
-  DebtProjectionResponse,
-  SingleDebtItemRequest
+  DebtProjectionResponse
 } from '../models/debt.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class DebtService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/v1/debts`;
-  private onboardingUrl = `${environment.apiUrl}/v1/onboarding/debts`;
-  onboardingDebts = signal<SingleDebtItemRequest[]>([
-    { category: '', amount: null }
-  ]);
-
-  saveOnboardingDebtsToBackend(userId: number = 1): Observable<Debt[]> {
-    const validDebts = this.onboardingDebts()
-      .filter(d => d.category && d.amount && d.amount > 0)
-      .map(d => ({ category: d.category, amount: d.amount }));
-
-    if (validDebts.length === 0) {
-      return of([]);
-    }
-
-    return this.createBatchOnboardingDebts({
-      userId,
-      debts: validDebts
-    });
-  }
 
   getDebts(status?: DebtStatus, userId: number = 1): Observable<Debt[]> {
     let params = new HttpParams().set('userId', userId.toString());
@@ -63,10 +43,6 @@ export class DebtService {
 
   createDebt(request: CreateDebtRequest): Observable<Debt> {
     return this.http.post<Debt>(this.apiUrl, request, { withCredentials: true });
-  }
-
-  createBatchOnboardingDebts(request: CreateBatchDebtsRequest): Observable<Debt[]> {
-    return this.http.post<Debt[]>(this.onboardingUrl, request, { withCredentials: true });
   }
 
   updateDebt(id: number, debt: Partial<Debt>): Observable<Debt> {

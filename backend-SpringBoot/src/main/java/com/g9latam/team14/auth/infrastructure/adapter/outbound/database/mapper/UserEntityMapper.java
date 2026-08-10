@@ -17,6 +17,7 @@ public class UserEntityMapper {
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .ingresoMensual(entity.getIngresoMensual())
+                .frecuenciaAhorro(entity.getFrecuenciaAhorro())
                 .fechaRegistro(entity.getFechaRegistro())
                 .build();
     }
@@ -29,6 +30,7 @@ public class UserEntityMapper {
                 .email(domain.getEmail())
                 .password(domain.getPassword())
                 .ingresoMensual(domain.getIngresoMensual())
+                .frecuenciaAhorro(domain.getFrecuenciaAhorro())
                 .fechaRegistro(domain.getFechaRegistro())
                 .build();
     }

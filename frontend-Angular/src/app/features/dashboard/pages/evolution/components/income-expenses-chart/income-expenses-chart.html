@@ -1,0 +1,29 @@
+<div class="bg-[#EDF1CD] rounded-2xl p-6 border border-[#C3C8BF]">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight">Ingreso vs Gastos</h2>
+        <div class="flex gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#5A7259]"></div>
+                <span class="text-xs font-medium text-[#526655]">Ingresos</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#78583E]"></div>
+                <span class="text-xs font-medium text-[#526655]">Gastos</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-3 h-3 rounded-full bg-[#7895B2]"></div>
+                <span class="text-xs font-medium text-[#526655]">Deudas</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="h-64 w-full relative">
+        <canvas baseChart [data]="chartData()" [options]="chartOptions" [type]="chartType"></canvas>
+    </div>
+
+    <div class="flex justify-between mt-4 px-2">
+        @for (label of labels(); track label) {
+            <span class="text-xs font-medium text-[#526655]">{{ label }}</span>
+        }
+    </div>
+</div>

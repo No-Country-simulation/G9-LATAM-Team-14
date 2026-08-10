@@ -5,10 +5,11 @@
     <p class="text-xs sm:text-sm text-[#4E6750] mt-1.5">
         Ayúdanos a entender tus compromisos mensuales para una mejor planificación.
     </p>
-    <div
-        class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full border-6 sm:border-8 border-[#CFDC9B] flex flex-col items-center justify-center my-4 bg-[#E8F0BF]/80 shadow-xs">
-        <span class="text-xl sm:text-2xl font-extrabold text-[#214523]">{{ debtPercentage() }}%</span>
-        <span class="text-[10px] sm:text-xs text-[#4A634E] font-semibold">de tus ingresos</span>
+    <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center my-3 shadow-xs p-1.5 transition-all duration-300"
+        [style.background]="'conic-gradient(#4A634E ' + debtPercentage() + '%, #DCE5B3 ' + debtPercentage() + '%)'">
+        <div class="w-full h-full bg-[#F6FAD4] rounded-full flex flex-col items-center justify-center shadow-inner">
+            <span class="text-lg sm:text-xl font-extrabold text-[#214523] tracking-tight">{{ debtPercentage() }}%</span>
+        </div>
     </div>
     <div class="w-full flex flex-col gap-1.5 mt-2">
         <div

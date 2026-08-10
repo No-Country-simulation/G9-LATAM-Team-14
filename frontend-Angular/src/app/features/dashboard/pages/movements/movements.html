@@ -24,7 +24,7 @@
 <!-- MODAL -->
 @if (isModalOpen()) {
 
-<app-movement-modal (close)="closeModal()" (save)="saveMovement($event)">
+<app-movement-modal (close)="closeModal()" (save)="loadMovements(); closeModal()">
 </app-movement-modal>
 
 }

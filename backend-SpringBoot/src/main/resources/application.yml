@@ -26,3 +26,7 @@ jwt:
 app:
   cors:
     allowed-origins: ${CORS_ORIGINS:http://localhost:4200}
+
+ds:
+  service:
+    url: ${DS_SERVICE_URL:http://127.0.0.1:8000}
