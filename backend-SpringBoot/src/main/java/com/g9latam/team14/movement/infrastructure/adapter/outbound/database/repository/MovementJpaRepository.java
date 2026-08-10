@@ -25,4 +25,36 @@ public interface MovementJpaRepository
             @Param("end") LocalDate end,
             @Param("type") String type
     );
+
+    interface MonthlyTotal {
+        String getMes();
+        BigDecimal getTotal();
+    }
+
+    @Query("SELECT FUNCTION('DATE_FORMAT', m.date, '%Y-%m') AS mes, COALESCE(SUM(m.amount), 0) AS total " +
+            "FROM MovementEntity m " +
+            "WHERE m.userId = :userId AND m.type = :type AND m.date BETWEEN :start AND :end " +
+            "GROUP BY FUNCTION('DATE_FORMAT', m.date, '%Y-%m')")
+    List<MonthlyTotal> sumAmountMonthlyByUserIdAndDateBetweenAndType(
+            @Param("userId") Integer userId,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("type") String type
+    );
+
+    interface CategoryTotal {
+        String getCategoria();
+        BigDecimal getTotal();
+    }
+
+    @Query("SELECT m.category AS categoria, COALESCE(SUM(m.amount), 0) AS total " +
+            "FROM MovementEntity m " +
+            "WHERE m.userId = :userId AND m.type = :type AND m.date BETWEEN :start AND :end " +
+            "GROUP BY m.category ORDER BY total DESC")
+    List<CategoryTotal> sumAmountByCategoryAndDateBetweenAndType(
+            @Param("userId") Integer userId,
+            @Param("start") LocalDate start,
+            @Param("end") LocalDate end,
+            @Param("type") String type
+    );
 }

@@ -29,6 +29,9 @@ public class UserEntity {
     @Column(name = "ingreso_mensual")
     private Float ingresoMensual;
 
+    @Column(name = "frecuencia_ahorro")
+    private String frecuenciaAhorro;
+
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
 }
