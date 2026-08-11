@@ -29,6 +29,7 @@ export class Debts implements OnInit {
   private authService = inject(AuthService);
   isModalOpen = signal<boolean>(false);
   editingDebt = signal<Debt | null>(null);
+  mobileViewMode = signal<'debts' | 'summary'>('debts');
 
   summaryData = signal<DebtSummary>({
     totalPendingAmount: 0,
@@ -91,6 +92,10 @@ export class Debts implements OnInit {
         this.projectionPoints.set([]);
       }
     });
+  }
+
+  toggleMobileView(): void {
+    this.mobileViewMode.update(mode => mode === 'debts' ? 'summary' : 'debts');
   }
 
   onAddDebt(): void {
@@ -176,8 +181,8 @@ export class Debts implements OnInit {
       subtitle: isInstallment
         ? `Inicio ${d.startDate || ''} - ${d.endDate || ''}`
         : (d.isIndefinite ? 'Gasto Recurrente Indefinido' : `Hasta ${d.endDate || ''}`),
-      monthlyPayment: `S/ ${d.monthlyAmount}/mes`,
-      remainingAmount: `Quedan S/ ${total.toLocaleString()}`,
+      monthlyPayment: `$ ${d.monthlyAmount}/mes`,
+      remainingAmount: `Quedan $ ${total.toLocaleString()}`,
       progressText: isInstallment ? `Progreso ${paid}/${term}` : `${paid}/${term} cuotas`,
       percentage: progressPct,
       iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts',

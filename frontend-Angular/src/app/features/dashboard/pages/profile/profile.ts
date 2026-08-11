@@ -89,9 +89,9 @@ export class Profile implements OnInit {
 
   private setDemoDebts(): void {
     this.activeDebts.set([
-      { id: 1, category: 'Tarjeta de crédito', subtitle: '6 de 12 cuotas', monthlyAmountText: 'S/ 400 /mes', iconName: 'debts' },
-      { id: 2, category: 'Préstamo personal', subtitle: '8 de 12 cuotas', monthlyAmountText: 'S/ 500 /mes', iconName: 'briefcase' },
-      { id: 3, category: 'Crédito vehicular', subtitle: '8 de 24 cuotas', monthlyAmountText: 'S/ 225 /mes', iconName: 'car' },
+      { id: 1, category: 'Tarjeta de crédito', subtitle: '6 de 12 cuotas', monthlyAmountText: '$ 400 /mes', iconName: 'debts' },
+      { id: 2, category: 'Préstamo personal', subtitle: '8 de 12 cuotas', monthlyAmountText: '$ 500 /mes', iconName: 'briefcase' },
+      { id: 3, category: 'Crédito vehicular', subtitle: '8 de 24 cuotas', monthlyAmountText: '$ 225 /mes', iconName: 'car' },
     ]);
   }
 
@@ -114,7 +114,7 @@ export class Profile implements OnInit {
       id: d.id || Date.now(),
       category: d.category,
       subtitle: isInstallment ? `${paid} de ${term} cuotas` : (d.isIndefinite ? 'Gasto Recurrente Indefinido' : `Hasta ${d.endDate || ''}`),
-      monthlyAmountText: `S/ ${d.monthlyAmount} /mes`,
+      monthlyAmountText: `$ ${d.monthlyAmount} /mes`,
       iconName: icon
     };
   }

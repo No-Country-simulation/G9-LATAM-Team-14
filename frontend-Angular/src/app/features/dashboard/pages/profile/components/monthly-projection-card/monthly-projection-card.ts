@@ -1,10 +1,11 @@
 import { Component, computed, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 
 @Component({
   selector: 'app-monthly-projection-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconFinCoachComponent],
   templateUrl: './monthly-projection-card.html',
 })
 export class MonthlyProjectionCardComponent {

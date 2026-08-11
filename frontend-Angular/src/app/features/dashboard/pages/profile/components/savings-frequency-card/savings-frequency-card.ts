@@ -1,4 +1,4 @@
-import { Component, model } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type SavingsFrequency = 'baja' | 'media' | 'alta';
@@ -10,9 +10,5 @@ export type SavingsFrequency = 'baja' | 'media' | 'alta';
   templateUrl: './savings-frequency-card.html',
 })
 export class SavingsFrequencyCardComponent {
-  frequency = model<SavingsFrequency>('media');
-
-  selectFrequency(freq: SavingsFrequency): void {
-    this.frequency.set(freq);
-  }
+  frequency = input<SavingsFrequency>('media');
 }

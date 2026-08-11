@@ -1,10 +1,10 @@
-<div class="max-w-4xl mx-auto space-y-6 pb-12 animate-fadeIn">
+<div class="max-w-4xl mx-auto space-y-6 pb-12 animate-fadeIn flex flex-col gap-1.5">
     <app-profile-header></app-profile-header>
     <app-monthly-income-card [(income)]="monthlyIncome"></app-monthly-income-card>
     <app-profile-debts-card [debts]="activeDebts()"></app-profile-debts-card>
     <app-debt-ratio-card [monthlyPayment]="summaryData().totalMonthlyPayment"
         [incomePercentage]="summaryData().incomePercentage"></app-debt-ratio-card>
-    <app-savings-frequency-card [(frequency)]="savingsFrequency"></app-savings-frequency-card>
+    <app-savings-frequency-card [frequency]="savingsFrequency()"></app-savings-frequency-card>
     <app-monthly-projection-card [income]="monthlyIncome()"
         [debtPayment]="summaryData().totalMonthlyPayment"></app-monthly-projection-card>
 </div>

@@ -1,11 +1,18 @@
-<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-3">
+<div class="flex flex-col min-[800px]:flex-row justify-between min-[800px]:items-center gap-3 sm:gap-4 mb-5">
     <div>
         <h1 class="text-2xl sm:text-3xl font-bold text-[#214523] tracking-tight">Mis deudas</h1>
         <p class="text-xs sm:text-sm text-[#526655] mt-0.5">Seguimiento de tus deudas activas</p>
     </div>
-    <button type="button" (click)="addDebt.emit()"
-        class="bg-[#2F4836] text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm hover:bg-[#223628] active:scale-[0.98] transition-all cursor-pointer shadow-sm flex items-center justify-center gap-2 w-full sm:w-auto">
-        <app-icon-fin-coach name="plus" class="w-4 h-4" />
-        <span>Agregar Deuda</span>
-    </button>
+    <div class="flex items-center gap-2 sm:gap-2.5 w-full min-[800px]:w-auto shrink-0">
+        <button type="button" (click)="toggleMobileView.emit()" [attr.aria-label]="currentMobileView() === 'debts' ? 'Ver resumen' : 'Ver deudas'"
+            class="xl:hidden bg-[#EAF2CC] border border-[#DCE8B5] text-[#214523] p-2.5 min-[800px]:px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm hover:bg-[#DCE8B5] active:scale-[0.98] transition-all cursor-pointer shadow-xs flex items-center justify-center gap-2 shrink-0 min-[800px]:flex-none">
+            <app-icon-fin-coach [name]="currentMobileView() === 'debts' ? 'evolution' : 'debts'" class="w-4 h-4" />
+            <span class="hidden min-[800px]:inline">{{ currentMobileView() === 'debts' ? 'Ver resumen' : 'Ver deudas' }}</span>
+        </button>
+        <button type="button" (click)="addDebt.emit()"
+            class="bg-[#2F4836] text-white px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm hover:bg-[#223628] active:scale-[0.98] transition-all cursor-pointer shadow-sm flex items-center justify-center gap-2 flex-1 min-[800px]:flex-none">
+            <app-icon-fin-coach name="plus" class="w-4 h-4" />
+            <span>Agregar Deuda</span>
+        </button>
+    </div>
 </div>
