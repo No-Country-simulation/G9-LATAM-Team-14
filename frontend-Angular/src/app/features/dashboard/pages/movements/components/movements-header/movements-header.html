@@ -1,55 +1,26 @@
-<div class="flex justify-between items-center mb-8">
-
-  <!-- Título -->
+<div class="flex flex-col md:flex-row justify-between md:items-center gap-3 sm:gap-4 mb-5">
   <div>
-
-    <h1 class="text-3xl font-bold text-[#2F3A2F]">
-      Movimientos
-    </h1>
-
-    <p class="text-[#6B6B5D] mt-2">
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#2F3A2F]">Movimientos</h1>
+    <p class="text-xs sm:text-sm text-[#6B6B5D] mt-0.5 sm:mt-1">
       Registra tus gastos e ingresos del día para nutrir tu crecimiento.
     </p>
-
   </div>
-
-  <!-- Acciones -->
-  <div class="flex items-center gap-4">
-
-    <!-- Fecha -->
-    <div
-      class="flex items-center gap-2 border border-[#CFCFAE] rounded-xl px-5 py-3 bg-[#f3f7d2]">
-
-      <span class="material-symbols-outlined text-[#556B4F]">
-        📅
-      </span>
-
-      <span class="text-[#2F3A2F]">
-        {{ currentDate }}
-      </span>
-
-    </div>
-
-    <!-- Botón -->
-    <button
-      (click)="onOpenModal()"
-      class="flex items-center gap-2
-             bg-[#4A6042]
-             hover:bg-[#40543A]
-             text-white
-             rounded-xl
-             px-6
-             py-3
-             transition">
-
-      <span class="material-symbols-outlined">
-        add
-      </span>
-
-      Nuevo Movimiento
-
+  <div class="flex items-center gap-2 sm:gap-2.5 shrink-0 flex-wrap sm:flex-nowrap">
+    <button (click)="onToggleSummary()" [class.bg-[#E3E8C4]]="isSummaryActive"
+      [class.border-[#4A6042]]="isSummaryActive"
+      class="xl:hidden flex items-center gap-1.5 border border-[#CFCFAE] bg-[#f3f7d2] hover:bg-[#EAEFC8] text-[#2F3A2F] rounded-xl px-3 py-2 text-xs font-semibold cursor-pointer transition shadow-2xs">
+      <app-icon-fin-coach [name]="isSummaryActive ? 'movements' : 'dashboard'"
+        class="w-4 h-4 text-[#556B4F]"></app-icon-fin-coach>
     </button>
-
+    <div
+      class="flex items-center gap-1.5 sm:gap-2 border border-[#CFCFAE] rounded-xl px-3 py-2 bg-[#f3f7d2] text-xs sm:text-sm text-[#2F3A2F] font-medium shadow-2xs">
+      <app-icon-fin-coach name="calendar" class="w-3.5 h-3.5 text-[#556B4F]"></app-icon-fin-coach>
+      <span>{{ currentDate }}</span>
+    </div>
+    <button (click)="onOpenModal()"
+      class="flex items-center gap-1.5 bg-[#4A6042] hover:bg-[#40543A] text-white rounded-xl px-3.5 py-2 text-xs sm:text-sm font-medium transition cursor-pointer shadow-xs whitespace-nowrap">
+      <app-icon-fin-coach name="plus" class="w-3.5 h-3.5"></app-icon-fin-coach>
+      <span>Movimiento</span>
+    </button>
   </div>
-
 </div>

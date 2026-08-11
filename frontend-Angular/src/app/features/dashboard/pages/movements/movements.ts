@@ -25,14 +25,12 @@ import { MovementsSummaryCards } from './components/movements-summary-cards/move
 export class Movements implements OnInit {
   private movementService = inject(MovementService);
   private authService = inject(AuthService);
-
   movements = signal<Movement[]>([]);
   isModalOpen = signal<boolean>(false);
-
+  activeView = signal<'list' | 'summary'>('list');
   currentDate = new Date().toLocaleDateString('es-PE', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
+    day: '2-digit',
+    month: '2-digit',
     year: 'numeric'
   });
 
@@ -60,6 +58,10 @@ export class Movements implements OnInit {
     this.isModalOpen.set(false);
   }
 
+  toggleView(): void {
+    this.activeView.update(v => v === 'list' ? 'summary' : 'list');
+  }
+
   saveMovement(movementPayload: CreateMovementRequest): void {
     const userId = this.authService.currentUser()?.id || 1;
     const request: CreateMovementRequest = {
@@ -78,3 +80,5 @@ export class Movements implements OnInit {
     });
   }
 }
+
+
