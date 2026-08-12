@@ -1,9 +1,9 @@
-package com.g9latam.team14.transaction.infrastructure.adapter.inbound.mapper;
+package com.g9latam.team14.transaction.infrastructure.adapter.outbound.database.mapper;
 
 import com.g9latam.team14.transaction.domain.model.Transaction;
 import com.g9latam.team14.transaction.domain.model.TransactionDirection;
 import com.g9latam.team14.transaction.domain.model.TransactionStatus;
-import com.g9latam.team14.transaction.infrastructure.adapter.inbound.dtos.CreateTransactionRequest;
+import com.g9latam.team14.transaction.infrastructure.adapter.inbound.dto.CreateTransactionRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

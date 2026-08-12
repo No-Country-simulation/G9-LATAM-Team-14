@@ -1,4 +1,4 @@
-package com.g9latam.team14.transaction.infrastructure.adapter.inbound.dtos;
+package com.g9latam.team14.transaction.infrastructure.adapter.inbound.dto;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
