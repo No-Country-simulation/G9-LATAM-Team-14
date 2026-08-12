@@ -4,6 +4,11 @@ import { Observable, of } from 'rxjs';
 import { environment } from '@environments/environment';
 import { Debt, SingleDebtItemRequest, CreateBatchDebtsRequest } from '@core/debts/models/debt.model';
 
+export interface SecondaryIncome {
+  activity: string;
+  modality: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,6 +17,16 @@ export class OnboardingService {
   private onboardingDebtsUrl = `${environment.apiUrl}/v1/onboarding/debts`;
 
   onboardingIncome = signal<number | null>(null);
+  primaryActivity = signal<string>('');
+  primaryModality = signal<string>('');
+  secondaryIncomes = signal<SecondaryIncome[]>([]);
+
+  primaryGoal = signal<string>('');
+  hobbies = signal<string>('');
+  workSupport = signal<string>('');
+  hobbiesList = signal<string[]>([]);
+  workSupportList = signal<string[]>([]);
+
   onboardingDebts = signal<SingleDebtItemRequest[]>([
     { category: '', amount: null }
   ]);
@@ -33,3 +48,4 @@ export class OnboardingService {
     return this.http.post<Debt[]>(this.onboardingDebtsUrl, request, { withCredentials: true });
   }
 }
+

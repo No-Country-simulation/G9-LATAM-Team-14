@@ -62,8 +62,19 @@ export class Onboarding {
 
     if (this.currentStep === 1) {
       const income = this.onboardingService.onboardingIncome();
+      const activity = this.onboardingService.primaryActivity()?.trim();
+      const modality = this.onboardingService.primaryModality()?.trim();
+
       if (!income || income <= 0) {
         this.validationError = 'Por favor, ingresa tu ingreso mensual neto para continuar.';
+        return false;
+      }
+      if (!activity) {
+        this.validationError = 'Por favor, ingresa tu actividad principal para continuar.';
+        return false;
+      }
+      if (!modality) {
+        this.validationError = 'Por favor, selecciona la modalidad de tu ingreso principal.';
         return false;
       }
     } else if (this.currentStep === 2) {
