@@ -1,1 +1,26 @@
-<p>recommendations works!</p>
+<div class="max-w-6xl mx-auto px-6 py-8">
+
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-[#214523]">Recomendaciones</h1>
+    <p class="text-sm text-[#526655] mt-1">Acciones personalizadas para mejorar tu salud financiera</p>
+  </div>
+
+  <div class="grid grid-cols-12 gap-4 md:gap-6">
+
+    <div class="col-span-12 lg:col-span-8 space-y-4">
+      @for (rec of recommendations(); track rec.id) {
+        <app-recommendation-card [recommendation]="rec" />
+      }
+    </div>
+
+    <div class="col-span-12 lg:col-span-4 space-y-4">
+      <app-progress-panel
+        [score]="score()"
+        [recommendations]="recommendations()"
+      />
+      <app-impact-projection-panel [score]="score()" />
+    </div>
+
+  </div>
+
+</div>

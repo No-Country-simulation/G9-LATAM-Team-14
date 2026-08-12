@@ -1,0 +1,44 @@
+<div class="bg-white rounded-2xl p-5 border border-[#C3C8BF]">
+  <h3 class="text-[15px] font-bold text-[#214523] mb-5">Impacto proyectado</h3>
+
+  <div class="flex items-center justify-between mb-4">
+    <div class="text-center">
+      <p class="text-[28px] font-extrabold text-[#A15B3E] leading-none">{{ score().scoreActual }}</p>
+      <p class="text-[11px] font-medium text-[#526655] mt-1.5 uppercase tracking-wider">Actual</p>
+      <p class="text-[10px] font-semibold text-[#A15B3E]">{{ currentLabel() }}</p>
+    </div>
+
+    <div class="flex flex-col items-center mx-3">
+      <div class="w-10 h-10 rounded-full bg-[#425942]/10 flex items-center justify-center mb-1">
+        <svg class="w-5 h-5 text-[#425942]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      </div>
+      <span class="text-[13px] font-bold text-[#425942]">+{{ delta() }}</span>
+    </div>
+
+    <div class="text-center">
+      <p class="text-[28px] font-extrabold text-[#425942] leading-none">{{ score().scorePotencial }}</p>
+      <p class="text-[11px] font-medium text-[#526655] mt-1.5 uppercase tracking-wider">Potencial</p>
+      <p class="text-[10px] font-semibold text-[#425942]">{{ potentialLabel() }}</p>
+    </div>
+  </div>
+
+  <div class="relative w-full h-3 bg-[#E7EBC7] rounded-full overflow-hidden mb-4">
+    <div
+      class="absolute left-0 top-0 h-full rounded-full bg-gradient-to-r from-[#A15B3E] to-[#425942] transition-all duration-700"
+      [style.width.%]="potentialPercent()"
+    ></div>
+    <div
+      class="absolute top-0 h-full w-0.5 bg-[#C62828] transition-all duration-700"
+      [style.left.%]="currentPercent()"
+    ></div>
+  </div>
+
+  <div class="bg-[#E1E6C2]/60 rounded-xl p-3.5 text-center">
+    <p class="text-[12px] text-[#364234] leading-relaxed">
+      Completar las <strong class="text-[#425942]">{{ pendingCount() }}</strong> recomendaciones
+      restantes suma <strong class="text-[#425942]">+{{ delta() }} pts</strong> a tu score financiero.
+    </p>
+  </div>
+</div>
