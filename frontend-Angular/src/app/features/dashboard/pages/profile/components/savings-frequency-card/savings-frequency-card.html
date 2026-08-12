@@ -1,22 +1,22 @@
-<div class="bg-[#EFF5D3] rounded-3xl p-5 sm:p-7 border border-[#DCE8B5] shadow-xs space-y-4">
+<div class="space-y-4">
     <div>
-        <h2 class="text-xl sm:text-2xl font-bold text-[#214523] tracking-tight">Frecuencia de ahorro</h2>
+        <h2 class="text-xl xl:text-2xl font-bold text-[#214523] tracking-tight">Frecuencia de ahorro</h2>
         <p class="text-xs text-[#526655] font-medium mt-0.5">Calculada automáticamente por el sistema según tu registro de movimientos.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-2.5 xl:gap-3">
         <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'baja' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
-            <p class="font-bold text-sm sm:text-base">Baja</p>
+            <p class="font-bold text-sm xl:text-base">Baja</p>
             <p [class]="'text-xs font-medium ' + (frequency() === 'baja' ? 'text-white/80' : 'text-[#526655]')">Ahorro rara vez</p>
         </div>
 
         <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'media' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
-            <p class="font-bold text-sm sm:text-base">Media</p>
+            <p class="font-bold text-sm xl:text-base">Media</p>
             <p [class]="'text-xs font-medium ' + (frequency() === 'media' ? 'text-white/80' : 'text-[#526655]')">Ahorro algunos meses</p>
         </div>
 
         <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'alta' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
-            <p class="font-bold text-sm sm:text-base">Alta</p>
+            <p class="font-bold text-sm xl:text-base">Alta</p>
             <p [class]="'text-xs font-medium ' + (frequency() === 'alta' ? 'text-white/80' : 'text-[#526655]')">Ahorro todos los meses</p>
         </div>
     </div>

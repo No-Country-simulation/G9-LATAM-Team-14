@@ -1,17 +1,18 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/auth/services/auth.service';
 import { DebtService } from '@core/debts/services/debt.service';
 import { Debt, DebtSummary } from '@core/debts/models/debt.model';
 import { IconName } from '@app/shared/icons/iconsFinCoach';
-
-// Subcomponentes modularizados
-import { ProfileHeaderComponent } from './components/profile-header/profile-header';
-import { MonthlyIncomeCardComponent } from './components/monthly-income-card/monthly-income-card';
-import { ProfileDebtsCardComponent } from './components/profile-debts-card/profile-debts-card';
-import { DebtRatioCardComponent } from './components/debt-ratio-card/debt-ratio-card';
-import { SavingsFrequencyCardComponent, SavingsFrequency } from './components/savings-frequency-card/savings-frequency-card';
-import { MonthlyProjectionCardComponent } from './components/monthly-projection-card/monthly-projection-card';
+import {
+  ProfileHeaderComponent,
+  ProfileGoalsIncomeCardComponent,
+  ProfileDebtsCardComponent,
+  DebtRatioCardComponent,
+  SavingsFrequencyCardComponent,
+  MonthlyProjectionCardComponent,
+  type SavingsFrequency
+} from './components';
 
 export interface ProfileDebtView {
   id: number;
@@ -27,7 +28,7 @@ export interface ProfileDebtView {
   imports: [
     CommonModule,
     ProfileHeaderComponent,
-    MonthlyIncomeCardComponent,
+    ProfileGoalsIncomeCardComponent,
     ProfileDebtsCardComponent,
     DebtRatioCardComponent,
     SavingsFrequencyCardComponent,
@@ -36,6 +37,8 @@ export interface ProfileDebtView {
   templateUrl: './profile.html',
 })
 export class Profile implements OnInit {
+  @ViewChild(ProfileGoalsIncomeCardComponent) goalsIncomeCard?: ProfileGoalsIncomeCardComponent;
+
   private authService = inject(AuthService);
   private debtService = inject(DebtService);
 
@@ -54,6 +57,18 @@ export class Profile implements OnInit {
 
   ngOnInit(): void {
     this.loadUserData();
+  }
+
+  onHeaderEditToggle(): void {
+    this.goalsIncomeCard?.toggleEdit();
+  }
+
+  onHeaderSave(): void {
+    this.goalsIncomeCard?.save();
+  }
+
+  onHeaderCancel(): void {
+    this.goalsIncomeCard?.cancel();
   }
 
   loadUserData(): void {

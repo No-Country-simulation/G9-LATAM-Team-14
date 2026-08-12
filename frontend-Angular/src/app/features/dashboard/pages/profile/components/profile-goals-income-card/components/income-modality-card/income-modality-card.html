@@ -1,0 +1,87 @@
+@if (!isEditing()) {
+<div class="space-y-1.5">
+    <p class="text-xs font-bold text-[#5A7259] uppercase tracking-wider">Actividad y Modalidad de Ingreso</p>
+    <div class="flex flex-wrap items-center gap-2 text-xs xl:text-sm">
+        <div
+            class="inline-flex items-center gap-2 bg-[#F4F8DE] px-3.5 py-1.5 rounded-xl border border-[#C9DAA7] text-[#214523] font-semibold">
+            <app-icon-fin-coach name="briefcase" class="w-4 h-4 text-[#214523]" />
+            <span>{{ primaryActivity() }}</span>
+            <span class="bg-[#2F4836] text-white text-xs px-2.5 py-0.5 rounded-full font-medium ml-1">{{
+                primaryModality() }}</span>
+        </div>
+    </div>
+
+    @if (secondaryIncomes().length > 0) {
+    <div class="flex flex-wrap gap-2 pt-0.5">
+        @for (sec of secondaryIncomes(); track $index) {
+        <span
+            class="bg-[#E5ECBF] px-3 py-1 rounded-full text-xs font-medium text-[#214523] inline-flex items-center gap-1">
+            <span class="font-semibold">{{ sec.activity || 'Secundario' }}</span>
+            <span class="text-[#4E6750]">({{ sec.modality }})</span>
+        </span>
+        }
+    </div>
+    }
+</div>
+} @else {
+<div class="space-y-3">
+    <p class="text-xs font-bold text-[#214523] uppercase tracking-wider">Actividad y Modalidad de Ingreso</p>
+
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-semibold text-[#214523]">Actividad principal</label>
+            <input type="text" [ngModel]="tempPrimaryActivity()" (ngModelChange)="tempPrimaryActivity.set($event)"
+                name="tempPrimaryActivity" placeholder="Ej. Ingeniero de software"
+                class="w-full px-3.5 py-2.5 bg-[#F4F8DE] border border-[#C9DAA7] rounded-xl text-xs xl:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870]" />
+        </div>
+        <div class="flex flex-col gap-1.5">
+            <label class="text-xs font-semibold text-[#214523]">Modalidad de ingreso</label>
+            <select [ngModel]="tempPrimaryModality()" (ngModelChange)="tempPrimaryModality.set($event)"
+                name="tempPrimaryModality"
+                class="w-full px-3.5 py-2.5 bg-[#F4F8DE] border border-[#C9DAA7] rounded-xl text-xs xl:text-sm text-[#214523] font-medium cursor-pointer truncate">
+                <option value="" disabled selected>Modalidad...</option>
+                @for (mod of modalityOptions(); track mod) {
+                <option [value]="mod">{{ mod }}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <!-- Ingresos Adicionales Edición -->
+    <div class="flex flex-col gap-2 pt-1">
+        <label class="text-xs font-semibold text-[#214523]">
+            Ingresos adicionales <span class="text-[#526655] font-normal">(Opcional)</span>
+        </label>
+
+        @for (sec of tempSecondaryIncomes(); track $index; let i = $index) {
+        <div class="w-full flex items-center gap-2 py-0.5">
+            <div class="flex-1 min-w-0">
+                <input type="text" [(ngModel)]="sec.activity" [name]="'tempSecActivity_' + i"
+                    placeholder="Actividad secundaria"
+                    class="w-full px-3.5 py-2 bg-[#F4F8DE] border border-[#C9DAA7] rounded-xl text-xs xl:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870]" />
+            </div>
+            <div class="flex-1 min-w-0">
+                <select [(ngModel)]="sec.modality" [name]="'tempSecModality_' + i"
+                    class="w-full px-3.5 py-2 bg-[#F4F8DE] border border-[#C9DAA7] rounded-xl text-xs xl:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium cursor-pointer truncate">
+                    <option value="" disabled selected>Modalidad...</option>
+                    @for (mod of modalityOptions(); track mod) {
+                    <option [value]="mod">{{ mod }}</option>
+                    }
+                </select>
+            </div>
+            <button type="button" (click)="removeSecondaryIncome(i)"
+                class="p-1.5 text-[#5A7259] hover:text-red-600 hover:bg-red-100/60 rounded-lg transition-colors cursor-pointer shrink-0"
+                title="Eliminar">
+                <app-icon-fin-coach name="trash" class="w-4 h-4 xl:w-5 xl:h-5" />
+            </button>
+        </div>
+        }
+
+        <button type="button" (click)="addSecondaryIncome()"
+            class="w-full border border-dashed border-[#A8C4A6] hover:border-[#4A634E] text-[#214523] bg-[#E5ECBF]/40 hover:bg-[#E5ECBF]/80 py-2 xl:py-2.5 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-xs cursor-pointer mt-1">
+            <app-icon-fin-coach name="plus" class="w-4 h-4" />
+            Añadir ingreso secundario
+        </button>
+    </div>
+</div>
+}

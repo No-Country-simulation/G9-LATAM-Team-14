@@ -11,10 +11,19 @@ import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 export class DebtRatioCardComponent {
   monthlyPayment = input<number>(0);
   incomePercentage = input<number>(0);
+  readonly circumference = 226.19;
 
-  gaugeMarkerPercentage = computed(() => {
+  strokeDashOffset = computed(() => {
+    const pct = Math.min(Math.max(this.incomePercentage() || 0, 0), 100);
+    return this.circumference - (this.circumference * pct) / 100;
+  });
+
+  strokeColor = computed(() => {
     const pct = this.incomePercentage() || 0;
-    return Math.min(Math.max(pct, 0), 100);
+    if (pct <= 20) return '#22C55E';
+    if (pct <= 35) return '#849C65';
+    if (pct <= 50) return '#D97706';
+    return '#EF4444';
   });
 
   debtStatusBadge = computed(() => {
@@ -22,7 +31,7 @@ export class DebtRatioCardComponent {
     if (pct <= 20) {
       return { label: 'SALUDABLE', class: 'bg-[#D6E4B4] text-[#214523]' };
     } else if (pct <= 35) {
-      return { label: 'MANEJABLE', class: 'bg-[#FCE6D4] text-[#D96B27]' };
+      return { label: 'MANEJABLE', class: 'bg-[#E5ECBF] text-[#214523]' };
     } else if (pct <= 50) {
       return { label: 'RIESGOSO', class: 'bg-[#FEF3C7] text-[#D97706]' };
     } else {

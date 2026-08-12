@@ -1,0 +1,22 @@
+<div class="space-y-4 flex flex-col gap-2 border-b pt-2 pb-4">
+    <app-income-net-card [isEditing]="isEditing()" [income]="income()" [(tempIncome)]="tempIncome">
+    </app-income-net-card>
+
+    <app-income-modality-card [isEditing]="isEditing()" [primaryActivity]="primaryActivity()"
+        [primaryModality]="primaryModality()" [secondaryIncomes]="secondaryIncomes()"
+        [(tempPrimaryActivity)]="tempPrimaryActivity" [(tempPrimaryModality)]="tempPrimaryModality"
+        [(tempSecondaryIncomes)]="tempSecondaryIncomes" [modalityOptions]="modalityOptions">
+    </app-income-modality-card>
+
+    <app-profile-goal-card [isEditing]="isEditing()" [currentGoalObj]="currentGoalObj"
+        [(tempSelectedGoal)]="tempSelectedGoal" [goals]="goals">
+    </app-profile-goal-card>
+
+    <app-profile-hobbies-card [isEditing]="isEditing()" [hobbiesList]="hobbiesList()"
+        [(tempHobbiesList)]="tempHobbiesList">
+    </app-profile-hobbies-card>
+
+    <app-profile-work-support-card [isEditing]="isEditing()" [workSupportList]="workSupportList()"
+        [(tempWorkSupportList)]="tempWorkSupportList">
+    </app-profile-work-support-card>
+</div>

@@ -1,0 +1,17 @@
+@if (!isEditing()) {
+<div>
+    <div class="text-3xl sm:text-4xl font-black text-[#214523] tracking-tight">
+        $ {{ income() | number:'1.0-0' }}
+    </div>
+    <p class="text-xs text-[#526655] font-medium mt-0.5">Ingreso neto mensual, después de impuestos.</p>
+</div>
+} @else {
+<div class="space-y-1.5">
+    <label class="text-xs font-bold uppercase tracking-wider text-[#214523]">Ingreso Mensual Neto</label>
+    <div class="relative w-full max-w-sm">
+        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 font-bold text-[#214523] text-sm">$</span>
+        <input type="number" [ngModel]="tempIncome()" (ngModelChange)="tempIncome.set($event)" name="tempIncome"
+            class="w-full bg-[#F4F8DE] border border-[#C9DAA7] rounded-xl pl-9 pr-4 py-2.5 text-base font-bold text-[#214523] focus:outline-none focus:border-[#4A634E]" />
+    </div>
+</div>
+}
