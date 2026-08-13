@@ -22,7 +22,7 @@ services:
   # 2. Service Python Data Science
   data-science:
     build:
-      context: ../data-science/research/fincoach-mvp/back
+      context: ../data-science/src
       dockerfile: Dockerfile
     container_name: python-data-science
     hostname: python-data-science
