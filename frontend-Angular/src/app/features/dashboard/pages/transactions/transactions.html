@@ -1,15 +1,89 @@
-<div class="bg-white p-6 rounded-xl shadow-xs border border-gray-200">
-  <h2 class="text-2xl font-bold text-gray-800">Sección de Transacciones</h2>
-  <p class="text-gray-600 mt-2">Listado de tus últimos movimientos financieros.</p>
+<main class="max-w-[1200px] mx-auto px-4 md:px-16 py-8 pb-32">
+  <app-transactions-header
+    [totalItems]="totalItems()"
+    [searchTerm]="searchTerm()"
+    [dateRangeLabel]="dateRangeLabel()"
+    [showDateRangePicker]="showDateRangePicker()"
+    [tempStartDateFilter]="tempStartDateFilter()"
+    [tempEndDateFilter]="tempEndDateFilter()"
+    (searchTermChange)="setSearchTerm($event)"
+    (toggleDateRangePicker)="toggleDateRangePicker()"
+    (tempStartDateFilterChange)="onTempStartDateChange($event)"
+    (tempEndDateFilterChange)="onTempEndDateChange($event)"
+    (clearDateRange)="clearDateRange()"
+    (cancelDateRange)="cancelDateRange()"
+    (applyDateRange)="applyDateRange()"
+    (exportTransactions)="exportTransactions()">
+  </app-transactions-header>
 
-  <ul class="mt-4 space-y-2 text-sm">
-    <li class="p-3 bg-gray-50 rounded-lg border border-gray-100 flex justify-between">
-      <span>Compra Supermercado</span>
-      <span class="font-bold text-red-600">-$150.00</span>
-    </li>
-    <li class="p-3 bg-gray-50 rounded-lg border border-gray-100 flex justify-between">
-      <span>Depósito Nómina</span>
-      <span class="font-bold text-green-600">+$2,500.00</span>
-    </li>
-  </ul>
-</div>
+  @if (errorMessage()) {
+    <div class="mb-6 px-4 py-3 rounded-xl border border-red-200 bg-red-50 text-red-700">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (successMessage()) {
+    <div class="mb-6 px-4 py-3 rounded-xl border border-[#b9d7b8] bg-[#e9f6e4] text-[#315D36]">
+      {{ successMessage() }}
+    </div>
+  }
+
+  <app-transactions-summary-cards
+    [alimentacionTotal]="formatCurrency(categoryTotal('Alimentación'))"
+    [transporteTotal]="formatCurrency(categoryTotal('Transporte'))"
+    [serviciosTotal]="formatCurrency(categoryTotal('Servicios'))"
+    [ocioTotal]="formatCurrency(categoryTotal('Ocio'))"
+    [alimentacionProgress]="categoryProgress('Alimentación')"
+    [transporteProgress]="categoryProgress('Transporte')"
+    [serviciosProgress]="categoryProgress('Servicios')"
+    [ocioProgress]="categoryProgress('Ocio')">
+  </app-transactions-summary-cards>
+
+  <app-transactions-list
+    [isLoading]="isLoading()"
+    [filteredCount]="filteredTransactions().length"
+    [rows]="paginatedTransactionRows()"
+    [selectedCategoryFilter]="selectedCategoryFilter()"
+    [selectedType]="selectedType()"
+    [selectedValueOrder]="selectedValueOrder()"
+    [selectedDateOrder]="selectedDateOrder()"
+    [currentPage]="currentPage()"
+    [totalPages]="totalPages()"
+    [pageNumbers]="pageNumbers()"
+    (categoryFilterChange)="setCategoryFilter($event)"
+    (typeFilterChange)="setTypeFilter($event)"
+    (valueOrderChange)="setValueOrder($event)"
+    (dateOrderChange)="setDateOrder($event)"
+    (classify)="onClassifyFromList($any($event))"
+    (previousPage)="previousPage()"
+    (nextPage)="nextPage()"
+    (goToPage)="goToPage($event)">
+  </app-transactions-list>
+
+  <app-transaction-classification-modal
+    [isOpen]="showNewMovementModal()"
+    [canClose]="canCloseModal()"
+    [modalStep]="modalStep()"
+    [modalError]="modalError()"
+    [classification]="classification()"
+    [confidence]="classification() ? confidence(classification()!) : null"
+    [regularityConfidence]="classification() ? regularityConfidence(classification()!) : null"
+    [requiresReview]="classification() ? requiresReview(classification()!) : null"
+    [suggestedCategory]="classification() ? (suggestedCategory(classification()!) || '') : ''"
+    [suggestedPurpose]="classification() ? (suggestedPurpose(classification()!) || '') : ''"
+    [suggestedRegularity]="classification() ? (suggestedRegularity(classification()!) || '') : ''"
+    [classificationOptions]="classificationOptions()"
+    [selectedCategory]="selectedCategory()"
+    [selectedPurpose]="selectedPurpose()"
+    [selectedRegularity]="selectedRegularity()"
+    [debts]="modalDebtOptions()"
+    [amountLabel]="classification() ? formatAmount(classification()!) : ''"
+    (close)="closeNewMovement()"
+    (retry)="retryClassification()"
+    (selectCategory)="selectCategory($event)"
+    (setPurpose)="setPurpose($event)"
+    (selectDebt)="selectDebt($event)"
+    (selectRegularity)="selectRegularity($event)"
+    (confirm)="confirmClassification()">
+  </app-transaction-classification-modal>
+</main>
