@@ -4,7 +4,6 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
 import { map, of } from 'rxjs';
 
-/** Guard que protege rutas privadas (Dashboard, Onboarding). */
 export const authGuard: CanActivateFn = () => {
   const platformId = inject(PLATFORM_ID);
   if (isPlatformServer(platformId)) {
@@ -16,15 +15,45 @@ export const authGuard: CanActivateFn = () => {
 
   return authService.checkSession().pipe(
     map((isAuthenticated) => {
-      if (isAuthenticated) {
-        return true;
+      if (!isAuthenticated) {
+        return router.createUrlTree(['/login']);
       }
-      return router.createUrlTree(['/login']);
+
+      const user = authService.currentUser();
+      if (user && user.onboardingCompleted === false) {
+        return router.createUrlTree(['/onboarding']);
+      }
+
+      return true;
     })
   );
 };
 
-/** Guard para rutas públicas de autenticación (Login, Registro). */
+export const onboardingGuard: CanActivateFn = () => {
+  const platformId = inject(PLATFORM_ID);
+  if (isPlatformServer(platformId)) {
+    return of(true);
+  }
+
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.checkSession().pipe(
+    map((isAuthenticated) => {
+      if (!isAuthenticated) {
+        return router.createUrlTree(['/login']);
+      }
+
+      const user = authService.currentUser();
+      if (user && user.onboardingCompleted === true) {
+        return router.createUrlTree(['/dashboard']);
+      }
+
+      return true;
+    })
+  );
+};
+
 export const guestGuard: CanActivateFn = () => {
   const platformId = inject(PLATFORM_ID);
   if (isPlatformServer(platformId)) {
@@ -36,6 +65,10 @@ export const guestGuard: CanActivateFn = () => {
   return authService.checkSession().pipe(
     map((isAuthenticated) => {
       if (isAuthenticated) {
+        const user = authService.currentUser();
+        if (user && user.onboardingCompleted === false) {
+          return router.createUrlTree(['/onboarding']);
+        }
         return router.createUrlTree(['/dashboard']);
       }
       return true;

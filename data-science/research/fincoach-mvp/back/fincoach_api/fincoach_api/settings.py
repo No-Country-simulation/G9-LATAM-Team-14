@@ -15,6 +15,8 @@ if ENVIRONMENT == 'local':
         '127.0.0.1',
         '0.0.0.0',
         'back-mvp',
+        'python-data-science',
+        '*',
     ]
 elif ENVIRONMENT == 'production':
     DEBUG = False

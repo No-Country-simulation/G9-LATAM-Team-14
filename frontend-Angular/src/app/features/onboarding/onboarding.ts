@@ -1,10 +1,14 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { StepAboutComponent, StepDebtsComponent, StepExpensesComponent, StepGoalsComponent } from './components';
+import { StepAboutComponent, StepDebtsComponent, StepGoalsComponent } from './components';
 import { OnboardingService } from '@core/onboarding/services/onboarding.service';
 import { AuthService } from '@core/auth/services/auth.service';
-import { AiClassificationModalComponent, CategoryOption } from '@shared/components/ai-classification-modal/ai-classification-modal';
+
+interface OnboardingStep {
+  id: number;
+  label: string;
+}
 
 @Component({
   selector: 'app-onboarding',
@@ -13,9 +17,7 @@ import { AiClassificationModalComponent, CategoryOption } from '@shared/componen
     CommonModule,
     StepAboutComponent,
     StepDebtsComponent,
-    StepExpensesComponent,
-    StepGoalsComponent,
-    AiClassificationModalComponent
+    StepGoalsComponent
   ],
   templateUrl: './onboarding.html',
 })
@@ -26,30 +28,16 @@ export class Onboarding {
 
   @ViewChild(StepAboutComponent) stepAboutComp?: StepAboutComponent;
   @ViewChild(StepDebtsComponent) stepDebtsComp?: StepDebtsComponent;
-  @ViewChild(StepExpensesComponent) stepExpensesComp?: StepExpensesComponent;
   @ViewChild(StepGoalsComponent) stepGoalsComp?: StepGoalsComponent;
 
   currentStep = 1;
-  totalSteps = 4;
+  totalSteps = 3;
   validationError: string | null = null;
-
-  // Estado del modal de confirmación de IA
-  showAiModal = false;
-  selectedCategory = 'Trabajo independiente';
-  selectedRegularity = 'Variable';
-
-  categories: CategoryOption[] = [
-    { name: 'Trabajo independiente', confidence: '60.27%' },
-    { name: 'Ingresos laborales', confidence: '17.68%' },
-    { name: 'Otra / ambigua', confidence: '8.11%' },
-    { name: 'Vestimenta', confidence: '2.75%' },
-  ];
 
   steps: OnboardingStep[] = [
     { id: 1, label: 'Datos' },
     { id: 2, label: 'Endeudamiento' },
-    { id: 3, label: 'Movimiento' },
-    { id: 4, label: 'Metas' },
+    { id: 3, label: 'Metas' },
   ];
 
   get progressPercentage(): number {
@@ -90,81 +78,46 @@ export class Onboarding {
         return false;
       }
     } else if (this.currentStep === 3) {
-      const expComp = this.stepExpensesComp;
-      if (expComp) {
-        if (!expComp.description || !expComp.description.trim()) {
-          this.validationError = 'Por favor, ingresa la descripción del movimiento.';
-          return false;
-        }
-        if (!expComp.amount || expComp.amount <= 0) {
-          this.validationError = 'Por favor, ingresa un valor válido para el movimiento.';
-          return false;
-        }
-      }
-    } else if (this.currentStep === 4) {
-      const goalComp = this.stepGoalsComp;
-      if (goalComp && !goalComp.selectedGoal()) {
-        this.validationError = 'Por favor, selecciona una meta para continuar.';
+      const goal = (this.onboardingService.nextGoal() || this.onboardingService.primaryGoal())?.trim();
+      if (!goal) {
+        this.validationError = 'Por favor, selecciona o ingresa tu meta financiera para continuar.';
         return false;
       }
     }
-
     return true;
   }
 
-  nextStep() {
-    if (!this.validateCurrentStep()) {
-      return;
-    }
-    if (this.currentStep === 3 && !this.showAiModal) {
-      this.showAiModal = true;
-      return;
-    }
+  nextStep(): void {
+    if (!this.validateCurrentStep()) return;
+
     if (this.currentStep < this.totalSteps) {
       this.currentStep++;
-      this.validationError = null;
     } else {
       this.finishOnboarding();
     }
   }
 
-  confirmAiModal() {
-    this.showAiModal = false;
-    this.currentStep = 4;
+  prevStep(): void {
     this.validationError = null;
-  }
-
-  closeAiModal() {
-    this.showAiModal = false;
-  }
-
-  prevStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
-      this.validationError = null;
     }
   }
 
-  skipOnboarding() {
-    this.router.navigate(['/dashboard']);
-  }
-
-  finishOnboarding() {
-    const userId = this.authService.currentUser()?.id || 1;
-    this.onboardingService.saveOnboardingDebtsToBackend(userId).subscribe({
+  private finishOnboarding(): void {
+    this.onboardingService.saveOnboardingData().subscribe({
       next: () => {
+        const user = this.authService.currentUser();
+        if (user) {
+          user.onboardingCompleted = true;
+          this.authService.setCurrentUser(user);
+        }
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.error('Error guardando deudas de onboarding:', err);
+        console.error('Error al guardar el onboarding:', err);
         this.router.navigate(['/dashboard']);
       }
     });
   }
-}
-
-
-export interface OnboardingStep {
-  id: number;
-  label: string;
 }

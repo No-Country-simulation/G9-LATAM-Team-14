@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
-import { Movement, CreateMovementRequest, ConfirmMovementRequest } from '../models/movement.model';
+import { Movement, CreateMovementRequest, ConfirmMovementRequest, AiClassificationSuggestion } from '../models/movement.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class MovementService {
     });
   }
 
-  classifyMovement(movement: CreateMovementRequest): Observable<import('../models/movement.model').AiClassificationSuggestion> {
-    return this.http.post<import('../models/movement.model').AiClassificationSuggestion>(`${this.apiUrl}/classify`, movement, {
+  classifyMovement(movement: CreateMovementRequest): Observable<AiClassificationSuggestion> {
+    return this.http.post<AiClassificationSuggestion>(`${this.apiUrl}/classify`, movement, {
       withCredentials: true
     });
   }

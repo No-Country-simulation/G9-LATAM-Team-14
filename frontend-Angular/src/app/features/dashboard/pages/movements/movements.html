@@ -26,7 +26,6 @@
 
 </div>
 
-<!-- Modal de Nuevo Movimiento -->
 @if (isModalOpen()) {
 <app-movement-modal (close)="closeModal()" (save)="loadMovements(); closeModal()"></app-movement-modal>
 }

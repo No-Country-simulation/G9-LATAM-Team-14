@@ -1,4 +1,3 @@
-/** DTO para la respuesta del login. */
 package com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos;
 public record AuthResponse(
         String token,
@@ -9,7 +8,8 @@ public record AuthResponse(
     public record UserInfo(
             Integer id,
             String email,
-            String nombreUsuario
+            String nombreUsuario,
+            Boolean onboardingCompleted
     ) {
     }
 }

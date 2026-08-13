@@ -36,11 +36,18 @@
             <div class="text-right shrink-0">
                 <span class="text-xs font-bold text-[#6E8870] block">Finalidad sugerida</span>
                 <span class="text-xs font-bold text-[#214523]">
-                    {{ suggestedPurpose }}
+                    {{ isLoading ? 'Analizando...' : suggestedPurpose }}
                 </span>
             </div>
         </div>
 
+        @if (isLoading) {
+        <div class="flex flex-col items-center justify-center p-8 gap-3 text-center">
+            <div class="w-8 h-8 border-3 border-[#2A4B2D] border-t-transparent rounded-full animate-spin"></div>
+            <p class="text-sm font-bold text-[#214523]">Analizando categoría con el modelo de IA...</p>
+            <p class="text-xs text-[#4E6750]">Evaluando regularidad y propósito financiero</p>
+        </div>
+        } @else {
         <!-- Categorías -->
         <div class="flex flex-col gap-2">
             <h3 class="text-sm font-bold text-[#214523]">Selecciona la categoría correcta</h3>
@@ -68,26 +75,26 @@
                 <span class="text-xs font-bold text-[#526655]">Sugerencia: Variable</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button type="button" (click)="selectRegularity('Fijo')"
-                    [class.bg-[#E4ECBA]]="selectedRegularity === 'Fijo'"
-                    [class.border-[#3E5741]]="selectedRegularity === 'Fijo'"
-                    [class.ring-2]="selectedRegularity === 'Fijo'"
-                    [class.ring-[#3E5741]/20]="selectedRegularity === 'Fijo'"
-                    [class.bg-white/80]="selectedRegularity !== 'Fijo'"
-                    [class.border-[#C9DAA7]]="selectedRegularity !== 'Fijo'"
+                <button type="button" (click)="selectRegularity('fijo')"
+                    [class.bg-[#E4ECBA]]="selectedRegularity.toLowerCase() === 'fijo'"
+                    [class.border-[#3E5741]]="selectedRegularity.toLowerCase() === 'fijo'"
+                    [class.ring-2]="selectedRegularity.toLowerCase() === 'fijo'"
+                    [class.ring-[#3E5741]/20]="selectedRegularity.toLowerCase() === 'fijo'"
+                    [class.bg-white/80]="selectedRegularity.toLowerCase() !== 'fijo'"
+                    [class.border-[#C9DAA7]]="selectedRegularity.toLowerCase() !== 'fijo'"
                     class="flex flex-col p-3 rounded-2xl border transition-all cursor-pointer hover:border-[#4A634E] shadow-xs text-left">
                     <span class="text-xs font-bold text-[#214523]">Fijo</span>
                     <span class="text-xs text-[#526655] mt-0.5 font-normal leading-snug">
                         Se repite periódicamente o corresponde a un compromiso habitual.
                     </span>
                 </button>
-                <button type="button" (click)="selectRegularity('Variable')"
-                    [class.bg-[#E4ECBA]]="selectedRegularity === 'Variable'"
-                    [class.border-[#3E5741]]="selectedRegularity === 'Variable'"
-                    [class.ring-2]="selectedRegularity === 'Variable'"
-                    [class.ring-[#3E5741]/20]="selectedRegularity === 'Variable'"
-                    [class.bg-white/80]="selectedRegularity !== 'Variable'"
-                    [class.border-[#C9DAA7]]="selectedRegularity !== 'Variable'"
+                <button type="button" (click)="selectRegularity('variable')"
+                    [class.bg-[#E4ECBA]]="selectedRegularity.toLowerCase() === 'variable'"
+                    [class.border-[#3E5741]]="selectedRegularity.toLowerCase() === 'variable'"
+                    [class.ring-2]="selectedRegularity.toLowerCase() === 'variable'"
+                    [class.ring-[#3E5741]/20]="selectedRegularity.toLowerCase() === 'variable'"
+                    [class.bg-white/80]="selectedRegularity.toLowerCase() !== 'variable'"
+                    [class.border-[#C9DAA7]]="selectedRegularity.toLowerCase() !== 'variable'"
                     class="flex flex-col p-3 rounded-2xl border transition-all cursor-pointer hover:border-[#4A634E] shadow-xs text-left">
                     <span class="text-xs font-bold text-[#214523]">Variable</span>
                     <span class="text-xs text-[#526655] mt-0.5 font-normal leading-snug">
@@ -102,6 +109,7 @@
             class="w-full mt-2 bg-[#2A4B2D] hover:bg-[#1E3820] text-white py-3.5 rounded-2xl font-bold text-sm transition-all duration-200 cursor-pointer active:scale-[0.99]">
             Confirmar clasificación
         </button>
+        }
     </div>
 </div>
 }

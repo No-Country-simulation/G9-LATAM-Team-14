@@ -50,13 +50,13 @@ export class StepAboutComponent {
     'Sin ingresos'
   ];
 
-  selectedHabit = signal<string>('Nunca');
+  selectedHabit = this.onboardingService.savingHabit;
 
   habitOptions: HabitOption[] = [
-    { id: 'Nunca', label: 'Nunca', icon: 'x-circle' },
-    { id: 'Baja', label: 'Baja', icon: 'sprout' },
-    { id: 'Media', label: 'Media', icon: 'pot' },
-    { id: 'Alta', label: 'Alta', icon: 'forest' }
+    { id: 'nunca', label: 'Nunca', icon: 'x-circle' },
+    { id: 'baja', label: 'Baja', icon: 'sprout' },
+    { id: 'media', label: 'Media', icon: 'pot' },
+    { id: 'alta', label: 'Alta', icon: 'forest' }
   ];
 
   selectHabit(id: string) {

@@ -16,6 +16,7 @@ export interface UserInfo {
     id: number;
     email: string;
     nombreUsuario: string;
+    onboardingCompleted?: boolean;
 }
 
 export interface AuthResponse {

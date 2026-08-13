@@ -37,7 +37,6 @@ export class AddDebtModalComponent {
   debtToEdit = input<Debt | null>(null);
   closeModal = output<void>();
   addDebt = output<NewDebtPayload>();
-
   installmentCategory = signal<string>('Crédito personal');
   installmentTotalAmount = signal<number>(6000);
   fixedTermMonths = signal<number>(12);

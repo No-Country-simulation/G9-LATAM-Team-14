@@ -15,4 +15,5 @@ public class User {
     private final Float ingresoMensual;
     private final String frecuenciaAhorro;
     private final LocalDate fechaRegistro;
+    private final Boolean onboardingCompleted;
 }

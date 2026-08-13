@@ -54,6 +54,10 @@ export class AuthService {
     );
   }
 
+  setCurrentUser(user: UserInfo | null): void {
+    this._currentUser.set(user);
+  }
+
   private setUserFromResponse(response: AuthResponse | null): void {
     if (!response) {
       this._currentUser.set(null);

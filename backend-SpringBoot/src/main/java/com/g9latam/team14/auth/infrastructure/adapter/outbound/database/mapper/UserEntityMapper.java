@@ -1,7 +1,3 @@
-/**
- * Traduce la tabla de la base de datos (UserEntity) a nuestro modelo puro de Java (User).
- * Sirve para que el resto del sistema no tenga que lidiar con clases de la base de datos.
- */
 package com.g9latam.team14.auth.infrastructure.adapter.outbound.database.mapper;
 import com.g9latam.team14.auth.domain.model.User;
 import com.g9latam.team14.auth.infrastructure.adapter.outbound.database.UserEntity;
@@ -19,6 +15,7 @@ public class UserEntityMapper {
                 .ingresoMensual(entity.getIngresoMensual())
                 .frecuenciaAhorro(entity.getFrecuenciaAhorro())
                 .fechaRegistro(entity.getFechaRegistro())
+                .onboardingCompleted(entity.getOnboardingCompleted() != null ? entity.getOnboardingCompleted() : false)
                 .build();
     }
 
@@ -32,6 +29,7 @@ public class UserEntityMapper {
                 .ingresoMensual(domain.getIngresoMensual())
                 .frecuenciaAhorro(domain.getFrecuenciaAhorro())
                 .fechaRegistro(domain.getFechaRegistro())
+                .onboardingCompleted(domain.getOnboardingCompleted() != null ? domain.getOnboardingCompleted() : false)
                 .build();
     }
 }

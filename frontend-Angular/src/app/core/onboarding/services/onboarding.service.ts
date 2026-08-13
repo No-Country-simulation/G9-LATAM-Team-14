@@ -1,12 +1,23 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '@environments/environment';
-import { Debt, SingleDebtItemRequest, CreateBatchDebtsRequest } from '@core/debts/models/debt.model';
+import { SingleDebtItemRequest } from '@core/debts/models/debt.model';
 
 export interface SecondaryIncome {
   activity: string;
   modality: string;
+}
+
+export interface CompleteOnboardingRequest {
+  monthlyNetIncome: number;
+  primaryActivity: string;
+  primaryIncomeModality: string;
+  nextGoal: string;
+  debts: { category: string; amount: number }[];
+  hobbies: string[];
+  financialResponsibility: string;
+  savingHabit: string;
 }
 
 @Injectable({
@@ -14,38 +25,42 @@ export interface SecondaryIncome {
 })
 export class OnboardingService {
   private http = inject(HttpClient);
-  private onboardingDebtsUrl = `${environment.apiUrl}/v1/onboarding/debts`;
-
+  private onboardingCompleteUrl = `${environment.apiUrl}/v1/onboarding/complete`;
   onboardingIncome = signal<number | null>(null);
   primaryActivity = signal<string>('');
   primaryModality = signal<string>('');
   secondaryIncomes = signal<SecondaryIncome[]>([]);
-
+  nextGoal = signal<string>('');
   primaryGoal = signal<string>('');
   hobbies = signal<string>('');
   workSupport = signal<string>('');
   hobbiesList = signal<string[]>([]);
   workSupportList = signal<string[]>([]);
-
   onboardingDebts = signal<SingleDebtItemRequest[]>([
     { category: '', amount: null }
   ]);
-
-  saveOnboardingDebtsToBackend(userId: number = 1): Observable<Debt[]> {
+  savingHabit = signal<string>('media');
+  saveOnboardingData(): Observable<any> {
+    const income = this.onboardingIncome() || 0;
+    const activity = this.primaryActivity() || '';
+    const modality = this.primaryModality() || 'fijo';
+    const goal = this.nextGoal() || this.primaryGoal() || '';
     const validDebts = this.onboardingDebts()
       .filter(d => d.category && d.amount && d.amount > 0)
-      .map(d => ({ category: d.category, amount: d.amount }));
-
-    if (validDebts.length === 0) {
-      return of([]);
-    }
-
-    const request: CreateBatchDebtsRequest = {
-      userId,
-      debts: validDebts
+      .map(d => ({ category: d.category, amount: d.amount! }));
+    const hobbies = this.hobbiesList();
+    const financialResponsibility = this.workSupportList().join(', ');
+    const payload: CompleteOnboardingRequest = {
+      monthlyNetIncome: income,
+      primaryActivity: activity,
+      primaryIncomeModality: modality,
+      nextGoal: goal,
+      debts: validDebts,
+      hobbies,
+      financialResponsibility,
+      savingHabit: this.savingHabit() || 'media'
     };
 
-    return this.http.post<Debt[]>(this.onboardingDebtsUrl, request, { withCredentials: true });
+    return this.http.post(this.onboardingCompleteUrl, payload, { withCredentials: true });
   }
 }
-

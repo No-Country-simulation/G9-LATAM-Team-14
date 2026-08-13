@@ -40,6 +40,7 @@ export class MovementModalComponent {
   };
 
   showAiModal = false;
+  isLoadingAi = false;
   isSubmitting = false;
   createdMovementId: number | null = null;
   modelSuggestion?: AiSuggestion;
@@ -94,20 +95,25 @@ export class MovementModalComponent {
       userId
     };
 
-    // First request a classification suggestion without persisting
+    // Open AI modal IMMEDIATELY for 0ms visual delay, displaying a loading skeleton inside the modal
     this.pendingCreatePayload = payload;
+    this.modelSuggestion = undefined;
+    this.isLoadingAi = true;
+    this.showAiModal = true;
+    this.cdr.detectChanges();
+
     this.movementService.classifyMovement(payload).subscribe({
       next: (suggestion) => {
         this.isSubmitting = false;
+        this.isLoadingAi = false;
         this.modelSuggestion = suggestion as AiSuggestion;
-        this.showAiModal = true;
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error pidiendo sugerencia al backend:', err);
         this.isSubmitting = false;
+        this.isLoadingAi = false;
         this.modelSuggestion = undefined;
-        this.showAiModal = true;
         this.cdr.detectChanges();
       }
     });
@@ -115,6 +121,8 @@ export class MovementModalComponent {
 
 
   confirmAiClassification(aiData: { category: string; regularity: string }): void {
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
     this.showAiModal = false;
 
     const payloadToSave = this.pendingCreatePayload
@@ -136,6 +144,7 @@ export class MovementModalComponent {
       },
       error: (err) => {
         console.error('Error al guardar movimiento tras confirmar clasificación:', err);
+        this.isSubmitting = false;
         this.save.emit();
         this.closeModal();
       }

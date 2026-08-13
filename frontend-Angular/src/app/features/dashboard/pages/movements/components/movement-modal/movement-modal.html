@@ -138,7 +138,7 @@
     </div>
   </div>
 
-  <app-ai-classification-modal [isOpen]="showAiModal" [description]="movement.description || movement.note || 'Nuevo movimiento'" [amount]="movement.amount"
+  <app-ai-classification-modal [isOpen]="showAiModal" [isLoading]="isLoadingAi" [description]="movement.description || movement.note || 'Nuevo movimiento'" [amount]="movement.amount"
     [type]="movement.type === 'INGRESO' ? 'INGRESO' : 'EGRESO'" [suggestion]="modelSuggestion"
     (confirm)="confirmAiClassification($event)" (close)="closeAiModal()" />
 
