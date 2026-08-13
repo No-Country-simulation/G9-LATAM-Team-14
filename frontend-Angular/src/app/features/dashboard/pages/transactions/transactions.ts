@@ -49,6 +49,7 @@ interface FinancialTransaction {
   modelTopCategories?: CategoryPercentage[] | null;
   modelPurpose?: string | null;
   modelRegularity?: string | null;
+  modelRegularityConfidencePercentage?: number | null;
   modelRequiresConfirmation?: boolean | null;
   currentCategories?: CategoryPercentage[] | null;
   currentPurpose?: string | null;
@@ -85,6 +86,7 @@ export class Transactions {
 
   readonly isLoading = signal(true);
   readonly errorMessage = signal('');
+  readonly successMessage = signal('');
   readonly transactions = signal<FinancialTransaction[]>([]);
 
   readonly searchTerm = signal('');
@@ -107,6 +109,7 @@ export class Transactions {
   readonly classification = signal<FinancialTransaction | null>(null);
   readonly confirmation = signal<FinancialTransaction | null>(null);
   readonly selectedCategory = signal('');
+  readonly selectedPurpose = signal('');
   readonly selectedRegularity = signal('');
   readonly selectedDebtId = signal<number | null>(null);
   readonly debts = signal<Debt[]>([]);
@@ -261,7 +264,10 @@ export class Transactions {
   }
 
   canCloseModal(): boolean {
-    return this.modalStep() === 'form' || this.modalStep() === 'success' || this.modalStep() === 'confirmation';
+    return this.modalStep() === 'form'
+      || this.modalStep() === 'success'
+      || this.modalStep() === 'confirmation'
+      || this.modalStep() === 'classification-error';
   }
 
   registerMovement(): void {
@@ -301,6 +307,7 @@ export class Transactions {
     if (status !== 'pending_classification' && status !== 'awaiting_confirmation') return;
 
     this.showNewMovementModal.set(true);
+    this.successMessage.set('');
     this.modalError.set('');
     this.createdTransaction.set(transaction);
 
@@ -310,8 +317,9 @@ export class Transactions {
     }
 
     this.classification.set(transaction);
-    this.selectedCategory.set(this.category(transaction));
-    this.selectedRegularity.set(this.modelRegularity(transaction) || 'variable');
+    this.selectedCategory.set(this.suggestedCategory(transaction) || this.category(transaction));
+    this.selectedPurpose.set(this.suggestedPurpose(transaction) || 'consumo_personal');
+    this.selectedRegularity.set(this.suggestedRegularity(transaction) || 'variable');
     this.modalStep.set('confirmation');
     if (this.isDebtCategory(this.selectedCategory())) {
       this.loadDebts();
@@ -340,14 +348,64 @@ export class Transactions {
     this.selectedRegularity.set(regularity);
   }
 
+  setPurpose(value: string): void {
+    this.selectedPurpose.set(value);
+  }
+
+  canClassifyWithIA(transaction: FinancialTransaction): boolean {
+    return this.normalizedStatus(transaction.status) === 'pending_classification';
+  }
+
+  canReviewClassification(transaction: FinancialTransaction): boolean {
+    return this.normalizedStatus(transaction.status) === 'awaiting_confirmation';
+  }
+
+  regularityConfidence(transaction: FinancialTransaction): number | null {
+    if (transaction.modelRegularityConfidencePercentage != null) {
+      return Number(transaction.modelRegularityConfidencePercentage);
+    }
+    const value = transaction.model_suggestion?.regularity_confidence_percentage;
+    return value == null ? null : Number(value);
+  }
+
+  requiresReview(transaction: FinancialTransaction): boolean | null {
+    if (transaction.modelRequiresConfirmation != null) {
+      return Boolean(transaction.modelRequiresConfirmation);
+    }
+    if (transaction.model_suggestion?.model_requires_review != null) {
+      return Boolean(transaction.model_suggestion.model_requires_review);
+    }
+    return null;
+  }
+
+  suggestedCategory(transaction: FinancialTransaction): string | null {
+    return transaction.modelCategory
+      ?? transaction.model_suggestion?.category
+      ?? null;
+  }
+
+  suggestedPurpose(transaction: FinancialTransaction): string | null {
+    return transaction.modelPurpose
+      ?? transaction.model_suggestion?.purpose
+      ?? null;
+  }
+
+  suggestedRegularity(transaction: FinancialTransaction): string | null {
+    const value =
+      transaction.modelRegularity
+      ?? transaction.model_suggestion?.regularity
+      ?? null;
+    return value ? value.toLowerCase() : null;
+  }
+
   confirmClassification(): void {
     const tx = this.classification();
     const category = this.selectedCategory().trim();
+    const purpose = this.selectedPurpose().trim();
     const regularity = this.selectedRegularity().trim();
-    const purpose = this.modelPurpose(tx) || 'consumo_personal';
 
-    if (!tx || !category || !regularity) {
-      this.modalError.set('Selecciona categoría y regularidad para confirmar.');
+    if (!tx || !category || !purpose || !regularity) {
+      this.modalError.set('Selecciona categoría, propósito y regularidad para confirmar.');
       return;
     }
 
@@ -365,7 +423,10 @@ export class Transactions {
       .subscribe({
         next: (response) => {
           this.confirmation.set(response);
+          this.successMessage.set('Clasificación confirmada correctamente.');
+          this.showNewMovementModal.set(false);
           this.modalStep.set('success');
+          this.resetModal();
           this.loadTransactions();
         },
         error: (error: HttpErrorResponse) => {
@@ -509,6 +570,12 @@ export class Transactions {
     return this.dateFormatter(new Date(parts[0], parts[1] - 1, parts[2]));
   }
 
+  readableValue(value: string | null | undefined): string {
+    if (!value) return '—';
+    const readable = value.split('_').join(' ');
+    return readable.charAt(0).toUpperCase() + readable.slice(1);
+  }
+
   confidence(transaction: FinancialTransaction): number | null {
     const value = this.modelConfidence(transaction);
     return value == null ? null : Math.max(0, Math.min(100, Math.round(value)));
@@ -584,8 +651,9 @@ export class Transactions {
       .subscribe({
         next: (response) => {
           this.classification.set(response);
-          this.selectedCategory.set(this.category(response));
-          this.selectedRegularity.set(this.modelRegularity(response) || 'variable');
+          this.selectedCategory.set(this.suggestedCategory(response) || this.category(response));
+          this.selectedPurpose.set(this.suggestedPurpose(response) || 'consumo_personal');
+          this.selectedRegularity.set(this.suggestedRegularity(response) || 'variable');
           this.modalStep.set('confirmation');
           if (this.isDebtCategory(this.selectedCategory())) {
             this.loadDebts();
@@ -619,6 +687,7 @@ export class Transactions {
     this.classification.set(null);
     this.confirmation.set(null);
     this.selectedCategory.set('');
+    this.selectedPurpose.set('');
     this.selectedRegularity.set('');
     this.selectedDebtId.set(null);
     this.debts.set([]);
@@ -677,8 +746,34 @@ export class Transactions {
     return direction?.toLowerCase() === 'entrada' ? 'entrada' : 'salida';
   }
 
-  private normalizedStatus(status?: string | null): string {
-    return String(status ?? '').toLowerCase();
+  private normalizedStatus(status?: unknown): string {
+    if (status == null) return '';
+
+    let raw = '';
+    if (typeof status === 'object') {
+      const record = status as Record<string, unknown>;
+      if (typeof record['value'] === 'string') {
+        raw = record['value'];
+      } else if (typeof record['name'] === 'string') {
+        raw = record['name'];
+      } else {
+        raw = String(status);
+      }
+    } else {
+      raw = String(status);
+    }
+
+    const normalized = raw.trim().toLowerCase().replace(/[\s-]+/g, '_');
+    if (normalized.includes('pending') && normalized.includes('classification')) {
+      return 'pending_classification';
+    }
+    if (normalized.includes('awaiting') && normalized.includes('confirmation')) {
+      return 'awaiting_confirmation';
+    }
+    if (normalized.includes('confirm')) {
+      return 'confirmed';
+    }
+    return normalized;
   }
 
   private isDebtCategory(category: string): boolean {
