@@ -257,9 +257,7 @@
                 (dblclick)="classifyFromTable(transaction)">
                 <td class="px-6 py-4">
                   <div class="flex items-center gap-3">
-                    <svg class="h-5 w-5 text-[#425942]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path [attr.d]="iconPath(transactionIcon(transaction))" stroke-linecap="round" stroke-linejoin="round"></path>
-                    </svg>
+                    <app-icon-fin-coach [name]="transactionIcon(transaction)" class="w-5 h-5 text-[#425942]" />
                     <div>
                       <span class="font-semibold text-[#1a1d07]">{{ transaction.description }}</span>
                       <p class="text-xs mt-1 text-[#434841]">{{ statusLabel(transaction) }}</p>

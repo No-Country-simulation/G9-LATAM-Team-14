@@ -8,6 +8,7 @@ import { environment } from '@environments/environment';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { DebtService } from '@app/core/debts/services/debt.service';
 import { Debt } from '@app/core/debts/models/debt.model';
+import { IconFinCoachComponent, type IconName } from '@shared/icons/iconsFinCoach';
 
 type MovementDirection = 'entrada' | 'salida';
 type ModalStep =
@@ -66,7 +67,7 @@ interface ConfirmTransactionRequest {
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, IconFinCoachComponent],
   templateUrl: './transactions.html',
 })
 export class Transactions {
@@ -542,16 +543,24 @@ export class Transactions {
     return value > 0 ? Math.max(10, Math.round((value / max) * 100)) : 0;
   }
 
-  transactionIcon(transaction: FinancialTransaction): string {
+  transactionIcon(transaction: FinancialTransaction): IconName {
     const type = this.normalizedDirection(transaction.direction);
-    if (type === 'entrada') return 'payments';
-    const category = this.category(transaction).toLowerCase();
-    if (category.includes('aliment')) return 'shopping_cart';
-    if (category.includes('transport')) return 'directions_car';
-    if (category.includes('servic')) return 'bolt';
-    if (category.includes('ocio')) return 'sports_esports';
-    if (category.includes('salud')) return 'medical_services';
-    return 'payments';
+    const category = this.normalizedCategoryKey(this.category(transaction));
+
+    if (category.includes('ALIMENT')) return 'pot';
+    if (category.includes('TRANSPORT')) return 'car';
+    if (category.includes('SALUD')) return 'shield-heart';
+    if (category.includes('ENTRETEN') || category.includes('OCIO')) return 'forest';
+    if (category.includes('EDUC')) return 'graduation';
+    if (category.includes('HOGAR')) return 'home';
+    if (category.includes('SERVIC')) return 'settings';
+    if (category.includes('COMPRA') || category.includes('VENTA')) return 'transactions';
+    if (category.includes('SALARIO') || category.includes('FREELANCE')) return 'briefcase';
+    if (category.includes('INVERSION') || category.includes('INTERES')) return 'evolution';
+    if (category.includes('BONO') || category.includes('REGALO')) return 'plus';
+    if (category.includes('OTRO')) return 'movements';
+
+    return type === 'entrada' ? 'arrow-up' : 'arrow-down';
   }
 
   formatAmount(transaction: FinancialTransaction): string {
@@ -650,10 +659,19 @@ export class Transactions {
       .post<FinancialTransaction>(`${this.apiUrl}/${transactionId}/classify`, null, { withCredentials: true })
       .subscribe({
         next: (response) => {
-          this.classification.set(response);
-          this.selectedCategory.set(this.suggestedCategory(response) || this.category(response));
-          this.selectedPurpose.set(this.suggestedPurpose(response) || 'consumo_personal');
-          this.selectedRegularity.set(this.suggestedRegularity(response) || 'variable');
+          const classified: FinancialTransaction = {
+            ...response,
+            status:
+              this.normalizedStatus(response.status) === 'pending_classification'
+                ? 'awaiting_confirmation'
+                : (response.status ?? 'awaiting_confirmation'),
+          };
+
+          this.classification.set(classified);
+          this.replaceTransactionInList(classified);
+          this.selectedCategory.set(this.suggestedCategory(classified) || this.category(classified));
+          this.selectedPurpose.set(this.suggestedPurpose(classified) || 'consumo_personal');
+          this.selectedRegularity.set(this.suggestedRegularity(classified) || 'variable');
           this.modalStep.set('confirmation');
           if (this.isDebtCategory(this.selectedCategory())) {
             this.loadDebts();
@@ -665,6 +683,12 @@ export class Transactions {
           this.modalError.set(this.modalErrorMessage(error));
         },
       });
+  }
+
+  private replaceTransactionInList(transaction: FinancialTransaction): void {
+    this.transactions.update((items) =>
+      items.map((item) => (item.id === transaction.id ? { ...item, ...transaction } : item)),
+    );
   }
 
   private loadDebts(): void {
@@ -801,6 +825,13 @@ export class Transactions {
 
   private shortDate(date: Date): string {
     return new Intl.DateTimeFormat('es-PE', { day: '2-digit', month: 'short' }).format(date);
+  }
+
+  private normalizedCategoryKey(value: string): string {
+    return value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toUpperCase();
   }
 
   private shortDateFromIso(value: string): string {
