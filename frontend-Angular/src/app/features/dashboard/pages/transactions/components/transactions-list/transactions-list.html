@@ -1,0 +1,194 @@
+<div class="bg-[#f3f7d2] rounded-xl border border-[#c3c8bf] overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-left border-collapse">
+      <thead>
+        <tr class="border-b border-[#c3c8bf]">
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841]">Descripción</th>
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841] text-center">
+            <div class="relative inline-flex items-center">
+              <select
+                class="appearance-none bg-transparent pr-5 text-xs uppercase tracking-widest text-[#434841] border-none focus:ring-0"
+                [value]="selectedCategoryFilter"
+                (change)="categoryFilterChange.emit($any($event.target).value)">
+                <option value="Todas">Categoría</option>
+                <option value="Alimentación">Alimentación</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Servicios">Servicios</option>
+                <option value="Ocio">Ocio</option>
+                <option value="Salud">Salud</option>
+                <option value="Otros">Otros</option>
+              </select>
+              <svg class="pointer-events-none absolute right-0 h-3 w-3 rotate-90 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path [attr.d]="iconPath('chevron_right')" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841] text-center">
+            <div class="relative inline-flex items-center">
+              <select
+                class="appearance-none bg-transparent pr-5 text-xs uppercase tracking-widest text-[#434841] border-none focus:ring-0"
+                [value]="selectedType"
+                (change)="typeFilterChange.emit($any($event.target).value)">
+                <option value="Todos">Tipo</option>
+                <option value="entrada">Ingreso</option>
+                <option value="salida">Gasto</option>
+              </select>
+              <svg class="pointer-events-none absolute right-0 h-3 w-3 rotate-90 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path [attr.d]="iconPath('chevron_right')" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841] text-right">
+            <div class="relative inline-flex items-center">
+              <select
+                class="appearance-none bg-transparent pr-5 text-xs uppercase tracking-widest text-[#434841] border-none focus:ring-0"
+                [value]="selectedValueOrder"
+                (change)="valueOrderChange.emit($any($event.target).value)">
+                <option value="desc">Valor</option>
+                <option value="desc">Mayor a menor</option>
+                <option value="asc">Menor a mayor</option>
+              </select>
+              <svg class="pointer-events-none absolute right-0 h-3 w-3 rotate-90 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path [attr.d]="iconPath('chevron_right')" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+          </th>
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841] text-center">Confianza</th>
+          <th class="px-6 py-4 text-xs uppercase tracking-widest text-[#434841] text-right">
+            <div class="relative inline-flex items-center">
+              <select
+                class="appearance-none bg-transparent pr-5 text-xs uppercase tracking-widest text-[#434841] border-none focus:ring-0"
+                [value]="selectedDateOrder"
+                (change)="dateOrderChange.emit($any($event.target).value)">
+                <option value="desc">Fecha</option>
+                <option value="desc">Más reciente</option>
+                <option value="asc">Más antigua</option>
+              </select>
+              <svg class="pointer-events-none absolute right-0 h-3 w-3 rotate-90 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path [attr.d]="iconPath('chevron_right')" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-[#c3c8bf]/30">
+        @if (isLoading) {
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center text-[#434841]">Cargando transacciones...</td>
+          </tr>
+        } @else if (filteredCount === 0) {
+          <tr>
+            <td colspan="6" class="px-6 py-12 text-center text-[#434841]">No hay transacciones para mostrar.</td>
+          </tr>
+        } @else {
+          @for (row of rows; track row.id) {
+            <tr
+              class="hover:bg-[#e7ebc7]/50 transition-colors"
+              (dblclick)="classify.emit(row.raw)">
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <div class="rounded-xl bg-[#EEF2D2] flex items-center justify-center text-lg leading-none shrink-0" style="width:2.75rem;height:2.75rem;">
+                    {{ movementGlyph(row) }}
+                  </div>
+                  <div>
+                    <span class="font-semibold text-[#1a1d07]">{{ row.description }}</span>
+                    <p class="text-xs mt-1 text-[#434841]">{{ row.statusLabel }}</p>
+                    @if (row.canClassifyWithIA) {
+                      <button
+                        type="button"
+                        (click)="classify.emit(row.raw)"
+                        class="mt-2 rounded-md bg-[#425942] px-2.5 py-1 text-[11px] font-semibold text-white hover:bg-[#5a7259]">
+                        Clasificar con IA
+                      </button>
+                    } @else if (row.canReviewClassification) {
+                      <button
+                        type="button"
+                        (click)="classify.emit(row.raw)"
+                        class="mt-2 rounded-md border border-[#c3c8bf] bg-[#edf1cd] px-2.5 py-1 text-[11px] font-semibold text-[#315D36]">
+                        Revisar IA
+                      </button>
+                    }
+                  </div>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 text-center">
+                <span class="px-3 py-1 rounded-full bg-[#cfeacb]/60 text-[#364c36] text-xs uppercase">
+                  {{ row.category }}
+                </span>
+              </td>
+
+              <td class="px-6 py-4 text-center text-[#434841]">
+                {{ row.directionLabel }}
+              </td>
+
+              <td
+                class="px-6 py-4 text-right font-semibold"
+                [class.text-[#425942]]="row.isEntrada"
+                [class.text-[#1a1d07]]="!row.isEntrada">
+                {{ row.amountLabel }}
+              </td>
+
+              <td class="px-6 py-4">
+                @if (row.confidence != null) {
+                  <div class="flex items-center justify-center gap-2">
+                    <div class="w-16 h-1.5 rounded-full bg-[#e1e6c2]">
+                      <div class="h-full rounded-full bg-[#425942]" [style.width.%]="row.confidence"></div>
+                    </div>
+                    <span class="text-xs text-[#434841]">{{ row.confidence }}%</span>
+                  </div>
+                } @else {
+                  <span class="text-[#434841]">—</span>
+                }
+              </td>
+
+              <td class="px-6 py-4 text-right text-[#434841]">
+                {{ row.dateLabel }}
+              </td>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="px-6 py-4 flex items-center justify-between border-t border-[#c3c8bf]">
+    <p class="text-sm text-[#434841]">
+      Mostrando {{ rows.length }} de {{ filteredCount }}
+    </p>
+
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="previousPage.emit()"
+        [disabled]="currentPage === 1"
+        class="p-2 rounded-lg hover:bg-[#e7ebc7] disabled:opacity-30">
+        <svg class="h-5 w-5 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path [attr.d]="iconPath('chevron_left')" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+
+      @for (page of pageNumbers; track page) {
+        <button
+          type="button"
+          (click)="goToPage.emit(page)"
+          class="w-8 h-8 rounded-lg flex items-center justify-center"
+          [class.bg-[#425942]]="currentPage === page"
+          [class.text-white]="currentPage === page">
+          {{ page }}
+        </button>
+      }
+
+      <button
+        type="button"
+        (click)="nextPage.emit()"
+        [disabled]="currentPage === totalPages"
+        class="p-2 rounded-lg hover:bg-[#e7ebc7] disabled:opacity-30">
+        <svg class="h-5 w-5 text-[#434841]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path [attr.d]="iconPath('chevron_right')" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

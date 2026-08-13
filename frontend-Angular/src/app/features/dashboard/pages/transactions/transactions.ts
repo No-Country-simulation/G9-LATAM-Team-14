@@ -8,7 +8,11 @@ import { environment } from '@environments/environment';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { DebtService } from '@app/core/debts/services/debt.service';
 import { Debt } from '@app/core/debts/models/debt.model';
-import { IconFinCoachComponent, type IconName } from '@shared/icons/iconsFinCoach';
+import { type IconName } from '@shared/icons/iconsFinCoach';
+import { TransactionsHeaderComponent } from './components/transactions-header/transactions-header';
+import { TransactionsSummaryCardsComponent } from './components/transactions-summary-cards/transactions-summary-cards';
+import { TransactionsListComponent } from './components/transactions-list/transactions-list';
+import { TransactionClassificationModalComponent } from './components/transaction-classification-modal/transaction-classification-modal';
 
 type MovementDirection = 'entrada' | 'salida';
 type ModalStep =
@@ -67,7 +71,14 @@ interface ConfirmTransactionRequest {
 @Component({
   selector: 'app-transactions',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconFinCoachComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TransactionsHeaderComponent,
+    TransactionsSummaryCardsComponent,
+    TransactionsListComponent,
+    TransactionClassificationModalComponent,
+  ],
   templateUrl: './transactions.html',
 })
 export class Transactions {
@@ -202,6 +213,35 @@ export class Transactions {
     const start = (this.currentPage() - 1) * this.pageSize;
     return this.filteredTransactions().slice(start, start + this.pageSize);
   });
+
+  readonly paginatedTransactionRows = computed(() =>
+    this.paginatedTransactions().map((transaction) => ({
+      raw: transaction,
+      id: transaction.id,
+      description: transaction.description,
+      statusLabel: this.statusLabel(transaction),
+      canClassifyWithIA: this.canClassifyWithIA(transaction),
+      canReviewClassification: this.canReviewClassification(transaction),
+      category: this.category(transaction),
+      directionLabel: transaction.direction.toLowerCase() === 'entrada' ? 'Ingreso' : 'Gasto',
+      isEntrada: transaction.direction.toLowerCase() === 'entrada',
+      amountLabel: this.formatAmount(transaction),
+      confidence: this.confidence(transaction),
+      dateLabel: this.formatDate(transaction.transactionDate || transaction.transaction_date || ''),
+      iconName: this.transactionIcon(transaction),
+      iconGlyph: this.movementIconGlyph(transaction),
+    })),
+  );
+
+  readonly modalDebtOptions = computed(() =>
+    this.debts()
+      .filter((debt): debt is Debt & { id: number } => typeof debt.id === 'number')
+      .map((debt) => ({
+        ...debt,
+        id: debt.id,
+        monthlyAmountLabel: this.formatCurrency(debt.monthlyAmount),
+      })),
+  );
 
   readonly classificationOptions = computed<CategoryPercentage[]>(() => {
     const tx = this.classification();
@@ -498,6 +538,18 @@ export class Transactions {
     this.tempEndDateFilter.set(null);
   }
 
+  onTempStartDateChange(value: string | null): void {
+    this.tempStartDateFilter.set(value);
+  }
+
+  onTempEndDateChange(value: string | null): void {
+    this.tempEndDateFilter.set(value);
+  }
+
+  onClassifyFromList(transaction: FinancialTransaction): void {
+    this.classifyFromTable(transaction);
+  }
+
   dateRangeLabel(): string {
     const start = this.startDateFilter();
     const end = this.endDateFilter();
@@ -546,6 +598,12 @@ export class Transactions {
   transactionIcon(transaction: FinancialTransaction): IconName {
     const type = this.normalizedDirection(transaction.direction);
     const category = this.normalizedCategoryKey(this.category(transaction));
+    const description = this.normalizedCategoryKey(transaction.description || '');
+
+    if (description.includes('SUPERMERC') || description.includes('MERCADO')) return 'pot';
+    if (description.includes('COMPRA')) return 'transactions';
+    if (description.includes('CONSULTA') || description.includes('MEDIC') || description.includes('SALUD')) return 'shield-heart';
+    if (description.includes('TRANSP') || description.includes('TAXI') || description.includes('BUS')) return 'car';
 
     if (category.includes('ALIMENT')) return 'pot';
     if (category.includes('TRANSPORT')) return 'car';
@@ -561,6 +619,51 @@ export class Transactions {
     if (category.includes('OTRO')) return 'movements';
 
     return type === 'entrada' ? 'arrow-up' : 'arrow-down';
+  }
+
+  private movementIconGlyph(transaction: FinancialTransaction): string {
+    const bucket = this.movementIconBucket(transaction);
+    switch (bucket) {
+      case 'ALIMENTOS': return '🍴';
+      case 'TRANSPORTE': return '🚌';
+      case 'SALUD': return '💊';
+      case 'ENTRETENIMIENTO': return '🎮';
+      case 'EDUCACION': return '📚';
+      case 'HOGAR': return '🏠';
+      case 'SERVICIOS': return '💡';
+      case 'COMPRAS': return '🛍️';
+      case 'SALARIO': return '💼';
+      case 'FREELANCE': return '💻';
+      case 'BONO': return '🎁';
+      case 'VENTA': return '🛒';
+      case 'INVERSION': return '📈';
+      case 'INTERESES': return '🏦';
+      case 'REGALO': return '🎉';
+      default: return '💰';
+    }
+  }
+
+  private movementIconBucket(transaction: FinancialTransaction): string {
+    const category = this.normalizedCategoryKey(this.category(transaction));
+    const description = this.normalizedCategoryKey(transaction.description || '');
+
+    if (category.includes('ALIMENT') || description.includes('SUPERMERC') || description.includes('MERCADO')) return 'ALIMENTOS';
+    if (category.includes('TRANSPORT') || description.includes('TRANSP') || description.includes('TAXI') || description.includes('BUS')) return 'TRANSPORTE';
+    if (category.includes('SALUD') || description.includes('CONSULTA') || description.includes('MEDIC')) return 'SALUD';
+    if (category.includes('ENTRETEN') || category.includes('OCIO')) return 'ENTRETENIMIENTO';
+    if (category.includes('EDUC')) return 'EDUCACION';
+    if (category.includes('HOGAR')) return 'HOGAR';
+    if (category.includes('SERVIC')) return 'SERVICIOS';
+    if (category.includes('COMPRA') || description.includes('COMPRA')) return 'COMPRAS';
+    if (category.includes('SALARIO')) return 'SALARIO';
+    if (category.includes('FREELANCE')) return 'FREELANCE';
+    if (category.includes('BONO')) return 'BONO';
+    if (category.includes('VENTA')) return 'VENTA';
+    if (category.includes('INVERSION')) return 'INVERSION';
+    if (category.includes('INTERES')) return 'INTERESES';
+    if (category.includes('REGALO')) return 'REGALO';
+
+    return this.normalizedDirection(transaction.direction) === 'entrada' ? 'SALARIO' : 'OTRO';
   }
 
   formatAmount(transaction: FinancialTransaction): string {
