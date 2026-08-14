@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
+
 public record CreateDebtRequest(
         @NotNull DebtType type,
         @NotBlank String category,
@@ -15,5 +16,5 @@ public record CreateDebtRequest(
         String startDate,
         String endDate,
         Boolean isIndefinite,
-        @NotNull Integer userId
+        Integer userId
 ) {}

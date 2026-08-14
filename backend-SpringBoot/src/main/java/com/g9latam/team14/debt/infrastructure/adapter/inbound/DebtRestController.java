@@ -1,4 +1,7 @@
 package com.g9latam.team14.debt.infrastructure.adapter.inbound;
+
+import com.g9latam.team14.auth.domain.model.User;
+import com.g9latam.team14.auth.domain.ports.inbound.GetAuthenticatedUserUseCase;
 import com.g9latam.team14.debt.domain.model.Debt;
 import com.g9latam.team14.debt.domain.model.DebtProjectionPoint;
 import com.g9latam.team14.debt.domain.model.DebtStatus;
@@ -10,7 +13,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -24,20 +30,27 @@ public class DebtRestController {
     private final UpdateDebtUseCase updateDebtUseCase;
     private final DeleteDebtUseCase deleteDebtUseCase;
     private final PayDebtInstallmentUseCase payDebtInstallmentUseCase;
+    private final GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
     private final DebtDtoMapper debtDtoMapper;
 
     @PostMapping
     public ResponseEntity<DebtResponse> createDebt(@Valid @RequestBody CreateDebtRequest request) {
-        Debt created = createDebtUseCase.createDebt(debtDtoMapper.toDomain(request));
+        Integer targetUserId = resolveUserId(request.userId());
+        Debt domainDebt = debtDtoMapper.toDomain(request);
+        if (targetUserId != null) {
+            domainDebt.setUserId(targetUserId);
+        }
+        Debt created = createDebtUseCase.createDebt(domainDebt);
         return ResponseEntity.status(HttpStatus.CREATED).body(debtDtoMapper.toResponse(created));
     }
 
     @GetMapping
     public ResponseEntity<List<DebtResponse>> getDebts(
-            @RequestParam(required = false, defaultValue = "1") Integer userId,
+            @RequestParam(required = false) Integer userId,
             @RequestParam(required = false) DebtStatus status
     ) {
-        List<Debt> debts = getDebtsUseCase.getDebtsByUserIdAndStatus(userId, status);
+        Integer targetUserId = resolveUserId(userId);
+        List<Debt> debts = getDebtsUseCase.getDebtsByUserIdAndStatus(targetUserId, status);
         return ResponseEntity.ok(debtDtoMapper.toResponseList(debts));
     }
 
@@ -51,17 +64,19 @@ public class DebtRestController {
 
     @GetMapping("/summary")
     public ResponseEntity<DebtSummaryResponse> getSummary(
-            @RequestParam(required = false, defaultValue = "1") Integer userId
+            @RequestParam(required = false) Integer userId
     ) {
-        DebtSummary summary = getDebtSummaryUseCase.getDebtSummaryByUserId(userId);
+        Integer targetUserId = resolveUserId(userId);
+        DebtSummary summary = getDebtSummaryUseCase.getDebtSummaryByUserId(targetUserId);
         return ResponseEntity.ok(debtDtoMapper.toResponse(summary));
     }
 
     @GetMapping("/projection")
     public ResponseEntity<DebtProjectionResponse> getProjection(
-            @RequestParam(required = false, defaultValue = "1") Integer userId
+            @RequestParam(required = false) Integer userId
     ) {
-        List<DebtProjectionPoint> projection = getDebtProjectionUseCase.getDebtProjectionByUserId(userId);
+        Integer targetUserId = resolveUserId(userId);
+        List<DebtProjectionPoint> projection = getDebtProjectionUseCase.getDebtProjectionByUserId(targetUserId);
         return ResponseEntity.ok(debtDtoMapper.toResponse(projection));
     }
 
@@ -84,5 +99,20 @@ public class DebtRestController {
     public ResponseEntity<DebtResponse> payInstallment(@PathVariable Integer id) {
         Debt updated = payDebtInstallmentUseCase.payInstallment(id);
         return ResponseEntity.ok(debtDtoMapper.toResponse(updated));
+    }
+
+    private Integer resolveUserId(Integer userIdParam) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+                String email = auth.getName();
+                User user = getAuthenticatedUserUseCase.getUserByEmail(email);
+                if (user != null && user.getId() != null) {
+                    return user.getId();
+                }
+            }
+        } catch (Exception ignored) {
+        }
+        return userIdParam != null ? userIdParam : 1;
     }
 }

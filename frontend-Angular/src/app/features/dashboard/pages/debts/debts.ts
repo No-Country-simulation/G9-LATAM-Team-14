@@ -139,6 +139,18 @@ export class Debts implements OnInit {
   }
 
   onSaveDebt(payload: NewDebtPayload): void {
+    this.lastRegisteredDebt.set(payload);
+    this.onCloseModal();
+    this.isSuccessModalOpen.set(true);
+  }
+
+  onConfirmSaveDebt(): void {
+    const payload = this.lastRegisteredDebt();
+    if (!payload) {
+      this.onCloseSuccessModal();
+      return;
+    }
+
     const userId = this.authService.currentUser()?.id || 1;
     const request: any = {
       type: payload.type === 'installment' ? 'INSTALLMENT' : 'FIXED',
@@ -155,33 +167,29 @@ export class Debts implements OnInit {
       userId
     };
 
-    this.lastRegisteredDebt.set(payload);
-
     if (payload.id) {
       this.debtService.updateDebt(payload.id, request).subscribe({
         next: () => {
           this.loadData();
-          this.isSuccessModalOpen.set(true);
+          this.onCloseSuccessModal();
         },
         error: (err) => {
           console.error('Error al actualizar la deuda:', err);
-          this.isSuccessModalOpen.set(true);
+          this.onCloseSuccessModal();
         }
       });
     } else {
       this.debtService.createDebt(request).subscribe({
         next: () => {
           this.loadData();
-          this.isSuccessModalOpen.set(true);
+          this.onCloseSuccessModal();
         },
         error: (err) => {
           console.error('Error al guardar la deuda en la BD:', err);
-          this.isSuccessModalOpen.set(true);
+          this.onCloseSuccessModal();
         }
       });
     }
-
-    this.onCloseModal();
   }
 
   private mapToActiveDebt(d: Debt): ActiveDebt {

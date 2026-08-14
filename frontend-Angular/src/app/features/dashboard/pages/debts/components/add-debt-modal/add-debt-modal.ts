@@ -4,6 +4,7 @@ import { ModalHeaderComponent } from './components/modal-header/modal-header';
 import { DebtDetailsFormComponent } from './components/debt-details-form/debt-details-form';
 import { ModalFooterComponent } from './components/modal-footer/modal-footer';
 import { Debt } from '@app/core/debts/models/debt.model';
+
 export type RegistrationType = 'installment' | 'fixed';
 export type PaymentMode = 'fixed_term' | 'free_payment';
 
@@ -37,18 +38,19 @@ export class AddDebtModalComponent {
   closeModal = output<void>();
   addDebt = output<NewDebtPayload>();
   installmentCategory = signal<string>('Crédito personal');
-  installmentTotalAmount = signal<number>(6000);
-  fixedTermMonths = signal<number>(12);
-  startDate = signal<string>('2026-07-18');
+  installmentTotalAmount = signal<number | null>(null);
+  fixedTermMonths = signal<number | null>(null);
+  startDate = signal<string>(new Date().toISOString().substring(0, 10));
 
   constructor() {
     effect(() => {
       const debt = this.debtToEdit();
+      const todayStr = new Date().toISOString().substring(0, 10);
       if (debt) {
         this.installmentCategory.set(debt.category || 'Crédito personal');
         this.installmentTotalAmount.set(debt.totalAmount || ((debt.monthlyAmount || 0) * (debt.monthsTerm || 12)));
         this.fixedTermMonths.set(debt.monthsTerm || 12);
-        const rawDate = debt.startDate || '2026-07-18';
+        const rawDate = debt.startDate || todayStr;
         let formattedDate = rawDate;
         if (rawDate.length === 7) {
           formattedDate = `${rawDate}-01`;
@@ -58,9 +60,9 @@ export class AddDebtModalComponent {
         this.startDate.set(formattedDate);
       } else {
         this.installmentCategory.set('Crédito personal');
-        this.installmentTotalAmount.set(6000);
-        this.fixedTermMonths.set(12);
-        this.startDate.set('2026-07-18');
+        this.installmentTotalAmount.set(null);
+        this.fixedTermMonths.set(null);
+        this.startDate.set(todayStr);
       }
     });
   }
@@ -74,7 +76,7 @@ export class AddDebtModalComponent {
   calculatedEndDate = computed(() => {
     const months = this.fixedTermMonths() || 1;
     if (!months || months <= 0) return 'N/A';
-    const parts = (this.startDate() || '2026-07-18').split('-');
+    const parts = (this.startDate() || new Date().toISOString().substring(0, 10)).split('-');
     if (parts.length < 2) return 'N/A';
     const yearStr = parts[0];
     const monthStr = parts[1];
@@ -105,9 +107,9 @@ export class AddDebtModalComponent {
       id: this.debtToEdit()?.id,
       type: 'installment',
       category: this.installmentCategory(),
-      totalAmount: this.installmentTotalAmount(),
+      totalAmount: this.installmentTotalAmount() || undefined,
       monthlyAmount: this.calculatedMonthlyQuota(),
-      monthsTerm: this.fixedTermMonths(),
+      monthsTerm: this.fixedTermMonths() || undefined,
       paymentMode: 'fixed_term',
       startDate: this.startDate(),
       endDate: this.calculatedEndDate(),

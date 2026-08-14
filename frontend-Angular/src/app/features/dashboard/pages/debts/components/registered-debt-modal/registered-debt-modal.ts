@@ -13,29 +13,38 @@ export class RegisteredDebtModalComponent {
   isOpen = input<boolean>(false);
   debtData = input<NewDebtPayload | null>(null);
   closeModal = output<void>();
+  confirmAndSave = output<void>();
 
   title = computed(() => {
-    return this.debtData()?.category || 'Crédito educativo';
+    return this.debtData()?.category || 'Deuda sin categoría';
   });
 
   initialAmountText = computed(() => {
     const total = this.debtData()?.totalAmount;
-    if (total !== undefined && total !== null && total > 0) {
+    if (total !== undefined && total !== null) {
       return `$ ${total.toLocaleString()}`;
     }
-    return '$ 600';
+    return '$ 0';
   });
 
   monthlyQuotaText = computed(() => {
     const monthly = this.debtData()?.monthlyAmount;
-    if (monthly !== undefined && monthly !== null && monthly > 0) {
+    if (monthly !== undefined && monthly !== null) {
       return `$ ${monthly.toLocaleString()}`;
     }
-    return '$ 53';
+    return '$ 0';
   });
 
   effectiveRateText = computed(() => {
-    return '12%';
+    const total = this.debtData()?.totalAmount || 0;
+    const monthly = this.debtData()?.monthlyAmount || 0;
+    const months = this.debtData()?.monthsTerm || 12;
+    const totalPaid = monthly * months;
+    if (total > 0 && totalPaid > total) {
+      const annualRate = (((totalPaid - total) / total) / (months / 12)) * 100;
+      return `${Math.round(annualRate)}%`;
+    }
+    return '0%';
   });
 
   estimatedEndDateText = computed(() => {
@@ -43,18 +52,19 @@ export class RegisteredDebtModalComponent {
     if (endDate && endDate !== 'N/A') {
       return endDate;
     }
-    return '08 de ago de 2027';
+    return 'Por definir';
   });
 
   estimatedTotalInterestText = computed(() => {
-    const total = this.debtData()?.totalAmount || 600;
-    const monthly = this.debtData()?.monthlyAmount || 53;
+    const total = this.debtData()?.totalAmount || 0;
+    const monthly = this.debtData()?.monthlyAmount || 0;
     const months = this.debtData()?.monthsTerm || 12;
     const totalPaid = monthly * months;
     const interest = Math.max(0, totalPaid - total);
-    if (interest > 0) {
-      return `$ ${interest.toLocaleString()}`;
-    }
-    return '$ 38';
+    return `$ ${interest.toLocaleString()}`;
   });
+
+  onConfirm(): void {
+    this.confirmAndSave.emit();
+  }
 }

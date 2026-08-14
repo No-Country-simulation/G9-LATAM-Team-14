@@ -26,6 +26,6 @@
     <app-add-debt-modal [isOpen]="isModalOpen()" [debtToEdit]="editingDebt()" (closeModal)="onCloseModal()" (addDebt)="onSaveDebt($event)">
     </app-add-debt-modal>
 
-    <app-registered-debt-modal [isOpen]="isSuccessModalOpen()" [debtData]="lastRegisteredDebt()" (closeModal)="onCloseSuccessModal()">
+    <app-registered-debt-modal [isOpen]="isSuccessModalOpen()" [debtData]="lastRegisteredDebt()" (closeModal)="onCloseSuccessModal()" (confirmAndSave)="onConfirmSaveDebt()">
     </app-registered-debt-modal>
 </div>

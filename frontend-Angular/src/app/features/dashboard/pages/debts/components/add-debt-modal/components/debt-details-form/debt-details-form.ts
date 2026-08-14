@@ -17,9 +17,9 @@ export type PaymentMode = 'fixed_term' | 'free_payment';
 })
 export class DebtDetailsFormComponent {
   category = model<string>('Crédito personal');
-  totalAmount = model<number>(6000);
-  fixedTermMonths = model<number>(12);
-  startDate = model<string>('2026-07-18');
+  totalAmount = model<number | null>(null);
+  fixedTermMonths = model<number | null>(null);
+  startDate = model<string>(new Date().toISOString().substring(0, 10));
 
   categoryOptions = [
     'Crédito de vivienda',

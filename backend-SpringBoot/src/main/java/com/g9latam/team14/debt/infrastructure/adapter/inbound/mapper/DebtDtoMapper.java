@@ -1,7 +1,9 @@
 package com.g9latam.team14.debt.infrastructure.adapter.inbound.mapper;
+
 import com.g9latam.team14.debt.domain.model.*;
 import com.g9latam.team14.debt.infrastructure.adapter.inbound.dtos.*;
 import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +13,12 @@ public class DebtDtoMapper {
     public Debt toDomain(CreateDebtRequest request) {
         if (request == null) return null;
         LocalDate start = request.startDate() != null ? parseDate(request.startDate()) : LocalDate.now();
-        LocalDate end = request.endDate() != null ? parseDate(request.endDate()) : null;
+        if (start == null) start = LocalDate.now();
+        LocalDate end = parseDate(request.endDate());
+        if (end == null && request.monthsTerm() != null && request.monthsTerm() > 0) {
+            end = start.plusMonths(request.monthsTerm());
+        }
+
         return Debt.builder()
                 .type(request.type())
                 .category(request.category())
@@ -112,9 +119,12 @@ public class DebtDtoMapper {
             if (dateStr.length() == 7) { // format YYYY-MM
                 return LocalDate.parse(dateStr + "-01");
             }
+            if (dateStr.length() >= 10) {
+                return LocalDate.parse(dateStr.substring(0, 10));
+            }
             return LocalDate.parse(dateStr);
         } catch (Exception e) {
-            return LocalDate.now();
+            return null;
         }
     }
 }
