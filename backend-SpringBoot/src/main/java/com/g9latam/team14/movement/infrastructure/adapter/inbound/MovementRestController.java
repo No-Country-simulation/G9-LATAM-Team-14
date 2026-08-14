@@ -18,19 +18,39 @@ import com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos.ConfirmMo
 @RequestMapping("/api/movements")
 @RequiredArgsConstructor
 public class MovementRestController {
-        private final CreateMovementUseCase createMovementUseCase;
-        private final GetMovementsUseCase getMovementsUseCase;
-        private final MovementDtoMapper movementDtoMapper;
-        private final com.g9latam.team14.movement.domain.ports.inbound.ClassifyMovementUseCase classifyMovementUseCase;
+    private final CreateMovementUseCase createMovementUseCase;
+    private final GetMovementsUseCase getMovementsUseCase;
+    private final MovementDtoMapper movementDtoMapper;
+    private final com.g9latam.team14.movement.domain.ports.inbound.ClassifyMovementUseCase classifyMovementUseCase;
+    private final com.g9latam.team14.auth.domain.ports.inbound.GetAuthenticatedUserUseCase getAuthenticatedUserUseCase;
 
     @PostMapping
     public ResponseEntity<MovementResponse> createMovement(
             @Valid @RequestBody CreateMovementRequest request
     ) {
+        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        Integer userId = request.userId();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            var user = getAuthenticatedUserUseCase.getUserByEmail(auth.getName());
+            if (user != null) {
+                userId = user.getId();
+            }
+        }
 
-        Movement movement = createMovementUseCase.createMovement(
-                movementDtoMapper.toDomain(request)
-        );
+        Movement domain = movementDtoMapper.toDomain(request);
+        if (userId != null) {
+            domain = Movement.builder()
+                    .id(domain.getId())
+                    .description(domain.getDescription())
+                    .amount(domain.getAmount())
+                    .type(domain.getType())
+                    .category(domain.getCategory())
+                    .date(domain.getDate())
+                    .userId(userId)
+                    .build();
+        }
+
+        Movement movement = createMovementUseCase.createMovement(domain);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -70,8 +90,16 @@ public class MovementRestController {
 
     @GetMapping
     public ResponseEntity<List<MovementResponse>> getAllMovements() {
-        List<MovementResponse> response = getMovementsUseCase.getAllMovements()
-                .stream()
+        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        List<Movement> list;
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            var user = getAuthenticatedUserUseCase.getUserByEmail(auth.getName());
+            list = (user != null) ? getMovementsUseCase.getMovementsByUserId(user.getId()) : getMovementsUseCase.getAllMovements();
+        } else {
+            list = getMovementsUseCase.getAllMovements();
+        }
+
+        List<MovementResponse> response = list.stream()
                 .map(movementDtoMapper::toResponse)
                 .toList();
 

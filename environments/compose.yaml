@@ -28,6 +28,10 @@ services:
     hostname: python-data-science
     ports:
       - "8000:8000"
+    volumes:
+      - ../data-science/Modelos:/app/Modelos
+      - ../data-science/Modelos:/Modelos
+
     environment:
       - DJANGO_ENV=local
       - DJANGO_ALLOWED_HOSTS=python-data-science,localhost,127.0.0.1,*

@@ -19,14 +19,32 @@ import java.util.Map;
 public class CreateMovementService implements CreateMovementUseCase {
     private final MovementRepositoryPort movementRepository;
     private final TransactionRepositoryPort transactionRepository;
+    private final com.g9latam.team14.movement.domain.ports.inbound.ClassifyMovementUseCase classifyMovementUseCase;
 
     @Override
     @CacheEvict(value = "dashboardSummary", allEntries = true)
     public Movement createMovement(Movement movement) {
         String category = movement.getCategory();
+        if (category == null || category.isBlank() || "OTRO".equalsIgnoreCase(category) || "COMPRAS".equalsIgnoreCase(category)) {
+            try {
+                String direction = "INGRESO".equalsIgnoreCase(movement.getType()) ? "entrada" : "salida";
+                var aiClass = classifyMovementUseCase.classifyMovement(
+                        movement.getDescription(),
+                        movement.getAmount() != null ? movement.getAmount().doubleValue() : 0.0,
+                        direction,
+                        ""
+                );
+                if (aiClass != null && aiClass.getCategory() != null && !aiClass.getCategory().isBlank()) {
+                    category = aiClass.getCategory();
+                }
+            } catch (Exception e) {
+                // Fallback to default
+            }
+        }
         if (category == null || category.isBlank()) {
             category = "INGRESO".equalsIgnoreCase(movement.getType()) ? "OTRO" : "COMPRAS";
         }
+
 
         Movement toSave = Movement.builder()
                 .id(movement.getId())

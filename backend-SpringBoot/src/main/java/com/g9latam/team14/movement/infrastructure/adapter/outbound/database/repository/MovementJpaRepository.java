@@ -11,12 +11,13 @@ import java.util.List;
 
 public interface MovementJpaRepository
         extends JpaRepository<MovementEntity, Integer> {
-
+    List<MovementEntity> findByUserIdOrderByDateDesc(Integer userId);
     List<MovementEntity> findByUserIdAndDateBetween(
             @Param("userId") Integer userId,
             @Param("start") LocalDate start,
             @Param("end") LocalDate end
     );
+
 
     @Query("SELECT COALESCE(SUM(m.amount), 0) FROM MovementEntity m WHERE m.userId = :userId AND m.date BETWEEN :start AND :end AND m.type = :type")
     BigDecimal sumAmountByUserIdAndDateBetweenAndType(

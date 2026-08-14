@@ -6,4 +6,5 @@ public interface MovementRepositoryPort {
     Movement save(Movement movement);
     Optional<Movement> findById(Integer id);
     List<Movement> findAll();
-}
+    List<Movement> findByUserId(Integer userId);
+}
