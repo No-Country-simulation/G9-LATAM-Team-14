@@ -37,6 +37,11 @@ export class Sidebar {
       iconName: 'dashboard'
     },
     {
+      label: 'Finanzas',
+      route: '/dashboard/finances',
+      iconName: 'evolution'
+    },
+    {
       label: 'Movimientos',
       route: '/dashboard/movements',
       iconName: 'movements'

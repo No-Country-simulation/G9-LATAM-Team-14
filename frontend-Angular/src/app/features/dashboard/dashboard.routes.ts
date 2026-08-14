@@ -20,6 +20,10 @@ export const DASHBOARD_ROUTES: Routes = [
         loadComponent: () => import('./pages/profile/profile').then(m => m.Profile)
       },
       {
+        path: 'finances',
+        loadComponent: () => import('./pages/finances/finances').then(m => m.Finances)
+      },
+      {
         path: 'movements',
         loadComponent: () => import('./pages/movements/movements').then(m => m.Movements)
       },
