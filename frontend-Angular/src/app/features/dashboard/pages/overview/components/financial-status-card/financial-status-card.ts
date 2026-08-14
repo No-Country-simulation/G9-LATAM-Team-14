@@ -1,8 +1,9 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 import { DashboardSummaryService } from '@core/services/dashboard.service';
+import { ProfileService, UserProfileResponse } from '@core/profile/services/profile.service';
 
 @Component({
   selector: 'app-financial-status-card',
@@ -12,17 +13,28 @@ import { DashboardSummaryService } from '@core/services/dashboard.service';
 })
 export class FinancialStatusCard implements OnInit {
   private dashboardService = inject(DashboardSummaryService);
+  private profileService = inject(ProfileService);
 
   readonly circumference = 226.19;
 
   summary = this.dashboardService.summarySignal;
+  profileData = signal<UserProfileResponse | null>(null);
 
   confianzaNumber = computed(() => {
-    return Math.round(this.summary()?.confianzaIaPct || 98);
+    const fromProfile = this.profileData()?.confianzaIaPct;
+    if (fromProfile !== undefined && fromProfile !== null) {
+      return Math.round(fromProfile);
+    }
+    const fromSummary = this.summary()?.confianzaIaPct;
+    if (fromSummary !== undefined && fromSummary !== null) {
+      return Math.round(fromSummary);
+    }
+    return 0;
   });
 
   confidence = computed(() => {
-    return `${this.confianzaNumber()}%`;
+    const val = this.confianzaNumber();
+    return val > 0 ? `${val}%` : '0%';
   });
 
   strokeDashOffset = computed(() => {
@@ -38,7 +50,12 @@ export class FinancialStatusCard implements OnInit {
   });
 
   title = computed(() => {
-    const ocupacion = this.summary()?.ocupacionCuoc;
+    const prof = this.profileData();
+    const declared = prof?.actividadPrincipal;
+    if (declared && declared !== 'no_disponible') {
+      return `Perfil: ${declared}`;
+    }
+    const ocupacion = prof?.ocupacionCuoc || this.summary()?.ocupacionCuoc;
     if (ocupacion && ocupacion !== 'no_disponible') {
       return `Perfil: ${ocupacion}`;
     }
@@ -46,6 +63,10 @@ export class FinancialStatusCard implements OnInit {
   });
 
   subtitle = computed(() => {
+    const prof = this.profileData();
+    if (prof?.ocupacionCuoc && prof.ocupacionCuoc !== 'no_disponible') {
+      return `Clasificación IA (CUOC): ${prof.ocupacionCuoc}`;
+    }
     const recs = this.summary()?.recomendaciones;
     if (recs && recs.length > 0) {
       return recs[0];
@@ -54,6 +75,19 @@ export class FinancialStatusCard implements OnInit {
   });
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.profileService.getProfile().subscribe({
+      next: (prof) => {
+        if (prof) {
+          this.profileData.set(prof);
+        }
+      },
+      error: (err) => console.error('Error al cargar perfil en tarjeta overview:', err)
+    });
+
     if (!this.dashboardService.summarySignal()) {
       this.dashboardService.getSummary().subscribe({
         error: (err) => console.error('Error al cargar dashboard summary:', err)
