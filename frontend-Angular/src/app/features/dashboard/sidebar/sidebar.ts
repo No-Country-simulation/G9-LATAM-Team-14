@@ -47,11 +47,6 @@ export class Sidebar {
       iconName: 'movements'
     },
     {
-      label: 'Transacciones',
-      route: '/dashboard/transactions',
-      iconName: 'transactions'
-    },
-    {
       label: 'Mis deudas',
       route: '/dashboard/debts',
       iconName: 'debts'
@@ -60,11 +55,6 @@ export class Sidebar {
       label: 'Evolución',
       route: '/dashboard/evolution',
       iconName: 'evolution'
-    },
-    {
-      label: 'Recomendaciones',
-      route: '/dashboard/recommendations',
-      iconName: 'recommendations'
     }
   ];
 }

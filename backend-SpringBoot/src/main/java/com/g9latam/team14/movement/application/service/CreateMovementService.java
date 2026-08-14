@@ -3,34 +3,17 @@ package com.g9latam.team14.movement.application.service;
 import com.g9latam.team14.movement.domain.model.Movement;
 import com.g9latam.team14.movement.domain.ports.inbound.CreateMovementUseCase;
 import com.g9latam.team14.movement.domain.ports.outbound.MovementRepositoryPort;
-import com.g9latam.team14.transaction.domain.model.Transaction;
-import com.g9latam.team14.transaction.domain.model.TransactionDirection;
-import com.g9latam.team14.transaction.domain.model.TransactionStatus;
-import com.g9latam.team14.transaction.domain.ports.outbound.TransactionRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class CreateMovementService implements CreateMovementUseCase {
     private final MovementRepositoryPort movementRepository;
-    private final TransactionRepositoryPort transactionRepository;
     private final com.g9latam.team14.movement.domain.ports.inbound.ClassifyMovementUseCase classifyMovementUseCase;
-
-    private LocalDate parseLocalDate(String dateStr) {
-        if (dateStr == null || dateStr.isBlank()) return LocalDate.now();
-        try {
-            String datePart = dateStr.contains("T") ? dateStr.split("T")[0] : dateStr.split(" ")[0];
-            return LocalDate.parse(datePart);
-        } catch (Exception e) {
-            return LocalDate.now();
-        }
-    }
 
     @Override
     @CacheEvict(value = "dashboardSummary", allEntries = true)
@@ -67,52 +50,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .userId(movement.getUserId())
                 .build();
 
-        Movement saved = movementRepository.save(toSave);
-
-        Transaction transaction = Transaction.builder()
-                .id(null)
-                .userId(saved.getUserId())
-                .financialProfileId(null)
-                .transactionDate(parseLocalDate(saved.getDate()))
-                .description(saved.getDescription())
-                .note(saved.getNote())
-                .amount(saved.getAmount())
-                .currency("COP")
-                .direction(
-                        "INGRESO".equalsIgnoreCase(saved.getType())
-                                ? TransactionDirection.ENTRADA
-                                : TransactionDirection.SALIDA
-                )
-                .status(TransactionStatus.PENDING_CLASSIFICATION)
-                .movementType(null)
-                .modelCategory(null)
-                .modelPurpose(null)
-                .modelCategoryConfidencePercentage(null)
-                .modelPurposeConfidencePercentage(null)
-                .modelRegularity(null)
-                .modelRegularityConfidencePercentage(null)
-                .modelRequiresConfirmation(true)
-                .modelConfirmationProbabilityPercentage(null)
-                .modelTopCategories(List.of())
-                .modelCategoryPercentages(Map.of())
-                .modelCategoryPurposePairValid(null)
-                .modelRule(null)
-                .modelVersion(null)
-                .modelResult(Map.of())
-                .currentCategories(List.of())
-                .currentPurpose(null)
-                .currentRegularity(null)
-                .classificationSource(null)
-                .firstUserDecision(Map.of())
-                .decisionHistory(List.of())
-                .firstDecidedAt(null)
-                .lastCorrectedAt(null)
-                .revisionCount(0)
-                .build();
-
-        transactionRepository.save(transaction);
-
-        return saved;
+        return movementRepository.save(toSave);
     }
 
     @Override
