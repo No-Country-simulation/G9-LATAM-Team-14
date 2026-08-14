@@ -19,7 +19,7 @@ export class DebtProjectionChartComponent {
     datasets: [
       {
         data: [],
-        label: 'Saldo pendiente (S/)',
+        label: 'Saldo pendiente ($)',
         borderColor: '#5A7259',
         borderWidth: 3,
         backgroundColor: 'rgba(90, 114, 89, 0.12)',
@@ -48,7 +48,7 @@ export class DebtProjectionChartComponent {
         padding: 10,
         displayColors: false,
         callbacks: {
-          label: (context) => `Saldo: S/ ${Number(context.parsed.y || 0).toLocaleString()}`
+          label: (context) => `Saldo: $ ${Number(context.parsed.y || 0).toLocaleString()}`
         }
       }
     },
@@ -63,7 +63,7 @@ export class DebtProjectionChartComponent {
         ticks: {
           color: '#526655',
           font: { size: 10 },
-          callback: (value) => 'S/ ' + Number(value).toLocaleString()
+          callback: (value) => '$ ' + Number(value).toLocaleString()
         }
       }
     }
