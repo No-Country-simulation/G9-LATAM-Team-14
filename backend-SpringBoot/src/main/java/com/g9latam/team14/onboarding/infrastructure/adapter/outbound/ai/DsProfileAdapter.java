@@ -33,24 +33,57 @@ public class DsProfileAdapter implements DsProfilePort {
     public void syncProfile(OnboardingData data) {
         String profileUrl = dsServiceUrl + "/api/v1/profiles/";
         Map<String, Object> payload = buildPayload(data);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-FinCoach-Request", "1");
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(payload, headers);
         try {
+            com.fasterxml.jackson.databind.ObjectMapper jsonMapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            String jsonBody = jsonMapper.writeValueAsString(payload);
+            byte[] bodyBytes = jsonBody.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setContentLength(bodyBytes.length);
+            headers.set("X-FinCoach-Request", "1");
+            HttpEntity<byte[]> request = new HttpEntity<>(bodyBytes, headers);
+
             ResponseEntity<String> response = restTemplate.exchange(
                     profileUrl, HttpMethod.POST, request, String.class
             );
-            if (response.getStatusCode().is2xxSuccessful()) {
-                log.info("[DS Modelo 1] Perfil registrado en Data Science para userId={}", data.getUserId());
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                parseAndSaveResult(data.getUserId(), response.getBody());
+                log.info("[DS Modelo 1] Perfil registrado y guardado en MySQL para userId={}", data.getUserId());
             }
         } catch (HttpClientErrorException.Conflict e) {
-            log.debug("[DS Modelo 1] Perfil ya existía en Django (409) para userId={} — idempotente, sin acción", data.getUserId());
+            log.debug("[DS Modelo 1] Perfil ya existía en Django (409) para userId={}", data.getUserId());
         } catch (Exception e) {
             log.warn("[DS Modelo 1] No se pudo sincronizar perfil con Data Science para userId={}: {}", data.getUserId(), e.getMessage());
-            throw e;
         }
     }
+
+
+
+    private void parseAndSaveResult(Integer userId, String responseBody) {
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.fasterxml.jackson.databind.JsonNode root = mapper.readTree(responseBody);
+            com.fasterxml.jackson.databind.JsonNode classification = root.path("classification");
+            if (!classification.isMissingNode()) {
+                String ocupacion = classification.path("ocupacion_cuoc").asText("");
+                double confianza = classification.path("confianza_actividad_pct").asDouble(0.0);
+                String actividad = classification.path("actividad_principal").asText("");
+
+                userJpaRepository.findById(userId).ifPresent(user -> {
+                    if (!ocupacion.isBlank()) user.setOcupacionCuoc(ocupacion);
+                    if (confianza > 0) user.setConfianzaIaPct(confianza);
+                    if (!actividad.isBlank()) user.setActividadPrincipal(actividad);
+                    user.setResultadoIaJson(responseBody);
+                    userJpaRepository.save(user);
+                    log.info("[DS Modelo 1] Guardado en BD MySQL: userId={}, ocupacion={}, confianza={}%", userId, ocupacion, confianza);
+                });
+            }
+        } catch (Exception e) {
+            log.warn("[DS Modelo 1] Error al procesar JSON IA para userId={}: {}", userId, e.getMessage());
+        }
+    }
+
 
     private Map<String, Object> buildPayload(OnboardingData data) {
         Optional<UserEntity> userOpt = userJpaRepository.findById(data.getUserId());
@@ -93,12 +126,12 @@ public class DsProfileAdapter implements DsProfilePort {
         }
 
         Map<String, Object> payload = new HashMap<>();
-        payload.put("monthly_net_income", String.valueOf(income));
-        payload.put("saving_habit", savingHabit);
-        payload.put("debt_ratio_percentage", String.format("%.2f", debtRatioPct));
+        payload.put("monthly_net_income", income);
+        payload.put("saving_habit", savingHabit.toLowerCase());
+        payload.put("debt_ratio_percentage", debtRatioPct);
         payload.put("debt_types", debtTypes);
         payload.put("primary_activity", activity);
-        payload.put("primary_income_modality", modality);
+        payload.put("primary_income_modality", modality.toLowerCase());
         payload.put("has_additional_income", false);
         payload.put("additional_activity", "");
         payload.put("additional_income_modality", "");
@@ -107,4 +140,5 @@ public class DsProfileAdapter implements DsProfilePort {
         payload.put("financial_responsibility", responsibility);
         return payload;
     }
+
 }

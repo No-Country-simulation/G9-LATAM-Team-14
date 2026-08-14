@@ -1,3 +1,4 @@
+import json
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -16,7 +17,11 @@ class ProfileClassificationController(APIView):
 
     def post(self, request):
         try:
-            result = self.use_case.execute(request.data)
+            payload = request.data
+            if (not payload or len(payload) == 0) and request.body:
+                payload = json.loads(request.body.decode('utf-8'))
+            print("DEBUG PROFILE PAYLOAD:", payload)
+            result = self.use_case.execute(payload)
             return Response(
                 {
                     'message': 'Profile classified successfully.',
@@ -25,7 +30,11 @@ class ProfileClassificationController(APIView):
                 status=status.HTTP_200_OK
             )
         except Exception as err:
+            import traceback
+            traceback.print_exc()
             return Response(
                 {'detail': str(err)},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+

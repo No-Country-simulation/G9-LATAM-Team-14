@@ -80,11 +80,11 @@ export class Onboarding {
     } else if (this.currentStep === 3) {
       const goal = (this.onboardingService.nextGoal() || this.onboardingService.primaryGoal())?.trim();
       if (!goal) {
-        this.validationError = 'Por favor, selecciona o ingresa tu meta financiera para continuar.';
-        return false;
+        this.onboardingService.primaryGoal.set('vivienda');
       }
     }
     return true;
+
   }
 
   nextStep(): void {

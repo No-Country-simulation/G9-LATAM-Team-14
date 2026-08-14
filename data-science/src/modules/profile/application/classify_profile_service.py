@@ -4,4 +4,10 @@ class ClassifyProfileUseCase:
     """Use case for processing and classifying user financial profiles."""
     
     def execute(self, payload: dict) -> dict:
-        return classify_profile_domain(payload)
+        try:
+            return classify_profile_domain(payload)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            raise e
+

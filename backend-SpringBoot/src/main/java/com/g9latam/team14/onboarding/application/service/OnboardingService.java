@@ -47,8 +47,18 @@ public class OnboardingService implements CompleteOnboardingUseCase {
         Optional<UserEntity> userOpt = userJpaRepository.findById(userId);
         userOpt.ifPresent(user -> {
             user.setOnboardingCompleted(true);
+            if (data.getPrimaryActivity() != null && !data.getPrimaryActivity().isBlank()) {
+                user.setActividadPrincipal(data.getPrimaryActivity());
+            }
+            if (data.getSavingHabit() != null && !data.getSavingHabit().isBlank()) {
+                user.setFrecuenciaAhorro(data.getSavingHabit());
+            }
+            if (data.getMonthlyNetIncome() != null && data.getMonthlyNetIncome() > 0) {
+                user.setIngresoMensual(data.getMonthlyNetIncome().floatValue());
+            }
             userJpaRepository.save(user);
         });
+
         try {
             dsProfilePort.syncProfile(data);
         } catch (Exception e) {

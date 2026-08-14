@@ -35,7 +35,20 @@ public class UserEntity {
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
 
+    @Column(name = "actividad_principal")
+    private String actividadPrincipal;
+
+    @Column(name = "ocupacion_cuoc")
+    private String ocupacionCuoc;
+
+    @Column(name = "confianza_ia_pct")
+    private Double confianzaIaPct;
+
+    @Column(name = "resultado_ia_json", columnDefinition = "TEXT")
+    private String resultadoIaJson;
+
     @Column(name = "onboarding_completed")
     @Builder.Default
     private Boolean onboardingCompleted = false;
 }
+

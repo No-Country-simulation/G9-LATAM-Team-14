@@ -6,6 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 EXPECTED_MODEL_VERSION = 'fincoach_usuario_mvp_v2'
 
+
 @lru_cache(maxsize=1)
 def load_profile_artifact():
     path = settings.USER_PROFILE_MODEL_PATH
@@ -16,15 +17,18 @@ def load_profile_artifact():
         raise ValueError('Profile model version mismatch.')
     return artifact
 
+
 def clean_text(text: str) -> str:
     normalized = unicodedata.normalize('NFKD', str(text or '').lower())
     cleaned = ''.join(c for c in normalized if not unicodedata.combining(c))
     return ' '.join(cleaned.replace('_', ' ').replace('-', ' ').split())
 
+
 def predict_occupational_activity(artifact, activity_name: str):
+    cleaned = clean_text(activity_name)
     model = artifact['modelo_actividad']
-    probabilities = dict(zip(model.classes_, model.predict_proba([activity_name])[0]))
-    vector = artifact['vectorizador_catalogo'].transform([activity_name])
+    probabilities = dict(zip(model.classes_, model.predict_proba([cleaned])[0]))
+    vector = artifact['vectorizador_catalogo'].transform([cleaned])
     similarities = cosine_similarity(vector, artifact['matriz_catalogo'])[0]
     catalog_families = artifact['familias_catalogo']
     
@@ -40,6 +44,8 @@ def predict_occupational_activity(artifact, activity_name: str):
             'similarity': sim
         })
     return sorted(evaluated, key=lambda item: item['confidence'], reverse=True)
+
+
 
 def evaluate_hobbies(artifact, raw_hobbies: list):
     normalized = clean_text(' | '.join(raw_hobbies or []))
@@ -57,6 +63,7 @@ def evaluate_hobbies(artifact, raw_hobbies: list):
                 break
     out_of_mvp = raw_hobbies if (normalized and not classified) else []
     return classified, out_of_mvp
+
 
 def classify_profile_domain(payload: dict) -> dict:
     artifact = load_profile_artifact()
