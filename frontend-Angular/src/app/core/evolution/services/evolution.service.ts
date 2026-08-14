@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { EvolutionData, EvolutionResponse, TimeRange } from '../models/evolution.model';
 
@@ -15,7 +16,12 @@ export class EvolutionService {
     return this.http.get<EvolutionResponse>(this.apiUrl, {
       params: { rango: range },
       withCredentials: true
-    });
+    }).pipe(
+      catchError((err) => {
+        console.warn('Fallback a datos de evolución mock por error de red o backend:', err);
+        return this.getMock(range);
+      })
+    );
   }
 
   getMock(range: TimeRange = '6M'): Observable<EvolutionData> {

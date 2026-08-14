@@ -43,16 +43,22 @@ public class EvolutionService implements GetEvolutionUseCase {
         YearMonth inicio = ultimoMes.minusMonths(cantidadMeses - 1L);
 
         Map<String, BigDecimal> ingresos = new LinkedHashMap<>();
-        evolutionRepositoryPort.sumIngresosMensuales(userId, inicio, ultimoMes)
-                .forEach(m -> ingresos.put(m.getMes(), m.getTotal()));
+        if (userId != null) {
+            evolutionRepositoryPort.sumIngresosMensuales(userId, inicio, ultimoMes)
+                    .forEach(m -> ingresos.put(m.getMes(), m.getTotal()));
+        }
 
         Map<String, BigDecimal> gastos = new LinkedHashMap<>();
-        evolutionRepositoryPort.sumGastosMensuales(userId, inicio, ultimoMes)
-                .forEach(m -> gastos.put(m.getMes(), m.getTotal()));
+        if (userId != null) {
+            evolutionRepositoryPort.sumGastosMensuales(userId, inicio, ultimoMes)
+                    .forEach(m -> gastos.put(m.getMes(), m.getTotal()));
+        }
 
         Map<String, BigDecimal> deudas = new LinkedHashMap<>();
-        evolutionRepositoryPort.sumDeudasMensuales(userId, inicio, ultimoMes)
-                .forEach(d -> deudas.put(d.mes().toString(), d.total()));
+        if (userId != null) {
+            evolutionRepositoryPort.sumDeudasMensuales(userId, inicio, ultimoMes)
+                    .forEach(d -> deudas.put(d.mes().toString(), d.total()));
+        }
 
         List<MonthlyProfile> perfilMensual = new ArrayList<>();
         List<IncomeVsExpensesPoint> ingresosVsGastos = new ArrayList<>();
@@ -70,7 +76,25 @@ public class EvolutionService implements GetEvolutionUseCase {
             cursor = cursor.plusMonths(1);
         }
 
+        if (ingresosVsGastos.isEmpty() || perfilMensual.isEmpty()) {
+            return new EvolutionData(
+                    rango,
+                    ultimoMes.toString(),
+                    SCORE_BASE_NEUTRO,
+                    List.of(),
+                    List.of(),
+                    List.of(),
+                    BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP),
+                    BigDecimal.ZERO.setScale(1, RoundingMode.HALF_UP),
+                    List.of()
+            );
+        }
+
         int indiceReferencia = indiceUltimoMesConDatos(ingresosVsGastos);
+        if (indiceReferencia < 0 || indiceReferencia >= ingresosVsGastos.size()) {
+            indiceReferencia = ingresosVsGastos.size() - 1;
+        }
+
         YearMonth mesReferencia = YearMonth.parse(ingresosVsGastos.get(indiceReferencia).mes());
 
         BigDecimal gastoTotalMes = gastos.getOrDefault(mesReferencia.toString(), BigDecimal.ZERO);
@@ -79,10 +103,13 @@ public class EvolutionService implements GetEvolutionUseCase {
         );
         BigDecimal variacionGasto = calcularVariacion(gastoTotalMes, gastoMesAnterior);
 
-        List<CategoryExpense> gastosPorCategoria = construirGastosPorCategoria(
-                evolutionRepositoryPort.sumGastosPorCategoria(userId, mesReferencia, mesReferencia),
-                gastoTotalMes
-        );
+        List<CategoryExpense> gastosPorCategoria = List.of();
+        if (userId != null) {
+            gastosPorCategoria = construirGastosPorCategoria(
+                    evolutionRepositoryPort.sumGastosPorCategoria(userId, mesReferencia, mesReferencia),
+                    gastoTotalMes
+            );
+        }
 
         List<AnalysisHistoryRow> historial = construirHistorial(perfilMensual, ingresosVsGastos, indiceReferencia);
 
@@ -100,6 +127,9 @@ public class EvolutionService implements GetEvolutionUseCase {
     }
 
     private int indiceUltimoMesConDatos(List<IncomeVsExpensesPoint> puntos) {
+        if (puntos == null || puntos.isEmpty()) {
+            return -1;
+        }
         for (int i = puntos.size() - 1; i >= 0; i--) {
             IncomeVsExpensesPoint punto = puntos.get(i);
             if (punto.ingresos().signum() > 0 || punto.gastos().signum() > 0) {
@@ -146,13 +176,15 @@ public class EvolutionService implements GetEvolutionUseCase {
             BigDecimal gastoTotalMes
     ) {
         List<CategoryExpense> resultado = new ArrayList<>();
-        for (var c : categorias) {
-            BigDecimal total = c.getTotal() != null ? c.getTotal() : BigDecimal.ZERO;
-            BigDecimal porcentaje = gastoTotalMes.compareTo(BigDecimal.ZERO) > 0
-                    ? total.multiply(BigDecimal.valueOf(100))
-                            .divide(gastoTotalMes, 1, RoundingMode.HALF_UP)
-                    : BigDecimal.ZERO;
-            resultado.add(new CategoryExpense(c.getCategoria(), total.setScale(2, RoundingMode.HALF_UP), porcentaje));
+        if (categorias != null) {
+            for (var c : categorias) {
+                BigDecimal total = c.getTotal() != null ? c.getTotal() : BigDecimal.ZERO;
+                BigDecimal porcentaje = gastoTotalMes.compareTo(BigDecimal.ZERO) > 0
+                        ? total.multiply(BigDecimal.valueOf(100))
+                                .divide(gastoTotalMes, 1, RoundingMode.HALF_UP)
+                        : BigDecimal.ZERO;
+                resultado.add(new CategoryExpense(c.getCategoria(), total.setScale(2, RoundingMode.HALF_UP), porcentaje));
+            }
         }
         return resultado;
     }
@@ -183,6 +215,7 @@ public class EvolutionService implements GetEvolutionUseCase {
     }
 
     private String fechaLabel(String mes) {
+        if (mes == null || !mes.contains("-")) return mes;
         String[] partes = mes.split("-");
         int mesNumero = Integer.parseInt(partes[1]);
         return "12 " + NOMBRES_MES[mesNumero - 1];

@@ -1,26 +1,21 @@
-import { Component, input } from '@angular/core';
-import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
-import { AnalysisHistoryRow, EstadoFinanciero } from '@core/evolution/models/evolution.model';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AnalysisHistoryRow } from '@core/evolution/models/evolution.model';
 
 @Component({
   selector: 'app-analysis-history-table',
   standalone: true,
-  imports: [IconFinCoachComponent],
-  templateUrl: './analysis-history-table.html',
+  imports: [CommonModule],
+  templateUrl: './analysis-history-table.html'
 })
 export class AnalysisHistoryTable {
-  historial = input<AnalysisHistoryRow[]>([]);
+  @Input() historial: AnalysisHistoryRow[] = [];
 
-  pillClass(estado: EstadoFinanciero): string {
-    switch (estado) {
-      case 'Saludable':
-        return 'bg-[#5A7259]/15 text-[#425942] border-[#5A7259]/40';
-      case 'En observación':
-        return 'bg-[#936124]/15 text-[#77490C] border-[#936124]/40';
-      case 'En riesgo':
-        return 'bg-[#FFDAD6] text-[#BA1A1A] border-[#BA1A1A]/40';
-      default:
-        return 'bg-[#5A7259]/15 text-[#425942] border-[#5A7259]/40';
-    }
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2
+    }).format(value || 0);
   }
 }

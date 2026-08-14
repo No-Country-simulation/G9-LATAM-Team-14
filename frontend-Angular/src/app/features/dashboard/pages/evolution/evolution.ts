@@ -1,20 +1,22 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { EvolutionService } from '@core/evolution/services/evolution.service';
-import { EvolutionResponse, TimeRange } from '@core/evolution/models/evolution.model';
-import { EvolutionHeaderComponent } from './components/evolution-header/evolution-header';
-import { ScoreLineChartComponent } from './components/score-line-chart/score-line-chart';
-import { IncomeExpensesChartComponent } from './components/income-expenses-chart/income-expenses-chart';
-import { CategoryExpensesPanel } from './components/category-expenses-panel/category-expenses-panel';
-import { AnalysisHistoryTable } from './components/analysis-history-table/analysis-history-table';
+import { EvolutionData, TimeRange } from '@core/evolution/models/evolution.model';
+import {
+  EvolutionHeaderComponent,
+  RecentEvolutionComponent,
+  ScoreLineChartComponent,
+  AnalysisHistoryTable
+} from './components';
 
 @Component({
   selector: 'app-evolution',
   standalone: true,
   imports: [
+    CommonModule,
     EvolutionHeaderComponent,
+    RecentEvolutionComponent,
     ScoreLineChartComponent,
-    IncomeExpensesChartComponent,
-    CategoryExpensesPanel,
     AnalysisHistoryTable
   ],
   templateUrl: './evolution.html',
@@ -23,7 +25,8 @@ export class Evolution implements OnInit {
   private evolutionService = inject(EvolutionService);
 
   range = signal<TimeRange>('6M');
-  data = signal<EvolutionResponse | null>(null);
+  data = signal<EvolutionData | null>(null);
+  isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.load();
@@ -35,8 +38,12 @@ export class Evolution implements OnInit {
   }
 
   private load(): void {
-    this.evolutionService.getEvolution(this.range()).subscribe(result => {
-      this.data.set(result);
+    this.isLoading.set(true);
+    this.evolutionService.getMock(this.range()).subscribe({
+      next: (result) => {
+        this.data.set(result);
+        this.isLoading.set(false);
+      }
     });
   }
 }

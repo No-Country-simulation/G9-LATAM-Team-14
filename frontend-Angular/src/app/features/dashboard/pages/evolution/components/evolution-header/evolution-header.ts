@@ -1,20 +1,41 @@
-import { Component, input, output } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TimeRange } from '@core/evolution/models/evolution.model';
+import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/evolution.model';
 
 @Component({
   selector: 'app-evolution-header',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './evolution-header.html',
+  templateUrl: './evolution-header.html'
 })
 export class EvolutionHeaderComponent {
-  range = input<TimeRange>('6M');
-  rangeChange = output<TimeRange>();
+  @Input() perfilMensual: MonthlyProfile[] = [];
+  @Input() ingresosVsGastos: IncomeVsExpensesPoint[] = [];
 
-  ranges: TimeRange[] = ['3M', '6M', '1A'];
+  previousProfile = computed(() => {
+    if (this.perfilMensual.length >= 2) {
+      return this.perfilMensual[this.perfilMensual.length - 2];
+    }
+    return this.perfilMensual[0] || null;
+  });
 
-  selectRange(range: TimeRange): void {
-    this.rangeChange.emit(range);
+  currentProfile = computed(() => {
+    if (this.perfilMensual.length >= 1) {
+      return this.perfilMensual[this.perfilMensual.length - 1];
+    }
+    return null;
+  });
+
+  formatMonth(monthStr?: string): string {
+    if (!monthStr) return '';
+    const parts = monthStr.split('-');
+    if (parts.length < 2) return monthStr;
+    const year = parts[0];
+    const monthNum = parseInt(parts[1], 10);
+    const monthNames = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    return `${monthNames[monthNum - 1] || parts[1]} ${year}`;
   }
 }

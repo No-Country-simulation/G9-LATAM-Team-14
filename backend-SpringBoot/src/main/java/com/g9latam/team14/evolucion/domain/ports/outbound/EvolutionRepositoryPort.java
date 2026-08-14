@@ -1,7 +1,6 @@
 package com.g9latam.team14.evolucion.domain.ports.outbound;
 
 import com.g9latam.team14.movement.infrastructure.adapter.outbound.database.repository.MovementJpaRepository;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository.IngresoJpaRepository;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public interface EvolutionRepositoryPort {
 
-    List<IngresoJpaRepository.MonthlyTotal> sumIngresosMensuales(
+    List<MovementJpaRepository.MonthlyTotal> sumIngresosMensuales(
             Integer userId, YearMonth inicio, YearMonth fin
     );
 

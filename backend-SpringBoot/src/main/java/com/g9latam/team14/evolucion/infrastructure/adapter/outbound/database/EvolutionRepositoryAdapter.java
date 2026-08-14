@@ -1,8 +1,7 @@
 package com.g9latam.team14.evolucion.infrastructure.adapter.outbound.database;
 
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.entity.DeudaBancariaEntity;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository.DeudaBancariaJpaRepository;
-import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository.IngresoJpaRepository;
+import com.g9latam.team14.debt.infrastructure.adapter.outbound.database.entity.DebtEntity;
+import com.g9latam.team14.debt.infrastructure.adapter.outbound.database.repository.SpringDataDebtRepository;
 import com.g9latam.team14.evolucion.domain.ports.outbound.EvolutionRepositoryPort;
 import com.g9latam.team14.movement.infrastructure.adapter.outbound.database.repository.MovementJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,16 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EvolutionRepositoryAdapter implements EvolutionRepositoryPort {
 
-    private final IngresoJpaRepository ingresoRepository;
-    private final DeudaBancariaJpaRepository deudaBancariaRepository;
+    private final SpringDataDebtRepository debtRepository;
     private final MovementJpaRepository movementRepository;
 
     @Override
-    public List<IngresoJpaRepository.MonthlyTotal> sumIngresosMensuales(
+    public List<MovementJpaRepository.MonthlyTotal> sumIngresosMensuales(
             Integer userId, YearMonth inicio, YearMonth fin
     ) {
-        return ingresoRepository.sumMontoMonthlyByIdUsuarioAndFechaIngresoBetween(
-                userId, inicio.atDay(1), fin.atEndOfMonth()
+        return movementRepository.sumAmountMonthlyByUserIdAndDateBetweenAndType(
+                userId, inicio.atDay(1), fin.atEndOfMonth(), "INGRESO"
         );
     }
 
@@ -36,7 +34,7 @@ public class EvolutionRepositoryAdapter implements EvolutionRepositoryPort {
             Integer userId, YearMonth inicio, YearMonth fin
     ) {
         return movementRepository.sumAmountMonthlyByUserIdAndDateBetweenAndType(
-                userId, inicio.atDay(1), fin.atEndOfMonth(), "expense"
+                userId, inicio.atDay(1), fin.atEndOfMonth(), "GASTO"
         );
     }
 
@@ -45,21 +43,22 @@ public class EvolutionRepositoryAdapter implements EvolutionRepositoryPort {
             Integer userId, YearMonth inicio, YearMonth fin
     ) {
         return movementRepository.sumAmountByCategoryAndDateBetweenAndType(
-                userId, inicio.atDay(1), fin.atEndOfMonth(), "expense"
+                userId, inicio.atDay(1), fin.atEndOfMonth(), "GASTO"
         );
     }
 
     @Override
     public List<MonthlyDebt> sumDeudasMensuales(Integer userId, YearMonth inicio, YearMonth fin) {
-        List<DeudaBancariaEntity> deudas = deudaBancariaRepository.findByUsuario(userId);
+        List<DebtEntity> deudas = debtRepository.findByUserId(userId);
         List<MonthlyDebt> resultado = new ArrayList<>();
         YearMonth cursor = inicio;
         while (!cursor.isAfter(fin)) {
             LocalDate inicioMes = cursor.atDay(1);
             LocalDate finMes = cursor.atEndOfMonth();
             BigDecimal total = deudas.stream()
+                    .filter(d -> d.getStatus() != null && "ACTIVE".equalsIgnoreCase(d.getStatus().name()))
                     .filter(d -> estaActivaEnMes(d, inicioMes, finMes))
-                    .map(DeudaBancariaEntity::getMontoMensual)
+                    .map(d -> d.getMonthlyAmount() != null ? d.getMonthlyAmount() : BigDecimal.ZERO)
                     .reduce(BigDecimal.ZERO, BigDecimal::add);
             resultado.add(new MonthlyDebt(cursor, total));
             cursor = cursor.plusMonths(1);
@@ -67,9 +66,9 @@ public class EvolutionRepositoryAdapter implements EvolutionRepositoryPort {
         return resultado;
     }
 
-    private boolean estaActivaEnMes(DeudaBancariaEntity deuda, LocalDate inicioMes, LocalDate finMes) {
-        boolean iniciaAntes = deuda.getFechaInicio() == null || !deuda.getFechaInicio().isAfter(finMes);
-        boolean finalizaDespues = deuda.getFechaFin() == null || !deuda.getFechaFin().isBefore(inicioMes);
+    private boolean estaActivaEnMes(DebtEntity deuda, LocalDate inicioMes, LocalDate finMes) {
+        boolean iniciaAntes = deuda.getStartDate() == null || !deuda.getStartDate().isAfter(finMes);
+        boolean finalizaDespues = deuda.getEndDate() == null || !deuda.getEndDate().isBefore(inicioMes);
         return iniciaAntes && finalizaDespues;
     }
 }
