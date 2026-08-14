@@ -15,7 +15,6 @@ export interface MovementGroup {
   templateUrl: './movements-list.html'
 })
 export class MovementsList implements AfterViewInit, OnChanges {
-
   @Input() movements: Movement[] = [];
   @Output() selectMovement = new EventEmitter<Movement>();
   @ViewChild('scrollContainer') scrollContainer?: ElementRef<HTMLDivElement>;
@@ -67,7 +66,7 @@ export class MovementsList implements AfterViewInit, OnChanges {
       const dateB = this.parseLocalDate(b.date);
       const timeA = dateA ? dateA.getTime() : 0;
       const timeB = dateB ? dateB.getTime() : 0;
-      return timeB - timeA;
+      return timeA - timeB;
     });
 
     const groupsMap = new Map<string, { label: string; movements: Movement[] }>();
