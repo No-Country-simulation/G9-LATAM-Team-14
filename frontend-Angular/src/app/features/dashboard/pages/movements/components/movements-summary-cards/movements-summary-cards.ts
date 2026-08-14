@@ -21,22 +21,17 @@ export interface CategoryBreakdown {
 })
 export class MovementsSummaryCards {
   @Input() movements: Movement[] = [];
-  readonly baseIncome = 4500;
-
-  get extraIncome(): number {
-    return this.movements
-      .filter(m => m.type === 'INGRESO')
-      .reduce((sum, m) => sum + m.amount, 0);
-  }
 
   get totalIncome(): number {
-    return this.baseIncome + this.extraIncome;
+    return this.movements
+      .filter(m => m.type === 'INGRESO')
+      .reduce((sum, m) => sum + (m.amount || 0), 0);
   }
 
   get totalExpense(): number {
     return this.movements
       .filter(m => m.type === 'GASTO')
-      .reduce((sum, m) => sum + m.amount, 0);
+      .reduce((sum, m) => sum + (m.amount || 0), 0);
   }
 
   get balance(): number {
@@ -55,7 +50,7 @@ export class MovementsSummaryCards {
     const map = new Map<string, number>();
     for (const m of expenses) {
       const cat = m.category || 'OTRO';
-      map.set(cat, (map.get(cat) || 0) + m.amount);
+      map.set(cat, (map.get(cat) || 0) + (m.amount || 0));
     }
 
     const total = this.totalExpense || 1;
@@ -124,5 +119,3 @@ export class MovementsSummaryCards {
     document.body.removeChild(link);
   }
 }
-
-
