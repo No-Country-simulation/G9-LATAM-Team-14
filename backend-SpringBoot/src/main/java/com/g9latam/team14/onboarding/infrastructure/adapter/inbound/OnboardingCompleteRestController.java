@@ -45,7 +45,6 @@ public class OnboardingCompleteRestController {
             userId = 1;
         }
 
-
         List<OnboardingDebt> debts = request.debts() == null ? List.of() :
                 request.debts().stream()
                         .map(d -> OnboardingDebt.builder()

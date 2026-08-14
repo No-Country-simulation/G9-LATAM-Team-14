@@ -4,7 +4,7 @@
   </app-movements-header>
   <div class="hidden xl:grid xl:grid-cols-3 gap-6 flex-1 min-h-0">
     <div class="xl:col-span-2 flex flex-col min-h-0 h-full">
-      <app-movements-list [movements]="movements()" class="h-full block">
+      <app-movements-list [movements]="movements()" (selectMovement)="onSelectMovement($event)" class="h-full block">
       </app-movements-list>
     </div>
     <div class="xl:col-span-1 min-h-0 h-full overflow-y-auto no-scrollbar">
@@ -14,7 +14,7 @@
   </div>
   <div class="xl:hidden flex-1 min-h-0 h-full">
     @if (activeView() === 'list') {
-    <app-movements-list [movements]="movements()" class="h-full block">
+    <app-movements-list [movements]="movements()" (selectMovement)="onSelectMovement($event)" class="h-full block">
     </app-movements-list>
     } @else {
     <div class="h-full overflow-y-auto no-scrollbar max-h-[calc(100vh-235px)]">
@@ -23,9 +23,12 @@
     </div>
     }
   </div>
-
 </div>
 
 @if (isModalOpen()) {
 <app-movement-modal (close)="closeModal()" (save)="loadMovements(); closeModal()"></app-movement-modal>
 }
+
+<app-movement-detail-modal [isOpen]="isDetailModalOpen()" [movement]="selectedMovement()"
+  (closeModal)="closeDetailModal()" (movementUpdated)="loadMovements()" (movementDeleted)="loadMovements()">
+</app-movement-detail-modal>

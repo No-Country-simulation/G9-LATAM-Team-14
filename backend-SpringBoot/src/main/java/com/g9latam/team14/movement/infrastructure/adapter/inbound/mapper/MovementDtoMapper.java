@@ -1,4 +1,5 @@
 package com.g9latam.team14.movement.infrastructure.adapter.inbound.mapper;
+
 import com.g9latam.team14.movement.domain.model.AiAlternativeCategory;
 import com.g9latam.team14.movement.domain.model.AiClassification;
 import com.g9latam.team14.movement.domain.model.Movement;
@@ -7,6 +8,7 @@ import com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos.AiClassif
 import com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos.CreateMovementRequest;
 import com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos.MovementResponse;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
@@ -19,6 +21,7 @@ public class MovementDtoMapper {
                 .type(request.type())
                 .category(request.category())
                 .date(request.date())
+                .note(request.note())
                 .userId(request.userId())
                 .aiClassification(null)
                 .build();
@@ -51,6 +54,7 @@ public class MovementDtoMapper {
                 movement.getType(),
                 movement.getCategory(),
                 movement.getDate(),
+                movement.getNote(),
                 movement.getUserId(),
                 ai != null && Boolean.TRUE.equals(ai.getModelRequiresReview())
                         ? "PENDING_CONFIRMATION"

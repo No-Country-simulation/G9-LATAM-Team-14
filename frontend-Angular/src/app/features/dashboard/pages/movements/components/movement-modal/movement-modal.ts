@@ -79,23 +79,31 @@ export class MovementModalComponent {
     this.movement.category = category;
   }
 
+  private getFullDateTime(): string {
+    const d = this.date || new Date().toISOString().split('T')[0];
+    const t = this.time || new Date().toTimeString().slice(0, 5);
+    return `${d}T${t}:00`;
+  }
+
   registerMovement(): void {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
 
     const userId = this.authService.currentUser()?.id || 1;
-    const finalDescription = this.movement.description.trim() || this.movement.note.trim() || 'Nuevo movimiento';
+    const finalDescription = this.movement.description.trim() || 'Nuevo movimiento';
+    const finalNote = this.movement.note.trim();
+    const fullDateTime = this.getFullDateTime();
 
     const payload: CreateMovementRequest = {
       description: finalDescription,
       amount: Number(this.movement.amount || 0),
       type: this.movement.type,
       category: this.movement.category,
-      date: this.date || new Date().toISOString().split('T')[0],
+      date: fullDateTime,
+      note: finalNote,
       userId
     };
 
-    // Open AI modal IMMEDIATELY for 0ms visual delay, displaying a loading skeleton inside the modal
     this.pendingCreatePayload = payload;
     this.modelSuggestion = undefined;
     this.isLoadingAi = true;
@@ -119,26 +127,26 @@ export class MovementModalComponent {
     });
   }
 
-
   confirmAiClassification(aiData: { category: string; regularity: string }): void {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
     this.showAiModal = false;
 
+    const fullDateTime = this.getFullDateTime();
     const payloadToSave = this.pendingCreatePayload
-      ? { ...this.pendingCreatePayload, category: aiData.category }
+      ? { ...this.pendingCreatePayload, category: aiData.category, date: fullDateTime }
       : {
-          description: this.movement.description,
+          description: this.movement.description || 'Nuevo movimiento',
           amount: Number(this.movement.amount || 0),
           type: this.movement.type,
           category: aiData.category,
-          date: this.date || new Date().toISOString().split('T')[0],
+          date: fullDateTime,
+          note: this.movement.note.trim(),
           userId: this.authService.currentUser()?.id || 1
         };
 
-    // Persist movement with the confirmed category
     this.movementService.createMovement(payloadToSave).subscribe({
-      next: (created) => {
+      next: () => {
         this.save.emit();
         this.closeModal();
       },

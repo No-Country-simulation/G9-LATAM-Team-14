@@ -34,4 +34,16 @@ export class MovementService {
       withCredentials: true
     });
   }
+
+  updateMovement(id: number, description: string, note?: string): Observable<Movement> {
+    return this.http.put<Movement>(`${this.apiUrl}/${id}`, { description, note }, {
+      withCredentials: true
+    });
+  }
+
+  deleteMovement(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`, {
+      withCredentials: true
+    });
+  }
 }

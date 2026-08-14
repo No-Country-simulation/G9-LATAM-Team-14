@@ -46,6 +46,7 @@ public class MovementRestController {
                     .type(domain.getType())
                     .category(domain.getCategory())
                     .date(domain.getDate())
+                    .note(domain.getNote())
                     .userId(userId)
                     .build();
         }
@@ -67,12 +68,13 @@ public class MovementRestController {
                 request.description(),
                 request.amount().doubleValue(),
                 direction,
-                ""
+                request.note() != null ? request.note() : ""
         );
 
         var dto = movementDtoMapper.aiToResponse(ai);
         return ResponseEntity.ok(dto);
     }
+
     @PatchMapping("/{id}/confirm")
     public ResponseEntity<MovementResponse> confirmMovement(
             @PathVariable Integer id,
@@ -86,6 +88,21 @@ public class MovementRestController {
         );
 
         return ResponseEntity.ok(movementDtoMapper.toResponse(movement));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MovementResponse> updateMovement(
+            @PathVariable Integer id,
+            @RequestBody CreateMovementRequest request
+    ) {
+        Movement updated = createMovementUseCase.updateMovementWithNote(id, request.description(), request.note());
+        return ResponseEntity.ok(movementDtoMapper.toResponse(updated));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMovement(@PathVariable Integer id) {
+        createMovementUseCase.deleteMovement(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

@@ -11,34 +11,45 @@
       </div>
 
       @for (movement of group.movements; track movement.id || $index) {
-      <div class="flex justify-between items-center py-2 px-3 rounded-xl hover:bg-[#FAFCD9]/80 transition-colors group">
-        <div class="flex items-center gap-3">
-          <div
-            class="w-9 h-9 rounded-lg bg-[#EEF2D2] group-hover:bg-[#E3E8C4] flex items-center justify-center text-[#364234] transition-colors shrink-0">
-            <app-icon-fin-coach [name]="getIconName(movement.category)" class="w-4 h-4"></app-icon-fin-coach>
+      <div (click)="onItemClick(movement)"
+        class="flex justify-between items-center py-2.5 px-3.5 rounded-xl hover:bg-[#FAFCD9]/80 transition-colors cursor-pointer group">
+        
+        <!-- 1. Ícono + 2. Nombre y Categoría -->
+        <div class="flex items-center gap-3 min-w-0 flex-1 pr-2">
+          <!-- Columna 1: Ícono de Flecha -->
+          <div [ngClass]="movement.type === 'INGRESO'
+                  ? 'bg-[#DDF3E3] text-[#4E6545]'
+                  : 'bg-[#F8E7D5] text-[#9A6A3B]'"
+            class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors shrink-0">
+            <app-icon-fin-coach [name]="movement.type === 'INGRESO' ? 'arrow-up' : 'arrow-down'" class="w-4 h-4"></app-icon-fin-coach>
           </div>
-          <div class="flex flex-col">
-            <span class="font-medium text-sm text-[#364234] leading-tight">
+
+          <!-- Columna 2: Nombre + Categoría -->
+          <div class="flex flex-col min-w-0">
+            <span class="font-medium text-sm text-[#364234] leading-tight truncate">
               {{ movement.description }}
             </span>
-            <div class="flex items-center gap-2 mt-0.5 text-xs text-[#6B6B5D]">
-              <span class="uppercase px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide" [ngClass]="movement.type === 'INGRESO'
+            <div class="flex items-center gap-2 mt-0.5">
+              <span class="uppercase px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wide inline-block" [ngClass]="movement.type === 'INGRESO'
                       ? 'bg-[#DDF3E3] text-[#4E6545]'
                       : 'bg-[#F8E7D5] text-[#9A6A3B]'">
                 {{ movement.category }}
               </span>
-              @if (formatTime(movement.date)) {
-              <span class="text-[#8A8A6A]">
-                • {{ formatTime(movement.date) }}
-              </span>
-              }
             </div>
           </div>
         </div>
-        <span class="font-semibold text-sm whitespace-nowrap"
-          [ngClass]="movement.type === 'INGRESO' ? 'text-[#4A6042]' : 'text-[#8B5A2B]'">
-          {{ movement.type === 'INGRESO' ? '+' : '-' }} $ {{ movement.amount }}
-        </span>
+
+        <!-- Columna 3: Hora + Columna 4: Monto -->
+        <div class="flex items-center gap-3 shrink-0">
+          <span class="text-xs font-semibold text-[#8A8A6A] bg-[#EAEFC8] px-2.5 py-1 rounded-lg">
+            {{ formatTime(movement.date, movement.id) }}
+          </span>
+          <span class="font-semibold text-sm whitespace-nowrap min-w-[70px] text-right"
+            [ngClass]="movement.type === 'INGRESO' ? 'text-[#4A6042]' : 'text-[#8B5A2B]'">
+            {{ movement.type === 'INGRESO' ? '+' : '-' }} $ {{ movement.amount | number:'1.0-0' }}
+          </span>
+        </div>
+
       </div>
       }
     </div>

@@ -52,4 +52,9 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
                 movementJpaRepository.findByUserIdOrderByDateDesc(userId)
         );
     }
-}
+
+    @Override
+    public void deleteById(Integer id) {
+        movementJpaRepository.deleteById(id);
+    }
+}

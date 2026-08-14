@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,16 @@ public class CreateMovementService implements CreateMovementUseCase {
     private final MovementRepositoryPort movementRepository;
     private final TransactionRepositoryPort transactionRepository;
     private final com.g9latam.team14.movement.domain.ports.inbound.ClassifyMovementUseCase classifyMovementUseCase;
+
+    private LocalDate parseLocalDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) return LocalDate.now();
+        try {
+            String datePart = dateStr.contains("T") ? dateStr.split("T")[0] : dateStr.split(" ")[0];
+            return LocalDate.parse(datePart);
+        } catch (Exception e) {
+            return LocalDate.now();
+        }
+    }
 
     @Override
     @CacheEvict(value = "dashboardSummary", allEntries = true)
@@ -32,7 +43,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                         movement.getDescription(),
                         movement.getAmount() != null ? movement.getAmount().doubleValue() : 0.0,
                         direction,
-                        ""
+                        movement.getNote() != null ? movement.getNote() : ""
                 );
                 if (aiClass != null && aiClass.getCategory() != null && !aiClass.getCategory().isBlank()) {
                     category = aiClass.getCategory();
@@ -45,7 +56,6 @@ public class CreateMovementService implements CreateMovementUseCase {
             category = "INGRESO".equalsIgnoreCase(movement.getType()) ? "OTRO" : "COMPRAS";
         }
 
-
         Movement toSave = Movement.builder()
                 .id(movement.getId())
                 .description(movement.getDescription())
@@ -53,6 +63,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .type(movement.getType())
                 .category(category)
                 .date(movement.getDate())
+                .note(movement.getNote())
                 .userId(movement.getUserId())
                 .build();
 
@@ -62,9 +73,9 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .id(null)
                 .userId(saved.getUserId())
                 .financialProfileId(null)
-                .transactionDate(saved.getDate())
+                .transactionDate(parseLocalDate(saved.getDate()))
                 .description(saved.getDescription())
-                .note(null)
+                .note(saved.getNote())
                 .amount(saved.getAmount())
                 .currency("COP")
                 .direction(
@@ -117,9 +128,56 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .type(existing.getType())
                 .category(category != null && !category.isBlank() ? category : existing.getCategory())
                 .date(existing.getDate())
+                .note(existing.getNote())
                 .userId(existing.getUserId())
                 .build();
 
         return movementRepository.save(updated);
+    }
+
+    @Override
+    @CacheEvict(value = "dashboardSummary", allEntries = true)
+    public Movement updateMovement(Integer id, String description) {
+        Movement existing = movementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movimiento no encontrado con id: " + id));
+
+        Movement updated = Movement.builder()
+                .id(existing.getId())
+                .description(description != null && !description.isBlank() ? description : existing.getDescription())
+                .amount(existing.getAmount())
+                .type(existing.getType())
+                .category(existing.getCategory())
+                .date(existing.getDate())
+                .note(existing.getNote())
+                .userId(existing.getUserId())
+                .build();
+
+        return movementRepository.save(updated);
+    }
+
+    @Override
+    @CacheEvict(value = "dashboardSummary", allEntries = true)
+    public Movement updateMovementWithNote(Integer id, String description, String note) {
+        Movement existing = movementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Movimiento no encontrado con id: " + id));
+
+        Movement updated = Movement.builder()
+                .id(existing.getId())
+                .description(description != null && !description.isBlank() ? description : existing.getDescription())
+                .amount(existing.getAmount())
+                .type(existing.getType())
+                .category(existing.getCategory())
+                .date(existing.getDate())
+                .note(note != null ? note : existing.getNote())
+                .userId(existing.getUserId())
+                .build();
+
+        return movementRepository.save(updated);
+    }
+
+    @Override
+    @CacheEvict(value = "dashboardSummary", allEntries = true)
+    public void deleteMovement(Integer id) {
+        movementRepository.deleteById(id);
     }
 }

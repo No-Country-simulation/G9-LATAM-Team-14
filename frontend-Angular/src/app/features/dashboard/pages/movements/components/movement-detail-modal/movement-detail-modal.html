@@ -1,0 +1,80 @@
+@if (isOpen && movement) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-fadeIn">
+  <div class="bg-[#EFF5D3] rounded-3xl border border-[#DCE8B5] shadow-2xl max-w-md w-full overflow-hidden p-6 sm:p-7 space-y-6">
+    <!-- Encabezado con Ícono y Botón Cerrar -->
+    <div class="flex items-center justify-between pb-3 border-b border-[#DCE8B5]">
+      <div class="flex items-center gap-3">
+        <div [ngClass]="movement.type === 'INGRESO' ? 'bg-[#DDF3E3] text-[#4E6545]' : 'bg-[#F8E7D5] text-[#9A6A3B]'"
+          class="w-10 h-10 rounded-xl flex items-center justify-center font-bold">
+          <app-icon-fin-coach [name]="movement.type === 'INGRESO' ? 'arrow-up' : 'arrow-down'" class="w-5 h-5"></app-icon-fin-coach>
+        </div>
+        <div>
+          <h2 class="text-lg font-black text-[#214523] leading-tight">Detalle del Movimiento</h2>
+          <p class="text-xs text-[#526655] font-medium">{{ formattedDate }}</p>
+        </div>
+      </div>
+      <button (click)="onClose()" class="text-[#526655] hover:text-[#214523] p-1.5 rounded-lg transition-colors cursor-pointer text-xl leading-none font-bold">
+        &times;
+      </button>
+    </div>
+
+    <!-- Resumen del Monto y Categoría (Lectura) -->
+    <div class="bg-[#E5ECBF] p-4 rounded-2xl border border-[#C9DAA7] flex items-center justify-between">
+      <div>
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#5A7259] block">Monto</span>
+        <span [ngClass]="movement.type === 'INGRESO' ? 'text-[#4A6042]' : 'text-[#8B5A2B]'" class="text-2xl font-black">
+          {{ movement.type === 'INGRESO' ? '+' : '-' }} $ {{ movement.amount | number:'1.0-0' }}
+        </span>
+      </div>
+      <div class="text-right">
+        <span class="text-[11px] font-bold uppercase tracking-wider text-[#5A7259] block">Categoría</span>
+        <span [ngClass]="movement.type === 'INGRESO' ? 'bg-[#DDF3E3] text-[#4E6545]' : 'bg-[#F8E7D5] text-[#9A6A3B]'"
+          class="inline-block text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wide">
+          {{ movement.category }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Formulario de Edición (Solo Nombre y Nota) -->
+    <div class="space-y-4 text-left">
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-[#5A7259] mb-1.5">
+          Nombre del Movimiento
+        </label>
+        <input type="text" [(ngModel)]="editDescription"
+          class="w-full bg-[#FAFCD9] border border-[#C9DAA7] rounded-xl px-4 py-2.5 text-sm font-semibold text-[#214523] focus:outline-none focus:border-[#214523] transition-colors"
+          placeholder="Descripción del movimiento..." />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-[#5A7259] mb-1.5">
+          Nota / Detalle adicional
+        </label>
+        <textarea [(ngModel)]="editNote" rows="2"
+          class="w-full bg-[#FAFCD9] border border-[#C9DAA7] rounded-xl px-4 py-2.5 text-sm font-medium text-[#214523] focus:outline-none focus:border-[#214523] transition-colors resize-none"
+          placeholder="Agregar una nota explicativa..."></textarea>
+      </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="flex items-center justify-between gap-3 pt-2">
+      <button (click)="onDelete()" [disabled]="isDeleting"
+        class="bg-[#FADCD9] hover:bg-[#F8B4AF] text-[#D9534F] font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm flex items-center gap-1.5 transition-colors cursor-pointer">
+        <app-icon-fin-coach name="trash" class="w-4 h-4"></app-icon-fin-coach>
+        <span>{{ isDeleting ? 'Eliminando...' : 'Eliminar' }}</span>
+      </button>
+
+      <div class="flex items-center gap-2">
+        <button (click)="onClose()"
+          class="bg-[#D7E3A9] hover:bg-[#C8D896] text-[#214523] font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm transition-colors cursor-pointer">
+          Cancelar
+        </button>
+        <button (click)="onSave()" [disabled]="isSaving"
+          class="bg-[#214523] hover:bg-[#18341A] text-white font-bold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow-xs transition-colors cursor-pointer">
+          {{ isSaving ? 'Guardando...' : 'Guardar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}
