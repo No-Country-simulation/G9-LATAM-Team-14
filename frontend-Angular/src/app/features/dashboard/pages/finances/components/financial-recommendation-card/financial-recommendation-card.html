@@ -25,7 +25,7 @@
 
   <!-- Mensaje Principal -->
   <p class="text-sm sm:text-base font-semibold leading-relaxed text-[#2F3A2F]">
-    {{ message || 'Consolida tu fondo de emergencia equivalente a 3 meses de gastos fijos manteniendo tu capacidad de ahorro mensual actual.' }}
+    {{ message }}
   </p>
 
   <!-- Siguiente Acción Destacada -->
@@ -41,13 +41,19 @@
   <!-- Metadatos de Confianza y Meta -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
     <div class="flex items-center gap-2">
-      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{ confidencePercentage }}%</span>
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">
+        {{ confidencePercentage }}%
+      </span>
       <span class="text-xs font-medium text-[#526650]">Confianza</span>
     </div>
     <div class="flex items-center gap-2 min-w-0">
-      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">Meta relacionada</span>
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">
+        Meta relacionada
+      </span>
       <span class="text-xs font-medium text-[#526650] truncate">
-        {{ nextGoal || 'No se asumió una meta' }}
+        {{ relatedGoal || nextGoal || 'No se asumió una meta' }}
       </span>
     </div>
   </div>
@@ -68,7 +74,8 @@
   } @else {
   <!-- Estado de Evidencia Insuficiente (Boceto Original) -->
   <div class="py-8 text-center space-y-3">
-    <div class="w-12 h-12 rounded-full bg-[#E3E8C4] border border-[#CFCFAE] flex items-center justify-center mx-auto text-xl shadow-2xs">
+    <div
+      class="w-12 h-12 rounded-full bg-[#E3E8C4] border border-[#CFCFAE] flex items-center justify-center mx-auto text-xl shadow-2xs">
       ⌛
     </div>
     <h4 class="text-base font-bold text-[#2F3A2F]">Aún necesitamos más evidencia</h4>

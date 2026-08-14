@@ -13,7 +13,8 @@ export class FinancialRecommendationCard {
   @Input() message: string = '';
   @Input() nextAction: string = '';
   @Input() confidencePercentage: number = 92;
-  @Input() nextGoal = '';
+  @Input() relatedGoal: string = '';
+  @Input() nextGoal: string = '';
   @Input() appliedSafeguards: string[] = [];
   @Input() reasons: string[] = [];
 }
