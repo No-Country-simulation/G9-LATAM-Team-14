@@ -28,9 +28,16 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
     @Value("${ds.service.url:http://python-data-science:8000}")
     private String dsServiceUrl;
 
+    private static final int MINIMUM_REQUIRED_MOVEMENTS = 5;
+
     @Override
     public FinancesData fetchRecommendationAndStatus(Integer userId, double totalIncome, double totalExpenses, double debtPayments, Integer periodDays, int confirmedMovementsCount) {
         String url = dsServiceUrl + "/api/v1/recommendations/";
+
+        if (confirmedMovementsCount < MINIMUM_REQUIRED_MOVEMENTS) {
+            log.info("Usuario tiene {} movimientos (< {} requeridos). Retornando evidencia insuficiente.", confirmedMovementsCount, MINIMUM_REQUIRED_MOVEMENTS);
+            return insufficientEvidenceData(periodDays, confirmedMovementsCount);
+        }
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("total_income", totalIncome);
@@ -71,7 +78,8 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
         // Modelo 04
         JsonNode stateNode = root.path("financial_state");
         String stateStatus = stateNode.path("status").asText("calculated");
-        String trajectory = stateNode.path("state").asText("equilibrio_sostenible");
+        String trajectoryRaw = stateNode.path("state").asText("equilibrio_sostenible");
+        String challengeStateRaw = stateNode.path("challenge_state").asText("saludable");
         double confidence = stateNode.path("confidence_percentage").asDouble(85.4);
 
         List<FinancialStatus.ObservedFactor> factors = new ArrayList<>();
@@ -84,16 +92,21 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
                         .build());
             }
         }
+        if (factors.isEmpty()) {
+            factors = defaultObservedFactors();
+        }
+
+        boolean isCalculated = "calculated".equalsIgnoreCase(stateStatus);
 
         FinancialStatus status = FinancialStatus.builder()
-                .status("calculated".equalsIgnoreCase(stateStatus) ? "calculated" : "insufficient_evidence")
-                .currentState("En Crecimiento Saludable")
-                .trajectory("equilibrio_sostenible".equalsIgnoreCase(trajectory) ? "Estable y Positiva" : trajectory)
+                .status(isCalculated ? "calculated" : "insufficient_evidence")
+                .currentState(mapCurrentState(challengeStateRaw))
+                .trajectory(mapTrajectory(trajectoryRaw))
                 .confidencePercentage(confidence)
                 .daysWithHistory(p)
                 .confirmedMovements(confirmedMovementsCount)
                 .dateRangeText(dateRange)
-                .mainFactors(factors)
+                .mainFactors(isCalculated ? factors : List.of())
                 .build();
 
         // Modelo 05
@@ -111,6 +124,14 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
             for (JsonNode s : safeguardsNode) {
                 safeguards.add(s.asText());
             }
+        }
+        if (safeguards.isEmpty()) {
+            safeguards = List.of(
+                    "Capacidad de Pago Verificada",
+                    "Estabilidad de Ingresos",
+                    "Protección de Liquidez Mínima",
+                    "Evaluación Ética de Riesgo"
+            );
         }
 
         List<String> reasons = new ArrayList<>();
@@ -140,44 +161,36 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
                 .build();
     }
 
-    private FinancesData fallbackFinancesData(double totalIncome, double totalExpenses, Integer periodDays, int confirmedMovementsCount) {
+    private FinancesData insufficientEvidenceData(Integer periodDays, int confirmedMovementsCount) {
         int p = periodDays != null ? periodDays : 60;
         LocalDate now = LocalDate.now();
         LocalDate past = now.minusDays(p);
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMM yyyy");
         String dateRange = past.format(fmt) + " — " + now.format(fmt);
 
-        boolean hasData = confirmedMovementsCount > 0 || totalIncome > 0 || totalExpenses > 0;
-
         FinancialStatus status = FinancialStatus.builder()
-                .status(hasData ? "calculated" : "insufficient_evidence")
-                .currentState(hasData ? "En Crecimiento Saludable" : "Sin Datos Suficientes")
-                .trajectory(hasData ? "Estable y Positiva" : "En Evaluación")
-                .confidencePercentage(hasData ? (p == 30 ? 80.0 : p == 60 ? 85.0 : 92.0) : 0.0)
-                .daysWithHistory(hasData ? p : 0)
+                .status("insufficient_evidence")
+                .currentState("Aún no disponible")
+                .trajectory("En evaluación")
+                .confidencePercentage(0.0)
+                .daysWithHistory(p)
                 .confirmedMovements(confirmedMovementsCount)
                 .dateRangeText(dateRange)
-                .mainFactors(hasData ? defaultObservedFactors() : List.of())
+                .mainFactors(List.of())
                 .build();
 
         FinancialRecommendation recommendation = FinancialRecommendation.builder()
-                .status(hasData ? "available" : "not_available")
+                .status("not_available")
                 .priority("ALTA")
                 .strategy("Estrategia de Liquidez")
-                .message("Consolida tu fondo de emergencia equivalente a 3 meses de gastos fijos manteniendo tu capacidad de ahorro mensual actual.")
-                .nextAction("Automatiza una transferencia mensual del 15% de tus ingresos principales al iniciar cada mes.")
-                .confidencePercentage(92.0)
+                .message("Aún no generamos una recomendación para tu perfil.")
+                .nextAction("Registra más movimientos para activar el análisis inteligente.")
+                .confidencePercentage(0.0)
                 .relatedGoal("No se asumió una meta")
-                .appliedSafeguards(hasData ? List.of(
-                        "Capacidad de Pago Verificada",
-                        "Estabilidad de Ingresos",
-                        "Protección de Liquidez Mínima",
-                        "Evaluación Ética de Riesgo"
-                ) : List.of())
-                .reasons(hasData ? List.of() : List.of(
-                        "Días observados insuficientes (< 15 días)",
-                        "Sin movimientos confirmados en el periodo",
-                        "Registra tus primeros ingresos o gastos para activar el análisis inteligente"
+                .appliedSafeguards(List.of())
+                .reasons(List.of(
+                        "Historial de movimientos insuficiente (se requieren al menos 5 movimientos confirmados)",
+                        "Registra tus primeros ingresos o gastos para activar el análisis inteligente de la IA"
                 ))
                 .build();
 
@@ -186,6 +199,76 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
                 .financialStatus(status)
                 .financialRecommendation(recommendation)
                 .build();
+    }
+
+    private FinancesData fallbackFinancesData(double totalIncome, double totalExpenses, Integer periodDays, int confirmedMovementsCount) {
+        int p = periodDays != null ? periodDays : 60;
+        LocalDate now = LocalDate.now();
+        LocalDate past = now.minusDays(p);
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMM yyyy");
+        String dateRange = past.format(fmt) + " — " + now.format(fmt);
+
+        boolean hasSufficientData = confirmedMovementsCount >= MINIMUM_REQUIRED_MOVEMENTS;
+
+        if (!hasSufficientData) {
+            return insufficientEvidenceData(periodDays, confirmedMovementsCount);
+        }
+
+        FinancialStatus status = FinancialStatus.builder()
+                .status("calculated")
+                .currentState("En Crecimiento Saludable")
+                .trajectory("Estable y Positiva")
+                .confidencePercentage(p == 30 ? 80.0 : p == 60 ? 85.0 : 92.0)
+                .daysWithHistory(p)
+                .confirmedMovements(confirmedMovementsCount)
+                .dateRangeText(dateRange)
+                .mainFactors(defaultObservedFactors())
+                .build();
+
+        FinancialRecommendation recommendation = FinancialRecommendation.builder()
+                .status("available")
+                .priority("ALTA")
+                .strategy("Estrategia de Liquidez")
+                .message("Consolida tu fondo de emergencia equivalente a 3 meses de gastos fijos manteniendo tu capacidad de ahorro mensual actual.")
+                .nextAction("Automatiza una transferencia mensual del 15% de tus ingresos principales al iniciar cada mes.")
+                .confidencePercentage(92.0)
+                .relatedGoal("No se asumió una meta")
+                .appliedSafeguards(List.of(
+                        "Capacidad de Pago Verificada",
+                        "Estabilidad de Ingresos",
+                        "Protección de Liquidez Mínima",
+                        "Evaluación Ética de Riesgo"
+                ))
+                .reasons(List.of())
+                .build();
+
+        return FinancesData.builder()
+                .periodDays(p)
+                .financialStatus(status)
+                .financialRecommendation(recommendation)
+                .build();
+    }
+
+    private String mapCurrentState(String challengeState) {
+        if (challengeState == null) return "En Crecimiento Saludable";
+        return switch (challengeState.toLowerCase()) {
+            case "saludable" -> "En Crecimiento Saludable";
+            case "en_observacion" -> "En Observación";
+            case "critica", "critico" -> "Atención Requerida";
+            default -> "En Crecimiento Saludable";
+        };
+    }
+
+    private String mapTrajectory(String trajectoryState) {
+        if (trajectoryState == null) return "Estable y Positiva";
+        return switch (trajectoryState.toLowerCase()) {
+            case "equilibrio_sostenible" -> "Estable y Positiva";
+            case "acumulacion_estable" -> "Acumulación Constante";
+            case "variable_resiliente" -> "Variable Resiliente";
+            case "deterioro_reciente" -> "Deterioro Reciente";
+            case "situacion_critica" -> "Situación Crítica";
+            default -> trajectoryState.replace('_', ' ');
+        };
     }
 
     private List<FinancialStatus.ObservedFactor> defaultObservedFactors() {

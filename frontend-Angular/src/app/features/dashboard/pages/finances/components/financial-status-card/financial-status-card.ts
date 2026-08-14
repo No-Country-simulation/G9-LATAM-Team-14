@@ -13,9 +13,12 @@ export interface FactorObserved {
   templateUrl: './financial-status-card.html'
 })
 export class FinancialStatusCard {
-  @Input() confidencePct = 85;
-  @Input() daysWithHistory = 60;
-  @Input() confirmedMovements = 48;
+  @Input() status = 'calculated';
+  @Input() currentState = '';
+  @Input() trajectory = '';
+  @Input() confidencePct = 0;
+  @Input() daysWithHistory = 0;
+  @Input() confirmedMovements = 0;
   @Input() dateRangeText = '';
   @Input() observedFactors: FactorObserved[] = [];
 }

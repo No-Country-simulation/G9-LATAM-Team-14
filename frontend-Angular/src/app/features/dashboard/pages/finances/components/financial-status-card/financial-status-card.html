@@ -5,22 +5,29 @@
       <p class="text-[10px] font-bold uppercase tracking-wider text-[#6B6B5D]">Modelo 04 · Trayectoria</p>
       <h2 class="text-lg sm:text-xl font-bold text-[#2F3A2F]">Tu estado financiero</h2>
     </div>
-    <span class="bg-[#4A6042] text-white px-3 py-1 rounded-full text-xs font-semibold shrink-0">
-      Calculado
+    <span [class.bg-[#4A6042]]="status === 'calculated'" [class.text-white]="status === 'calculated'"
+      [class.bg-[#E3E8C4]]="status !== 'calculated'" [class.text-[#2F3A2F]]="status !== 'calculated'"
+      class="px-3 py-1 rounded-full text-xs font-semibold shrink-0">
+      {{ status === 'calculated' ? 'Calculado' : 'Aún no disponible' }}
     </span>
   </div>
 
+  @if (status === 'calculated') {
   <!-- Estado Actual -->
   <div class="space-y-2">
     <div class="flex items-center justify-between gap-2">
       <span class="text-xs font-semibold text-[#6B6B5D] uppercase tracking-wider">Estado actual</span>
-      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] px-2.5 py-0.5 rounded-full border border-[#CFCFAE] shrink-0">{{ confidencePct }}% Confianza</span>
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] px-2.5 py-0.5 rounded-full border border-[#CFCFAE] shrink-0">{{
+        confidencePct }}% Confianza</span>
     </div>
     <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-3">
-      <p class="text-base font-bold text-[#2F3A2F]">En Crecimiento Saludable</p>
+      <p class="text-base font-bold text-[#2F3A2F]">{{ currentState || 'En Crecimiento Saludable' }}</p>
+      @if (trajectory) {
       <p class="text-xs text-[#526650]">
-        Trayectoria: <strong class="text-[#2F3A2F] font-bold">Estable y Positiva</strong>
+        Trayectoria: <strong class="text-[#2F3A2F] font-bold">{{ trajectory }}</strong>
       </p>
+      }
     </div>
 
     <!-- Barra de Progreso -->
@@ -32,18 +39,24 @@
   <!-- Métricas lado a lado -->
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
     <div class="flex items-center gap-2">
-      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{ daysWithHistory }}</span>
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{
+        daysWithHistory }}</span>
       <span class="text-xs font-medium text-[#526650]">Días con historial</span>
     </div>
     <div class="flex items-center gap-2">
-      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{ confirmedMovements }}</span>
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{
+        confirmedMovements }}</span>
       <span class="text-xs font-medium text-[#526650]">Movimientos confirmados</span>
     </div>
   </div>
 
+  @if (dateRangeText) {
   <p class="text-[11px] text-[#6B6B5D]">Periodo evaluado: {{ dateRangeText }}</p>
+  }
 
-  <!-- Factores Observados en formato de texto continuo -->
+  <!-- Factores Observados -->
   <div class="space-y-2 pt-1">
     <p class="text-xs font-bold uppercase tracking-wider text-[#2F3A2F]">Factores observados</p>
     <div class="space-y-1.5 text-xs text-[#2F3A2F]">
@@ -55,4 +68,29 @@
       }
     </div>
   </div>
+  } @else {
+  <!-- Estado de Evidencia Insuficiente para Trayectoria -->
+  <div class="py-8 text-center space-y-3">
+    <h4 class="text-base font-bold text-[#2F3A2F]">Estado en evaluación</h4>
+    <p class="text-xs text-[#526650] max-w-xs mx-auto leading-relaxed">
+      Se necesitan al menos 5 movimientos confirmados y 15 días de historial para determinar tu trayectoria financiera.
+    </p>
+
+    <!-- Métricas lado a lado -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 max-w-sm mx-auto">
+      <div class="flex items-center gap-2 justify-center">
+        <span
+          class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{
+          daysWithHistory }}</span>
+        <span class="text-xs font-medium text-[#526650]">Días con historial</span>
+      </div>
+      <div class="flex items-center gap-2 justify-center">
+        <span
+          class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">{{
+          confirmedMovements }}</span>
+        <span class="text-xs font-medium text-[#526650]">Movimientos confirmados</span>
+      </div>
+    </div>
+  </div>
+  }
 </div>
