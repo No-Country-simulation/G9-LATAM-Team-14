@@ -1,0 +1,61 @@
+<div class="space-y-5 pt-6 lg:pt-0 lg:pl-8">
+  <!-- Título con barra separadora abajo -->
+  <div class="flex items-center justify-between pb-3 border-b border-[#CFCFAE]">
+    <div>
+      <p class="text-[10px] font-bold uppercase tracking-wider text-[#6B6B5D]">Modelo 05 · Acción</p>
+      <h2 class="text-lg sm:text-xl font-bold text-[#2F3A2F]">Recomendación para ti</h2>
+    </div>
+    <span class="bg-[#4A6042] text-white px-3 py-1 rounded-full text-xs font-semibold shrink-0">
+      Disponible
+    </span>
+  </div>
+
+  <!-- Badges de Prioridad -->
+  <div class="flex flex-wrap gap-2">
+    <span class="bg-[#F8E7D5] text-[#9A6A3B] px-3 py-0.5 rounded-full text-xs font-semibold">
+      Prioridad: Alta
+    </span>
+    <span class="bg-[#E3E8C4] text-[#2F3A2F] px-3 py-0.5 rounded-full text-xs font-medium">
+      Estrategia de Liquidez
+    </span>
+  </div>
+
+  <!-- Mensaje Principal -->
+  <p class="text-sm sm:text-base font-semibold leading-relaxed text-[#2F3A2F]">
+    Consolida tu fondo de emergencia equivalente a 3 meses de gastos fijos manteniendo tu capacidad de ahorro mensual actual.
+  </p>
+
+  <!-- Siguiente Acción Destacada -->
+  <div class="bg-[#4A6042] text-white p-3.5 rounded-xl space-y-0.5 shadow-2xs">
+    <p class="text-[10px] font-bold uppercase tracking-wider text-[#DDF3E3]">Siguiente acción</p>
+    <p class="text-xs sm:text-sm font-medium">
+      Automatiza una transferencia mensual del 15% de tus ingresos principales al iniciar cada mes.
+    </p>
+  </div>
+
+  <!-- Metadatos de Confianza y Meta -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+    <div class="flex items-center gap-2">
+      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">92%</span>
+      <span class="text-xs font-medium text-[#526650]">Confianza</span>
+    </div>
+    <div class="flex items-center gap-2 min-w-0">
+      <span class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">Meta relacionada</span>
+      <span class="text-xs font-medium text-[#526650] truncate">
+        {{ nextGoal || 'No se asumió una meta' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Criterios Considerados -->
+  <div class="space-y-2 pt-1">
+    <p class="text-xs font-bold uppercase tracking-wider text-[#2F3A2F]">Criterios considerados</p>
+    <div class="flex flex-wrap gap-2">
+      @for (safeguard of appliedSafeguards; track safeguard) {
+      <span class="bg-[#f3f7d2] border border-[#CFCFAE] text-[#2F3A2F] px-3 py-1 rounded-xl text-xs font-medium">
+        {{ safeguard }}
+      </span>
+      }
+    </div>
+  </div>
+</div>

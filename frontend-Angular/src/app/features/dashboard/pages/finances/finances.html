@@ -1,28 +1,13 @@
 <div class="space-y-6 pb-8">
-  <!-- Header de la sección Finanzas -->
-  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#f3f7d2] p-5 sm:p-6 rounded-3xl border border-[#D6D6B8] shadow-xs">
-    <div>
-      <h1 class="text-2xl sm:text-3xl font-extrabold text-[#214523] tracking-tight">
-        Finanzas
-      </h1>
-      <p class="text-xs sm:text-sm text-[#526655] font-medium mt-1">
-        Gestión general y visión financiera consolidada.
-      </p>
-    </div>
-    <div class="flex items-center gap-2 bg-[#E5ECBF] px-3.5 py-1.5 rounded-xl border border-[#C9DAA7]">
-      <app-icon-fin-coach name="calendar" class="w-4 h-4 text-[#214523]"></app-icon-fin-coach>
-      <span class="text-xs font-bold text-[#214523]">{{ currentDate }}</span>
-    </div>
-  </div>
-
-  <!-- Contenedor Principal de la Página -->
-  <div class="bg-[#f3f7d2] p-6 sm:p-8 rounded-3xl border border-[#D6D6B8] shadow-xs text-center space-y-4">
-    <div class="w-16 h-16 bg-[#DDF3E3] text-[#4E6545] rounded-2xl flex items-center justify-center mx-auto shadow-xs">
-      <app-icon-fin-coach name="evolution" class="w-8 h-8"></app-icon-fin-coach>
-    </div>
-    <h2 class="text-xl font-extrabold text-[#214523]">Módulo de Finanzas</h2>
-    <p class="text-sm text-[#526655] max-w-md mx-auto">
-      Esta es la nueva sección consolidada de finanzas. Aquí podrás integrar tus presupuestos, flujo de caja e indicadores principales.
-    </p>
+  <app-finances-header [selectedPeriod]="selectedPeriod()" (periodChange)="setPeriod($event)">
+  </app-finances-header>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 pt-2 divide-y lg:divide-y-0 lg:divide-x divide-[#CFCFAE]">
+    <app-financial-status-card [confidencePct]="confidencePct()" [daysWithHistory]="daysWithHistory()"
+      [confirmedMovements]="confirmedMovements()" [dateRangeText]="dateRangeText()"
+      [observedFactors]="observedFactors()">
+    </app-financial-status-card>
+    <app-financial-recommendation-card [nextGoal]="profileData()?.nextGoal || ''"
+      [appliedSafeguards]="appliedSafeguards()">
+    </app-financial-recommendation-card>
   </div>
 </div>
