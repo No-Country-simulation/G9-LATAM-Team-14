@@ -57,16 +57,28 @@ public class DebtDtoMapper {
     public List<Debt> toDomainBatchList(CreateBatchDebtsRequest request) {
         if (request == null || request.debts() == null) return List.of();
         return request.debts().stream()
-                .map(item -> Debt.builder()
-                        .type(DebtType.INSTALLMENT)
-                        .category(item.category() != null ? item.category() : "General")
-                        .monthlyAmount(item.amount() != null ? BigDecimal.valueOf(item.amount()) : BigDecimal.ZERO)
-                        .monthsTerm(12)
-                        .paidInstallments(0)
-                        .startDate(LocalDate.now())
-                        .status(DebtStatus.ACTIVE)
-                        .userId(request.userId())
-                        .build())
+                .map(item -> {
+                    BigDecimal monthly = item.amount() != null ? BigDecimal.valueOf(item.amount()) : BigDecimal.ZERO;
+                    int monthsTerm = 12;
+                    BigDecimal total = monthly.multiply(BigDecimal.valueOf(monthsTerm));
+                    LocalDate start = LocalDate.now();
+                    LocalDate end = start.plusMonths(monthsTerm);
+
+                    return Debt.builder()
+                            .type(DebtType.INSTALLMENT)
+                            .category(item.category() != null ? item.category() : "General")
+                            .monthlyAmount(monthly)
+                            .monthsTerm(monthsTerm)
+                            .totalAmount(total)
+                            .paidInstallments(0)
+                            .paymentMode(DebtPaymentMode.FIXED_TERM)
+                            .startDate(start)
+                            .endDate(end)
+                            .isIndefinite(false)
+                            .status(DebtStatus.ACTIVE)
+                            .userId(request.userId())
+                            .build();
+                })
                 .toList();
     }
 
