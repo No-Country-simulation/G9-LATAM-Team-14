@@ -14,6 +14,10 @@ public class User {
     private final String password;
     private final Float ingresoMensual;
     private final String frecuenciaAhorro;
+    private final String actividadPrincipal;
+    private final String ocupacionCuoc;
+    private final Double confianzaIaPct;
+    private final String resultadoIaJson;
     private final LocalDate fechaRegistro;
     private final Boolean onboardingCompleted;
 }

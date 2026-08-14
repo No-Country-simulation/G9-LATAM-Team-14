@@ -17,6 +17,12 @@ export interface UserInfo {
     email: string;
     nombreUsuario: string;
     onboardingCompleted?: boolean;
+    ingresoMensual?: number;
+    actividadPrincipal?: string;
+    frecuenciaAhorro?: string;
+    ocupacionCuoc?: string;
+    confianzaIaPct?: number;
+    resultadoIaJson?: string;
 }
 
 export interface AuthResponse {

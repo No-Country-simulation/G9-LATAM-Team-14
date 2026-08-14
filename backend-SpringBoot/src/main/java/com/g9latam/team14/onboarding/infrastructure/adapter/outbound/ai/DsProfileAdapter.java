@@ -58,8 +58,6 @@ public class DsProfileAdapter implements DsProfilePort {
         }
     }
 
-
-
     private void parseAndSaveResult(Integer userId, String responseBody) {
         try {
             com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
@@ -68,12 +66,10 @@ public class DsProfileAdapter implements DsProfilePort {
             if (!classification.isMissingNode()) {
                 String ocupacion = classification.path("ocupacion_cuoc").asText("");
                 double confianza = classification.path("confianza_actividad_pct").asDouble(0.0);
-                String actividad = classification.path("actividad_principal").asText("");
 
                 userJpaRepository.findById(userId).ifPresent(user -> {
                     if (!ocupacion.isBlank()) user.setOcupacionCuoc(ocupacion);
                     if (confianza > 0) user.setConfianzaIaPct(confianza);
-                    if (!actividad.isBlank()) user.setActividadPrincipal(actividad);
                     user.setResultadoIaJson(responseBody);
                     userJpaRepository.save(user);
                     log.info("[DS Modelo 1] Guardado en BD MySQL: userId={}, ocupacion={}, confianza={}%", userId, ocupacion, confianza);
@@ -84,7 +80,6 @@ public class DsProfileAdapter implements DsProfilePort {
         }
     }
 
-
     private Map<String, Object> buildPayload(OnboardingData data) {
         Optional<UserEntity> userOpt = userJpaRepository.findById(data.getUserId());
         UserEntity user = userOpt.orElse(null);
@@ -93,7 +88,7 @@ public class DsProfileAdapter implements DsProfilePort {
 
         String activity = data.getPrimaryActivity() != null && !data.getPrimaryActivity().isBlank()
                 ? data.getPrimaryActivity()
-                : "Profesional independiente";
+                : (user != null && user.getActividadPrincipal() != null ? user.getActividadPrincipal() : "Profesional independiente");
 
         String modality = data.getPrimaryIncomeModality() != null && !data.getPrimaryIncomeModality().isBlank()
                 ? data.getPrimaryIncomeModality() : "fijo";
@@ -110,7 +105,8 @@ public class DsProfileAdapter implements DsProfilePort {
                 : List.of();
 
         String savingHabit = data.getSavingHabit() != null && !data.getSavingHabit().isBlank()
-                ? data.getSavingHabit() : "media";
+                ? data.getSavingHabit()
+                : (user != null && user.getFrecuenciaAhorro() != null ? user.getFrecuenciaAhorro() : "media");
 
         List<String> hobbies = data.getHobbies() != null ? data.getHobbies() : List.of();
         String responsibility = data.getFinancialResponsibility() != null && !data.getFinancialResponsibility().isBlank()
@@ -140,5 +136,4 @@ public class DsProfileAdapter implements DsProfilePort {
         payload.put("financial_responsibility", responsibility);
         return payload;
     }
-
 }

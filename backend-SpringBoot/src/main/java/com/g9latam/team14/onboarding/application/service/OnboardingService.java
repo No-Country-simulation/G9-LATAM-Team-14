@@ -9,7 +9,7 @@ import com.g9latam.team14.debt.infrastructure.adapter.inbound.mapper.DebtDtoMapp
 import com.g9latam.team14.onboarding.domain.model.OnboardingData;
 import com.g9latam.team14.onboarding.domain.ports.inbound.CompleteOnboardingUseCase;
 import com.g9latam.team14.onboarding.domain.ports.outbound.DsProfilePort;
-import com.g9latam.team14.perfilfinanciero.domain.ports.inbound.UpdatePerfilFinancieroUseCase;
+import com.g9latam.team14.profile.domain.ports.inbound.UpdatePerfilFinancieroUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

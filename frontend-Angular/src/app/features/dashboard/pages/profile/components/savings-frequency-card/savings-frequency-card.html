@@ -5,19 +5,19 @@
     </div>
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-2.5 xl:gap-3">
-        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'baja' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
+        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (normFrequency() === 'baja' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
             <p class="font-bold text-sm xl:text-base">Baja</p>
-            <p [class]="'text-xs font-medium ' + (frequency() === 'baja' ? 'text-white/80' : 'text-[#526655]')">Ahorro rara vez</p>
+            <p [class]="'text-xs font-medium ' + (normFrequency() === 'baja' ? 'text-white/80' : 'text-[#526655]')">Ahorro rara vez</p>
         </div>
 
-        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'media' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
+        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (normFrequency() === 'media' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
             <p class="font-bold text-sm xl:text-base">Media</p>
-            <p [class]="'text-xs font-medium ' + (frequency() === 'media' ? 'text-white/80' : 'text-[#526655]')">Ahorro algunos meses</p>
+            <p [class]="'text-xs font-medium ' + (normFrequency() === 'media' ? 'text-white/80' : 'text-[#526655]')">Ahorro algunos meses</p>
         </div>
 
-        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (frequency() === 'alta' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
+        <div [class]="'p-4 rounded-2xl border transition-all text-center space-y-1 ' + (normFrequency() === 'alta' ? 'bg-[#2F4836] text-white border-[#2F4836] shadow-md' : 'bg-[#F4F8DE] text-[#214523] border-[#E0ECC0] opacity-80')">
             <p class="font-bold text-sm xl:text-base">Alta</p>
-            <p [class]="'text-xs font-medium ' + (frequency() === 'alta' ? 'text-white/80' : 'text-[#526655]')">Ahorro todos los meses</p>
+            <p [class]="'text-xs font-medium ' + (normFrequency() === 'alta' ? 'text-white/80' : 'text-[#526655]')">Ahorro todos los meses</p>
         </div>
     </div>
 </div>

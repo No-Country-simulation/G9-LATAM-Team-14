@@ -14,6 +14,10 @@ public class UserEntityMapper {
                 .password(entity.getPassword())
                 .ingresoMensual(entity.getIngresoMensual())
                 .frecuenciaAhorro(entity.getFrecuenciaAhorro())
+                .actividadPrincipal(entity.getActividadPrincipal())
+                .ocupacionCuoc(entity.getOcupacionCuoc())
+                .confianzaIaPct(entity.getConfianzaIaPct())
+                .resultadoIaJson(entity.getResultadoIaJson())
                 .fechaRegistro(entity.getFechaRegistro())
                 .onboardingCompleted(entity.getOnboardingCompleted() != null ? entity.getOnboardingCompleted() : false)
                 .build();
@@ -28,6 +32,10 @@ public class UserEntityMapper {
                 .password(domain.getPassword())
                 .ingresoMensual(domain.getIngresoMensual())
                 .frecuenciaAhorro(domain.getFrecuenciaAhorro())
+                .actividadPrincipal(domain.getActividadPrincipal())
+                .ocupacionCuoc(domain.getOcupacionCuoc())
+                .confianzaIaPct(domain.getConfianzaIaPct())
+                .resultadoIaJson(domain.getResultadoIaJson())
                 .fechaRegistro(domain.getFechaRegistro())
                 .onboardingCompleted(domain.getOnboardingCompleted() != null ? domain.getOnboardingCompleted() : false)
                 .build();

@@ -1,5 +1,6 @@
 <div class="bg-[#EFF5D3] rounded-3xl overflow-hidden border border-[#DCE8B5] shadow-xs">
     <!-- Encabezado Oscuro de Clasificación Actual -->
+    @if (confidencePercentage()) {
     <div class="bg-[#1B4325] text-white p-6 sm:p-7 space-y-1">
         <p class="text-[11px] font-bold uppercase tracking-widest text-[#C9DAA7]">CLASIFICACIÓN ACTUAL</p>
         <div class="text-4xl sm:text-5xl font-black text-white tracking-tight">
@@ -7,66 +8,90 @@
         </div>
         <p class="text-xs sm:text-sm font-medium text-white/80">Confianza de la actividad</p>
     </div>
+    }
 
     <!-- Cuerpo de Análisis del Modelo -->
     <div class="p-6 sm:p-7 space-y-5 text-left">
         <!-- 1. Actividad -->
+        @if (activityTitle()) {
         <div class="space-y-1">
             <p class="text-[11px] font-bold uppercase tracking-widest text-[#5A7259]">ACTIVIDAD</p>
             <h3 class="text-lg sm:text-xl font-extrabold text-[#214523] leading-snug">
                 {{ activityTitle() }}
             </h3>
+            @if (activitySubtitle()) {
             <p class="text-xs sm:text-sm text-[#526655] font-medium leading-relaxed">
                 {{ activitySubtitle() }}
             </p>
+            }
+            @if (cuocCode()) {
             <p class="text-xs font-semibold text-[#6E8870] pt-0.5">
                 Código CUOC: {{ cuocCode() }}
             </p>
+            }
         </div>
+        }
 
         <!-- 2. Alcance MVP y Hábito de Ahorro -->
+        @if (mvpScope() || savingHabitAlert()) {
         <div class="grid grid-cols-2 gap-3">
+            @if (mvpScope()) {
             <div class="bg-[#E5ECBF] p-3 sm:p-3.5 rounded-2xl border border-[#C9DAA7] space-y-0.5">
                 <span class="text-[11px] font-semibold text-[#5A7259] block">Alcance MVP</span>
                 <span class="text-xs sm:text-sm font-bold text-[#214523] block leading-tight">{{ mvpScope() }}</span>
             </div>
+            }
+            @if (savingHabitAlert()) {
             <div class="bg-[#E5ECBF] p-3 sm:p-3.5 rounded-2xl border border-[#C9DAA7] space-y-0.5">
                 <span class="text-[11px] font-semibold text-[#5A7259] block">Hábito de ahorro</span>
-                <span class="text-xs sm:text-sm font-bold text-[#214523] block leading-tight">{{ savingHabitAlert() }}</span>
+                <span class="text-xs sm:text-sm font-bold text-[#214523] block leading-tight">{{ savingHabitAlert()
+                    }}</span>
             </div>
+            }
         </div>
+        }
 
         <!-- 3. Justificación del Modelo -->
+        @if (modelJustification()) {
         <div class="space-y-1">
             <p class="text-[11px] font-bold uppercase tracking-widest text-[#5A7259]">JUSTIFICACIÓN DEL MODELO</p>
             <p class="text-xs sm:text-sm text-[#3E5741] font-medium leading-relaxed">
                 {{ modelJustification() }}
             </p>
         </div>
+        }
 
         <!-- 4. Otras Actividades Probables -->
+        @if (otherProbableActivities().length > 0) {
         <div class="space-y-2">
             <p class="text-[11px] font-bold uppercase tracking-widest text-[#5A7259]">OTRAS ACTIVIDADES PROBABLES</p>
             <div class="space-y-2">
                 @for (act of otherProbableActivities(); track act.name) {
-                <div class="bg-[#E5ECBF] px-3.5 py-2.5 rounded-2xl flex items-center justify-between text-xs sm:text-sm font-bold text-[#214523] border border-[#C9DAA7]/60">
+                <div
+                    class="bg-[#E5ECBF] px-3.5 py-2.5 rounded-2xl flex items-center justify-between text-xs sm:text-sm font-bold text-[#214523] border border-[#C9DAA7]/60">
                     <span class="truncate pr-2">{{ act.name }}</span>
                     <span class="shrink-0 text-[#2F4836]">{{ act.percentage }}</span>
                 </div>
                 }
             </div>
         </div>
+        }
 
         <!-- 5. Hobbies Reconocidos -->
+        @if (recognizedHobbiesList().length > 0) {
         <div class="space-y-1.5">
             <p class="text-[11px] font-bold uppercase tracking-widest text-[#5A7259]">HOBBIES RECONOCIDOS</p>
-            <div>
+            <div class="flex flex-wrap gap-2">
+                @for (hobby of recognizedHobbiesList(); track $index) {
                 <span class="inline-block bg-[#D7E3A9] px-3.5 py-1.5 rounded-full text-xs font-bold text-[#214523]">
-                    {{ recognizedHobbies() }}
+                    {{ hobby }}
                 </span>
+                }
             </div>
         </div>
+        }
 
+        @if (ethicalCriterion()) {
         <div class="border-t border-[#C9DAA7]"></div>
 
         <!-- 6. Criterio Ético -->
@@ -76,5 +101,6 @@
                 {{ ethicalCriterion() }}
             </p>
         </div>
+        }
     </div>
 </div>

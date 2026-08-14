@@ -1,7 +1,8 @@
 import { Component, inject, signal, OnInit, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 import { OnboardingService, SecondaryIncome } from '@core/onboarding/services/onboarding.service';
+import { AuthService } from '@core/auth/services/auth.service';
+import { ProfileService } from '@core/profile/services/profile.service';
 import { GoalOption, IncomeModalityCardComponent, IncomeNetCardComponent, ProfileGoalCardComponent, ProfileHobbiesCardComponent, ProfileWorkSupportCardComponent } from './components';
 export type { GoalOption };
 
@@ -20,27 +21,22 @@ export type { GoalOption };
 })
 export class ProfileGoalsIncomeCardComponent implements OnInit {
   private onboardingService = inject(OnboardingService);
+  private profileService = inject(ProfileService);
+  private authService = inject(AuthService);
 
-  // Binding bidireccional para ingreso mensual
   income = model<number>(4500);
-
-  // Estado de edición
   isEditing = signal<boolean>(false);
-
-  // Datos guardados
-  primaryActivity = signal<string>('Ingeniero de Software');
+  primaryActivity = signal<string>('');
   primaryModality = signal<string>('Fijo');
   secondaryIncomes = signal<SecondaryIncome[]>([]);
   selectedGoal = signal<string>('vivienda');
-  hobbiesList = signal<string[]>(['Fotografía', 'Caminar', 'Gaming']);
-  workSupportList = signal<string[]>(['Cursos de Finanzas', 'Certificaciones AWS']);
-
-  // Datos temporales para modo edición
+  hobbiesList = signal<string[]>([]);
+  workSupportList = signal<string[]>([]);
   tempIncome = signal<number>(4500);
   tempPrimaryActivity = signal<string>('');
-  tempPrimaryModality = signal<string>('');
+  tempPrimaryModality = signal<string>('Fijo');
   tempSecondaryIncomes = signal<SecondaryIncome[]>([]);
-  tempSelectedGoal = signal<string>('');
+  tempSelectedGoal = signal<string>('vivienda');
   tempHobbiesList = signal<string[]>([]);
   tempWorkSupportList = signal<string[]>([]);
 
@@ -63,44 +59,57 @@ export class ProfileGoalsIncomeCardComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    const serviceIncome = this.onboardingService.onboardingIncome();
-    if (serviceIncome !== null && serviceIncome !== undefined) {
-      this.income.set(serviceIncome);
-    }
-
-    const serviceActivity = this.onboardingService.primaryActivity();
-    if (serviceActivity) {
-      this.primaryActivity.set(serviceActivity);
-    }
-
-    const serviceModality = this.onboardingService.primaryModality();
-    if (serviceModality) {
-      this.primaryModality.set(serviceModality);
-    }
-
-    const serviceSecondary = this.onboardingService.secondaryIncomes();
-    if (serviceSecondary && serviceSecondary.length > 0) {
-      this.secondaryIncomes.set([...serviceSecondary]);
-    } else {
-      this.secondaryIncomes.set([
-        { activity: 'Clases particulares', modality: 'Variable' }
-      ]);
-    }
-
-    const serviceGoal = this.onboardingService.primaryGoal();
-    if (serviceGoal) {
-      this.selectedGoal.set(serviceGoal);
-    }
-
-    const serviceHobbies = this.onboardingService.hobbiesList();
-    if (serviceHobbies && serviceHobbies.length > 0) {
-      this.hobbiesList.set([...serviceHobbies]);
-    }
-
-    const serviceWorkSupport = this.onboardingService.workSupportList();
-    if (serviceWorkSupport && serviceWorkSupport.length > 0) {
-      this.workSupportList.set([...serviceWorkSupport]);
-    }
+    this.profileService.getProfile().subscribe({
+      next: (profile) => {
+        if (profile) {
+          if (profile.ingresoMensual !== undefined && profile.ingresoMensual !== null) {
+            this.income.set(profile.ingresoMensual);
+          }
+          if (profile.actividadPrincipal) {
+            this.primaryActivity.set(profile.actividadPrincipal);
+          }
+          if (profile.primaryIncomeModality) {
+            const m = profile.primaryIncomeModality;
+            this.primaryModality.set(m.charAt(0).toUpperCase() + m.slice(1));
+          }
+          if (profile.nextGoal) {
+            this.selectedGoal.set(profile.nextGoal);
+          }
+          if (profile.hobbies && profile.hobbies.length > 0) {
+            this.hobbiesList.set(profile.hobbies);
+          }
+          if (profile.financialResponsibility) {
+            this.workSupportList.set(profile.financialResponsibility.split(',').map(s => s.trim()).filter(Boolean));
+          }
+        }
+      },
+      error: () => {
+        const serviceIncome = this.onboardingService.onboardingIncome();
+        if (serviceIncome !== null && serviceIncome !== undefined) {
+          this.income.set(serviceIncome);
+        }
+        const serviceActivity = this.onboardingService.primaryActivity();
+        if (serviceActivity) {
+          this.primaryActivity.set(serviceActivity);
+        }
+        const serviceModality = this.onboardingService.primaryModality();
+        if (serviceModality) {
+          this.primaryModality.set(serviceModality);
+        }
+        const serviceGoal = this.onboardingService.primaryGoal();
+        if (serviceGoal) {
+          this.selectedGoal.set(serviceGoal);
+        }
+        const serviceHobbies = this.onboardingService.hobbiesList();
+        if (serviceHobbies && serviceHobbies.length > 0) {
+          this.hobbiesList.set([...serviceHobbies]);
+        }
+        const serviceWorkSupport = this.onboardingService.workSupportList();
+        if (serviceWorkSupport && serviceWorkSupport.length > 0) {
+          this.workSupportList.set([...serviceWorkSupport]);
+        }
+      }
+    });
   }
 
   get currentGoalObj(): GoalOption {
@@ -109,7 +118,8 @@ export class ProfileGoalsIncomeCardComponent implements OnInit {
 
   toggleEdit(): void {
     if (!this.isEditing()) {
-      this.tempIncome.set(this.income());
+      const currentInc = this.income();
+      this.tempIncome.set(currentInc !== undefined && currentInc !== null ? currentInc : 4500);
       this.tempPrimaryActivity.set(this.primaryActivity());
       this.tempPrimaryModality.set(this.primaryModality());
       this.tempSecondaryIncomes.set(this.secondaryIncomes().map(s => ({ ...s })));
@@ -123,7 +133,8 @@ export class ProfileGoalsIncomeCardComponent implements OnInit {
   }
 
   save(): void {
-    this.income.set(this.tempIncome());
+    const currentInc = this.tempIncome();
+    this.income.set(currentInc);
     this.primaryActivity.set(this.tempPrimaryActivity());
     this.primaryModality.set(this.tempPrimaryModality());
     this.secondaryIncomes.set(this.tempSecondaryIncomes().map(s => ({ ...s })));
@@ -131,13 +142,32 @@ export class ProfileGoalsIncomeCardComponent implements OnInit {
     this.hobbiesList.set([...this.tempHobbiesList()]);
     this.workSupportList.set([...this.tempWorkSupportList()]);
 
-    this.onboardingService.onboardingIncome.set(this.income());
+    this.onboardingService.onboardingIncome.set(currentInc);
     this.onboardingService.primaryActivity.set(this.primaryActivity());
     this.onboardingService.primaryModality.set(this.primaryModality());
     this.onboardingService.secondaryIncomes.set(this.secondaryIncomes());
     this.onboardingService.primaryGoal.set(this.selectedGoal());
     this.onboardingService.hobbiesList.set(this.hobbiesList());
     this.onboardingService.workSupportList.set(this.workSupportList());
+
+    const payload = {
+      monthlyNetIncome: currentInc,
+      primaryActivity: this.primaryActivity(),
+      primaryIncomeModality: this.primaryModality(),
+      nextGoal: this.selectedGoal(),
+      hobbies: this.hobbiesList(),
+      financialResponsibility: this.workSupportList().join(', '),
+      savingHabit: this.onboardingService.savingHabit() || 'media'
+    };
+
+    this.profileService.updateProfile(payload).subscribe({
+      next: () => {
+        this.authService.checkSession().subscribe();
+      },
+      error: (err) => {
+        console.error('Error al actualizar el perfil en /api/v1/profile:', err);
+      }
+    });
 
     this.isEditing.set(false);
   }

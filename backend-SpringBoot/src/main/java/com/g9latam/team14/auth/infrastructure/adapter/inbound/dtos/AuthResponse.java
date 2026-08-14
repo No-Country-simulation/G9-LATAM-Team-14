@@ -1,4 +1,5 @@
 package com.g9latam.team14.auth.infrastructure.adapter.inbound.dtos;
+
 public record AuthResponse(
         String token,
         String tokenType,
@@ -9,7 +10,13 @@ public record AuthResponse(
             Integer id,
             String email,
             String nombreUsuario,
-            Boolean onboardingCompleted
+            Boolean onboardingCompleted,
+            Float ingresoMensual,
+            String frecuenciaAhorro,
+            String actividadPrincipal,
+            String ocupacionCuoc,
+            Double confianzaIaPct,
+            String resultadoIaJson
     ) {
     }
 }

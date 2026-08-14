@@ -11,7 +11,13 @@ public class AuthDtoMapper {
                 user.getId(),
                 user.getEmail(),
                 user.getUsername(),
-                user.getOnboardingCompleted() != null ? user.getOnboardingCompleted() : false
+                user.getOnboardingCompleted() != null ? user.getOnboardingCompleted() : false,
+                user.getIngresoMensual(),
+                user.getFrecuenciaAhorro(),
+                user.getActividadPrincipal(),
+                user.getOcupacionCuoc(),
+                user.getConfianzaIaPct(),
+                user.getResultadoIaJson()
         );
         return new AuthResponse(token, "Bearer", expiresInSeconds, userInfo);
     }
