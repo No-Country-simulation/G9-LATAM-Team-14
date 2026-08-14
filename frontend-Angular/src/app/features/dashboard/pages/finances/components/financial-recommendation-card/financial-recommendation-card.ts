@@ -8,6 +8,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './financial-recommendation-card.html'
 })
 export class FinancialRecommendationCard {
+  @Input() status: string = 'available';
+  @Input() priority: string = 'ALTA';
+  @Input() message: string = '';
+  @Input() nextAction: string = '';
+  @Input() confidencePercentage: number = 92;
   @Input() nextGoal = '';
   @Input() appliedSafeguards: string[] = [];
+  @Input() reasons: string[] = [];
 }

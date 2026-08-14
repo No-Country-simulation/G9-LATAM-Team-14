@@ -1,13 +1,21 @@
 <div class="space-y-6 pb-8">
   <app-finances-header [selectedPeriod]="selectedPeriod()" (periodChange)="setPeriod($event)">
   </app-finances-header>
+
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-0 pt-2 divide-y lg:divide-y-0 lg:divide-x divide-[#CFCFAE]">
     <app-financial-status-card [confidencePct]="confidencePct()" [daysWithHistory]="daysWithHistory()"
       [confirmedMovements]="confirmedMovements()" [dateRangeText]="dateRangeText()"
       [observedFactors]="observedFactors()">
     </app-financial-status-card>
-    <app-financial-recommendation-card [nextGoal]="profileData()?.nextGoal || ''"
-      [appliedSafeguards]="appliedSafeguards()">
+    <app-financial-recommendation-card
+      [status]="financesData()?.financialRecommendation?.status || 'available'"
+      [priority]="financesData()?.financialRecommendation?.priority || 'ALTA'"
+      [message]="financesData()?.financialRecommendation?.message || ''"
+      [nextAction]="financesData()?.financialRecommendation?.nextAction || ''"
+      [confidencePercentage]="financesData()?.financialRecommendation?.confidencePercentage || 92"
+      [nextGoal]="profileData()?.nextGoal || ''"
+      [appliedSafeguards]="appliedSafeguards()"
+      [reasons]="financesData()?.financialRecommendation?.reasons || []">
     </app-financial-recommendation-card>
   </div>
 </div>

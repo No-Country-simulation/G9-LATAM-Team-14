@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileService, UserProfileResponse } from '@core/profile/services/profile.service';
+import { FinancesService, FinancesDataResponse, FactorObserved } from '@core/finances/services/finances.service';
 import {
   FinancesHeader,
   FinancialStatusCard,
-  FinancialRecommendationCard,
-  FactorObserved
+  FinancialRecommendationCard
 } from './components';
 
 @Component({
@@ -21,24 +21,34 @@ import {
 })
 export class Finances implements OnInit {
   private profileService = inject(ProfileService);
+  private financesService = inject(FinancesService);
 
   profileData = signal<UserProfileResponse | null>(null);
+  financesData = signal<FinancesDataResponse | null>(null);
   selectedPeriod = signal<30 | 60 | 90>(60);
   isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
     this.loadProfile();
+    this.loadFinances(60);
   }
 
   loadProfile(): void {
-    this.isLoading.set(true);
     this.profileService.getProfile().subscribe({
+      next: (data) => this.profileData.set(data),
+      error: (err) => console.error('Error al cargar perfil:', err)
+    });
+  }
+
+  loadFinances(periodDays: 30 | 60 | 90): void {
+    this.isLoading.set(true);
+    this.financesService.getFinances(periodDays).subscribe({
       next: (data) => {
-        this.profileData.set(data);
+        this.financesData.set(data);
         this.isLoading.set(false);
       },
       error: (err) => {
-        console.error('Error al cargar perfil en Finanzas:', err);
+        console.error('Error al obtener finanzas de backend:', err);
         this.isLoading.set(false);
       }
     });
@@ -46,44 +56,30 @@ export class Finances implements OnInit {
 
   setPeriod(period: 30 | 60 | 90): void {
     this.selectedPeriod.set(period);
+    this.loadFinances(period);
   }
 
   confidencePct = computed(() => {
-    const base = this.profileData()?.confianzaIaPct || 85;
-    const period = this.selectedPeriod();
-    if (period === 30) return Math.min(base, 80);
-    if (period === 90) return Math.min(base + 5, 98);
-    return base;
+    return this.financesData()?.financialStatus?.confidencePercentage ?? 0;
   });
 
-  daysWithHistory = computed(() => this.selectedPeriod());
+  daysWithHistory = computed(() => {
+    return this.financesData()?.financialStatus?.daysWithHistory ?? 0;
+  });
 
   confirmedMovements = computed(() => {
-    const p = this.selectedPeriod();
-    if (p === 30) return 24;
-    if (p === 60) return 48;
-    return 72;
+    return this.financesData()?.financialStatus?.confirmedMovements ?? 0;
   });
 
   dateRangeText = computed(() => {
-    const now = new Date();
-    const past = new Date();
-    past.setDate(now.getDate() - this.selectedPeriod());
-    const opt: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-    return `${past.toLocaleDateString('es-PE', opt)} — ${now.toLocaleDateString('es-PE', opt)}`;
+    return this.financesData()?.financialStatus?.dateRangeText || '';
   });
 
-  observedFactors = computed<FactorObserved[]>(() => [
-    { name: 'Flujo Neto (Ingresos vs Gastos)', assessment: 'Superávit Positivo (+28%)' },
-    { name: 'Capacidad de Pago', assessment: 'Saludable y Sostenible' },
-    { name: 'Frecuencia de Ahorro', assessment: this.profileData()?.frecuenciaAhorro || 'Constante' },
-    { name: 'Nivel de Endeudamiento', assessment: 'Bajo / Controlado (<20%)' }
-  ]);
+  observedFactors = computed<FactorObserved[]>(() => {
+    return this.financesData()?.financialStatus?.mainFactors || [];
+  });
 
-  appliedSafeguards = signal<string[]>([
-    'Capacidad de Pago Verificada',
-    'Estabilidad de Ingresos',
-    'Protección de Liquidez Mínima',
-    'Evaluación Ética de Riesgo'
-  ]);
+  appliedSafeguards = computed<string[]>(() => {
+    return this.financesData()?.financialRecommendation?.appliedSafeguards || [];
+  });
 }
