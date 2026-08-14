@@ -1,0 +1,70 @@
+@if (isOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto bg-black/60 backdrop-blur-xs animate-fadeIn">
+  <!-- Modal Content Container -->
+  <div class="relative w-full max-w-md bg-[#EFF5D3] border border-[#DCE8B5] rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7 flex flex-col gap-4 animate-scaleUp">
+    
+    <!-- Botón Cerrar X Top Right -->
+    <button type="button" (click)="closeModal.emit()"
+      class="absolute top-4 right-4 p-1.5 text-[#526655] hover:text-[#214523] hover:bg-[#D7E3A9]/60 rounded-full transition-all cursor-pointer">
+      <app-icon-fin-coach name="close" class="w-5 h-5" />
+    </button>
+
+    <!-- Header: Icon Check + Title Block inline -->
+    <div class="flex items-center gap-3.5 pr-8">
+      <!-- Icon Check -->
+      <div class="w-12 h-12 shrink-0 bg-[#D7E3A9] rounded-2xl flex items-center justify-center shadow-xs">
+        <app-icon-fin-coach name="check-circle" class="w-6 h-6 text-[#214523]" />
+      </div>
+      <!-- Title Block -->
+      <div class="space-y-0.5 min-w-0">
+        <div class="text-[11px] font-extrabold uppercase tracking-wider text-[#526655]">
+          CRÉDITO REGISTRADO
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-[#214523] tracking-tight truncate">
+          {{ title() }}
+        </h2>
+        <p class="text-xs text-[#526655] font-medium">
+          La proyección quedó guardada en tu cuenta.
+        </p>
+      </div>
+    </div>
+
+    <div class="h-px bg-[#DCE8B5] w-full my-0.5"></div>
+
+    <!-- Data List: Direct & Minimalist without heavy cards -->
+    <div class="space-y-2.5 text-xs sm:text-sm">
+      <div class="flex items-center justify-between py-1 border-b border-[#DCE8B5]/60">
+        <span class="text-[#526655] font-semibold">Monto inicial:</span>
+        <span class="font-extrabold text-[#214523] text-sm sm:text-base">{{ initialAmountText() }}</span>
+      </div>
+
+      <div class="flex items-center justify-between py-1 border-b border-[#DCE8B5]/60">
+        <span class="text-[#526655] font-semibold">Cuota mensual:</span>
+        <span class="font-extrabold text-[#214523] text-sm sm:text-base">{{ monthlyQuotaText() }}</span>
+      </div>
+
+      <div class="flex items-center justify-between py-1 border-b border-[#DCE8B5]/60">
+        <span class="text-[#526655] font-semibold">Tasa efectiva anual:</span>
+        <span class="font-bold text-[#214523]">{{ effectiveRateText() }}</span>
+      </div>
+
+      <div class="flex items-center justify-between py-1">
+        <span class="text-[#526655] font-semibold">Finalización estimada:</span>
+        <span class="font-bold text-[#214523]">{{ estimatedEndDateText() }}</span>
+      </div>
+    </div>
+
+    <!-- Highlight Banner Interés Total -->
+    <div class="bg-[#D7E3A9]/70 border border-[#C9DAA7] rounded-xl px-4 py-2.5 flex items-center justify-between text-xs sm:text-sm font-semibold text-[#214523] mt-1">
+      <span>Interés total estimado:</span>
+      <span class="font-extrabold text-[#214523] text-xs sm:text-sm">{{ estimatedTotalInterestText() }}</span>
+    </div>
+
+    <!-- Primary Action Button -->
+    <button type="button" (click)="closeModal.emit()"
+      class="w-full bg-[#2F4836] hover:bg-[#223628] active:scale-[0.99] text-white py-3 rounded-xl font-bold text-xs sm:text-sm shadow-xs transition-all cursor-pointer text-center mt-1">
+      Volver a deudas
+    </button>
+  </div>
+</div>
+}

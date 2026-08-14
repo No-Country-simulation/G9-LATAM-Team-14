@@ -22,6 +22,10 @@
             <app-paid-debts-list [paidDebts]="paidDebts()"></app-paid-debts-list>
         </div>
     </div>
+    
     <app-add-debt-modal [isOpen]="isModalOpen()" [debtToEdit]="editingDebt()" (closeModal)="onCloseModal()" (addDebt)="onSaveDebt($event)">
     </app-add-debt-modal>
+
+    <app-registered-debt-modal [isOpen]="isSuccessModalOpen()" [debtData]="lastRegisteredDebt()" (closeModal)="onCloseSuccessModal()">
+    </app-registered-debt-modal>
 </div>

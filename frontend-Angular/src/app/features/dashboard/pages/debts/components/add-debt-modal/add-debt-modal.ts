@@ -4,7 +4,6 @@ import { ModalHeaderComponent } from './components/modal-header/modal-header';
 import { DebtDetailsFormComponent } from './components/debt-details-form/debt-details-form';
 import { ModalFooterComponent } from './components/modal-footer/modal-footer';
 import { Debt } from '@app/core/debts/models/debt.model';
-
 export type RegistrationType = 'installment' | 'fixed';
 export type PaymentMode = 'fixed_term' | 'free_payment';
 
