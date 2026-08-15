@@ -1,7 +1,30 @@
-<div class="space-y-1.5">
-    <h1 class="text-2xl sm:text-3xl font-extrabold text-[#214523] tracking-tight">Mi perfil financiero</h1>
-    <p class="text-xs sm:text-sm text-[#526655] font-medium leading-relaxed max-w-3xl">
-        Todos estos datos se usan para calcular tu salud financiera y ayudarte a crecer. Solo necesitas configurar
-        esto una vez. Puedes editarlo cuando cambie tu situación financiera.
-    </p>
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+    <div class="space-y-1">
+        <h1 class="text-2xl xl:text-3xl font-extrabold text-[#214523] tracking-tight">Mi perfil financiero</h1>
+        <p class="text-xs xl:text-sm text-[#526655] font-medium leading-relaxed max-w-2xl">
+            Todos estos datos se usan para calcular tu salud financiera y ayudarte a crecer. Solo necesitas configurar
+            esto una vez. Puedes editarlo cuando cambie tu situación financiera.
+        </p>
+    </div>
+
+    <div class="w-full xl:w-auto shrink-0 pt-1 xl:pt-0">
+        @if (!isEditing()) {
+        <button type="button" (click)="editToggle.emit()"
+            class="w-full xl:w-auto bg-[#2F4836] hover:bg-[#223628] text-white px-4 py-2.5 rounded-lg text-xs xl:text-sm font-bold transition-all cursor-pointer shadow-xs inline-flex items-center justify-center gap-2">
+            <app-icon-fin-coach name="edit" class="w-4 h-4" />
+            <span>Actualizar información</span>
+        </button>
+        } @else {
+        <div class="w-full xl:w-auto flex items-center gap-2">
+            <button type="button" (click)="saveClick.emit()"
+                class="flex-1 xl:flex-none bg-[#2F4836] hover:bg-[#223628] text-white px-4 py-2.5 rounded-lg text-xs xl:text-sm font-bold transition-all cursor-pointer shadow-xs text-center">
+                Guardar
+            </button>
+            <button type="button" (click)="cancelClick.emit()"
+                class="flex-1 xl:flex-none border border-[#C3D3A0] text-[#2D4231] hover:bg-[#EAF2CC] px-4 py-2.5 rounded-lg text-xs xl:text-sm font-bold transition-all cursor-pointer text-center">
+                Cancelar
+            </button>
+        </div>
+        }
+    </div>
 </div>

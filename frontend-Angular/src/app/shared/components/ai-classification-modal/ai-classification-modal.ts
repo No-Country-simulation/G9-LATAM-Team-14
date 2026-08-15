@@ -26,6 +26,7 @@ export class AiClassificationModalComponent implements OnChanges {
   private cdr = inject(ChangeDetectorRef);
 
   @Input() isOpen = false;
+  @Input() isLoading = false;
   @Input() description = '';
   @Input() amount: number | null = null;
   @Input() type: 'EGRESO' | 'INGRESO' = 'EGRESO';
@@ -50,19 +51,23 @@ export class AiClassificationModalComponent implements OnChanges {
 
   private buildFromSuggestion(s: AiSuggestion): void {
     this.selectedCategory = s.category || '';
-    this.selectedRegularity = s.regularity || 'variable';
+    this.selectedRegularity = (s.regularity || 'variable').toLowerCase();
+
     this.confidencePercentage = s.categoryConfidencePercentage != null
-      ? `${s.categoryConfidencePercentage.toFixed(2)}%`
-      : '0%';
-    this.suggestedPurpose = s.purpose || 'General';
+      ? `${s.categoryConfidencePercentage.toFixed(1)}%`
+      : '';
+    this.suggestedPurpose = s.purpose || '';
 
     const mainCat = s.category
-      ? [{ name: s.category, confidence: `${s.categoryConfidencePercentage?.toFixed(2) || 0}%` }]
+      ? [{
+          name: s.category,
+          confidence: s.categoryConfidencePercentage != null ? `${s.categoryConfidencePercentage.toFixed(1)}%` : ''
+        }]
       : [];
 
     const altCats = (s.alternativeCategories || []).map(a => ({
       name: a.category,
-      confidence: `${a.percentage?.toFixed(2) || 0}%`
+      confidence: a.percentage != null ? `${a.percentage.toFixed(1)}%` : ''
     }));
 
     const seen = new Set<string>();
@@ -77,7 +82,6 @@ export class AiClassificationModalComponent implements OnChanges {
     this.categories = combined;
   }
 
-  
   trackByName(index: number, item: CategoryOption): string | number {
     return item?.name ?? index;
   }
@@ -87,7 +91,7 @@ export class AiClassificationModalComponent implements OnChanges {
   }
 
   selectRegularity(reg: string): void {
-    this.selectedRegularity = reg;
+    this.selectedRegularity = reg.toLowerCase();
   }
 
   onConfirm(): void {

@@ -19,41 +19,30 @@ services:
       timeout: 5s
       retries: 10
 
-  # 2. Service Python Data Science (API antigua - FastAPI - se mantiene sin cambios)
+  # 2. Service Python Data Science
   data-science:
     build:
-      context: ../data-science/api
+      context: ../data-science/src
       dockerfile: Dockerfile
-    container_name: python_data_science
+    container_name: python-data-science
+    hostname: python-data-science
     ports:
       - "8000:8000"
     volumes:
-      - ../data-science/api:/app
+      - ../data-science/Modelos:/app/Modelos
+      - ../data-science/Modelos:/Modelos
+
     environment:
+      - DJANGO_ENV=local
+      - DJANGO_ALLOWED_HOSTS=python-data-science,localhost,127.0.0.1,*
       - DB_HOST=mysql
       - DB_PORT=3306
       - DB_USER=postgres
       - DB_PASS=supersecretpassword123
       - DB_NAME=financiero
     depends_on:
-      - mysql
-
-  # 3. DS-Service Django DRF - Servicio Dedicado de Clasificación por IA
-  ds-service:
-    build:
-      context: ../data-science/research/fincoach-mvp/ds-service
-      dockerfile: Dockerfile
-    container_name: fincoach_ds_service
-    hostname: fincoach-ds-service
-    ports:
-      - "8001:8001"
-    volumes:
-      - ../data-science/research/fincoach-mvp/back/fincoach_api/joblibs:/app/joblibs:ro
-    environment:
-      - MODEL_PATH=/app/joblibs/02_clasificacion_transacciones.joblib
-      - DJANGO_SETTINGS_MODULE=config.settings
-    depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
   # 4. Backend Spring Boot
   backend:
@@ -68,7 +57,7 @@ services:
     environment:
       - DB_HOST=mysql
       - CORS_ORIGINS=http://localhost:4000
-      - DS_SERVICE_URL=http://fincoach-ds-service:8001
+      - DS_SERVICE_URL=http://python-data-science:8000
     depends_on:
       mysql:
         condition: service_healthy

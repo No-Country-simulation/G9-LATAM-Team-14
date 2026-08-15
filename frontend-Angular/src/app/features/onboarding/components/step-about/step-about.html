@@ -5,15 +5,72 @@
     <p class="text-xs sm:text-sm text-[#4E6750] mt-2">
         Necesitamos entender tu punto de partida para diseñar tu jardín financiero.
     </p>
-    <form (submit)="$event.preventDefault()" class="w-full flex flex-col gap-6 mt-8 text-left">
+    <form (submit)="$event.preventDefault()" class="w-full flex flex-col gap-5 mt-8 text-left">
         <div class="flex flex-col gap-2">
             <label for="monthlyIncome" class="text-xs sm:text-sm font-semibold text-[#214523]">
                 Ingreso mensual neto
             </label>
             <div class="relative flex items-center w-full">
-                <span class="absolute left-4 text-[#4A634E] font-semibold text-sm sm:text-base">$</span>
+                <span class="absolute left-3.5 text-[#4A634E] font-semibold text-xs sm:text-sm">$</span>
                 <input id="monthlyIncome" type="number" [(ngModel)]="income" name="income" placeholder="0.00"
-                    class="w-full pl-9 pr-4 py-3 sm:py-3.5 bg-[#EAEFC8] border border-[#C9DAA7] rounded-2xl text-sm sm:text-base focus:outline-none focus:border-[#4A634E] text-[#214523] placeholder-[#6E8870] font-medium shadow-xs" />
+                    class="w-full pl-8 pr-3.5 py-2.5 sm:py-3 bg-[#EAEFC8] border border-[#C9DAA7] rounded-xl text-xs sm:text-sm focus:outline-none focus:border-[#4A634E] text-[#214523] placeholder-[#6E8870] font-medium shadow-xs" />
+            </div>
+        </div>
+        <div class="w-full flex flex-col gap-2">
+            <div
+                class="w-full flex items-center justify-between px-1 text-left text-xs sm:text-sm font-semibold text-[#214523]">
+                <div class="flex-1">Actividad principal</div>
+                <div class="flex-1 pl-3">Modalidad de ingreso</div>
+            </div>
+            <div class="w-full flex items-center gap-2 sm:gap-3">
+                <div class="flex-1 min-w-0">
+                    <input type="text" [(ngModel)]="primaryActivity" name="primaryActivity"
+                        placeholder="Ej. Ingeniero de software"
+                        class="w-full px-3.5 py-2.5 sm:py-3 bg-[#EAEFC8] border border-[#C9DAA7] rounded-xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870] shadow-xs" />
+                </div>
+                <div class="flex-1 min-w-0">
+                    <select [(ngModel)]="primaryModality" name="primaryModality"
+                        class="w-full px-3.5 py-2.5 sm:py-3 bg-[#EAEFC8] border border-[#C9DAA7] rounded-xl text-xs sm:text-sm text-[#214523] font-medium cursor-pointer truncate shadow-xs">
+                        <option value="" disabled selected>Modalidad...</option>
+                        @for (mod of modalityOptions; track mod) {
+                        <option [value]="mod">{{ mod }}</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1.5 mt-2">
+                <label class="text-xs sm:text-sm font-semibold text-[#214523]">
+                    Ingresos adicionales <span class="text-[#4E6750] font-normal text-xs">(Opcional)</span>
+                </label>
+                @for (sec of secondaryIncomes(); track $index; let i = $index) {
+                <div class="w-full flex items-center gap-2 sm:gap-3 py-0.5">
+                    <div class="flex-1 min-w-0">
+                        <input type="text" [(ngModel)]="sec.activity" [name]="'secActivity_' + i"
+                            placeholder="Actividad secundaria (Ej. Clases)"
+                            class="w-full px-3.5 py-2.5 sm:py-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium placeholder-[#6E8870]" />
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <select [(ngModel)]="sec.modality" [name]="'secModality_' + i"
+                            class="w-full px-3.5 py-2.5 sm:py-3 bg-[#EAEFC8]/80 border border-[#C9DAA7] rounded-xl text-xs sm:text-sm text-[#214523] focus:outline-none focus:border-[#4A634E] font-medium cursor-pointer truncate">
+                            <option value="" disabled selected>Modalidad...</option>
+                            @for (mod of modalityOptions; track mod) {
+                            <option [value]="mod">{{ mod }}</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="button" (click)="removeSecondaryIncome(i)"
+                        class="p-1 text-[#5A7259] hover:text-red-600 hover:bg-red-100/60 rounded-lg transition-colors cursor-pointer shrink-0"
+                        title="Eliminar ingreso secundario">
+                        <app-icon-fin-coach name="trash" class="w-4 h-4 sm:w-5 sm:h-5" />
+                    </button>
+                </div>
+                }
+
+                <button type="button" (click)="addSecondaryIncome()"
+                    class="w-full border border-dashed border-[#A8C4A6] hover:border-[#4A634E] text-[#214523] bg-[#E5ECBF]/30 hover:bg-[#E5ECBF]/70 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 text-xs sm:text-sm cursor-pointer mt-1">
+                    <app-icon-fin-coach name="plus" class="w-4 h-4" />
+                    Añadir ingreso secundario
+                </button>
             </div>
         </div>
         <div class="flex flex-col gap-3">

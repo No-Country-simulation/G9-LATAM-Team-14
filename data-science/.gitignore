@@ -1,26 +1,37 @@
-# Python cache & compilados
-__pycache__/
-*.py[cod]
-*$py.class
-
-# Entornos virtuales locales
-.venv/
-venv/
-ENV/
-env/
+# Entornos virtuales
 /env/
+/venv/
+**/env/
+**/venv/
+**/.venv/
 
-# Archivos del sistema operativo
+# Documentación interna
+/[Dd]ocumentaci*/
+
+# Variables privadas
+**/.env
+!**/.env.example
+
+# Jupyter
+**/.ipynb_checkpoints/
+
+# Python
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+
+# Django local
+**/db.sqlite3
+**/staticfiles/
+
+# Angular y Node
+**/node_modules/
+**/.angular/
+**/dist/
+
+# Sistema operativo
 .DS_Store
 Thumbs.db
 
-# Archivos de configuración local y logs
-.env
+# Logs
 *.log
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints
-**/.ipynb_checkpoints/
-
-# Archivos temporales de documentación
-/Documentaci*/

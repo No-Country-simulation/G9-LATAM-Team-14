@@ -1,19 +1,31 @@
 <div class="space-y-5 sm:space-y-6 pb-8">
-    <app-debts-header (addDebt)="onAddDebt()"></app-debts-header>
-    <app-debts-summary-cards [totalPending]="'S/ ' + (summaryData().totalPendingAmount | number:'1.0-0')"
-        [monthlyTotal]="'S/ ' + (summaryData().totalMonthlyPayment | number:'1.0-0')"
-        [incomePercentage]="summaryData().incomePercentage + '%'" [freeDate]="summaryData().estimatedFreeDate"
-        [monthsRemaining]="summaryData().monthsRemaining">
-    </app-debts-summary-cards>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
-        <div class="lg:col-span-7 xl:col-span-7 space-y-4">
+    <app-debts-header 
+        [currentMobileView]="mobileViewMode()" 
+        (toggleMobileView)="toggleMobileView()" 
+        (addDebt)="onAddDebt()">
+    </app-debts-header>
+
+    <div [class.hidden]="mobileViewMode() === 'debts'" class="xl:block">
+        <app-debts-summary-cards [totalPending]="'$ ' + (summaryData().totalPendingAmount | number:'1.0-0')"
+            [monthlyTotal]="'$ ' + (summaryData().totalMonthlyPayment | number:'1.0-0')"
+            [incomePercentage]="summaryData().incomePercentage + '%'" [freeDate]="summaryData().estimatedFreeDate"
+            [monthsRemaining]="summaryData().monthsRemaining">
+        </app-debts-summary-cards>
+    </div>
+
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-5 sm:gap-6">
+        <div [class.hidden]="mobileViewMode() === 'summary'" class="xl:block xl:col-span-7 space-y-4">
             <app-active-debts-list [debts]="activeDebts()" (edit)="onEditDebt($event)" (delete)="onDeleteDebt($event)"></app-active-debts-list>
         </div>
-        <div class="lg:col-span-5 xl:col-span-5 space-y-5 sm:space-y-6">
+        <div [class.hidden]="mobileViewMode() === 'debts'" class="xl:block xl:col-span-5 space-y-5 sm:space-y-6">
             <app-debt-projection-chart [points]="projectionPoints()"></app-debt-projection-chart>
             <app-paid-debts-list [paidDebts]="paidDebts()"></app-paid-debts-list>
         </div>
     </div>
+    
     <app-add-debt-modal [isOpen]="isModalOpen()" [debtToEdit]="editingDebt()" (closeModal)="onCloseModal()" (addDebt)="onSaveDebt($event)">
     </app-add-debt-modal>
+
+    <app-registered-debt-modal [isOpen]="isSuccessModalOpen()" [debtData]="lastRegisteredDebt()" (closeModal)="onCloseSuccessModal()" (confirmAndSave)="onConfirmSaveDebt()">
+    </app-registered-debt-modal>
 </div>

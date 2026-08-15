@@ -18,8 +18,11 @@ export class DebtService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/v1/debts`;
 
-  getDebts(status?: DebtStatus, userId: number = 1): Observable<Debt[]> {
-    let params = new HttpParams().set('userId', userId.toString());
+  getDebts(status?: DebtStatus, userId?: number): Observable<Debt[]> {
+    let params = new HttpParams();
+    if (userId) {
+      params = params.set('userId', userId.toString());
+    }
     if (status) {
       params = params.set('status', status);
     }
@@ -30,13 +33,19 @@ export class DebtService {
     return this.http.get<Debt>(`${this.apiUrl}/${id}`, { withCredentials: true });
   }
 
-  getSummary(userId: number = 1): Observable<DebtSummary> {
-    const params = new HttpParams().set('userId', userId.toString());
+  getSummary(userId?: number): Observable<DebtSummary> {
+    let params = new HttpParams();
+    if (userId) {
+      params = params.set('userId', userId.toString());
+    }
     return this.http.get<DebtSummary>(`${this.apiUrl}/summary`, { params, withCredentials: true });
   }
 
-  getProjection(userId: number = 1): Observable<DebtProjectionPoint[]> {
-    const params = new HttpParams().set('userId', userId.toString());
+  getProjection(userId?: number): Observable<DebtProjectionPoint[]> {
+    let params = new HttpParams();
+    if (userId) {
+      params = params.set('userId', userId.toString());
+    }
     return this.http.get<DebtProjectionResponse>(`${this.apiUrl}/projection`, { params, withCredentials: true })
       .pipe(map(res => res.projection || []));
   }

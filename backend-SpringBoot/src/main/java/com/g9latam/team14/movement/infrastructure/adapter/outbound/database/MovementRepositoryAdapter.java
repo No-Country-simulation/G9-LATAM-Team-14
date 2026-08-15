@@ -45,4 +45,16 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
                 movementJpaRepository.findAll()
         );
     }
+
+    @Override
+    public List<Movement> findByUserId(Integer userId) {
+        return movementEntityMapper.toDomainList(
+                movementJpaRepository.findByUserIdOrderByDateDesc(userId)
+        );
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        movementJpaRepository.deleteById(id);
+    }
 }

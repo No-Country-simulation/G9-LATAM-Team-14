@@ -6,6 +6,7 @@ import { ActiveDebtsListComponent, ActiveDebt } from './components/active-debts-
 import { DebtProjectionChartComponent } from './components/debt-projection-chart/debt-projection-chart';
 import { PaidDebtsListComponent, PaidDebt } from './components/paid-debts-list/paid-debts-list';
 import { AddDebtModalComponent, NewDebtPayload } from './components/add-debt-modal/add-debt-modal';
+import { RegisteredDebtModalComponent } from './components/registered-debt-modal/registered-debt-modal';
 import { DebtService } from '@app/core/debts/services/debt.service';
 import { AuthService } from '@app/core/auth/services/auth.service';
 import { Debt, DebtSummary, DebtProjectionPoint } from '@app/core/debts/models/debt.model';
@@ -20,7 +21,8 @@ import { Debt, DebtSummary, DebtProjectionPoint } from '@app/core/debts/models/d
     ActiveDebtsListComponent,
     DebtProjectionChartComponent,
     PaidDebtsListComponent,
-    AddDebtModalComponent
+    AddDebtModalComponent,
+    RegisteredDebtModalComponent
   ],
   templateUrl: './debts.html',
 })
@@ -29,6 +31,10 @@ export class Debts implements OnInit {
   private authService = inject(AuthService);
   isModalOpen = signal<boolean>(false);
   editingDebt = signal<Debt | null>(null);
+  mobileViewMode = signal<'debts' | 'summary'>('debts');
+
+  isSuccessModalOpen = signal<boolean>(false);
+  lastRegisteredDebt = signal<NewDebtPayload | null>(null);
 
   summaryData = signal<DebtSummary>({
     totalPendingAmount: 0,
@@ -93,6 +99,10 @@ export class Debts implements OnInit {
     });
   }
 
+  toggleMobileView(): void {
+    this.mobileViewMode.update(mode => mode === 'debts' ? 'summary' : 'debts');
+  }
+
   onAddDebt(): void {
     this.editingDebt.set(null);
     this.isModalOpen.set(true);
@@ -123,7 +133,24 @@ export class Debts implements OnInit {
     this.editingDebt.set(null);
   }
 
+  onCloseSuccessModal(): void {
+    this.isSuccessModalOpen.set(false);
+    this.lastRegisteredDebt.set(null);
+  }
+
   onSaveDebt(payload: NewDebtPayload): void {
+    this.lastRegisteredDebt.set(payload);
+    this.onCloseModal();
+    this.isSuccessModalOpen.set(true);
+  }
+
+  onConfirmSaveDebt(): void {
+    const payload = this.lastRegisteredDebt();
+    if (!payload) {
+      this.onCloseSuccessModal();
+      return;
+    }
+
     const userId = this.authService.currentUser()?.id || 1;
     const request: any = {
       type: payload.type === 'installment' ? 'INSTALLMENT' : 'FIXED',
@@ -144,23 +171,25 @@ export class Debts implements OnInit {
       this.debtService.updateDebt(payload.id, request).subscribe({
         next: () => {
           this.loadData();
+          this.onCloseSuccessModal();
         },
         error: (err) => {
           console.error('Error al actualizar la deuda:', err);
+          this.onCloseSuccessModal();
         }
       });
     } else {
       this.debtService.createDebt(request).subscribe({
         next: () => {
           this.loadData();
+          this.onCloseSuccessModal();
         },
         error: (err) => {
           console.error('Error al guardar la deuda en la BD:', err);
+          this.onCloseSuccessModal();
         }
       });
     }
-
-    this.onCloseModal();
   }
 
   private mapToActiveDebt(d: Debt): ActiveDebt {
@@ -176,8 +205,8 @@ export class Debts implements OnInit {
       subtitle: isInstallment
         ? `Inicio ${d.startDate || ''} - ${d.endDate || ''}`
         : (d.isIndefinite ? 'Gasto Recurrente Indefinido' : `Hasta ${d.endDate || ''}`),
-      monthlyPayment: `S/ ${d.monthlyAmount}/mes`,
-      remainingAmount: `Quedan S/ ${total.toLocaleString()}`,
+      monthlyPayment: `$ ${d.monthlyAmount}/mes`,
+      remainingAmount: `Quedan $ ${total.toLocaleString()}`,
       progressText: isInstallment ? `Progreso ${paid}/${term}` : `${paid}/${term} cuotas`,
       percentage: progressPct,
       iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts',

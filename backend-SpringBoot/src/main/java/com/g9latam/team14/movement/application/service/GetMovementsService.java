@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class GetMovementsService implements GetMovementsUseCase {
-
     private final MovementRepositoryPort movementRepository;
+
+    @Override
+    public List<Movement> getMovementsByUserId(Integer userId) {
+        return movementRepository.findByUserId(userId);
+    }
 
     @Override
     public List<Movement> getAllMovements() {

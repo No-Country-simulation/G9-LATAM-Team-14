@@ -23,15 +23,13 @@
             <div class="text-xs sm:text-sm font-medium text-[#214523] self-end md:self-center">
                 Paso {{ currentStep }} de {{ totalSteps }}
             </div>
-
         </div>
     </header>
     <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-8 flex flex-col items-center justify-center">
         @switch (currentStep) {
         @case (1) { <app-step-about /> }
         @case (2) { <app-step-debts /> }
-        @case (3) { <app-step-expenses /> }
-        @case (4) { <app-step-goals /> }
+        @case (3) { <app-step-goals /> }
         }
     </main>
     <footer class="w-full pb-8 pt-4 px-4 flex flex-col items-center justify-center gap-3">
@@ -54,10 +52,5 @@
                 {{ currentStep === totalSteps ? 'Finalizar' : 'Continuar' }}
             </button>
         </div>
-        <button type="button" (click)="skipOnboarding()"
-            class="text-xs sm:text-sm text-[#4E6750] hover:text-[#214523] font-medium hover:underline transition-colors cursor-pointer py-1">
-            Omitir por ahora
-        </button>
     </footer>
-    <app-ai-classification-modal [isOpen]="showAiModal" (confirm)="confirmAiModal()" (close)="closeAiModal()" />
 </div>

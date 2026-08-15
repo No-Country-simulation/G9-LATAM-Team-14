@@ -1,17 +1,19 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '@core/auth/services/auth.service';
 import { DebtService } from '@core/debts/services/debt.service';
+import { ProfileService } from '@core/profile/services/profile.service';
 import { Debt, DebtSummary } from '@core/debts/models/debt.model';
 import { IconName } from '@app/shared/icons/iconsFinCoach';
-
-// Subcomponentes modularizados
-import { ProfileHeaderComponent } from './components/profile-header/profile-header';
-import { MonthlyIncomeCardComponent } from './components/monthly-income-card/monthly-income-card';
-import { ProfileDebtsCardComponent } from './components/profile-debts-card/profile-debts-card';
-import { DebtRatioCardComponent } from './components/debt-ratio-card/debt-ratio-card';
-import { SavingsFrequencyCardComponent, SavingsFrequency } from './components/savings-frequency-card/savings-frequency-card';
-import { MonthlyProjectionCardComponent } from './components/monthly-projection-card/monthly-projection-card';
+import {
+  ProfileHeaderComponent,
+  ProfileGoalsIncomeCardComponent,
+  ProfileDebtsCardComponent,
+  DebtRatioCardComponent,
+  SavingsFrequencyCardComponent,
+  MonthlyProjectionCardComponent,
+  type SavingsFrequency
+} from './components';
 
 export interface ProfileDebtView {
   id: number;
@@ -27,7 +29,7 @@ export interface ProfileDebtView {
   imports: [
     CommonModule,
     ProfileHeaderComponent,
-    MonthlyIncomeCardComponent,
+    ProfileGoalsIncomeCardComponent,
     ProfileDebtsCardComponent,
     DebtRatioCardComponent,
     SavingsFrequencyCardComponent,
@@ -36,18 +38,21 @@ export interface ProfileDebtView {
   templateUrl: './profile.html',
 })
 export class Profile implements OnInit {
+  @ViewChild(ProfileGoalsIncomeCardComponent) goalsIncomeCard?: ProfileGoalsIncomeCardComponent;
+
   private authService = inject(AuthService);
   private debtService = inject(DebtService);
+  private profileService = inject(ProfileService);
 
   monthlyIncome = signal<number>(4500);
   savingsFrequency = signal<SavingsFrequency>('media');
 
   summaryData = signal<DebtSummary>({
-    totalPendingAmount: 9300,
-    totalMonthlyPayment: 1125,
-    incomePercentage: 25,
-    estimatedFreeDate: 'Jun 2028',
-    monthsRemaining: 23
+    totalPendingAmount: 0,
+    totalMonthlyPayment: 0,
+    incomePercentage: 0,
+    estimatedFreeDate: '-',
+    monthsRemaining: 0
   });
 
   activeDebts = signal<ProfileDebtView[]>([]);
@@ -56,25 +61,59 @@ export class Profile implements OnInit {
     this.loadUserData();
   }
 
+  onHeaderEditToggle(): void {
+    this.goalsIncomeCard?.toggleEdit();
+  }
+
+  onHeaderSave(): void {
+    this.goalsIncomeCard?.save();
+  }
+
+  onHeaderCancel(): void {
+    this.goalsIncomeCard?.cancel();
+  }
+
   loadUserData(): void {
     const user = this.authService.currentUser();
-    const userId = user?.id || 1;
+    const userId = user?.id;
 
-    // Cargar deudas activas
-    this.debtService.getDebts('ACTIVE', userId).subscribe({
-      next: (debts) => {
-        if (debts && debts.length > 0) {
-          this.activeDebts.set(debts.map(d => this.mapToProfileDebt(d)));
-        } else {
-          this.setDemoDebts();
+    if (user?.ingresoMensual !== undefined && user?.ingresoMensual !== null) {
+      this.monthlyIncome.set(user.ingresoMensual);
+    }
+    if (user?.frecuenciaAhorro) {
+      this.savingsFrequency.set(user.frecuenciaAhorro.toLowerCase() as SavingsFrequency);
+    }
+
+    this.profileService.getProfile().subscribe({
+      next: (profile) => {
+        if (profile) {
+          if (profile.ingresoMensual !== undefined && profile.ingresoMensual !== null) {
+            this.monthlyIncome.set(profile.ingresoMensual);
+          }
+          if (profile.frecuenciaAhorro) {
+            this.savingsFrequency.set(profile.frecuenciaAhorro.toLowerCase() as SavingsFrequency);
+          }
         }
       },
-      error: () => {
-        this.setDemoDebts();
+      error: (err) => {
+        console.error('Error al cargar perfil:', err);
       }
     });
 
-    // Cargar resumen
+    this.debtService.getDebts('ACTIVE', userId).subscribe({
+      next: (debts) => {
+        if (debts && debts.length > 0) {
+          this.activeDebts.set(debts.slice(0, 5).map(d => this.mapToProfileDebt(d)));
+        } else {
+          this.activeDebts.set([]);
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar deudas activas en perfil:', err);
+        this.activeDebts.set([]);
+      }
+    });
+
     this.debtService.getSummary(userId).subscribe({
       next: (summary) => {
         if (summary) {
@@ -82,17 +121,9 @@ export class Profile implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Error al cargar resumen:', err);
+        console.error('Error al cargar resumen en perfil:', err);
       }
     });
-  }
-
-  private setDemoDebts(): void {
-    this.activeDebts.set([
-      { id: 1, category: 'Tarjeta de crédito', subtitle: '6 de 12 cuotas', monthlyAmountText: 'S/ 400 /mes', iconName: 'debts' },
-      { id: 2, category: 'Préstamo personal', subtitle: '8 de 12 cuotas', monthlyAmountText: 'S/ 500 /mes', iconName: 'briefcase' },
-      { id: 3, category: 'Crédito vehicular', subtitle: '8 de 24 cuotas', monthlyAmountText: 'S/ 225 /mes', iconName: 'car' },
-    ]);
   }
 
   private mapToProfileDebt(d: Debt): ProfileDebtView {
@@ -114,7 +145,7 @@ export class Profile implements OnInit {
       id: d.id || Date.now(),
       category: d.category,
       subtitle: isInstallment ? `${paid} de ${term} cuotas` : (d.isIndefinite ? 'Gasto Recurrente Indefinido' : `Hasta ${d.endDate || ''}`),
-      monthlyAmountText: `S/ ${d.monthlyAmount} /mes`,
+      monthlyAmountText: `$ ${d.monthlyAmount} /mes`,
       iconName: icon
     };
   }

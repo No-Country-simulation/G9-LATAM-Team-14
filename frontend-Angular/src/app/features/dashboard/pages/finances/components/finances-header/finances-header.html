@@ -1,0 +1,27 @@
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-5">
+  <div>
+    <h1 class="text-2xl sm:text-3xl font-bold text-[#2F3A2F]">Finanzas</h1>
+    <p class="text-xs sm:text-sm text-[#6B6B5D] mt-0.5 sm:mt-1">
+      Diagnóstico inteligente de tu salud financiera y recomendaciones estratégicas en tiempo real.
+    </p>
+  </div>
+
+  <!-- Selectores de Periodo 30 / 60 / 90 Días -->
+  <div class="flex items-center gap-1 border border-[#CFCFAE] bg-[#f3f7d2] rounded-xl p-1 shadow-2xs w-full sm:w-auto justify-center sm:justify-start shrink-0">
+    <button (click)="onSelectPeriod(30)" [class.bg-[#4A6042]]="selectedPeriod === 30" [class.text-white]="selectedPeriod === 30"
+      [class.text-[#2F3A2F]]="selectedPeriod !== 30"
+      class="flex-1 sm:flex-none px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer text-center">
+      30 Días
+    </button>
+    <button (click)="onSelectPeriod(60)" [class.bg-[#4A6042]]="selectedPeriod === 60" [class.text-white]="selectedPeriod === 60"
+      [class.text-[#2F3A2F]]="selectedPeriod !== 60"
+      class="flex-1 sm:flex-none px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer text-center">
+      60 Días
+    </button>
+    <button (click)="onSelectPeriod(90)" [class.bg-[#4A6042]]="selectedPeriod === 90" [class.text-white]="selectedPeriod === 90"
+      [class.text-[#2F3A2F]]="selectedPeriod !== 90"
+      class="flex-1 sm:flex-none px-3 py-1 rounded-lg text-xs font-semibold transition cursor-pointer text-center">
+      90 Días
+    </button>
+  </div>
+</div>

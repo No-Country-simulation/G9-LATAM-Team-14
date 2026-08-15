@@ -1,7 +1,6 @@
 package com.g9latam.team14.movement.infrastructure.adapter.inbound.dtos;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public record MovementResponse(
         Integer id,
@@ -9,7 +8,8 @@ public record MovementResponse(
         BigDecimal amount,
         String type,
         String category,
-        LocalDate date,
+        String date,
+        String note,
         Integer userId,
         String status,
         AiClassificationResponse modelSuggestion

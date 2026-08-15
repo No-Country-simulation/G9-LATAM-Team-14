@@ -2,25 +2,16 @@
 <div
   class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs animate-fadeIn">
   <div
-    class="bg-[#EFF5D3] w-full max-w-4xl max-h-[92vh] sm:max-h-[90vh] rounded-3xl shadow-2xl border border-[#DCE8B5] flex flex-col overflow-hidden animate-scaleUp">
+    class="bg-[#EFF5D3] w-full max-w-xl max-h-[92vh] sm:max-h-[90vh] rounded-3xl shadow-2xl border border-[#DCE8B5] flex flex-col overflow-hidden animate-scaleUp">
     <app-modal-header [title]="debtToEdit() ? 'Editar Deuda / Obligación' : 'Registrar Deuda / Obligación'"
       (closeModal)="onClose()"></app-modal-header>
-    <div class="p-5 sm:p-6 sm:py-7 overflow-y-auto space-y-6 sm:space-y-7 flex-1 custom-scrollbar">
-      <app-modal-type-selector [(selectedType)]="registrationType"></app-modal-type-selector>
-      @if (registrationType() === 'installment') {
+    <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
       <app-debt-details-form [(category)]="installmentCategory" [(totalAmount)]="installmentTotalAmount"
-        [(paymentMode)]="paymentMode" [(fixedTermMonths)]="fixedTermMonths"
-        [(freePaymentMonthlyQuota)]="freePaymentMonthlyQuota" [(startDate)]="startDate"></app-debt-details-form>
-      } @else {
-      <app-fixed-expense-form [(category)]="fixedCategory" [(monthlyAmount)]="fixedMonthlyAmount"
-        [(isIndefinite)]="isIndefinite" [(monthsTerm)]="fixedMonthsTerm"
-        [(startDate)]="startDate"></app-fixed-expense-form>
-      }
-      <app-modal-summary [monthlyQuota]="calculatedMonthlyQuota()"
-        [endDate]="calculatedEndDate()" [incomePercentage]="calculatedIncomePercentage()"></app-modal-summary>
+        [(fixedTermMonths)]="fixedTermMonths" [(startDate)]="startDate"></app-debt-details-form>
     </div>
-    <app-modal-footer [submitText]="debtToEdit() ? 'Guardar Cambios' : 'Agregar Deuda'" (closeModal)="onClose()"
+    <app-modal-footer [submitText]="debtToEdit() ? 'Guardar Cambios' : 'Registrar'" (closeModal)="onClose()"
       (submitForm)="onSubmit()"></app-modal-footer>
+
   </div>
 </div>
 }

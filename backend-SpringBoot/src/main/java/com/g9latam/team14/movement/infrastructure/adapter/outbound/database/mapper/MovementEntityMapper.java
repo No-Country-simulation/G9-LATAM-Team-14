@@ -17,6 +17,7 @@ public class MovementEntityMapper {
                 .type(entity.getType())
                 .category(entity.getCategory())
                 .date(entity.getDate())
+                .note(entity.getNote())
                 .userId(entity.getUserId())
                 .build();
     }
@@ -29,6 +30,7 @@ public class MovementEntityMapper {
                 movement.getType(),
                 movement.getCategory(),
                 movement.getDate(),
+                movement.getNote(),
                 movement.getUserId()
         );
     }

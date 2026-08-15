@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -16,7 +15,8 @@ public class Movement {
     private final BigDecimal amount;
     private final String type;
     private final String category;
-    private final LocalDate date;
+    private final String date;
+    private final String note;
     private final Integer userId;
     private final AiClassification aiClassification;
 }

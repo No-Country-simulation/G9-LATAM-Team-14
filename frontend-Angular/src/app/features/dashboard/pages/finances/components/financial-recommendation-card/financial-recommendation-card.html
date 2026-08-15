@@ -1,0 +1,93 @@
+<div class="space-y-5 pt-6 lg:pt-0 lg:pl-8">
+  <!-- Título con barra separadora abajo -->
+  <div class="flex items-center justify-between pb-3 border-b border-[#CFCFAE]">
+    <div>
+      <p class="text-[10px] font-bold uppercase tracking-wider text-[#6B6B5D]">Modelo 05 · Acción</p>
+      <h2 class="text-lg sm:text-xl font-bold text-[#2F3A2F]">Recomendación para ti</h2>
+    </div>
+    <span [class.bg-[#4A6042]]="status === 'available'" [class.text-white]="status === 'available'"
+      [class.bg-[#E3E8C4]]="status !== 'available'" [class.text-[#2F3A2F]]="status !== 'available'"
+      class="px-3 py-1 rounded-full text-xs font-semibold shrink-0">
+      {{ status === 'available' ? 'Disponible' : 'Aún no disponible' }}
+    </span>
+  </div>
+
+  @if (status === 'available') {
+  <!-- Badges de Prioridad -->
+  <div class="flex flex-wrap gap-2">
+    <span class="bg-[#F8E7D5] text-[#9A6A3B] px-3 py-0.5 rounded-full text-xs font-semibold">
+      Prioridad: {{ priority || 'Alta' }}
+    </span>
+    <span class="bg-[#E3E8C4] text-[#2F3A2F] px-3 py-0.5 rounded-full text-xs font-medium">
+      Estrategia de Liquidez
+    </span>
+  </div>
+
+  <!-- Mensaje Principal -->
+  <p class="text-sm sm:text-base font-semibold leading-relaxed text-[#2F3A2F]">
+    {{ message }}
+  </p>
+
+  <!-- Siguiente Acción Destacada -->
+  @if (nextAction) {
+  <div class="bg-[#4A6042] text-white p-3.5 rounded-xl space-y-0.5 shadow-2xs">
+    <p class="text-[10px] font-bold uppercase tracking-wider text-[#DDF3E3]">Siguiente acción</p>
+    <p class="text-xs sm:text-sm font-medium">
+      {{ nextAction }}
+    </p>
+  </div>
+  }
+
+  <!-- Metadatos de Confianza y Meta -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+    <div class="flex items-center gap-2">
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">
+        {{ confidencePercentage }}%
+      </span>
+      <span class="text-xs font-medium text-[#526650]">Confianza</span>
+    </div>
+    <div class="flex items-center gap-2 min-w-0">
+      <span
+        class="text-xs font-bold text-[#2F3A2F] bg-[#E3E8C4] border border-[#CFCFAE] px-3 py-1 rounded-xl shadow-2xs shrink-0">
+        Meta relacionada
+      </span>
+      <span class="text-xs font-medium text-[#526650] truncate">
+        {{ relatedGoal || nextGoal || 'No se asumió una meta' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Criterios Considerados -->
+  @if (appliedSafeguards.length) {
+  <div class="space-y-2 pt-1">
+    <p class="text-xs font-bold uppercase tracking-wider text-[#2F3A2F]">Criterios considerados</p>
+    <div class="flex flex-wrap gap-2">
+      @for (safeguard of appliedSafeguards; track safeguard) {
+      <span class="bg-[#f3f7d2] border border-[#CFCFAE] text-[#2F3A2F] px-3 py-1 rounded-xl text-xs font-medium">
+        {{ safeguard }}
+      </span>
+      }
+    </div>
+  </div>
+  }
+  } @else {
+  <div class="py-8 text-center space-y-3">
+    <h4 class="text-base font-bold text-[#2F3A2F]">Aún necesitamos más evidencia</h4>
+    <p class="text-xs text-[#526650] max-w-xs mx-auto leading-relaxed">
+      No generamos una recomendación hasta contar con información suficiente y confiable de tus movimientos.
+    </p>
+
+    @if (reasons.length) {
+    <div class="pt-2 text-left bg-[#f3f7d2] border border-[#CFCFAE] p-4 rounded-2xl space-y-2 max-w-sm mx-auto">
+      <p class="text-[11px] font-bold uppercase tracking-wider text-[#2F3A2F]">Motivos observados:</p>
+      <ul class="space-y-1 text-xs text-[#526650]">
+        @for (reason of reasons; track reason) {
+        <li>• {{ reason }}</li>
+        }
+      </ul>
+    </div>
+    }
+  </div>
+  }
+</div>

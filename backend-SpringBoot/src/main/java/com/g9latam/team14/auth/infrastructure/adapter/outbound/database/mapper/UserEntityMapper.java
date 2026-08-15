@@ -1,7 +1,3 @@
-/**
- * Traduce la tabla de la base de datos (UserEntity) a nuestro modelo puro de Java (User).
- * Sirve para que el resto del sistema no tenga que lidiar con clases de la base de datos.
- */
 package com.g9latam.team14.auth.infrastructure.adapter.outbound.database.mapper;
 import com.g9latam.team14.auth.domain.model.User;
 import com.g9latam.team14.auth.infrastructure.adapter.outbound.database.UserEntity;
@@ -18,7 +14,12 @@ public class UserEntityMapper {
                 .password(entity.getPassword())
                 .ingresoMensual(entity.getIngresoMensual())
                 .frecuenciaAhorro(entity.getFrecuenciaAhorro())
+                .actividadPrincipal(entity.getActividadPrincipal())
+                .ocupacionCuoc(entity.getOcupacionCuoc())
+                .confianzaIaPct(entity.getConfianzaIaPct())
+                .resultadoIaJson(entity.getResultadoIaJson())
                 .fechaRegistro(entity.getFechaRegistro())
+                .onboardingCompleted(entity.getOnboardingCompleted() != null ? entity.getOnboardingCompleted() : false)
                 .build();
     }
 
@@ -31,7 +32,12 @@ public class UserEntityMapper {
                 .password(domain.getPassword())
                 .ingresoMensual(domain.getIngresoMensual())
                 .frecuenciaAhorro(domain.getFrecuenciaAhorro())
+                .actividadPrincipal(domain.getActividadPrincipal())
+                .ocupacionCuoc(domain.getOcupacionCuoc())
+                .confianzaIaPct(domain.getConfianzaIaPct())
+                .resultadoIaJson(domain.getResultadoIaJson())
                 .fechaRegistro(domain.getFechaRegistro())
+                .onboardingCompleted(domain.getOnboardingCompleted() != null ? domain.getOnboardingCompleted() : false)
                 .build();
     }
 }

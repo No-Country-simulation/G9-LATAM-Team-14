@@ -1,7 +1,9 @@
 package com.g9latam.team14.debt.infrastructure.adapter.inbound.mapper;
+
 import com.g9latam.team14.debt.domain.model.*;
 import com.g9latam.team14.debt.infrastructure.adapter.inbound.dtos.*;
 import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -11,7 +13,12 @@ public class DebtDtoMapper {
     public Debt toDomain(CreateDebtRequest request) {
         if (request == null) return null;
         LocalDate start = request.startDate() != null ? parseDate(request.startDate()) : LocalDate.now();
-        LocalDate end = request.endDate() != null ? parseDate(request.endDate()) : null;
+        if (start == null) start = LocalDate.now();
+        LocalDate end = parseDate(request.endDate());
+        if (end == null && request.monthsTerm() != null && request.monthsTerm() > 0) {
+            end = start.plusMonths(request.monthsTerm());
+        }
+
         return Debt.builder()
                 .type(request.type())
                 .category(request.category())
@@ -50,16 +57,28 @@ public class DebtDtoMapper {
     public List<Debt> toDomainBatchList(CreateBatchDebtsRequest request) {
         if (request == null || request.debts() == null) return List.of();
         return request.debts().stream()
-                .map(item -> Debt.builder()
-                        .type(DebtType.INSTALLMENT)
-                        .category(item.category() != null ? item.category() : "General")
-                        .monthlyAmount(item.amount() != null ? BigDecimal.valueOf(item.amount()) : BigDecimal.ZERO)
-                        .monthsTerm(12)
-                        .paidInstallments(0)
-                        .startDate(LocalDate.now())
-                        .status(DebtStatus.ACTIVE)
-                        .userId(request.userId())
-                        .build())
+                .map(item -> {
+                    BigDecimal monthly = item.amount() != null ? BigDecimal.valueOf(item.amount()) : BigDecimal.ZERO;
+                    int monthsTerm = 12;
+                    BigDecimal total = monthly.multiply(BigDecimal.valueOf(monthsTerm));
+                    LocalDate start = LocalDate.now();
+                    LocalDate end = start.plusMonths(monthsTerm);
+
+                    return Debt.builder()
+                            .type(DebtType.INSTALLMENT)
+                            .category(item.category() != null ? item.category() : "General")
+                            .monthlyAmount(monthly)
+                            .monthsTerm(monthsTerm)
+                            .totalAmount(total)
+                            .paidInstallments(0)
+                            .paymentMode(DebtPaymentMode.FIXED_TERM)
+                            .startDate(start)
+                            .endDate(end)
+                            .isIndefinite(false)
+                            .status(DebtStatus.ACTIVE)
+                            .userId(request.userId())
+                            .build();
+                })
                 .toList();
     }
 
@@ -112,9 +131,12 @@ public class DebtDtoMapper {
             if (dateStr.length() == 7) { // format YYYY-MM
                 return LocalDate.parse(dateStr + "-01");
             }
+            if (dateStr.length() >= 10) {
+                return LocalDate.parse(dateStr.substring(0, 10));
+            }
             return LocalDate.parse(dateStr);
         } catch (Exception e) {
-            return LocalDate.now();
+            return null;
         }
     }
 }

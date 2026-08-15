@@ -1,136 +1,96 @@
-import { Component, computed, input } from '@angular/core';
-import { BaseChartDirective } from 'ng2-charts';
-import {
-  Chart, ChartConfiguration, ChartOptions, Plugin, ScriptableContext, registerables
-} from 'chart.js';
-import { MonthlyProfile } from '@core/evolution/models/evolution.model';
-
-Chart.register(...registerables);
-
-const SALUDABLE_FROM = 85;
-const OBSERVACION_FROM = 60;
-
-const STATE_BANDS = [
-  { from: SALUDABLE_FROM, to: 100, label: 'SALUDABLE', color: '#556F53', fill: 'rgba(90, 114, 89, 0.10)' },
-  { from: OBSERVACION_FROM, to: SALUDABLE_FROM, label: 'EN OBSERVACIÓN', color: '#A15B3E', fill: 'rgba(147, 97, 36, 0.06)' },
-  { from: 0, to: OBSERVACION_FROM, label: 'EN RIESGO', color: '#C62828', fill: 'rgba(186, 26, 26, 0.06)' }
-];
-
-const stateBandsPlugin: Plugin = {
-  id: 'stateBands',
-  beforeDraw(chart) {
-    const { ctx, chartArea } = chart;
-    if (!chartArea) return;
-    const yScale = chart.scales['y'];
-    ctx.save();
-    for (const band of STATE_BANDS) {
-      const top = yScale.getPixelForValue(band.to);
-      const bottom = yScale.getPixelForValue(band.from);
-      ctx.fillStyle = band.fill;
-      ctx.fillRect(chartArea.left, top, chartArea.width, bottom - top);
-      ctx.font = "bold 10px 'Plus Jakarta Sans', sans-serif";
-      ctx.fillStyle = band.color;
-      ctx.textAlign = 'left';
-      ctx.fillText(band.label, chartArea.left + 10, top + 14);
-    }
-    ctx.restore();
-  }
-};
-
-Chart.register(stateBandsPlugin);
+import { Component, computed, input, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MonthlyProfile, PuntuacionDiaria } from '@core/evolution/models/evolution.model';
 
 @Component({
   selector: 'app-score-line-chart',
   standalone: true,
-  imports: [BaseChartDirective],
-  templateUrl: './score-line-chart.html',
+  imports: [CommonModule],
+  templateUrl: './score-line-chart.html'
 })
 export class ScoreLineChartComponent {
   perfilMensual = input<MonthlyProfile[]>([]);
-  ultimoMes = input('');
-  ultimoScore = input(0);
+  selectedMonth = input<string | null>(null);
+  ultimoScore = input<number>(0);
 
-  chartType = 'line' as const;
+  hoveredPoint = signal<PuntuacionDiaria | null>(null);
 
-  labels = computed(() => this.perfilMensual().map(profile => this.shortMonthLabel(profile.mes)));
+  currentProfile = computed(() => {
+    const list = this.perfilMensual();
+    const sel = this.selectedMonth();
+    if (!list || list.length === 0) return null;
+    return list.find(p => p.mes === sel) || list[list.length - 1];
+  });
 
-  ultimoMesLabel = computed(() => this.longMonthLabel(this.ultimoMes()));
+  dailyScores = computed<PuntuacionDiaria[]>(() => {
+    const prof = this.currentProfile();
+    return prof?.puntuacionesDiarias || [];
+  });
 
-  chartData = computed<ChartConfiguration<'line'>['data']>(() => ({
-    labels: this.perfilMensual().map(profile => this.shortMonthLabel(profile.mes)),
-    datasets: [
-      {
-        data: this.perfilMensual().map(profile => profile.score),
-        borderColor: '#425942',
-        borderWidth: 3,
-        backgroundColor: (context: ScriptableContext<'line'>) => {
-          const { ctx, chartArea } = context.chart;
-          if (!chartArea) return 'rgba(90, 114, 89, 0.25)';
-          const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          gradient.addColorStop(0, 'rgba(90, 114, 89, 0.30)');
-          gradient.addColorStop(1, 'rgba(90, 114, 89, 0)');
-          return gradient;
-        },
-        fill: true,
-        tension: 0.4,
-        pointBackgroundColor: '#425942',
-        pointBorderColor: '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 7
-      }
-    ]
-  }));
+  monthLabel = computed(() => {
+    const prof = this.currentProfile();
+    if (!prof || !prof.mes) return '';
+    const parts = prof.mes.split('-');
+    if (parts.length < 2) return prof.mes;
+    const year = parts[0];
+    const monthNum = parseInt(parts[1], 10);
+    const monthNames = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    return `${monthNames[monthNum - 1] || parts[1]} ${year}`;
+  });
 
-  chartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        backgroundColor: '#2F4836',
-        titleFont: { size: 12, weight: 'bold' },
-        bodyFont: { size: 12 },
-        padding: 10,
-        displayColors: false,
-        callbacks: {
-          label: (context) => `Score: ${context.parsed?.['y'] ?? 0}/100`
-        }
-      }
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          display: false
-        }
-      },
-      y: {
-        min: 0,
-        max: 100,
-        grid: {
-          display: false
-        },
-        ticks: {
-          display: false
-        }
-      }
-    }
-  };
+  // SVG Chart Dimensions
+  width = 800;
+  height = 200;
+  paddingY = 20;
 
-  private shortMonthLabel(mes: string): string {
-    const [, month] = mes.split('-').map(Number);
-    return new Date(2000, month - 1, 1).toLocaleDateString('es-PE', { month: 'short' });
+  chartPoints = computed(() => {
+    const data = this.dailyScores();
+    if (!data || data.length === 0) return [];
+    const count = data.length;
+    const stepX = count > 1 ? (this.width - 50) / (count - 1) : 0;
+
+    return data.map((item, idx) => {
+      const x = 30 + idx * stepX;
+      const scoreClamped = Math.max(0, Math.min(100, item.score));
+      const y = this.height - this.paddingY - (scoreClamped / 100) * (this.height - 2 * this.paddingY);
+      return { x, y, data: item };
+    });
+  });
+
+  svgPath = computed(() => {
+    const pts = this.chartPoints();
+    if (pts.length === 0) return '';
+    if (pts.length === 1) return `M ${pts[0].x} ${pts[0].y} L ${pts[0].x} ${pts[0].y}`;
+    return pts.reduce((acc, pt, i) => i === 0 ? `M ${pt.x} ${pt.y}` : `${acc} L ${pt.x} ${pt.y}`, '');
+  });
+
+  svgAreaPath = computed(() => {
+    const pts = this.chartPoints();
+    if (pts.length === 0) return '';
+    const line = this.svgPath();
+    const lastX = pts[pts.length - 1].x;
+    const firstX = pts[0].x;
+    const bottomY = this.height - 20;
+    return `${line} L ${lastX} ${bottomY} L ${firstX} ${bottomY} Z`;
+  });
+
+  setHover(pt: PuntuacionDiaria | null): void {
+    this.hoveredPoint.set(pt);
   }
 
-  private longMonthLabel(mes: string): string {
-    if (!mes) return '';
-    const [year, month] = mes.split('-').map(Number);
-    const label = new Date(year, month - 1, 1).toLocaleDateString('es-PE', { month: 'long' });
-    return `${label.toUpperCase()} ${year}`;
+  parseDayNum(diaStr: string): number {
+    return parseInt(diaStr, 10) || 1;
+  }
+
+  formatCurrency(value: number): string {
+    return new Intl.NumberFormat('es-PE', {
+      style: 'currency',
+      currency: 'USD',
+      currencyDisplay: 'narrowSymbol',
+      maximumFractionDigits: 2
+    }).format(value || 0);
   }
 }

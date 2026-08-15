@@ -1,11 +1,11 @@
 package com.g9latam.team14.movement.infrastructure.adapter.outbound.database.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "movements")
@@ -31,9 +31,11 @@ public class MovementEntity {
     private String category;
 
     @Column(name = "date")
-    private LocalDate date;
+    private String date;
+
+    @Column(name = "note")
+    private String note;
 
     @Column(name = "user_id")
     private Integer userId;
-
 }

@@ -1,0 +1,31 @@
+@if (!isEditing()) {
+<div class="space-y-1.5">
+    <p class="text-xs font-bold text-[#5A7259] uppercase tracking-wider">Próximo gran objetivo</p>
+    <div>
+        <span class="inline-flex items-center gap-2 px-3.5 py-2 bg-[#2F4836] text-white rounded-xl text-xs xl:text-sm font-bold shadow-xs">
+            <app-icon-fin-coach [name]="currentGoalObj().icon" class="w-4 h-4 text-white" />
+            <span>{{ currentGoalObj().title }}</span>
+        </span>
+    </div>
+</div>
+} @else {
+<div class="space-y-2">
+    <p class="text-xs font-bold text-[#214523] uppercase tracking-wider">¿Cuál es tu próximo gran objetivo?</p>
+    <div class="grid grid-cols-2 xl:grid-cols-3 gap-2 xl:gap-3">
+        @for (goal of goals(); track goal.id) {
+        <button type="button" (click)="selectGoal(goal.id)"
+            [class.bg-[#2F4836]]="tempSelectedGoal() === goal.id"
+            [class.text-white]="tempSelectedGoal() === goal.id"
+            [class.border-[#2F4836]]="tempSelectedGoal() === goal.id"
+            [class.bg-[#F4F8DE]]="tempSelectedGoal() !== goal.id"
+            [class.text-[#214523]]="tempSelectedGoal() !== goal.id"
+            [class.border-[#C9DAA7]]="tempSelectedGoal() !== goal.id"
+            class="flex items-center gap-2 px-3 py-2.5 rounded-xl border transition-all duration-200 hover:border-[#4A634E] cursor-pointer text-left">
+            <app-icon-fin-coach [name]="goal.icon"
+                [class]="'w-4 h-4 shrink-0 ' + (tempSelectedGoal() === goal.id ? 'text-white' : 'text-[#214523]')" />
+            <span class="text-xs font-semibold truncate">{{ goal.title }}</span>
+        </button>
+        }
+    </div>
+</div>
+}

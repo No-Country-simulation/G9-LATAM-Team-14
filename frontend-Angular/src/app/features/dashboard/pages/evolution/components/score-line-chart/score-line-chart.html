@@ -1,25 +1,102 @@
-<div class="bg-[#EDF1CD] rounded-2xl p-6 md:p-8 border border-[#C3C8BF] relative overflow-hidden">
-    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
-        <div>
-            <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-1">Perfil financiero en el tiempo</h2>
-            <p class="text-xs sm:text-sm text-[#526655]">Índice de salud algorítmica (0-100)</p>
-        </div>
-        <div class="text-left md:text-right">
-            <div class="flex items-baseline gap-1">
-                <span class="text-4xl sm:text-[48px] font-extrabold text-[#214523] leading-none">{{ ultimoScore() }}</span>
-                <span class="text-lg font-semibold text-[#526655]">/100</span>
-            </div>
-            <p class="text-xs font-semibold text-[#425942] uppercase tracking-wider mt-1">{{ ultimoMesLabel() }}</p>
-        </div>
+<div class="flex flex-col gap-4">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#CFCFAE]">
+    <div>
+      <p class="text-[10px] font-extrabold uppercase tracking-wider text-[#526650]">Score de Salud Financiera</p>
+      <h3 class="text-lg font-bold text-[#2F3A2F]">Evolución Diario — {{ monthLabel() }}</h3>
     </div>
 
-    <div class="h-64 w-full relative">
-        <canvas baseChart [data]="chartData()" [options]="chartOptions" [type]="chartType"></canvas>
-    </div>
+    @if (currentProfile(); as prof) {
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 bg-[#4A6042] text-white px-3.5 py-1 rounded-full shadow-2xs">
+          <span class="text-xs font-semibold">Score:</span>
+          <span class="text-xs font-extrabold">{{ prof.estado === '-' ? '-' : (prof.score + ' / 100') }}</span>
+        </div>
+        <span class="px-2.5 py-1 rounded-full text-xs font-bold border border-[#CFCFAE]"
+          [class.bg-[#E3E8C4]]="prof.estado === 'Saludable' || prof.estado === 'En observación'"
+          [class.text-[#2F3A2F]]="prof.estado === 'Saludable' || prof.estado === 'En observación'"
+          [class.bg-[#F8E7D5]]="prof.estado === 'En riesgo'"
+          [class.text-[#8A4D35]]="prof.estado === 'En riesgo'"
+          [class.bg-gray-100]="prof.estado === '-'"
+          [class.text-gray-500]="prof.estado === '-'">
+          {{ prof.estado }}
+        </span>
+      </div>
+    }
+  </div>
 
-    <div class="flex justify-between mt-4 px-2">
-        @for (label of labels(); track label) {
-            <span class="text-xs font-medium text-[#526655]">{{ label }}</span>
-        }
-    </div>
+  <!-- Line Chart SVG container without white background or heavy border -->
+  <div class="relative space-y-2 py-2">
+
+    @if (dailyScores().length === 0) {
+      <div class="py-12 text-center text-xs font-semibold text-[#6B6B5D]">
+        No hay registros diarios para el periodo seleccionado.
+      </div>
+    } @else {
+      <!-- Information tooltip when hovering over a point -->
+      @if (hoveredPoint(); as hpt) {
+        <div class="absolute top-1 right-2 bg-[#2F3A2F] text-white text-xs px-3 py-1.5 rounded-xl shadow-md z-10 flex items-center gap-3">
+          <span class="font-bold">Día {{ hpt.dia }}</span>
+          <span class="text-[#E3E8C4]">Score: {{ hpt.score }}/100</span>
+          <span class="opacity-75">Ingresos: {{ formatCurrency(hpt.ingresos) }}</span>
+        </div>
+      }
+
+      <div class="w-full overflow-x-auto">
+        <div class="min-w-[600px]">
+          <svg [attr.viewBox]="'0 0 ' + width + ' ' + height" class="w-full h-auto overflow-visible">
+            <defs>
+              <linearGradient id="scoreAreaGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4A6042" stop-opacity="0.30" />
+                <stop offset="100%" stop-color="#4A6042" stop-opacity="0.0" />
+              </linearGradient>
+            </defs>
+
+            <!-- Y-Axis Horizontal Grid Lines (100, 75, 50, 25, 0) -->
+            <line x1="28" y1="20" [attr.x2]="width - 15" y2="20" stroke="#CFCFAE" stroke-dasharray="3 3" stroke-opacity="0.4" />
+            <text x="0" y="24" class="text-[10px] fill-[#6B6B5D] font-bold">100</text>
+
+            <line x1="28" y1="60" [attr.x2]="width - 15" y2="60" stroke="#CFCFAE" stroke-dasharray="3 3" stroke-opacity="0.4" />
+            <text x="5" y="64" class="text-[10px] fill-[#6B6B5D] font-bold">75</text>
+
+            <!-- Threshold 50 line highlighted -->
+            <line x1="28" y1="100" [attr.x2]="width - 15" y2="100" stroke="#8A4D35" stroke-dasharray="3 3" stroke-opacity="0.6" stroke-width="1.5" />
+            <text x="5" y="104" class="text-[10px] fill-[#8A4D35] font-bold">50</text>
+
+            <line x1="28" y1="140" [attr.x2]="width - 15" y2="140" stroke="#CFCFAE" stroke-dasharray="3 3" stroke-opacity="0.4" />
+            <text x="5" y="144" class="text-[10px] fill-[#6B6B5D] font-bold">25</text>
+
+            <line x1="28" y1="180" [attr.x2]="width - 15" y2="180" stroke="#CFCFAE" stroke-opacity="0.8" />
+            <text x="12" y="184" class="text-[10px] fill-[#6B6B5D] font-bold">0</text>
+
+            <!-- Area Fill -->
+            <path [attr.d]="svgAreaPath()" fill="url(#scoreAreaGradient)" />
+
+            <!-- Main Score Line -->
+            <path [attr.d]="svgPath()" fill="none" stroke="#4A6042" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+            <!-- Day Circles & Hover triggers -->
+            @for (pt of chartPoints(); track pt.data.dia) {
+              <g (mouseenter)="setHover(pt.data)" (mouseleave)="setHover(null)" class="cursor-pointer group">
+                <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="8" fill="#4A6042" fill-opacity="0.2" class="opacity-0 group-hover:opacity-100 transition-opacity" />
+                <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="4" fill="#2F3A2F" stroke="#FFFFFF" stroke-width="2" class="group-hover:scale-125 transition-transform" />
+              </g>
+            }
+          </svg>
+
+          <!-- Day Numbers along X Axis (1, 2, 3 ... 31) -->
+          <div class="flex justify-between px-7 pt-2 text-[10px] font-bold text-[#2F3A2F]">
+            @for (pt of chartPoints(); track pt.data.dia) {
+              <span>{{ parseDayNum(pt.data.dia) }}</span>
+            }
+          </div>
+
+          <!-- X-Axis Legend Guide -->
+          <div class="text-center pt-2 text-[11px] font-semibold text-[#526650]">
+            Día del mes (1 - {{ dailyScores().length }})
+          </div>
+        </div>
+      </div>
+    }
+
+  </div>
 </div>

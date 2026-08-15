@@ -8,7 +8,7 @@ import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
   templateUrl: './modal-footer.html',
 })
 export class ModalFooterComponent {
-  submitText = input<string>('Agregar Deuda');
+  submitText = input<string>('Registrar');
   closeModal = output<void>();
   submitForm = output<void>();
 }

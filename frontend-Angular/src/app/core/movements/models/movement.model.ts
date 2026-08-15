@@ -19,6 +19,7 @@ export interface Movement {
   type: 'INGRESO' | 'GASTO';
   category: string;
   date: string;
+  note?: string;
   userId?: number;
   status?: string;
   modelSuggestion?: AiClassificationSuggestion;
@@ -30,6 +31,7 @@ export interface CreateMovementRequest {
   type: 'INGRESO' | 'GASTO';
   category?: string;
   date: string;
+  note?: string;
   userId?: number;
 }
 

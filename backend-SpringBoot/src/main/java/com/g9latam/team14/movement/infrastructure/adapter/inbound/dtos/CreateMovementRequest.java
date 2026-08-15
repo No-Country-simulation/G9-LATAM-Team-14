@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public record CreateMovementRequest(
 
@@ -19,10 +18,10 @@ public record CreateMovementRequest(
 
         String category,
 
-        @NotNull(message = "La fecha es obligatoria")
-        LocalDate date,
+        @NotBlank(message = "La fecha es obligatoria")
+        String date,
 
-        @NotNull(message = "El usuario es obligatorio")
+        String note,
         Integer userId
 
 ) {

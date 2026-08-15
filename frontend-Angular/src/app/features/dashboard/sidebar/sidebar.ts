@@ -37,14 +37,14 @@ export class Sidebar {
       iconName: 'dashboard'
     },
     {
+      label: 'Finanzas',
+      route: '/dashboard/finances',
+      iconName: 'evolution'
+    },
+    {
       label: 'Movimientos',
       route: '/dashboard/movements',
       iconName: 'movements'
-    },
-    {
-      label: 'Transacciones',
-      route: '/dashboard/transactions',
-      iconName: 'transactions'
     },
     {
       label: 'Mis deudas',
@@ -55,11 +55,6 @@ export class Sidebar {
       label: 'Evolución',
       route: '/dashboard/evolution',
       iconName: 'evolution'
-    },
-    {
-      label: 'Recomendaciones',
-      route: '/dashboard/recommendations',
-      iconName: 'recommendations'
     }
   ];
 }

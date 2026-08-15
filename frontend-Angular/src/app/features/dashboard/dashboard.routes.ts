@@ -20,12 +20,12 @@ export const DASHBOARD_ROUTES: Routes = [
         loadComponent: () => import('./pages/profile/profile').then(m => m.Profile)
       },
       {
-        path: 'movements',
-        loadComponent: () => import('./pages/movements/movements').then(m => m.Movements)
+        path: 'finances',
+        loadComponent: () => import('./pages/finances/finances').then(m => m.Finances)
       },
       {
-        path: 'transactions',
-        loadComponent: () => import('./pages/transactions/transactions').then(m => m.Transactions)
+        path: 'movements',
+        loadComponent: () => import('./pages/movements/movements').then(m => m.Movements)
       },
       {
         path: 'debts',
@@ -34,10 +34,6 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'evolution',
         loadComponent: () => import('./pages/evolution/evolution').then(m => m.Evolution)
-      },
-      {
-        path: 'recommendations',
-        loadComponent: () => import('./pages/recommendations/recommendations').then(m => m.Recommendations)
       },
       {
         path: 'settings',

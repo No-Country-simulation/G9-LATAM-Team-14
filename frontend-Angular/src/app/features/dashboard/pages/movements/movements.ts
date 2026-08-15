@@ -8,6 +8,7 @@ import { MovementModalComponent } from './components/movement-modal/movement-mod
 import { MovementsHeader } from './components/movements-header/movements-header';
 import { MovementsList } from './components/movements-list/movements-list';
 import { MovementsSummaryCards } from './components/movements-summary-cards/movements-summary-cards';
+import { MovementDetailModalComponent } from './components/movement-detail-modal/movement-detail-modal';
 
 @Component({
   selector: 'app-movements',
@@ -18,7 +19,8 @@ import { MovementsSummaryCards } from './components/movements-summary-cards/move
     MovementsHeader,
     MovementsList,
     MovementsSummaryCards,
-    MovementModalComponent
+    MovementModalComponent,
+    MovementDetailModalComponent
   ],
   templateUrl: './movements.html',
 })
@@ -28,11 +30,14 @@ export class Movements implements OnInit {
 
   movements = signal<Movement[]>([]);
   isModalOpen = signal<boolean>(false);
+  
+  selectedMovement = signal<Movement | null>(null);
+  isDetailModalOpen = signal<boolean>(false);
 
+  activeView = signal<'list' | 'summary'>('list');
   currentDate = new Date().toLocaleDateString('es-PE', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
+    day: '2-digit',
+    month: '2-digit',
     year: 'numeric'
   });
 
@@ -58,6 +63,20 @@ export class Movements implements OnInit {
 
   closeModal(): void {
     this.isModalOpen.set(false);
+  }
+
+  onSelectMovement(m: Movement): void {
+    this.selectedMovement.set(m);
+    this.isDetailModalOpen.set(true);
+  }
+
+  closeDetailModal(): void {
+    this.isDetailModalOpen.set(false);
+    this.selectedMovement.set(null);
+  }
+
+  toggleView(): void {
+    this.activeView.update(v => v === 'list' ? 'summary' : 'list');
   }
 
   saveMovement(movementPayload: CreateMovementRequest): void {

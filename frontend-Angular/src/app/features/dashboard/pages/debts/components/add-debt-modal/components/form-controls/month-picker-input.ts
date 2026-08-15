@@ -1,26 +1,15 @@
-import { Component, ElementRef, ViewChild, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-month-picker-input',
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './month-picker-input.html',
 })
 export class MonthPickerInputComponent {
-  @ViewChild('inputRef') inputRef!: ElementRef<HTMLInputElement>;
-
   label = input<string>('');
-  id = input<string>('monthInput');
+  id = input<string>('');
   value = model<string>('');
-
-  openPicker(): void {
-    if (this.inputRef?.nativeElement && typeof this.inputRef.nativeElement.showPicker === 'function') {
-      try {
-        this.inputRef.nativeElement.showPicker();
-      } catch (e) {
-        // Fallback si el navegador restringe showPicker
-      }
-    }
-  }
 }

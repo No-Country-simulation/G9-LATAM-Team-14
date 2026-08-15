@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
 
 @Component({
@@ -8,5 +8,7 @@ import { IconFinCoachComponent } from '@app/shared/icons/iconsFinCoach';
   templateUrl: './debts-header.html',
 })
 export class DebtsHeaderComponent {
+  currentMobileView = input<'debts' | 'summary'>('debts');
+  toggleMobileView = output<void>();
   addDebt = output<void>();
 }
