@@ -3,50 +3,101 @@
     <div class="h-48 animate-pulse rounded-2xl border border-[#CFCFAE]"></div>
   } @else if (previousPoint(); as previous) {
     @if (currentPoint(); as current) {
-      <!-- Tabla Comparativa de Indicadores -->
+      <!-- Contenedor Comparativo de Indicadores -->
       <div class="overflow-hidden rounded-2xl border border-[#CFCFAE]">
-        <div class="grid grid-cols-[1fr_2fr_auto] items-center gap-4 border-b border-[#CFCFAE] bg-[#4A6042] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wider text-white">
+        <!-- Desktop Header -->
+        <div class="hidden sm:grid sm:grid-cols-[160px_1fr_100px] items-center gap-4 border-b border-[#CFCFAE] bg-[#4A6042] px-4 py-3 text-[11px] font-extrabold uppercase tracking-wider text-white">
           <span>Indicador</span>
           <span>Comparación Mensual</span>
           <span class="text-right">Cambio</span>
         </div>
 
         @for (metric of metrics(); track metric.label) {
-          <div class="grid grid-cols-[1fr_2fr_auto] items-center gap-4 border-b border-[#CFCFAE] last:border-b-0 px-4 py-3.5 text-xs text-[#2F3A2F]">
-            <div>
-              <p class="font-bold text-[#2F3A2F]">{{ metric.label }}</p>
-            </div>
+          <!-- Item Metric Container (Mobile & Desktop) -->
+          <div class="border-b border-[#CFCFAE] last:border-b-0 p-4 text-xs text-[#2F3A2F] transition hover:bg-[#E3E8C4]/10">
 
-            <div class="space-y-1.5">
-              <div class="flex items-center gap-2">
-                <span class="w-16 truncate text-[11px] font-semibold text-[#526650] tabular-nums">{{ formatCurrency(metric.previous) }}</span>
-                <div class="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
-                  <div class="h-full rounded-full bg-[#9AAA7E] transition-all duration-500" [style.width.%]="comparisonWidth(metric.previous, metric.current)"></div>
+            <!-- Mobile Layout -->
+            <div class="sm:hidden space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-[#2F3A2F] text-sm">{{ metric.label }}</span>
+                @if (changePercentage(metric.current, metric.previous) !== null) {
+                  <span class="inline-flex rounded-xl border px-2.5 py-0.5 text-xs font-bold tabular-nums"
+                    [class.bg-[#E3E8C4]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.border-[#CFCFAE]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.text-[#2F3A2F]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.bg-[#F8E7D5]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
+                    [class.border-[#E8CFC4]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
+                    [class.text-[#8A4D35]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0">
+                    {{ (changePercentage(metric.current, metric.previous) ?? 0) > 0 ? '+' : '' }}{{ formatPercentage(changePercentage(metric.current, metric.previous) ?? 0) }}
+                  </span>
+                } @else {
+                  <span class="text-xs text-[#6B6B5D]">Sin base</span>
+                }
+              </div>
+
+              <div class="space-y-2 pt-1">
+                <!-- Month Previous Bar -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-[11px]">
+                    <span class="font-semibold text-[#526650]">{{ formatMonth(previous.mes) }}</span>
+                    <span class="font-bold text-[#526650]">{{ formatCurrency(metric.previous) }}</span>
+                  </div>
+                  <div class="h-2 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
+                    <div class="h-full rounded-full bg-[#9AAA7E] transition-all duration-500" [style.width.%]="comparisonWidth(metric.previous, metric.previous, metric.current)"></div>
+                  </div>
+                </div>
+
+                <!-- Month Current Bar -->
+                <div class="space-y-1">
+                  <div class="flex justify-between text-[11px]">
+                    <span class="font-bold text-[#2F3A2F]">{{ formatMonth(current.mes) }}</span>
+                    <span class="font-extrabold text-[#2F3A2F]">{{ formatCurrency(metric.current) }}</span>
+                  </div>
+                  <div class="h-2 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
+                    <div class="h-full rounded-full bg-[#4A6042] transition-all duration-500" [style.width.%]="comparisonWidth(metric.current, metric.previous, metric.current)"></div>
+                  </div>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
-                <span class="w-16 truncate text-[11px] font-bold text-[#2F3A2F] tabular-nums">{{ formatCurrency(metric.current) }}</span>
-                <div class="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
-                  <div class="h-full rounded-full bg-[#4A6042] transition-all duration-500" [style.width.%]="comparisonWidth(metric.current, metric.previous)"></div>
+            </div>
+
+            <!-- Desktop Layout -->
+            <div class="hidden sm:grid sm:grid-cols-[160px_1fr_100px] items-center gap-4">
+              <div>
+                <p class="font-bold text-[#2F3A2F]">{{ metric.label }}</p>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-3">
+                  <span class="w-24 shrink-0 text-[11px] font-semibold text-[#526650] tabular-nums">{{ formatCurrency(metric.previous) }}</span>
+                  <div class="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
+                    <div class="h-full rounded-full bg-[#9AAA7E] transition-all duration-500" [style.width.%]="comparisonWidth(metric.previous, metric.previous, metric.current)"></div>
+                  </div>
                 </div>
+                <div class="flex items-center gap-3">
+                  <span class="w-24 shrink-0 text-[11px] font-extrabold text-[#2F3A2F] tabular-nums">{{ formatCurrency(metric.current) }}</span>
+                  <div class="h-2.5 flex-1 overflow-hidden rounded-full bg-[#E3E8C4]">
+                    <div class="h-full rounded-full bg-[#4A6042] transition-all duration-500" [style.width.%]="comparisonWidth(metric.current, metric.previous, metric.current)"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-right">
+                @if (changePercentage(metric.current, metric.previous) !== null) {
+                  <span class="inline-flex rounded-xl border px-2.5 py-1 text-xs font-bold tabular-nums"
+                    [class.bg-[#E3E8C4]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.border-[#CFCFAE]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.text-[#2F3A2F]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
+                    [class.bg-[#F8E7D5]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
+                    [class.border-[#E8CFC4]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
+                    [class.text-[#8A4D35]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0">
+                    {{ (changePercentage(metric.current, metric.previous) ?? 0) > 0 ? '+' : '' }}{{ formatPercentage(changePercentage(metric.current, metric.previous) ?? 0) }}
+                  </span>
+                } @else {
+                  <span class="text-xs text-[#6B6B5D]">Sin base</span>
+                }
               </div>
             </div>
 
-            <div class="text-right">
-              @if (changePercentage(metric.current, metric.previous) !== null) {
-                <span class="inline-flex rounded-xl border px-2.5 py-1 text-xs font-bold tabular-nums"
-                  [class.bg-[#E3E8C4]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
-                  [class.border-[#CFCFAE]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
-                  [class.text-[#2F3A2F]]="(changePercentage(metric.current, metric.previous) ?? 0) >= 0"
-                  [class.bg-[#F8E7D5]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
-                  [class.border-[#E8CFC4]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0"
-                  [class.text-[#8A4D35]]="(changePercentage(metric.current, metric.previous) ?? 0) < 0">
-                  {{ (changePercentage(metric.current, metric.previous) ?? 0) > 0 ? '+' : '' }}{{ formatPercentage(changePercentage(metric.current, metric.previous) ?? 0) }}
-                </span>
-              } @else {
-                <span class="text-xs text-[#6B6B5D]">Sin base</span>
-              }
-            </div>
           </div>
         }
       </div>

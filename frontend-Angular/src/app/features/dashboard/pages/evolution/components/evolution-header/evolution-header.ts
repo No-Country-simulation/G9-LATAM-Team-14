@@ -1,6 +1,6 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/evolution.model';
+import { MonthlyProfile } from '@core/evolution/models/evolution.model';
 
 @Component({
   selector: 'app-evolution-header',
@@ -10,19 +10,26 @@ import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/ev
 })
 export class EvolutionHeaderComponent {
   perfilMensual = input<MonthlyProfile[]>([]);
-  ingresosVsGastos = input<IncomeVsExpensesPoint[]>([]);
+  selectedMonth = input<string | null>(null);
+  monthSelected = output<string>();
 
-  previousProfile = computed(() => {
-    const lista = this.perfilMensual();
-    if (lista.length >= 2) return lista[lista.length - 2];
-    return lista[0] || null;
+  isOpen = signal<boolean>(false);
+
+  activeProfile = computed(() => {
+    const list = this.perfilMensual();
+    const sel = this.selectedMonth();
+    if (!list || list.length === 0) return null;
+    return list.find(p => p.mes === sel) || list[list.length - 1];
   });
 
-  currentProfile = computed(() => {
-    const lista = this.perfilMensual();
-    if (lista.length >= 1) return lista[lista.length - 1];
-    return null;
-  });
+  toggleDropdown(): void {
+    this.isOpen.update(v => !v);
+  }
+
+  selectMonth(mes: string): void {
+    this.monthSelected.emit(mes);
+    this.isOpen.set(false);
+  }
 
   formatMonth(monthStr?: string): string {
     if (!monthStr) return '';

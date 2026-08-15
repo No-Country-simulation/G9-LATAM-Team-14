@@ -1,9 +1,17 @@
-export type EstadoFinanciero = 'Saludable' | 'En observación' | 'En riesgo';
+export type EstadoFinanciero = 'Saludable' | 'En observación' | 'En riesgo' | '-';
+
+export interface PuntuacionDiaria {
+  dia: string;
+  score: number;
+  ingresos: number;
+  gastos: number;
+}
 
 export interface MonthlyProfile {
   mes: string;
   score: number;
   estado: EstadoFinanciero;
+  puntuacionesDiarias?: PuntuacionDiaria[];
 }
 
 export interface IncomeVsExpensesPoint {

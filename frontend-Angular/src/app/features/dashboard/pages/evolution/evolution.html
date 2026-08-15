@@ -1,9 +1,10 @@
 <div class="flex flex-col gap-8 sm:gap-10 pb-8">
 
-  <!-- Header con píldoras de resumen del mes anterior y mes actual -->
+  <!-- Header con píldoras de filtro por mes -->
   <app-evolution-header
     [perfilMensual]="data()?.perfilMensual || []"
-    [ingresosVsGastos]="data()?.ingresosVsGastos || []"
+    [selectedMonth]="selectedMonth()"
+    (monthSelected)="onSelectMonth($event)"
   />
 
   <!-- Sección Comparativa de Indicadores Mensuales -->
@@ -13,10 +14,10 @@
     [isLoading]="isLoading()">
   </app-recent-evolution>
 
-  <!-- Score de Salud Financiera -->
+  <!-- Score de Salud Financiera con gráfico de líneas día a día del mes seleccionado -->
   <app-score-line-chart
     [perfilMensual]="data()?.perfilMensual || []"
-    [ultimoMes]="data()?.ultimoMes || ''"
+    [selectedMonth]="selectedMonth()"
     [ultimoScore]="data()?.ultimoScore || 50"
   />
 

@@ -1,4 +1,4 @@
-<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-[#CFCFAE]">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#CFCFAE]">
   <div>
     <h1 class="text-2xl sm:text-3xl font-bold text-[#2F3A2F]">Evolución Financiera</h1>
     <p class="text-xs sm:text-sm text-[#6B6B5D] mt-0.5 sm:mt-1">
@@ -6,27 +6,102 @@
     </p>
   </div>
 
-  <!-- Píldoras compactas de estado mensual a la derecha del header -->
-  <div class="flex flex-wrap items-center gap-2.5 shrink-0">
-    @if (previousProfile(); as prev) {
-      <div class="flex items-center gap-2 border border-[#CFCFAE] px-3.5 py-1.5 rounded-xl shadow-2xs text-xs font-semibold text-[#2F3A2F]">
-        <span class="font-bold text-[#2F3A2F]">{{ formatMonth(prev.mes) }}</span>
-        <span class="text-[#6B6B5D]">·</span>
-        <span class="text-[#526650]">Salud {{ prev.score }}/100</span>
-        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border border-[#CFCFAE] bg-[#E3E8C4] text-[#2F3A2F]">
-          {{ prev.estado }}
-        </span>
-      </div>
+  <!-- Botón desplegable único para filtrar por mes -->
+  <div class="relative w-full sm:w-auto shrink-0">
+    @if (activeProfile(); as active) {
+      <button
+        type="button"
+        (click)="toggleDropdown()"
+        class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 border border-[#CFCFAE] bg-[#E3E8C4]/30 px-4 py-2.5 rounded-2xl text-xs font-semibold text-[#2F3A2F] hover:border-[#4A6042] hover:bg-[#E3E8C4]/60 transition cursor-pointer"
+      >
+        <div class="flex items-center gap-2.5">
+          <!-- Calendar Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#4A6042]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+
+          <!-- Selected Month Name -->
+          <span class="font-extrabold text-[#2F3A2F] text-sm">{{ formatMonth(active.mes) }}</span>
+        </div>
+
+        <div class="flex items-center gap-2.5">
+          <span class="text-[#CFCFAE]">|</span>
+
+          <!-- Active Status Badge -->
+          <span
+            class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border"
+            [class.bg-[#E3E8C4]]="active.estado === 'Saludable' || active.estado === 'En observación'"
+            [class.text-[#2F3A2F]]="active.estado === 'Saludable' || active.estado === 'En observación'"
+            [class.bg-[#F8E7D5]]="active.estado === 'En riesgo'"
+            [class.text-[#8A4D35]]="active.estado === 'En riesgo'"
+            [class.bg-gray-100]="active.estado === '-'"
+            [class.text-gray-500]="active.estado === '-'"
+          >
+            {{ active.estado }}
+          </span>
+
+          <!-- Chevron Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4 text-[#6B6B5D] transition-transform duration-200"
+            [class.rotate-180]="isOpen()"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
     }
 
-    @if (currentProfile(); as curr) {
-      <div class="flex items-center gap-2 border border-[#CFCFAE] px-3.5 py-1.5 rounded-xl shadow-2xs text-xs font-semibold text-[#2F3A2F]">
-        <span class="font-bold text-[#2F3A2F]">{{ formatMonth(curr.mes) }}</span>
-        <span class="text-[#6B6B5D]">·</span>
-        <span class="text-[#526650]">Salud {{ curr.score }}/100</span>
-        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#4A6042] text-white">
-          {{ curr.estado }}
-        </span>
+    <!-- Menú Desplegable de Meses -->
+    @if (isOpen()) {
+      <div class="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 w-full sm:w-72 bg-[#F9F9F6] rounded-2xl shadow-xl border border-[#CFCFAE] p-2 z-50 space-y-1 animate-in fade-in zoom-in-95 duration-150">
+        <p class="px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-[#526650] border-b border-[#CFCFAE]/50">
+          Seleccionar Periodo
+        </p>
+
+        <div class="max-h-60 overflow-y-auto space-y-1 pr-1">
+          @for (item of perfilMensual(); track item.mes) {
+            <button
+              type="button"
+              (click)="selectMonth(item.mes)"
+              class="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition cursor-pointer text-left"
+              [class.bg-[#4A6042]]="selectedMonth() === item.mes"
+              [class.text-white]="selectedMonth() === item.mes"
+              [class.hover:bg-[#E3E8C4]/50]="selectedMonth() !== item.mes"
+              [class.text-[#2F3A2F]]="selectedMonth() !== item.mes"
+            >
+              <div class="flex items-center gap-2">
+                <span class="font-bold">{{ formatMonth(item.mes) }}</span>
+                @if (selectedMonth() === item.mes) {
+                  <span class="text-xs">✓</span>
+                }
+              </div>
+
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] opacity-80">
+                  {{ item.estado === '-' ? '-' : (item.score + '/100') }}
+                </span>
+                <span
+                  class="px-2 py-0.5 rounded-full text-[10px] font-bold border"
+                  [class.bg-[#E3E8C4]]="item.estado === 'Saludable' && selectedMonth() !== item.mes"
+                  [class.text-[#2F3A2F]]="item.estado === 'Saludable' && selectedMonth() !== item.mes"
+                  [class.bg-[#F8E7D5]]="item.estado === 'En riesgo' && selectedMonth() !== item.mes"
+                  [class.text-[#8A4D35]]="item.estado === 'En riesgo' && selectedMonth() !== item.mes"
+                  [class.bg-[#E3E8C4]]="item.estado === 'En observación' && selectedMonth() !== item.mes"
+                  [class.text-[#2F3A2F]]="item.estado === 'En observación' && selectedMonth() !== item.mes"
+                  [class.bg-gray-100]="item.estado === '-'"
+                  [class.text-gray-500]="item.estado === '-'"
+                  [class.bg-white/20]="selectedMonth() === item.mes"
+                  [class.text-white]="selectedMonth() === item.mes"
+                  [class.border-transparent]="selectedMonth() === item.mes"
+                >
+                  {{ item.estado }}
+                </span>
+              </div>
+            </button>
+          }
+        </div>
       </div>
     }
   </div>

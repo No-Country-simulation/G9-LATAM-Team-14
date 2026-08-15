@@ -25,11 +25,16 @@ export class Evolution implements OnInit {
   private evolutionService = inject(EvolutionService);
 
   data = signal<EvolutionData | null>(null);
+  selectedMonth = signal<string | null>(null);
   isLoading = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
 
   ngOnInit(): void {
     this.load();
+  }
+
+  onSelectMonth(mes: string): void {
+    this.selectedMonth.set(mes);
   }
 
   private load(): void {
@@ -38,6 +43,10 @@ export class Evolution implements OnInit {
     this.evolutionService.getEvolution().subscribe({
       next: (result) => {
         this.data.set(result);
+        if (result && result.perfilMensual && result.perfilMensual.length > 0) {
+          const defaultMes = result.ultimoMes || result.perfilMensual[result.perfilMensual.length - 1].mes;
+          this.selectedMonth.set(defaultMes);
+        }
         this.isLoading.set(false);
       },
       error: (err) => {

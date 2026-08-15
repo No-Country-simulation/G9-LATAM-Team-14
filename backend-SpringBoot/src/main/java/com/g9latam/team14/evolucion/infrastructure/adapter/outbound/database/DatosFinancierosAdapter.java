@@ -18,6 +18,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class DatosFinancierosAdapter implements DatosFinancierosPort {
+
     private final MovementJpaRepository movementJpaRepository;
     private final SpringDataDebtRepository springDataDebtRepository;
 
@@ -52,6 +53,16 @@ public class DatosFinancierosAdapter implements DatosFinancierosPort {
         return resultado;
     }
 
+    @Override
+    public Map<LocalDate, BigDecimal> ingresosDiarios(Integer usuarioId, LocalDate desde, LocalDate hasta) {
+        return agruparMovimientosDiarios(usuarioId, "INGRESO", desde, hasta);
+    }
+
+    @Override
+    public Map<LocalDate, BigDecimal> gastosDiarios(Integer usuarioId, LocalDate desde, LocalDate hasta) {
+        return agruparMovimientosDiarios(usuarioId, "GASTO", desde, hasta);
+    }
+
     private Map<YearMonth, BigDecimal> agruparMovimientos(Integer usuarioId, String tipo, YearMonth desde, YearMonth hasta) {
         Map<YearMonth, BigDecimal> mapa = new HashMap<>();
         if (usuarioId == null) return mapa;
@@ -66,10 +77,33 @@ public class DatosFinancierosAdapter implements DatosFinancierosPort {
         return mapa;
     }
 
+    private Map<LocalDate, BigDecimal> agruparMovimientosDiarios(Integer usuarioId, String tipo, LocalDate desde, LocalDate hasta) {
+        Map<LocalDate, BigDecimal> mapa = new HashMap<>();
+        if (usuarioId == null) return mapa;
+
+        List<MovementEntity> todos = movementJpaRepository.findByUserIdOrderByDateDesc(usuarioId);
+        for (MovementEntity m : todos) {
+            if (!tipo.equalsIgnoreCase(m.getType())) continue;
+            LocalDate fecha = parsearFecha(m.getDate());
+            if (fecha == null || fecha.isBefore(desde) || fecha.isAfter(hasta)) continue;
+            mapa.merge(fecha, m.getAmount() != null ? m.getAmount() : BigDecimal.ZERO, BigDecimal::add);
+        }
+        return mapa;
+    }
+
     private YearMonth parsearMes(String fecha) {
         if (fecha == null || fecha.length() < 7) return null;
         try {
             return YearMonth.parse(fecha.substring(0, 7));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private LocalDate parsearFecha(String fecha) {
+        if (fecha == null || fecha.length() < 10) return null;
+        try {
+            return LocalDate.parse(fecha.substring(0, 10));
         } catch (Exception e) {
             return null;
         }

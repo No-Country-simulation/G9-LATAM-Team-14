@@ -102,10 +102,10 @@ export class RecentEvolutionComponent {
     return ((curr - prev) / Math.abs(prev)) * 100;
   }
 
-  comparisonWidth(valA: number, valB: number): number {
-    const max = Math.max(Math.abs(valA), Math.abs(valB), 1);
-    if (valA === 0) return 5;
-    return Math.min(100, Math.max(10, (Math.abs(valA) / max) * 100));
+  comparisonWidth(val: number, refA: number, refB: number): number {
+    const maxVal = Math.max(Math.abs(refA), Math.abs(refB), 1);
+    if (Math.abs(val) === 0) return 4;
+    return Math.min(100, Math.max(8, (Math.abs(val) / maxVal) * 100));
   }
 
   formatStatus(status?: string): string {

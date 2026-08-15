@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4">
   <div class="pb-3 border-b border-[#CFCFAE]">
     <p class="text-[10px] font-extrabold uppercase tracking-wider text-[#526650]">Historial de Evaluaciones</p>
-    <h3 class="text-lg font-bold text-[#2F3A2F]">Registros de Evaluaciones Anteriores</h3>
+    <h3 class="text-lg font-bold text-[#2F3A2F]">Registros de Evaluaciones Anteriores (Últimos 6 meses)</h3>
   </div>
 
   <div class="overflow-hidden rounded-2xl border border-[#CFCFAE]">
@@ -21,12 +21,16 @@
             <td class="py-3.5 px-4 font-bold text-[#2F3A2F]">{{ row.fecha }}</td>
             <td class="py-3.5 px-4">
               <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold border border-[#CFCFAE]"
-                [class.bg-[#E3E8C4]]="row.score >= 70" [class.text-[#2F3A2F]]="row.score >= 70"
-                [class.bg-[#F8E7D5]]="row.score < 70" [class.text-[#8A4D35]]="row.score < 70">
+                [class.bg-[#E3E8C4]]="row.estado === 'Saludable' || row.estado === 'En observación'"
+                [class.text-[#2F3A2F]]="row.estado === 'Saludable' || row.estado === 'En observación'"
+                [class.bg-[#F8E7D5]]="row.estado === 'En riesgo'"
+                [class.text-[#8A4D35]]="row.estado === 'En riesgo'"
+                [class.bg-gray-100]="row.estado === '-'"
+                [class.text-gray-500]="row.estado === '-'">
                 {{ row.estado }}
               </span>
             </td>
-            <td class="py-3.5 px-4 font-extrabold text-[#2F3A2F]">{{ row.score }} / 100</td>
+            <td class="py-3.5 px-4 font-extrabold text-[#2F3A2F]">{{ row.estado === '-' ? '-' : (row.score + ' / 100') }}</td>
             <td class="py-3.5 px-4 text-right font-bold text-[#4A6042]">{{ formatCurrency(row.ingresos) }}</td>
             <td class="py-3.5 px-4 text-right font-bold text-[#8A4D35]">{{ formatCurrency(row.gastos) }}</td>
           </tr>
