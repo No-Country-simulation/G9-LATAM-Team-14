@@ -1,4 +1,4 @@
-import { Component, Input, computed } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/evolution.model';
 
@@ -15,37 +15,29 @@ export interface ComparisonMetric {
   templateUrl: './recent-evolution.html'
 })
 export class RecentEvolutionComponent {
-  @Input() ingresosVsGastos: IncomeVsExpensesPoint[] = [];
-  @Input() perfilMensual: MonthlyProfile[] = [];
-  @Input() isLoading = false;
-  @Input() errorMessage: string | null = null;
+  ingresosVsGastos = input<IncomeVsExpensesPoint[]>([]);
+  perfilMensual = input<MonthlyProfile[]>([]);
+  isLoading = input<boolean>(false);
+  errorMessage = input<string | null>(null);
 
   previousPoint = computed(() => {
-    if (this.ingresosVsGastos.length >= 2) {
-      return this.ingresosVsGastos[this.ingresosVsGastos.length - 2];
-    }
-    return this.ingresosVsGastos[0] || null;
+    const lista = this.ingresosVsGastos();
+    return lista.length >= 2 ? lista[lista.length - 2] : lista[0] || null;
   });
 
   currentPoint = computed(() => {
-    if (this.ingresosVsGastos.length >= 1) {
-      return this.ingresosVsGastos[this.ingresosVsGastos.length - 1];
-    }
-    return null;
+    const lista = this.ingresosVsGastos();
+    return lista.length >= 1 ? lista[lista.length - 1] : null;
   });
 
   previousProfile = computed(() => {
-    if (this.perfilMensual.length >= 2) {
-      return this.perfilMensual[this.perfilMensual.length - 2];
-    }
-    return this.perfilMensual[0] || null;
+    const lista = this.perfilMensual();
+    return lista.length >= 2 ? lista[lista.length - 2] : lista[0] || null;
   });
 
   currentProfile = computed(() => {
-    if (this.perfilMensual.length >= 1) {
-      return this.perfilMensual[this.perfilMensual.length - 1];
-    }
-    return null;
+    const lista = this.perfilMensual();
+    return lista.length >= 1 ? lista[lista.length - 1] : null;
   });
 
   metrics = computed<ComparisonMetric[]>(() => {

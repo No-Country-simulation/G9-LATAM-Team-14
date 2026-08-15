@@ -1,8 +1,6 @@
 package com.g9latam.team14.evolucion.domain.model;
-
 import java.math.BigDecimal;
-
-public record AnalysisHistoryRow(
+public record EvaluacionHistorica(
         String fecha,
         String estado,
         Integer score,

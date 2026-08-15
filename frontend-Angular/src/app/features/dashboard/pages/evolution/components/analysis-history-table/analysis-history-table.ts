@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AnalysisHistoryRow } from '@core/evolution/models/evolution.model';
 
@@ -9,7 +9,7 @@ import { AnalysisHistoryRow } from '@core/evolution/models/evolution.model';
   templateUrl: './analysis-history-table.html'
 })
 export class AnalysisHistoryTable {
-  @Input() historial: AnalysisHistoryRow[] = [];
+  historial = input<AnalysisHistoryRow[]>([]);
 
   formatCurrency(value: number): string {
     return new Intl.NumberFormat('es-PE', {

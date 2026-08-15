@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MonthlyProfile } from '@core/evolution/models/evolution.model';
 
@@ -9,7 +9,7 @@ import { MonthlyProfile } from '@core/evolution/models/evolution.model';
   templateUrl: './score-line-chart.html'
 })
 export class ScoreLineChartComponent {
-  @Input() perfilMensual: MonthlyProfile[] = [];
-  @Input() ultimoMes: string = '';
-  @Input() ultimoScore: number = 0;
+  perfilMensual = input<MonthlyProfile[]>([]);
+  ultimoMes = input<string>('');
+  ultimoScore = input<number>(0);
 }

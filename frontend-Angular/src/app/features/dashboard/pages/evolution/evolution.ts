@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EvolutionService } from '@core/evolution/services/evolution.service';
-import { EvolutionData, TimeRange } from '@core/evolution/models/evolution.model';
+import { EvolutionData } from '@core/evolution/models/evolution.model';
 import {
   EvolutionHeaderComponent,
   RecentEvolutionComponent,
@@ -24,24 +24,25 @@ import {
 export class Evolution implements OnInit {
   private evolutionService = inject(EvolutionService);
 
-  range = signal<TimeRange>('6M');
   data = signal<EvolutionData | null>(null);
   isLoading = signal<boolean>(false);
+  errorMessage = signal<string | null>(null);
 
   ngOnInit(): void {
     this.load();
   }
 
-  onRangeChange(range: TimeRange): void {
-    this.range.set(range);
-    this.load();
-  }
-
   private load(): void {
     this.isLoading.set(true);
-    this.evolutionService.getMock(this.range()).subscribe({
+    this.errorMessage.set(null);
+    this.evolutionService.getEvolution().subscribe({
       next: (result) => {
         this.data.set(result);
+        this.isLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Error al cargar evolución financiera:', err);
+        this.errorMessage.set('No se pudieron cargar los datos de evolución.');
         this.isLoading.set(false);
       }
     });

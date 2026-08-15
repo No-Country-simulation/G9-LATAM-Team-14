@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-[#CFCFAE]">
-        @for (row of historial; track row.fecha) {
+        @for (row of historial(); track row.fecha) {
           <tr class="text-[#2F3A2F] font-medium hover:bg-[#E3E8C4]/20 transition">
             <td class="py-3.5 px-4 font-bold text-[#2F3A2F]">{{ row.fecha }}</td>
             <td class="py-3.5 px-4">

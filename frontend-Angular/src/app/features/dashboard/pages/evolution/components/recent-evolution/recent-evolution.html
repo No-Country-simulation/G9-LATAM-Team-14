@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-4">
-  @if (isLoading) {
+  @if (isLoading()) {
     <div class="h-48 animate-pulse rounded-2xl border border-[#CFCFAE]"></div>
   } @else if (previousPoint(); as previous) {
     @if (currentPoint(); as current) {

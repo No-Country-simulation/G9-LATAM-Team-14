@@ -1,4 +1,4 @@
-import { Component, Input, computed } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/evolution.model';
 
@@ -9,20 +9,18 @@ import { IncomeVsExpensesPoint, MonthlyProfile } from '@core/evolution/models/ev
   templateUrl: './evolution-header.html'
 })
 export class EvolutionHeaderComponent {
-  @Input() perfilMensual: MonthlyProfile[] = [];
-  @Input() ingresosVsGastos: IncomeVsExpensesPoint[] = [];
+  perfilMensual = input<MonthlyProfile[]>([]);
+  ingresosVsGastos = input<IncomeVsExpensesPoint[]>([]);
 
   previousProfile = computed(() => {
-    if (this.perfilMensual.length >= 2) {
-      return this.perfilMensual[this.perfilMensual.length - 2];
-    }
-    return this.perfilMensual[0] || null;
+    const lista = this.perfilMensual();
+    if (lista.length >= 2) return lista[lista.length - 2];
+    return lista[0] || null;
   });
 
   currentProfile = computed(() => {
-    if (this.perfilMensual.length >= 1) {
-      return this.perfilMensual[this.perfilMensual.length - 1];
-    }
+    const lista = this.perfilMensual();
+    if (lista.length >= 1) return lista[lista.length - 1];
     return null;
   });
 
