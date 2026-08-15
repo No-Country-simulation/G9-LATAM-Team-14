@@ -89,6 +89,7 @@ export class ScoreLineChartComponent {
     return new Intl.NumberFormat('es-PE', {
       style: 'currency',
       currency: 'USD',
+      currencyDisplay: 'narrowSymbol',
       maximumFractionDigits: 2
     }).format(value || 0);
   }
