@@ -8,6 +8,7 @@ import com.g9latam.team14.evolucion.domain.model.PuntuacionDiaria;
 import com.g9latam.team14.evolucion.domain.ports.inbound.GenerarEvolucionUseCase;
 import com.g9latam.team14.evolucion.domain.ports.outbound.DatosFinancierosPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,21 +24,18 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class EvolucionFinancieraService implements GenerarEvolucionUseCase {
-
     private final DatosFinancierosPort datosFinancierosPort;
 
     @Override
+    @Cacheable(value = "evolucionFinanciera", key = "#usuarioId")
     public DatosEvolucion generar(Integer usuarioId) {
         YearMonth mesActual = YearMonth.now();
         YearMonth mesInicio = mesActual.minusMonths(5);
-
         Map<YearMonth, BigDecimal> ingresos = datosFinancierosPort.ingresosAgrupados(usuarioId, mesInicio, mesActual);
         Map<YearMonth, BigDecimal> gastos = datosFinancierosPort.gastosAgrupados(usuarioId, mesInicio, mesActual);
         Map<YearMonth, BigDecimal> deudas = datosFinancierosPort.deudasAgrupadas(usuarioId, mesInicio, mesActual);
-
         Map<LocalDate, BigDecimal> ingresosDiariosMap = datosFinancierosPort.ingresosDiarios(usuarioId, mesInicio.atDay(1), LocalDate.now());
         Map<LocalDate, BigDecimal> gastosDiariosMap = datosFinancierosPort.gastosDiarios(usuarioId, mesInicio.atDay(1), LocalDate.now());
-
         List<PerfilMensual> perfilMensual = new ArrayList<>();
         List<FlujoDineroMes> ingresosVsGastos = new ArrayList<>();
 
