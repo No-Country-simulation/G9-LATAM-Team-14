@@ -30,7 +30,7 @@ public class MovementEntity {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "date")
+    @Column(name = "movement_date")
     private String date;
 
     @Column(name = "note")

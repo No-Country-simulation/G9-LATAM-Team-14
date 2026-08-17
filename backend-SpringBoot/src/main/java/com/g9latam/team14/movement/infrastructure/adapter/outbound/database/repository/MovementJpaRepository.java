@@ -32,10 +32,10 @@ public interface MovementJpaRepository
         BigDecimal getTotal();
     }
 
-    @Query("SELECT FUNCTION('DATE_FORMAT', m.date, '%Y-%m') AS mes, COALESCE(SUM(m.amount), 0) AS total " +
+    @Query("SELECT SUBSTRING(m.date, 1, 7) AS mes, COALESCE(SUM(m.amount), 0) AS total " +
             "FROM MovementEntity m " +
             "WHERE m.userId = :userId AND m.type = :type AND m.date BETWEEN :start AND :end " +
-            "GROUP BY FUNCTION('DATE_FORMAT', m.date, '%Y-%m')")
+            "GROUP BY SUBSTRING(m.date, 1, 7)")
     List<MonthlyTotal> sumAmountMonthlyByUserIdAndDateBetweenAndType(
             @Param("userId") Integer userId,
             @Param("start") LocalDate start,

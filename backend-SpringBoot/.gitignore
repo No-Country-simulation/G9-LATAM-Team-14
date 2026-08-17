@@ -32,3 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+# Oracle DB Wallet (Credenciales)
+**/src/main/resources/wallet/
+*.sso
+*.p12
