@@ -10,8 +10,12 @@ import { join } from 'node:path';
 import jwt from 'jsonwebtoken';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
+const allowedHosts = process.env['ALLOWED_HOSTS']
+  ? process.env['ALLOWED_HOSTS'].split(',').map((h) => h.trim())
+  : ['*'];
+
 const angularApp = new AngularNodeAppEngine({
-  allowedHosts: ['localhost']
+  allowedHosts: allowedHosts,
 });
 const JWT_SECRET = process.env['JWT_SECRET'];
 if (!JWT_SECRET) throw new Error('FATAL: La variable de entorno JWT_SECRET no está definida.');

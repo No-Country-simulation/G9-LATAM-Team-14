@@ -32,7 +32,7 @@ services:
       - DB_URL=${DB_URL:-jdbc:oracle:thin:@fincoachdb_high?TNS_ADMIN=/app/wallet}
       - DB_USER=${DB_USER:-ADMIN}
       - DB_PASS=${DB_PASS:-FinCoach2026!}
-      - CORS_ORIGINS=http://localhost:4000
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
       - DS_SERVICE_URL=http://python-data-science:8000
     depends_on:
       - data-science
