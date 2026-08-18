@@ -21,8 +21,12 @@ export class IncomeDistribution {
   });
 
   incomeFixedPct = computed(() => {
-    // Ingresos por defecto 100% fijos a menos que el usuario tenga movimientos variables
-    return 100;
+    const data = this.summary();
+    const fijos = data?.totalIngresosFijos || 0;
+    const variables = data?.totalIngresosVariables || 0;
+    const total = fijos + variables;
+    if (total === 0) return 0;
+    return Math.round((fijos / total) * 100);
   });
 
   incomeVarPct = computed(() => 100 - this.incomeFixedPct());

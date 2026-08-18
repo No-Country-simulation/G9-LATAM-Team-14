@@ -31,7 +31,19 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
     private static final int MINIMUM_REQUIRED_MOVEMENTS = 5;
 
     @Override
-    public FinancesData fetchRecommendationAndStatus(Integer userId, double totalIncome, double totalExpenses, double debtPayments, Integer periodDays, int confirmedMovementsCount) {
+    public FinancesData fetchRecommendationAndStatus(
+            Integer userId,
+            double totalIncome,
+            double totalExpenses,
+            double debtPayments,
+            double debtBalance,
+            String incomeStatus,
+            double incomeVariability,
+            int periodsWithoutIncome,
+            int observedPeriods,
+            Integer periodDays,
+            int confirmedMovementsCount
+    ) {
         String url = dsServiceUrl + "/api/v1/recommendations/";
 
         if (confirmedMovementsCount < MINIMUM_REQUIRED_MOVEMENTS) {
@@ -43,6 +55,13 @@ public class DsRecommendationAdapter implements DsRecommendationServicePort {
         payload.put("total_income", totalIncome);
         payload.put("total_expenses", totalExpenses);
         payload.put("debt_payments", debtPayments);
+        payload.put("debt_balance", debtBalance);
+        payload.put("income_status", incomeStatus);
+        payload.put("income_variability", incomeVariability);
+        payload.put("periods_without_income", periodsWithoutIncome);
+        payload.put("observed_periods", observedPeriods);
+        payload.put("goal_context", "no declarado");
+        payload.put("goal_declared", false);
         payload.put("period_days", periodDays != null ? periodDays : 60);
 
         try {

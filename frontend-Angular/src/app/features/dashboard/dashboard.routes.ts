@@ -40,11 +40,6 @@ export const DASHBOARD_ROUTES: Routes = [
         path: 'evolution',
         title: 'Fincoach | Evolución Financiera',
         loadComponent: () => import('./pages/evolution/evolution').then(m => m.Evolution)
-      },
-      {
-        path: 'settings',
-        title: 'Fincoach | Configuración',
-        loadComponent: () => import('./pages/settings/settings').then(m => m.Settings)
       }
     ]
   }

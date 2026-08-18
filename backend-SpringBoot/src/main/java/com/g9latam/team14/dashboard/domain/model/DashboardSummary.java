@@ -12,6 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class DashboardSummary {
     private final BigDecimal totalIngresos;
+    private final BigDecimal totalIngresosFijos;
+    private final BigDecimal totalIngresosVariables;
     private final BigDecimal totalGastosFijos;
     private final BigDecimal totalGastosVariables;
     private final BigDecimal balanceNeto;

@@ -5,6 +5,8 @@ import { environment } from '@environments/environment';
 
 export interface DashboardSummaryResponse {
   totalIngresos: number;
+  totalIngresosFijos: number;
+  totalIngresosVariables: number;
   totalGastosFijos: number;
   totalGastosVariables: number;
   balanceNeto: number;

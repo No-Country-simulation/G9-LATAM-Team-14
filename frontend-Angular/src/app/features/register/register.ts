@@ -6,6 +6,7 @@ import { AuthHeaderComponent } from '../../shared/components/auth-header/auth-he
 import { AuthInputComponent } from '../../shared/components/auth-input/auth-input';
 import { GoogleButtonComponent } from '../../shared/components/google-button/google-button';
 import { IconFinCoachComponent } from '../../shared/icons/iconsFinCoach';
+import { LegalDocumentType, LegalModalComponent } from './components/legal-modal/legal-modal';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,8 @@ import { IconFinCoachComponent } from '../../shared/icons/iconsFinCoach';
     AuthHeaderComponent,
     AuthInputComponent,
     GoogleButtonComponent,
-    IconFinCoachComponent
+    IconFinCoachComponent,
+    LegalModalComponent
   ],
   templateUrl: './register.html',
 })
@@ -30,9 +32,18 @@ export class Register {
   password = '';
   confirmPassword = '';
   acceptTerms = false;
+  legalDocument: LegalDocumentType | null = null;
 
   isLoading = false;
   errorMessage = '';
+
+  openLegalDocument(documentType: LegalDocumentType): void {
+    this.legalDocument = documentType;
+  }
+
+  closeLegalDocument(): void {
+    this.legalDocument = null;
+  }
 
   onRegister() {
     this.errorMessage = '';

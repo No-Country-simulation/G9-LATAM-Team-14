@@ -18,6 +18,7 @@ export interface Movement {
   amount: number;
   type: 'INGRESO' | 'GASTO';
   category: string;
+  regularity?: 'fijo' | 'variable';
   date: string;
   note?: string;
   userId?: number;
@@ -30,6 +31,7 @@ export interface CreateMovementRequest {
   amount: number;
   type: 'INGRESO' | 'GASTO';
   category?: string;
+  regularity?: 'fijo' | 'variable';
   date: string;
   note?: string;
   userId?: number;

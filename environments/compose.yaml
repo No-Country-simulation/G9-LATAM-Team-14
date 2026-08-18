@@ -44,7 +44,7 @@ services:
       dockerfile: Dockerfile
     container_name: angular_frontend
     ports:
-      - "4000:4000"
+      - "80:4000"
     env_file:
       - ../frontend-Angular/.env
     environment:

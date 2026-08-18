@@ -30,6 +30,9 @@ public class MovementEntity {
     @Column(name = "category")
     private String category;
 
+    @Column(name = "regularity")
+    private String regularity;
+
     @Column(name = "movement_date")
     private String date;
 

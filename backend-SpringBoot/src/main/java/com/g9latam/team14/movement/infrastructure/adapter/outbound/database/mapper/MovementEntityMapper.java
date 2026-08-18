@@ -16,6 +16,7 @@ public class MovementEntityMapper {
                 .amount(entity.getAmount())
                 .type(entity.getType())
                 .category(entity.getCategory())
+                .regularity(entity.getRegularity())
                 .date(entity.getDate())
                 .note(entity.getNote())
                 .userId(entity.getUserId())
@@ -29,6 +30,7 @@ public class MovementEntityMapper {
                 movement.getAmount(),
                 movement.getType(),
                 movement.getCategory(),
+                movement.getRegularity(),
                 movement.getDate(),
                 movement.getNote(),
                 movement.getUserId()
