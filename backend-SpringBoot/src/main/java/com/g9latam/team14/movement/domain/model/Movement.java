@@ -15,6 +15,7 @@ public class Movement {
     private final BigDecimal amount;
     private final String type;
     private final String category;
+    private final String regularity;
     private final String date;
     private final String note;
     private final Integer userId;

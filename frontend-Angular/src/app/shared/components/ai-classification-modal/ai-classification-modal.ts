@@ -37,6 +37,7 @@ export class AiClassificationModalComponent implements OnChanges {
 
   selectedCategory = '';
   selectedRegularity = 'variable';
+  suggestedRegularity = 'variable';
   confidencePercentage = '';
   suggestedPurpose = '';
   categories: CategoryOption[] = [];
@@ -51,7 +52,9 @@ export class AiClassificationModalComponent implements OnChanges {
 
   private buildFromSuggestion(s: AiSuggestion): void {
     this.selectedCategory = s.category || '';
-    this.selectedRegularity = (s.regularity || 'variable').toLowerCase();
+    const modelRegularity = (s.regularity || '').toLowerCase();
+    this.suggestedRegularity = modelRegularity === 'fijo' ? 'fijo' : 'variable';
+    this.selectedRegularity = this.suggestedRegularity;
 
     this.confidencePercentage = s.categoryConfidencePercentage != null
       ? `${s.categoryConfidencePercentage.toFixed(1)}%`

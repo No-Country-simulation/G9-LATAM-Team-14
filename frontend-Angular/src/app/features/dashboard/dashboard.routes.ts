@@ -34,10 +34,6 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'evolution',
         loadComponent: () => import('./pages/evolution/evolution').then(m => m.Evolution)
-      },
-      {
-        path: 'settings',
-        loadComponent: () => import('./pages/settings/settings').then(m => m.Settings)
       }
     ]
   }

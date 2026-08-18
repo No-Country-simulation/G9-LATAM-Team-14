@@ -20,6 +20,7 @@ public class MovementDtoMapper {
                 .amount(request.amount())
                 .type(request.type())
                 .category(request.category())
+                .regularity(request.regularity())
                 .date(request.date())
                 .note(request.note())
                 .userId(request.userId())
@@ -53,6 +54,7 @@ public class MovementDtoMapper {
                 movement.getAmount(),
                 movement.getType(),
                 movement.getCategory(),
+                movement.getRegularity(),
                 movement.getDate(),
                 movement.getNote(),
                 movement.getUserId(),

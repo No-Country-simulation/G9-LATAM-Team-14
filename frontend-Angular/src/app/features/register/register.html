@@ -21,11 +21,14 @@
         <div class="flex items-start gap-2.5 my-1">
             <input id="terms" name="acceptTerms" type="checkbox" [(ngModel)]="acceptTerms"
                 class="mt-1 w-4 h-4 rounded border-[#E1E6C2] text-[#5A7259] focus:ring-[#5A7259] accent-[#5A7259] cursor-pointer" />
-            <label for="terms" class="text-xs text-gray-700 leading-snug cursor-pointer">
-                Al registrarme, acepto los <a href="#" class="font-medium text-[#214523] hover:underline">Términos de
-                    servicio</a> y la <a href="#" class="font-medium text-[#214523] hover:underline">Política de
-                    privacidad</a>.
-            </label>
+            <p class="text-xs text-gray-700 leading-snug">
+                Al registrarme, acepto los
+                <button type="button" (click)="openLegalDocument('terms')"
+                    class="font-medium text-[#214523] hover:underline cursor-pointer">Términos de servicio</button>
+                y la
+                <button type="button" (click)="openLegalDocument('privacy')"
+                    class="font-medium text-[#214523] hover:underline cursor-pointer">Política de privacidad</button>.
+            </p>
         </div>
         <button type="submit" [disabled]="isLoading"
             class="w-full bg-[#5A7259] text-white py-2.5 sm:py-3 px-4 rounded-xl font-medium shadow-sm hover:bg-[#465A45] transition-colors flex items-center justify-center gap-2 mt-1 text-sm sm:text-base cursor-pointer disabled:opacity-50">
@@ -45,3 +48,7 @@
             sesión</a>
     </p>
 </div>
+
+@if (legalDocument) {
+    <app-legal-modal [documentType]="legalDocument" (close)="closeLegalDocument()" />
+}

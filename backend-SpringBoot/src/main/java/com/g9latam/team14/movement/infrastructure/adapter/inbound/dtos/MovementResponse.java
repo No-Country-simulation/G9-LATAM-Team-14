@@ -8,6 +8,7 @@ public record MovementResponse(
         BigDecimal amount,
         String type,
         String category,
+        String regularity,
         String date,
         String note,
         Integer userId,

@@ -134,12 +134,18 @@ export class MovementModalComponent {
 
     const fullDateTime = this.getFullDateTime();
     const payloadToSave = this.pendingCreatePayload
-      ? { ...this.pendingCreatePayload, category: aiData.category, date: fullDateTime }
+      ? {
+          ...this.pendingCreatePayload,
+          category: aiData.category,
+          regularity: aiData.regularity as 'fijo' | 'variable',
+          date: fullDateTime
+        }
       : {
           description: this.movement.description || 'Nuevo movimiento',
           amount: Number(this.movement.amount || 0),
           type: this.movement.type,
           category: aiData.category,
+          regularity: aiData.regularity as 'fijo' | 'variable',
           date: fullDateTime,
           note: this.movement.note.trim(),
           userId: this.authService.currentUser()?.id || 1

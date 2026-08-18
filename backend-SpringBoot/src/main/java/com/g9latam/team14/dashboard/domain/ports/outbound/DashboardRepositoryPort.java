@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public interface DashboardRepositoryPort {
     BigDecimal sumIngresosByUserIdAndDates(Integer userId, LocalDate start, LocalDate end);
+    BigDecimal sumIngresosFijosByUserIdAndDates(Integer userId, LocalDate start, LocalDate end);
+    BigDecimal sumIngresosVariablesByUserIdAndDates(Integer userId, LocalDate start, LocalDate end);
     BigDecimal sumGastosFijosByUserId(Integer userId);
     BigDecimal sumGastosVariablesByUserIdAndDates(Integer userId, LocalDate start, LocalDate end);
 }

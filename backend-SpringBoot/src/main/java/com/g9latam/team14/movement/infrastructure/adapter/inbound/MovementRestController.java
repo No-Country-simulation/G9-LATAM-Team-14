@@ -45,6 +45,7 @@ public class MovementRestController {
                     .amount(domain.getAmount())
                     .type(domain.getType())
                     .category(domain.getCategory())
+                    .regularity(domain.getRegularity())
                     .date(domain.getDate())
                     .note(domain.getNote())
                     .userId(userId)

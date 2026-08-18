@@ -19,6 +19,7 @@ public class CreateMovementService implements CreateMovementUseCase {
     @CacheEvict(value = "dashboardSummary", allEntries = true)
     public Movement createMovement(Movement movement) {
         String category = movement.getCategory();
+        String regularity = normalizeRegularity(movement.getRegularity());
         if (category == null || category.isBlank() || "OTRO".equalsIgnoreCase(category) || "COMPRAS".equalsIgnoreCase(category)) {
             try {
                 String direction = "INGRESO".equalsIgnoreCase(movement.getType()) ? "entrada" : "salida";
@@ -31,12 +32,18 @@ public class CreateMovementService implements CreateMovementUseCase {
                 if (aiClass != null && aiClass.getCategory() != null && !aiClass.getCategory().isBlank()) {
                     category = aiClass.getCategory();
                 }
+                if (regularity == null && aiClass != null) {
+                    regularity = normalizeRegularity(aiClass.getRegularity());
+                }
             } catch (Exception e) {
                 // Fallback to default
             }
         }
         if (category == null || category.isBlank()) {
             category = "INGRESO".equalsIgnoreCase(movement.getType()) ? "OTRO" : "COMPRAS";
+        }
+        if (regularity == null) {
+            regularity = "fijo";
         }
 
         Movement toSave = Movement.builder()
@@ -45,6 +52,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .amount(movement.getAmount())
                 .type(movement.getType())
                 .category(category)
+                .regularity(regularity)
                 .date(movement.getDate())
                 .note(movement.getNote())
                 .userId(movement.getUserId())
@@ -65,6 +73,9 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .amount(existing.getAmount())
                 .type(existing.getType())
                 .category(category != null && !category.isBlank() ? category : existing.getCategory())
+                .regularity(normalizeRegularity(regularity) != null
+                        ? normalizeRegularity(regularity)
+                        : existing.getRegularity())
                 .date(existing.getDate())
                 .note(existing.getNote())
                 .userId(existing.getUserId())
@@ -85,6 +96,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .amount(existing.getAmount())
                 .type(existing.getType())
                 .category(existing.getCategory())
+                .regularity(existing.getRegularity())
                 .date(existing.getDate())
                 .note(existing.getNote())
                 .userId(existing.getUserId())
@@ -105,6 +117,7 @@ public class CreateMovementService implements CreateMovementUseCase {
                 .amount(existing.getAmount())
                 .type(existing.getType())
                 .category(existing.getCategory())
+                .regularity(existing.getRegularity())
                 .date(existing.getDate())
                 .note(note != null ? note : existing.getNote())
                 .userId(existing.getUserId())
@@ -117,5 +130,11 @@ public class CreateMovementService implements CreateMovementUseCase {
     @CacheEvict(value = "dashboardSummary", allEntries = true)
     public void deleteMovement(Integer id) {
         movementRepository.deleteById(id);
+    }
+
+    private String normalizeRegularity(String regularity) {
+        if ("fijo".equalsIgnoreCase(regularity)) return "fijo";
+        if ("variable".equalsIgnoreCase(regularity)) return "variable";
+        return null;
     }
 }

@@ -18,6 +18,8 @@ public record CreateMovementRequest(
 
         String category,
 
+        String regularity,
+
         @NotBlank(message = "La fecha es obligatoria")
         String date,
 
