@@ -42,7 +42,7 @@
     <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
       <img src="https://skills-icons.vercel.app/api/icons?i=java" alt="Java 21" width="48" height="48" />
       <img src="https://skills-icons.vercel.app/api/icons?i=spring" alt="Spring Boot" width="48" height="48" />
-      <img src="https://skills-icons.vercel.app/api/icons?i=mysql" alt="MySQL" width="48" height="48" />
+      <img src="https://skills-icons.vercel.app/api/icons?i=oracle" alt="Oracle Autonomous DB" width="48" height="48" />
       <img src="https://skills-icons.vercel.app/api/icons?i=docker" alt="Docker" width="48" height="48" />
       <img src="https://skills-icons.vercel.app/api/icons?i=postman" alt="Postman" width="48" height="48" />
     </div>
@@ -139,7 +139,7 @@ Módulo encargado de la carga de modelos predictivos y clasificación en tiempo 
 ### Backend (Spring Boot)
 Construido bajo los principios de **Arquitectura Hexagonal** y patrones **SOLID** para asegurar un código mantenible, modular y testeable.
 
-* **Tecnologías:** Java 21, Spring Boot 3.x, Spring Security, Spring Cache y MySQL.
+* **Tecnologías:** Java 21, Spring Boot 3.x, Spring Security, Spring Cache y Oracle Autonomous Database (Oracle Cloud OCI / `ojdbc11`).
 * **Módulos Hexagonales (`com.g9latam.team14`):**
   * `auth`: Autenticación, JWT y gestión de seguridad de usuarios.
   * `dashboard`: Resumen ejecutivo e indicadores agregados.

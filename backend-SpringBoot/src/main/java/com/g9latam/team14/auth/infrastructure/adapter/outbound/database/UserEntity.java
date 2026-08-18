@@ -44,7 +44,8 @@ public class UserEntity {
     @Column(name = "confianza_ia_pct")
     private Double confianzaIaPct;
 
-    @Column(name = "resultado_ia_json", columnDefinition = "TEXT")
+    @Lob
+    @Column(name = "resultado_ia_json")
     private String resultadoIaJson;
 
     @Column(name = "onboarding_completed")

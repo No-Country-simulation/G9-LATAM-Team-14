@@ -32,3 +32,12 @@ build/
 ### VS Code ###
 .vscode/
 .env
+
+# Oracle DB Wallet (Credenciales protegidas)
+src/main/resources/wallet/*
+!src/main/resources/wallet/README.md
+*.sso
+*.p12
+*.ora
+*.pkcs12
+ojdbc.properties

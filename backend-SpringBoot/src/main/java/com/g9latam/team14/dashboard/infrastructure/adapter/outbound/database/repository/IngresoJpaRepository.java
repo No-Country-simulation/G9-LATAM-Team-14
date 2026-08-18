@@ -1,10 +1,8 @@
 package com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.repository;
-
 import com.g9latam.team14.dashboard.infrastructure.adapter.outbound.database.entity.IngresoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,10 +27,10 @@ public interface IngresoJpaRepository extends JpaRepository<IngresoEntity, Integ
         BigDecimal getTotal();
     }
 
-    @Query("SELECT FUNCTION('DATE_FORMAT', i.fechaIngreso, '%Y-%m') AS mes, COALESCE(SUM(i.monto), 0) AS total " +
+    @Query("SELECT FUNCTION('TO_CHAR', i.fechaIngreso, 'YYYY-MM') AS mes, COALESCE(SUM(i.monto), 0) AS total " +
             "FROM IngresoEntity i " +
             "WHERE i.idUsuario = :idUsuario AND i.fechaIngreso BETWEEN :start AND :end " +
-            "GROUP BY FUNCTION('DATE_FORMAT', i.fechaIngreso, '%Y-%m')")
+            "GROUP BY FUNCTION('TO_CHAR', i.fechaIngreso, 'YYYY-MM')")
     List<MonthlyTotal> sumMontoMonthlyByIdUsuarioAndFechaIngresoBetween(
             @Param("idUsuario") Integer idUsuario,
             @Param("start") LocalDate start,
