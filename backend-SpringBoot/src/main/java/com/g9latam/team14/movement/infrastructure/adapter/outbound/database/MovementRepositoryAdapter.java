@@ -27,7 +27,9 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
             .amount(savedDomain.getAmount())
             .type(savedDomain.getType())
             .category(savedDomain.getCategory())
+            .regularity(savedDomain.getRegularity())
             .date(savedDomain.getDate())
+            .note(savedDomain.getNote())
             .userId(savedDomain.getUserId())
             .aiClassification(movement.getAiClassification())
             .build();

@@ -5,6 +5,8 @@ import java.util.List;
 
 public record DashboardSummaryResponse(
         BigDecimal totalIngresos,
+        BigDecimal totalIngresosFijos,
+        BigDecimal totalIngresosVariables,
         BigDecimal totalGastosFijos,
         BigDecimal totalGastosVariables,
         BigDecimal balanceNeto,

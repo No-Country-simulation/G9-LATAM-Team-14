@@ -71,3 +71,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TRANSACTION_MODEL_PATH = BASE_DIR / 'Modelos' / '02_clasificacion_transacciones.joblib'
 USER_PROFILE_MODEL_PATH = BASE_DIR / 'Modelos' / '01_conocimiento_usuario.joblib'
+TRAJECTORY_MODEL_PATH = BASE_DIR / 'Modelos' / '04_estados_trayectoria.joblib'
+RECOMMENDATION_MODEL_PATH = BASE_DIR / 'Modelos' / '05_motor_recomendaciones.joblib'

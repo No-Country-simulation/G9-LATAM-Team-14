@@ -35,6 +35,8 @@ public class DashboardRestController {
     private DashboardSummaryResponse toResponse(DashboardSummary summary) {
         return new DashboardSummaryResponse(
                 summary.getTotalIngresos(),
+                summary.getTotalIngresosFijos(),
+                summary.getTotalIngresosVariables(),
                 summary.getTotalGastosFijos(),
                 summary.getTotalGastosVariables(),
                 summary.getBalanceNeto(),

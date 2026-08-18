@@ -23,9 +23,15 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
         YearMonth mesActual = YearMonth.now();
         LocalDate inicioMes = mesActual.atDay(1);
         LocalDate finMes = mesActual.atEndOfMonth();
-        BigDecimal totalIngresos = dashboardRepositoryPort.sumIngresosByUserIdAndDates(
+        BigDecimal totalIngresosFijos = dashboardRepositoryPort.sumIngresosFijosByUserIdAndDates(
                 userId, inicioMes, finMes
         );
+        BigDecimal totalIngresosVariables = dashboardRepositoryPort.sumIngresosVariablesByUserIdAndDates(
+                userId, inicioMes, finMes
+        );
+        totalIngresosFijos = totalIngresosFijos != null ? totalIngresosFijos : BigDecimal.ZERO;
+        totalIngresosVariables = totalIngresosVariables != null ? totalIngresosVariables : BigDecimal.ZERO;
+        BigDecimal totalIngresos = totalIngresosFijos.add(totalIngresosVariables);
         BigDecimal totalGastosFijos = dashboardRepositoryPort.sumGastosFijosByUserId(userId);
         BigDecimal totalGastosVariables = dashboardRepositoryPort.sumGastosVariablesByUserIdAndDates(
                 userId, inicioMes, finMes
@@ -38,6 +44,8 @@ public class DashboardSummaryService implements GetDashboardSummaryUseCase {
         List<String> recomendaciones = generarRecomendaciones(totalIngresos, totalGastosFijos, totalGastosVariables, balanceNeto);
         return DashboardSummary.builder()
                 .totalIngresos(totalIngresos.setScale(2, RoundingMode.HALF_UP))
+                .totalIngresosFijos(totalIngresosFijos.setScale(2, RoundingMode.HALF_UP))
+                .totalIngresosVariables(totalIngresosVariables.setScale(2, RoundingMode.HALF_UP))
                 .totalGastosFijos(totalGastosFijos.setScale(2, RoundingMode.HALF_UP))
                 .totalGastosVariables(totalGastosVariables.setScale(2, RoundingMode.HALF_UP))
                 .balanceNeto(balanceNeto.setScale(2, RoundingMode.HALF_UP))

@@ -1,0 +1,51 @@
+<div class="fixed inset-0 z-[70] flex items-center justify-center bg-black/55 backdrop-blur-xs p-3 sm:p-6"
+    role="dialog" aria-modal="true" [attr.aria-label]="title" (click)="close.emit()">
+    <section
+        class="flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-3xl border border-[#C9DAA7] bg-[#F6FAD4] shadow-2xl"
+        (click)="$event.stopPropagation()">
+        <header class="flex items-start justify-between gap-4 border-b border-[#DCE7B5] px-5 py-5 sm:px-7">
+            <div>
+                <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#6E8870]">FinCoach</span>
+                <h2 class="mt-1 text-xl font-extrabold text-[#214523] sm:text-2xl">{{ title }}</h2>
+                <p class="mt-1 text-xs leading-relaxed text-[#526655] sm:text-sm">{{ summary }}</p>
+            </div>
+            <button type="button" (click)="close.emit()" aria-label="Cerrar"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#C9DAA7] text-xl leading-none text-[#214523] transition-colors hover:bg-[#E4ECBA] cursor-pointer">
+                ×
+            </button>
+        </header>
+
+        <div class="flex-1 space-y-6 overflow-y-auto px-5 py-5 text-sm text-[#384E3C] sm:px-7">
+            <div class="rounded-2xl border border-[#DCE7B5] bg-[#EEF4CE] px-4 py-3 text-xs leading-relaxed text-[#526655]">
+                Última actualización: 18 de agosto de 2026. Este documento se aplica a la versión actual de FinCoach.
+            </div>
+
+            @for (section of sections; track section.title) {
+                <article class="space-y-2">
+                    <h3 class="text-base font-bold text-[#214523]">{{ section.title }}</h3>
+                    @for (paragraph of section.paragraphs || []; track paragraph) {
+                        <p class="leading-6">{{ paragraph }}</p>
+                    }
+                    @if (section.bullets?.length) {
+                        <ul class="list-disc space-y-2 pl-5 leading-6 marker:text-[#6E8870]">
+                            @for (bullet of section.bullets || []; track bullet) {
+                                <li>{{ bullet }}</li>
+                            }
+                        </ul>
+                    }
+                </article>
+            }
+
+            <div class="rounded-2xl border border-[#D7CAA8] bg-[#FFF4DF] px-4 py-3 text-xs leading-relaxed text-[#6E563B]">
+                FinCoach ofrece apoyo informativo para organizar y comprender datos financieros. No sustituye asesoría financiera, legal, tributaria, crediticia ni de inversión profesional.
+            </div>
+        </div>
+
+        <footer class="border-t border-[#DCE7B5] bg-[#F1F6D5] px-5 py-4 sm:px-7">
+            <button type="button" (click)="close.emit()"
+                class="w-full rounded-xl bg-[#5A7259] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#465A45] cursor-pointer sm:ml-auto sm:block sm:w-auto">
+                Entendido
+            </button>
+        </footer>
+    </section>
+</div>
