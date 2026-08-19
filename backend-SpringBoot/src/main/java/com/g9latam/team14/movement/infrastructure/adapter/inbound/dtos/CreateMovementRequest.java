@@ -24,7 +24,8 @@ public record CreateMovementRequest(
         String date,
 
         String note,
-        Integer userId
+        Integer userId,
+        Integer debtId
 
 ) {
 }

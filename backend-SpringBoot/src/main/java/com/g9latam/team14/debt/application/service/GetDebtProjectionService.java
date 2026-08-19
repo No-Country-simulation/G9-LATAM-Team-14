@@ -4,6 +4,7 @@ import com.g9latam.team14.debt.domain.model.DebtProjectionPoint;
 import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.ports.inbound.GetDebtProjectionUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
+import com.g9latam.team14.debt.domain.service.DebtFinancialCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -26,23 +27,29 @@ public class GetDebtProjectionService implements GetDebtProjectionUseCase {
         LocalDate current = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
 
+        activeDebts.forEach(DebtFinancialCalculator::ensureDefaults);
+        List<BigDecimal> projectedBalances = activeDebts.stream()
+                .map(Debt::getOutstandingBalance)
+                .collect(java.util.stream.Collectors.toCollection(ArrayList::new));
+
         for (int i = 0; i <= 12; i++) {
             LocalDate targetMonth = current.plusMonths(i);
             BigDecimal currentTotalBalance = BigDecimal.ZERO;
-            for (Debt debt : activeDebts) {
-                int totalTerm = debt.getMonthsTerm() != null ? debt.getMonthsTerm() : 12;
-                int currentPaid = debt.getPaidInstallments() != null ? debt.getPaidInstallments() : 0;
-                int futurePaid = currentPaid + i;
-                if (futurePaid < totalTerm) {
-                    BigDecimal monthly = debt.getMonthlyAmount() != null ? debt.getMonthlyAmount() : BigDecimal.ZERO;
-                    int remainingMonths = totalTerm - futurePaid;
-                    currentTotalBalance = currentTotalBalance.add(monthly.multiply(BigDecimal.valueOf(remainingMonths)));
-                }
+            for (BigDecimal balance : projectedBalances) {
+                currentTotalBalance = currentTotalBalance.add(balance);
             }
             points.add(DebtProjectionPoint.builder()
                     .month(targetMonth.format(formatter))
                     .balance(currentTotalBalance)
                     .build());
+            for (int debtIndex = 0; debtIndex < activeDebts.size(); debtIndex++) {
+                Debt debt = activeDebts.get(debtIndex);
+                projectedBalances.set(debtIndex, DebtFinancialCalculator.projectOneMonth(
+                        projectedBalances.get(debtIndex),
+                        debt.getMonthlyAmount(),
+                        debt.getAnnualEffectiveRate()
+                ));
+            }
         }
         return points;
     }

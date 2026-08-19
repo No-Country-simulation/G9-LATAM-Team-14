@@ -19,7 +19,10 @@
         </div>
         <div [class.hidden]="mobileViewMode() === 'debts'" class="xl:block xl:col-span-5 space-y-5 sm:space-y-6">
             <app-debt-projection-chart [points]="projectionPoints()"></app-debt-projection-chart>
-            <app-paid-debts-list [paidDebts]="paidDebts()"></app-paid-debts-list>
+            <app-monthly-debt-status-list
+                [payments]="monthlyDebtPayments()"
+                [monthLabel]="currentMonthLabel">
+            </app-monthly-debt-status-list>
         </div>
     </div>
     

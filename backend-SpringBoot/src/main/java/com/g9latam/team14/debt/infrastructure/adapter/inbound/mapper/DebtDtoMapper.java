@@ -23,6 +23,7 @@ public class DebtDtoMapper {
                 .type(request.type())
                 .category(request.category())
                 .totalAmount(request.totalAmount())
+                .outstandingBalance(request.totalAmount())
                 .monthlyAmount(request.monthlyAmount())
                 .monthsTerm(request.monthsTerm())
                 .paidInstallments(0)
@@ -70,6 +71,7 @@ public class DebtDtoMapper {
                             .monthlyAmount(monthly)
                             .monthsTerm(monthsTerm)
                             .totalAmount(total)
+                            .outstandingBalance(total)
                             .paidInstallments(0)
                             .paymentMode(DebtPaymentMode.FIXED_TERM)
                             .startDate(start)
@@ -89,6 +91,8 @@ public class DebtDtoMapper {
                 debt.getType(),
                 debt.getCategory(),
                 debt.getTotalAmount(),
+                debt.getOutstandingBalance(),
+                debt.getAnnualEffectiveRate(),
                 debt.getMonthlyAmount(),
                 debt.getMonthsTerm(),
                 debt.getPaidInstallments(),
@@ -97,7 +101,9 @@ public class DebtDtoMapper {
                 debt.getEndDate(),
                 debt.getIsIndefinite(),
                 debt.getStatus(),
-                debt.getUserId()
+                debt.getUserId(),
+                debt.getPaidAmountThisMonth(),
+                debt.getMonthlyPaymentStatus()
         );
     }
 

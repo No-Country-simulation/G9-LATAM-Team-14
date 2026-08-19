@@ -8,6 +8,10 @@
     <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
       <app-debt-details-form [(category)]="installmentCategory" [(totalAmount)]="installmentTotalAmount"
         [(fixedTermMonths)]="fixedTermMonths" [(startDate)]="startDate"></app-debt-details-form>
+      <div class="rounded-2xl border border-[#C6D8A2] bg-[#F4F8DE] px-4 py-3 text-sm text-[#214523]">
+        <span class="font-semibold">Tasa de referencia:</span>
+        {{ annualEffectiveRate() }}% EA · cuota estimada $ {{ calculatedMonthlyQuota().toLocaleString() }}
+      </div>
     </div>
     <app-modal-footer [submitText]="debtToEdit() ? 'Guardar Cambios' : 'Registrar'" (closeModal)="onClose()"
       (submitForm)="onSubmit()"></app-modal-footer>

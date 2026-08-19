@@ -12,6 +12,8 @@ public record MovementResponse(
         String date,
         String note,
         Integer userId,
+        Integer debtId,
+        Boolean debtPaymentApplied,
         String status,
         AiClassificationResponse modelSuggestion
 ) {

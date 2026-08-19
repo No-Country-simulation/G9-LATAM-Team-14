@@ -70,7 +70,20 @@ export class AddDebtModalComponent {
   calculatedMonthlyQuota = computed(() => {
     const total = this.installmentTotalAmount() || 0;
     const months = this.fixedTermMonths() || 1;
-    return months > 0 ? Math.round(total / months) : 0;
+    if (months <= 0 || total <= 0) return 0;
+    const monthlyRate = Math.pow(1 + this.annualEffectiveRate() / 100, 1 / 12) - 1;
+    if (monthlyRate === 0) return Math.round(total / months);
+    const factor = Math.pow(1 + monthlyRate, months);
+    return Math.round(total * monthlyRate * factor / (factor - 1));
+  });
+
+  annualEffectiveRate = computed(() => {
+    const category = this.installmentCategory().toLowerCase();
+    if (category.includes('vivienda')) return 10;
+    if (category.includes('educativo')) return 12;
+    if (category.includes('tarjeta')) return 24;
+    if (category.includes('vehiculo') || category.includes('vehículo')) return 16;
+    return 18;
   });
 
   calculatedEndDate = computed(() => {

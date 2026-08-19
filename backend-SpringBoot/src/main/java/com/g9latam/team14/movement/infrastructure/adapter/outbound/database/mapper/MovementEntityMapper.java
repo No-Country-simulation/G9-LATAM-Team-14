@@ -20,6 +20,8 @@ public class MovementEntityMapper {
                 .date(entity.getDate())
                 .note(entity.getNote())
                 .userId(entity.getUserId())
+                .debtId(entity.getDebtId())
+                .debtPaymentApplied(entity.getDebtPaymentApplied())
                 .build();
     }
 
@@ -33,7 +35,9 @@ public class MovementEntityMapper {
                 movement.getRegularity(),
                 movement.getDate(),
                 movement.getNote(),
-                movement.getUserId()
+                movement.getUserId(),
+                movement.getDebtId(),
+                movement.getDebtPaymentApplied()
         );
     }
 

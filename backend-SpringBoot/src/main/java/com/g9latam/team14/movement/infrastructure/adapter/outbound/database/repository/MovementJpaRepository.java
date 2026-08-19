@@ -12,6 +12,17 @@ import java.util.List;
 public interface MovementJpaRepository
         extends JpaRepository<MovementEntity, Integer> {
     List<MovementEntity> findByUserIdOrderByDateDesc(Integer userId);
+
+    @Query("SELECT COALESCE(SUM(m.amount), 0) FROM MovementEntity m " +
+            "WHERE m.debtId = :debtId " +
+            "AND m.debtPaymentApplied = true " +
+            "AND UPPER(m.type) = 'GASTO' " +
+            "AND m.date LIKE CONCAT(:month, '%')")
+    BigDecimal sumAppliedDebtPaymentsByDebtIdAndMonth(
+            @Param("debtId") Integer debtId,
+            @Param("month") String month
+    );
+
     List<MovementEntity> findByUserIdAndDateBetween(
             @Param("userId") Integer userId,
             @Param("start") LocalDate start,

@@ -19,5 +19,7 @@ public class Movement {
     private final String date;
     private final String note;
     private final Integer userId;
+    private final Integer debtId;
+    private final Boolean debtPaymentApplied;
     private final AiClassification aiClassification;
 }
