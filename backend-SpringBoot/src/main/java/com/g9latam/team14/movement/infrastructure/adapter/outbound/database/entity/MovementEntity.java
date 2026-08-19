@@ -41,4 +41,10 @@ public class MovementEntity {
 
     @Column(name = "user_id")
     private Integer userId;
+
+    @Column(name = "debt_id")
+    private Integer debtId;
+
+    @Column(name = "debt_payment_applied")
+    private Boolean debtPaymentApplied;
 }

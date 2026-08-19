@@ -4,7 +4,7 @@ import { DebtsHeaderComponent } from './components/debts-header/debts-header';
 import { DebtsSummaryCardsComponent } from './components/debts-summary-cards/debts-summary-cards';
 import { ActiveDebtsListComponent, ActiveDebt } from './components/active-debts-list/active-debts-list';
 import { DebtProjectionChartComponent } from './components/debt-projection-chart/debt-projection-chart';
-import { PaidDebtsListComponent, PaidDebt } from './components/paid-debts-list/paid-debts-list';
+import { MonthlyDebtStatusListComponent, MonthlyDebtPayment } from './components/paid-debts-list/paid-debts-list';
 import { AddDebtModalComponent, NewDebtPayload } from './components/add-debt-modal/add-debt-modal';
 import { RegisteredDebtModalComponent } from './components/registered-debt-modal/registered-debt-modal';
 import { DebtService } from '@app/core/debts/services/debt.service';
@@ -20,7 +20,7 @@ import { Debt, DebtSummary, DebtProjectionPoint } from '@app/core/debts/models/d
     DebtsSummaryCardsComponent,
     ActiveDebtsListComponent,
     DebtProjectionChartComponent,
-    PaidDebtsListComponent,
+    MonthlyDebtStatusListComponent,
     AddDebtModalComponent,
     RegisteredDebtModalComponent
   ],
@@ -44,8 +44,12 @@ export class Debts implements OnInit {
     monthsRemaining: 0
   });
   activeDebts = signal<ActiveDebt[]>([]);
-  paidDebts = signal<PaidDebt[]>([]);
+  monthlyDebtPayments = signal<MonthlyDebtPayment[]>([]);
   projectionPoints = signal<DebtProjectionPoint[]>([]);
+  readonly currentMonthLabel = new Intl.DateTimeFormat('es-CO', {
+    month: 'long',
+    year: 'numeric'
+  }).format(new Date());
 
   ngOnInit(): void {
     this.loadData();
@@ -55,25 +59,14 @@ export class Debts implements OnInit {
     const userId = this.authService.currentUser()?.id || 1;
     this.debtService.getDebts('ACTIVE', userId).subscribe({
       next: (debts) => {
-        this.activeDebts.set((debts || []).map(d => this.mapToActiveDebt(d)));
+        const activeDebts = debts || [];
+        this.activeDebts.set(activeDebts.map(d => this.mapToActiveDebt(d)));
+        this.monthlyDebtPayments.set(activeDebts.map(d => this.mapToMonthlyPayment(d)));
       },
       error: (err) => {
         console.error('Error al cargar deudas activas desde la BD:', err);
         this.activeDebts.set([]);
-      }
-    });
-
-    this.debtService.getDebts('PAID', userId).subscribe({
-      next: (debts) => {
-        this.paidDebts.set((debts || []).map(d => ({
-          id: d.id || Date.now(),
-          title: d.category,
-          date: d.endDate || 'Pagada'
-        })));
-      },
-      error: (err) => {
-        console.error('Error al cargar deudas pagadas desde la BD:', err);
-        this.paidDebts.set([]);
+        this.monthlyDebtPayments.set([]);
       }
     });
 
@@ -195,22 +188,40 @@ export class Debts implements OnInit {
   private mapToActiveDebt(d: Debt): ActiveDebt {
     const isInstallment = d.type === 'INSTALLMENT';
     const total = d.totalAmount || (d.monthlyAmount * (d.monthsTerm || 12));
-    const paid = d.paidInstallments || 0;
+    const outstanding = d.outstandingBalance ?? total;
+    const paidAmount = Math.max(0, total - outstanding);
     const term = d.monthsTerm || 12;
-    const progressPct = term > 0 ? Math.round((paid / term) * 100) : 0;
+    const paid = d.paidInstallments || 0;
+    const progressPct = total > 0 ? Math.min(100, Math.round((paidAmount / total) * 100)) : 0;
+    const rate = d.annualEffectiveRate ?? 0;
 
     return {
       id: d.id || Date.now(),
       title: d.category,
-      subtitle: isInstallment
-        ? `Inicio ${d.startDate || ''} - ${d.endDate || ''}`
-        : (d.isIndefinite ? 'Gasto Recurrente Indefinido' : `Hasta ${d.endDate || ''}`),
+      subtitle: `Saldo $ ${outstanding.toLocaleString()} · ${rate}% EA`,
       monthlyPayment: `$ ${d.monthlyAmount}/mes`,
-      remainingAmount: `Quedan $ ${total.toLocaleString()}`,
+      remainingAmount: `Quedan $ ${outstanding.toLocaleString()}`,
       progressText: isInstallment ? `Progreso ${paid}/${term}` : `${paid}/${term} cuotas`,
       percentage: progressPct,
       iconName: d.category.toLowerCase().includes('vehicular') || d.category.toLowerCase().includes('auto') ? 'car' : 'debts',
       raw: d
+    };
+  }
+
+  private mapToMonthlyPayment(d: Debt): MonthlyDebtPayment {
+    const monthlyAmount = Number(d.monthlyAmount || 0);
+    const paidAmount = Number(d.paidAmountThisMonth || 0);
+    const percentage = monthlyAmount > 0
+      ? Math.min(100, Math.round((paidAmount / monthlyAmount) * 100))
+      : 0;
+
+    return {
+      id: d.id || Date.now(),
+      title: d.category,
+      paidAmount,
+      monthlyAmount,
+      percentage,
+      status: d.monthlyPaymentStatus || 'PENDING'
     };
   }
 }

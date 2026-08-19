@@ -1,4 +1,5 @@
 package com.g9latam.team14.movement.infrastructure.adapter.outbound.database;
+import java.math.BigDecimal;
 import java.util.List;
 import com.g9latam.team14.movement.domain.model.Movement;
 import com.g9latam.team14.movement.domain.ports.outbound.MovementRepositoryPort;
@@ -31,6 +32,8 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
             .date(savedDomain.getDate())
             .note(savedDomain.getNote())
             .userId(savedDomain.getUserId())
+            .debtId(savedDomain.getDebtId())
+            .debtPaymentApplied(savedDomain.getDebtPaymentApplied())
             .aiClassification(movement.getAiClassification())
             .build();
     }
@@ -53,6 +56,11 @@ public class MovementRepositoryAdapter implements MovementRepositoryPort {
         return movementEntityMapper.toDomainList(
                 movementJpaRepository.findByUserIdOrderByDateDesc(userId)
         );
+    }
+
+    @Override
+    public BigDecimal sumAppliedDebtPaymentsByDebtIdAndMonth(Integer debtId, String month) {
+        return movementJpaRepository.sumAppliedDebtPaymentsByDebtIdAndMonth(debtId, month);
     }
 
     @Override

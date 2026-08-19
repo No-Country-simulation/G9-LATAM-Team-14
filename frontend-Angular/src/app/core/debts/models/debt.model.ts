@@ -1,12 +1,15 @@
 export type DebtType = 'INSTALLMENT' | 'FIXED';
 export type DebtPaymentMode = 'FIXED_TERM' | 'FREE_PAYMENT';
 export type DebtStatus = 'ACTIVE' | 'PAID';
+export type DebtMonthlyPaymentStatus = 'PAID' | 'PARTIAL' | 'PENDING';
 
 export interface Debt {
   id?: number;
   type: DebtType;
   category: string;
   totalAmount?: number;
+  outstandingBalance?: number;
+  annualEffectiveRate?: number;
   monthlyAmount: number;
   monthsTerm?: number;
   paidInstallments?: number;
@@ -16,6 +19,8 @@ export interface Debt {
   isIndefinite?: boolean;
   status?: DebtStatus;
   userId?: number;
+  paidAmountThisMonth?: number;
+  monthlyPaymentStatus?: DebtMonthlyPaymentStatus;
 }
 
 export interface CreateDebtRequest {

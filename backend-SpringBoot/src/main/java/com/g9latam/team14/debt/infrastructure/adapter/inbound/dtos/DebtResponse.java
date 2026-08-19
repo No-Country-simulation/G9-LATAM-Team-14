@@ -1,5 +1,6 @@
 package com.g9latam.team14.debt.infrastructure.adapter.inbound.dtos;
 import com.g9latam.team14.debt.domain.model.DebtPaymentMode;
+import com.g9latam.team14.debt.domain.model.DebtMonthlyPaymentStatus;
 import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.model.DebtType;
 import java.math.BigDecimal;
@@ -9,6 +10,8 @@ public record DebtResponse(
         DebtType type,
         String category,
         BigDecimal totalAmount,
+        BigDecimal outstandingBalance,
+        BigDecimal annualEffectiveRate,
         BigDecimal monthlyAmount,
         Integer monthsTerm,
         Integer paidInstallments,
@@ -17,5 +20,7 @@ public record DebtResponse(
         LocalDate endDate,
         Boolean isIndefinite,
         DebtStatus status,
-        Integer userId
+        Integer userId,
+        BigDecimal paidAmountThisMonth,
+        DebtMonthlyPaymentStatus monthlyPaymentStatus
 ) {}

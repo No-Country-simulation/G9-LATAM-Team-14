@@ -15,6 +15,8 @@ public class Debt {
     private DebtType type;
     private String category;
     private BigDecimal totalAmount;
+    private BigDecimal outstandingBalance;
+    private BigDecimal annualEffectiveRate;
     private BigDecimal monthlyAmount;
     private Integer monthsTerm;
     private Integer paidInstallments;
@@ -24,4 +26,6 @@ public class Debt {
     private Boolean isIndefinite;
     private DebtStatus status;
     private Integer userId;
+    private BigDecimal paidAmountThisMonth;
+    private DebtMonthlyPaymentStatus monthlyPaymentStatus;
 }

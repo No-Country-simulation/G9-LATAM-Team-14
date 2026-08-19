@@ -13,6 +13,8 @@ public class DebtEntityMapper {
                 .type(entity.getType())
                 .category(entity.getCategory())
                 .totalAmount(entity.getTotalAmount())
+                .outstandingBalance(entity.getOutstandingBalance())
+                .annualEffectiveRate(entity.getAnnualEffectiveRate())
                 .monthlyAmount(entity.getMonthlyAmount())
                 .monthsTerm(entity.getMonthsTerm())
                 .paidInstallments(entity.getPaidInstallments())
@@ -31,6 +33,8 @@ public class DebtEntityMapper {
                 debt.getType(),
                 debt.getCategory(),
                 debt.getTotalAmount(),
+                debt.getOutstandingBalance(),
+                debt.getAnnualEffectiveRate(),
                 debt.getMonthlyAmount(),
                 debt.getMonthsTerm(),
                 debt.getPaidInstallments(),

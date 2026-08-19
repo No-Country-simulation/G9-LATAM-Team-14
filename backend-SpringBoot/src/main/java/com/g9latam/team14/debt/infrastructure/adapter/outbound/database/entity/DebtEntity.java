@@ -32,6 +32,12 @@ public class DebtEntity {
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+    @Column(name = "outstanding_balance")
+    private BigDecimal outstandingBalance;
+
+    @Column(name = "annual_effective_rate")
+    private BigDecimal annualEffectiveRate;
+
     @Column(name = "monthly_amount")
     private BigDecimal monthlyAmount;
 

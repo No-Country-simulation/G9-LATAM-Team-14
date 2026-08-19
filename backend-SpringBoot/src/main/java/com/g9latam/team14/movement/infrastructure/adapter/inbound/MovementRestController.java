@@ -49,6 +49,8 @@ public class MovementRestController {
                     .date(domain.getDate())
                     .note(domain.getNote())
                     .userId(userId)
+                    .debtId(domain.getDebtId())
+                    .debtPaymentApplied(domain.getDebtPaymentApplied())
                     .build();
         }
 

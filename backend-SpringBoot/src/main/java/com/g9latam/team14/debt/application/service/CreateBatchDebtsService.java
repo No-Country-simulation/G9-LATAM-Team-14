@@ -3,6 +3,7 @@ import com.g9latam.team14.debt.domain.model.Debt;
 import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.ports.inbound.CreateBatchDebtsUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
+import com.g9latam.team14.debt.domain.service.DebtFinancialCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,15 @@ public class CreateBatchDebtsService implements CreateBatchDebtsUseCase {
     public List<Debt> createBatchDebts(List<Debt> debts, Integer userId) {
         debts.forEach(debt -> {
             debt.setUserId(userId);
+            debt.setAnnualEffectiveRate(DebtFinancialCalculator.annualEffectiveRateFor(debt.getCategory()));
+            debt.setOutstandingBalance(debt.getTotalAmount());
+            if (debt.getTotalAmount() != null && debt.getMonthsTerm() != null && debt.getMonthsTerm() > 0) {
+                debt.setMonthlyAmount(DebtFinancialCalculator.monthlyPayment(
+                        debt.getTotalAmount(),
+                        debt.getMonthsTerm(),
+                        debt.getAnnualEffectiveRate()
+                ));
+            }
             if (debt.getStatus() == null) {
                 debt.setStatus(DebtStatus.ACTIVE);
             }

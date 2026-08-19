@@ -1,20 +1,54 @@
-<div>
-    <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-2">Deudas pagadas</h2>
-    <div class="bg-[#EAF2CC] p-4 sm:p-5 rounded-2xl border border-[#DCE8B5] shadow-xs space-y-3.5">
-        @for (item of paidDebts(); track item.id) {
-        <div class="flex items-center justify-between py-1 gap-2">
-            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
-                <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#5A7259] text-white flex items-center justify-center shrink-0">
-                    <app-icon-fin-coach name="check-circle" class="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+<div class="pt-1">
+    <h2 class="text-lg sm:text-xl font-bold text-[#214523] tracking-tight mb-2">
+        Pago de cuotas en <span class="capitalize">{{ monthLabel() }}</span>
+    </h2>
+
+    <div class="bg-[#EAF2CC] p-4 sm:p-5 rounded-2xl border border-[#DCE8B5] shadow-xs space-y-4">
+        @for (item of payments(); track item.id) {
+        <div class="space-y-2.5" [class.pt-3]="$index > 0" [class.border-t]="$index > 0"
+            [class.border-[#D3E0AD]]="$index > 0">
+            <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                    <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                        [class.bg-[#DCE9BD]]="item.status === 'PAID'"
+                        [class.text-[#365E3A]]="item.status === 'PAID'"
+                        [class.bg-[#FBE8BB]]="item.status === 'PARTIAL'"
+                        [class.text-[#9A5B13]]="item.status === 'PARTIAL'"
+                        [class.bg-[#EADFD4]]="item.status === 'PENDING'"
+                        [class.text-[#765947]]="item.status === 'PENDING'">
+                        <app-icon-fin-coach [name]="item.status === 'PAID' ? 'check-circle' : 'debts'" class="w-3.5 h-3.5" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs sm:text-sm font-bold text-[#214523] truncate">{{ item.title }}</p>
+                        <p class="text-[11px] sm:text-xs text-[#526655] font-medium">
+                            $ {{ item.paidAmount | number:'1.0-0' }} de $ {{ item.monthlyAmount | number:'1.0-0' }}
+                        </p>
+                    </div>
                 </div>
-                <span class="text-xs sm:text-sm font-bold text-[#214523] truncate">{{ item.title }}</span>
+
+                <span class="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide shrink-0"
+                    [class.bg-[#DCE9BD]]="item.status === 'PAID'"
+                    [class.text-[#365E3A]]="item.status === 'PAID'"
+                    [class.bg-[#FBE8BB]]="item.status === 'PARTIAL'"
+                    [class.text-[#9A5B13]]="item.status === 'PARTIAL'"
+                    [class.bg-[#EADFD4]]="item.status === 'PENDING'"
+                    [class.text-[#765947]]="item.status === 'PENDING'">
+                    {{ statusLabel(item.status) }}
+                </span>
             </div>
-            <span class="text-xs text-[#526655] font-medium shrink-0">{{ item.date }}</span>
+
+            <div class="w-full bg-[#D3E0AD] h-1.5 rounded-full overflow-hidden">
+                <div class="h-full rounded-full transition-all duration-500"
+                    [class.bg-[#5A7259]]="item.status === 'PAID'"
+                    [class.bg-[#E6A126]]="item.status === 'PARTIAL'"
+                    [class.bg-[#A98C78]]="item.status === 'PENDING'"
+                    [style.width.%]="item.percentage"></div>
+            </div>
         </div>
         } @empty {
-        <div class="py-4 text-center text-[#526655] space-y-1">
-            <p class="text-xs sm:text-sm font-semibold text-[#214523]">No tienes deudas pagadas registradas</p>
-            <p class="text-[11px] sm:text-xs text-[#526655]">Tus compromisos liquidados aparecerán en este historial.</p>
+        <div class="py-4 text-center space-y-1">
+            <p class="text-xs sm:text-sm font-semibold text-[#214523]">No hay deudas activas</p>
+            <p class="text-[11px] sm:text-xs text-[#526655]">El estado mensual aparecerá cuando registres una deuda.</p>
         </div>
         }
     </div>

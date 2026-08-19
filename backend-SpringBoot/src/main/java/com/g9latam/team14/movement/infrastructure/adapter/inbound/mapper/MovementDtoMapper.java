@@ -24,6 +24,8 @@ public class MovementDtoMapper {
                 .date(request.date())
                 .note(request.note())
                 .userId(request.userId())
+                .debtId(request.debtId())
+                .debtPaymentApplied(false)
                 .aiClassification(null)
                 .build();
     }
@@ -58,6 +60,8 @@ public class MovementDtoMapper {
                 movement.getDate(),
                 movement.getNote(),
                 movement.getUserId(),
+                movement.getDebtId(),
+                Boolean.TRUE.equals(movement.getDebtPaymentApplied()),
                 ai != null && Boolean.TRUE.equals(ai.getModelRequiresReview())
                         ? "PENDING_CONFIRMATION"
                         : "CONFIRMED",

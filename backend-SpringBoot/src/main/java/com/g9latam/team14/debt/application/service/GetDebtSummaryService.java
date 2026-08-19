@@ -7,6 +7,7 @@ import com.g9latam.team14.debt.domain.model.DebtStatus;
 import com.g9latam.team14.debt.domain.model.DebtSummary;
 import com.g9latam.team14.debt.domain.ports.inbound.GetDebtSummaryUseCase;
 import com.g9latam.team14.debt.domain.ports.outbound.DebtRepositoryPort;
+import com.g9latam.team14.debt.domain.service.DebtFinancialCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -31,22 +32,18 @@ public class GetDebtSummaryService implements GetDebtSummaryUseCase {
         BigDecimal monthlyTotal = BigDecimal.ZERO;
         int maxMonthsRemaining = 0;
         for (Debt debt : activeDebts) {
+            DebtFinancialCalculator.ensureDefaults(debt);
             BigDecimal monthly = debt.getMonthlyAmount() != null ? debt.getMonthlyAmount() : BigDecimal.ZERO;
             monthlyTotal = monthlyTotal.add(monthly);
-            int monthsTerm = debt.getMonthsTerm() != null ? debt.getMonthsTerm() : 12;
-            int paid = debt.getPaidInstallments() != null ? debt.getPaidInstallments() : 0;
-            int remainingMonths = Math.max(0, monthsTerm - paid);
-            if (remainingMonths > maxMonthsRemaining) {
+            int remainingMonths = DebtFinancialCalculator.remainingMonths(
+                    debt.getOutstandingBalance(),
+                    monthly,
+                    debt.getAnnualEffectiveRate()
+            );
+            if (remainingMonths != Integer.MAX_VALUE && remainingMonths > maxMonthsRemaining) {
                 maxMonthsRemaining = remainingMonths;
             }
-            BigDecimal pending;
-            if (debt.getTotalAmount() != null) {
-                BigDecimal paidAmount = monthly.multiply(BigDecimal.valueOf(paid));
-                pending = debt.getTotalAmount().subtract(paidAmount).max(BigDecimal.ZERO);
-            } else {
-                pending = monthly.multiply(BigDecimal.valueOf(remainingMonths));
-            }
-            totalPending = totalPending.add(pending);
+            totalPending = totalPending.add(debt.getOutstandingBalance());
         }
 
         UserEntity user = userJpaRepository.findById(userId).orElse(null);

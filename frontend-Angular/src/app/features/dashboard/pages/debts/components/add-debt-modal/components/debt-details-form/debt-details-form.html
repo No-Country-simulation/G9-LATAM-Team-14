@@ -8,8 +8,8 @@
             }
         </select>
     </div>
-    <app-form-input label="Monto total a pagar" id="totalAmountInput" type="number" prefix="$" placeholder="6,000"
-        helpText="Ingresa el monto total final acordado (incluyendo intereses o montos extra si aplican)."
+    <app-form-input label="Monto original del crédito" id="totalAmountInput" type="number" prefix="$" placeholder="6,000"
+        helpText="La cuota se calcula con el plazo y la tasa de referencia correspondiente al tipo de crédito."
         [(value)]="totalAmount">
     </app-form-input>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">

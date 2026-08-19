@@ -22,6 +22,8 @@ export interface Movement {
   date: string;
   note?: string;
   userId?: number;
+  debtId?: number;
+  debtPaymentApplied?: boolean;
   status?: string;
   modelSuggestion?: AiClassificationSuggestion;
 }
@@ -35,6 +37,7 @@ export interface CreateMovementRequest {
   date: string;
   note?: string;
   userId?: number;
+  debtId?: number;
 }
 
 export interface ConfirmMovementRequest {

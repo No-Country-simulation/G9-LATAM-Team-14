@@ -6,6 +6,7 @@ import { AiClassificationModalComponent, AiSuggestion } from '@shared/components
 import { MovementService } from '@core/movements/services/movement.service';
 import { AuthService } from '@core/auth/services/auth.service';
 import { CreateMovementRequest } from '@core/movements/models/movement.model';
+import { getLocalDateString } from '@core/utils/date.utils';
 
 @Component({
   selector: 'app-movement-modal',
@@ -26,7 +27,7 @@ export class MovementModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<void>();
 
-  date: string = new Date().toISOString().split('T')[0];
+  date: string = getLocalDateString();
   time: string = new Date().toTimeString().slice(0, 5);
 
   movement = {
@@ -34,7 +35,7 @@ export class MovementModalComponent {
     amount: null as number | null,
     type: 'GASTO' as 'INGRESO' | 'GASTO',
     category: '',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     note: '',
     userId: 1
   };
@@ -42,6 +43,7 @@ export class MovementModalComponent {
   showAiModal = false;
   isLoadingAi = false;
   isSubmitting = false;
+  submissionError = '';
   createdMovementId: number | null = null;
   modelSuggestion?: AiSuggestion;
   private pendingCreatePayload: CreateMovementRequest | null = null;
@@ -80,7 +82,7 @@ export class MovementModalComponent {
   }
 
   private getFullDateTime(): string {
-    const d = this.date || new Date().toISOString().split('T')[0];
+    const d = this.date || getLocalDateString();
     const t = this.time || new Date().toTimeString().slice(0, 5);
     return `${d}T${t}:00`;
   }
@@ -88,6 +90,7 @@ export class MovementModalComponent {
   registerMovement(): void {
     if (this.isSubmitting) return;
     this.isSubmitting = true;
+    this.submissionError = '';
 
     const userId = this.authService.currentUser()?.id || 1;
     const finalDescription = this.movement.description.trim() || 'Nuevo movimiento';
@@ -159,8 +162,9 @@ export class MovementModalComponent {
       error: (err) => {
         console.error('Error al guardar movimiento tras confirmar clasificación:', err);
         this.isSubmitting = false;
-        this.save.emit();
-        this.closeModal();
+        this.submissionError = err?.error?.message
+          || 'No fue posible relacionar el pago con una deuda. Incluye el tipo de crédito en la descripción.';
+        this.cdr.detectChanges();
       }
     });
   }
@@ -177,9 +181,10 @@ export class MovementModalComponent {
   private resetForm(): void {
     this.showAiModal = false;
     this.isSubmitting = false;
+    this.submissionError = '';
     this.createdMovementId = null;
     this.modelSuggestion = undefined;
-    this.date = new Date().toISOString().split('T')[0];
+    this.date = getLocalDateString();
     this.time = new Date().toTimeString().slice(0, 5);
     this.movement = {
       description: '',
