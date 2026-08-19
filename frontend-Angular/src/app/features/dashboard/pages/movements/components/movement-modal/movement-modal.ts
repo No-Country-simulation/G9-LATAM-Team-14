@@ -6,6 +6,7 @@ import { AiClassificationModalComponent, AiSuggestion } from '@shared/components
 import { MovementService } from '@core/movements/services/movement.service';
 import { AuthService } from '@core/auth/services/auth.service';
 import { CreateMovementRequest } from '@core/movements/models/movement.model';
+import { getLocalDateString } from '@core/utils/date.utils';
 
 @Component({
   selector: 'app-movement-modal',
@@ -26,7 +27,7 @@ export class MovementModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<void>();
 
-  date: string = new Date().toISOString().split('T')[0];
+  date: string = getLocalDateString();
   time: string = new Date().toTimeString().slice(0, 5);
 
   movement = {
@@ -34,7 +35,7 @@ export class MovementModalComponent {
     amount: null as number | null,
     type: 'GASTO' as 'INGRESO' | 'GASTO',
     category: '',
-    date: new Date().toISOString().split('T')[0],
+    date: getLocalDateString(),
     note: '',
     userId: 1
   };
@@ -81,7 +82,7 @@ export class MovementModalComponent {
   }
 
   private getFullDateTime(): string {
-    const d = this.date || new Date().toISOString().split('T')[0];
+    const d = this.date || getLocalDateString();
     const t = this.time || new Date().toTimeString().slice(0, 5);
     return `${d}T${t}:00`;
   }
@@ -183,7 +184,7 @@ export class MovementModalComponent {
     this.submissionError = '';
     this.createdMovementId = null;
     this.modelSuggestion = undefined;
-    this.date = new Date().toISOString().split('T')[0];
+    this.date = getLocalDateString();
     this.time = new Date().toTimeString().slice(0, 5);
     this.movement = {
       description: '',

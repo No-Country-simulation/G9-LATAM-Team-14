@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Movement } from '@core/movements/models/movement.model';
 import { IconFinCoachComponent, IconName } from '@shared/icons/iconsFinCoach';
+import { getLocalDateString } from '@core/utils/date.utils';
 
 export interface CategoryBreakdown {
   category: string;
@@ -113,7 +114,7 @@ export class MovementsSummaryCards {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `movimientos_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `movimientos_${getLocalDateString()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -4,6 +4,7 @@ import { ModalHeaderComponent } from './components/modal-header/modal-header';
 import { DebtDetailsFormComponent } from './components/debt-details-form/debt-details-form';
 import { ModalFooterComponent } from './components/modal-footer/modal-footer';
 import { Debt } from '@app/core/debts/models/debt.model';
+import { getLocalDateString } from '@core/utils/date.utils';
 
 export type RegistrationType = 'installment' | 'fixed';
 export type PaymentMode = 'fixed_term' | 'free_payment';
@@ -40,12 +41,12 @@ export class AddDebtModalComponent {
   installmentCategory = signal<string>('Crédito personal');
   installmentTotalAmount = signal<number | null>(null);
   fixedTermMonths = signal<number | null>(null);
-  startDate = signal<string>(new Date().toISOString().substring(0, 10));
+  startDate = signal<string>(getLocalDateString());
 
   constructor() {
     effect(() => {
       const debt = this.debtToEdit();
-      const todayStr = new Date().toISOString().substring(0, 10);
+      const todayStr = getLocalDateString();
       if (debt) {
         this.installmentCategory.set(debt.category || 'Crédito personal');
         this.installmentTotalAmount.set(debt.totalAmount || ((debt.monthlyAmount || 0) * (debt.monthsTerm || 12)));
@@ -89,7 +90,7 @@ export class AddDebtModalComponent {
   calculatedEndDate = computed(() => {
     const months = this.fixedTermMonths() || 1;
     if (!months || months <= 0) return 'N/A';
-    const parts = (this.startDate() || new Date().toISOString().substring(0, 10)).split('-');
+    const parts = (this.startDate() || getLocalDateString()).split('-');
     if (parts.length < 2) return 'N/A';
     const yearStr = parts[0];
     const monthStr = parts[1];
