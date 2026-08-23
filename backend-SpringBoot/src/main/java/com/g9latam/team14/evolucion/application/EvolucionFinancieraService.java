@@ -27,7 +27,6 @@ public class EvolucionFinancieraService implements GenerarEvolucionUseCase {
     private final DatosFinancierosPort datosFinancierosPort;
 
     @Override
-    @Cacheable(value = "evolucionFinanciera", key = "#usuarioId")
     public DatosEvolucion generar(Integer usuarioId) {
         YearMonth mesActual = YearMonth.now();
         YearMonth mesInicio = mesActual.minusMonths(5);
@@ -110,13 +109,19 @@ public class EvolucionFinancieraService implements GenerarEvolucionUseCase {
     }
 
     private int calcularScore(BigDecimal ingresos, BigDecimal gastos, BigDecimal deudas) {
-        if (ingresos == null || ingresos.compareTo(BigDecimal.ZERO) <= 0) return 50;
-        BigDecimal egresos = gastos.add(deudas);
+        BigDecimal egresos = (gastos != null ? gastos : BigDecimal.ZERO).add(deudas != null ? deudas : BigDecimal.ZERO);
+        if (ingresos == null || ingresos.compareTo(BigDecimal.ZERO) <= 0) {
+            return egresos.compareTo(BigDecimal.ZERO) > 0 ? 30 : 50;
+        }
         if (egresos.compareTo(BigDecimal.ZERO) == 0) return 100;
-        BigDecimal pct = ingresos.subtract(egresos)
-                .multiply(BigDecimal.valueOf(100))
-                .divide(ingresos, 0, RoundingMode.HALF_UP);
-        return Math.max(0, Math.min(100, pct.intValue()));
+
+        BigDecimal neto = ingresos.subtract(egresos);
+        BigDecimal ratio = neto.divide(ingresos, 4, RoundingMode.HALF_UP);
+
+        BigDecimal scoreCalc = BigDecimal.valueOf(50).add(ratio.multiply(BigDecimal.valueOf(50)));
+        int scoreInt = scoreCalc.setScale(0, RoundingMode.HALF_UP).intValue();
+
+        return Math.max(0, Math.min(100, scoreInt));
     }
 
     private List<EvaluacionHistorica> construirHistorial(List<PerfilMensual> perfiles, List<FlujoDineroMes> flujos) {
