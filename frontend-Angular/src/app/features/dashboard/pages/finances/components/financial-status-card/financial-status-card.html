@@ -63,7 +63,7 @@
       @for (factor of observedFactors; track factor.name) {
       <p class="flex flex-wrap items-baseline gap-1">
         <span class="font-semibold text-[#526650]">{{ factor.name }} :</span>
-        <span class="font-bold text-[#2F3A2F]">{{ factor.assessment }}</span>
+        <span class="font-bold text-[#2F3A2F]">{{ formatAssessment(factor.assessment) }}</span>
       </p>
       }
     </div>

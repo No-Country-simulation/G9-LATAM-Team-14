@@ -139,13 +139,13 @@ def evaluate_recommendation_domain(payload: dict) -> dict:
     recommendation_available = state_available and selected_probability >= recommendation_threshold
 
     main_factors = [
-        {'factor': 'Balance del periodo', 'assessment': f'{balance:,.0f} COP'},
+        {'factor': 'Balance del periodo', 'assessment': f'$ {balance:,.0f}'},
         {'factor': 'Cobertura estimada', 'assessment': f'{coverage:.2f} meses'},
         {'factor': 'Variabilidad de ingresos', 'assessment': f'{income_variability * 100:.2f} %'},
-        {'factor': 'Pago mensual de deuda', 'assessment': f'{debt_payments:,.0f} COP'},
+        {'factor': 'Pago mensual de deuda', 'assessment': f'$ {debt_payments:,.0f}'},
     ]
     reasons = [
-        f'Se analizaron {observed_periods} periodos con un balance acumulado de {balance:,.0f} COP.',
+        f'Se analizaron {observed_periods} periodos con un balance acumulado de $ {balance:,.0f}.',
         f'El modelo 04 estimó el estado {state_label} con {state_conf * 100:.2f} % de confianza.',
     ]
 

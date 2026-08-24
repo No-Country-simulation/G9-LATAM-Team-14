@@ -36,9 +36,9 @@ export class RegisteredDebtModalComponent {
   });
 
   effectiveRateText = computed(() => {
-    const total = this.debtData()?.totalAmount || 0;
-    const monthly = this.debtData()?.monthlyAmount || 0;
-    const months = this.debtData()?.monthsTerm || 12;
+    const total = Number(this.debtData()?.totalAmount || 0);
+    const monthly = Number(this.debtData()?.monthlyAmount || 0);
+    const months = parseInt(String(this.debtData()?.monthsTerm || 12), 10);
     const totalPaid = monthly * months;
     if (total > 0 && totalPaid > total) {
       const annualRate = (((totalPaid - total) / total) / (months / 12)) * 100;
@@ -56,9 +56,9 @@ export class RegisteredDebtModalComponent {
   });
 
   estimatedTotalInterestText = computed(() => {
-    const total = this.debtData()?.totalAmount || 0;
-    const monthly = this.debtData()?.monthlyAmount || 0;
-    const months = this.debtData()?.monthsTerm || 12;
+    const total = Number(this.debtData()?.totalAmount || 0);
+    const monthly = Number(this.debtData()?.monthlyAmount || 0);
+    const months = parseInt(String(this.debtData()?.monthsTerm || 12), 10);
     const totalPaid = monthly * months;
     const interest = Math.max(0, totalPaid - total);
     return `$ ${interest.toLocaleString()}`;

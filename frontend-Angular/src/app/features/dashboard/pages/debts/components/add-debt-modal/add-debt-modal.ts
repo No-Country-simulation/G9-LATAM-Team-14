@@ -69,9 +69,9 @@ export class AddDebtModalComponent {
   }
 
   calculatedMonthlyQuota = computed(() => {
-    const total = this.installmentTotalAmount() || 0;
-    const months = this.fixedTermMonths() || 1;
-    if (months <= 0 || total <= 0) return 0;
+    const total = Number(this.installmentTotalAmount() || 0);
+    const months = parseInt(String(this.fixedTermMonths() || 1), 10);
+    if (months <= 0 || total <= 0 || isNaN(months)) return 0;
     const monthlyRate = Math.pow(1 + this.annualEffectiveRate() / 100, 1 / 12) - 1;
     if (monthlyRate === 0) return Math.round(total / months);
     const factor = Math.pow(1 + monthlyRate, months);
@@ -88,8 +88,9 @@ export class AddDebtModalComponent {
   });
 
   calculatedEndDate = computed(() => {
-    const months = this.fixedTermMonths() || 1;
-    if (!months || months <= 0) return 'N/A';
+    const rawMonths = this.fixedTermMonths();
+    const months = parseInt(String(rawMonths || 1), 10);
+    if (!months || isNaN(months) || months <= 0) return 'N/A';
     const parts = (this.startDate() || getLocalDateString()).split('-');
     if (parts.length < 2) return 'N/A';
     const yearStr = parts[0];
@@ -100,7 +101,7 @@ export class AddDebtModalComponent {
     let month = parseInt(monthStr, 10);
     let day = parseInt(dayStr, 10);
 
-    month += months;
+    month = month + months;
     year += Math.floor((month - 1) / 12);
     month = ((month - 1) % 12) + 1;
 
